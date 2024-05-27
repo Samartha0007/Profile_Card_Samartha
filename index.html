@@ -262,15 +262,24 @@
         <div class="visitor-text">Visitors</div>
         <div class="date-time">
           <script>
-            document.addEventListener('DOMContentLoaded', function() {
-              function updateDateTime() {
-                var now = new Date();
-                var formattedDate = now.toLocaleString();
-                document.querySelector('.date-time').textContent = formattedDate;
-              }
-              updateDateTime();
-              setInterval(updateDateTime, 1000);
-            });
+  function getCurrentDate() {
+    var today = new Date();
+    var date = today.toLocaleDateString('en', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    document.getElementById('date').textContent = "" + date;
+  }
+
+  function getCurrentTime() {
+    var today = new Date();
+    var time = today.toLocaleTimeString('en', { hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true });
+    document.getElementById('time').textContent = "" + time;
+  }
+
+  setInterval(getCurrentDate, 1000 * 60 * 60 * 24); 
+  setInterval(getCurrentTime, 1000);
+
+
+  getCurrentDate();
+  getCurrentTime();
           </script>
         </div>
       </div>
