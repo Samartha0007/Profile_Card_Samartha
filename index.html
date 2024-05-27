@@ -3,14 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="shortcut icon" href="icon.jpg" type="image/webp">
   <link rel="icon" href="icon.jpg" type="image/webp">
-  <meta name="description"
-    content="Samartha GS is enthusiastic about web development and IoT" />
-  <meta property="og:image:secure_url" content="about.jpg" />
-  <meta property="og:image" content="about.jpg" />
-  <title>Samartha Gs</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">  
+  <meta name="description" content="Samartha GS is enthusiastic about web development and IoT">
+  <meta property="og:image:secure_url" content="about.jpg">
+  <meta property="og:image" content="about.jpg">
+  <title>Samartha GS</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
   
@@ -117,7 +115,6 @@
       font-weight: 750;
       color: #a0a2b6;
       font-family: 'Nunito', sans-serif;
-
     }
 
     .user-location {
@@ -126,7 +123,6 @@
       margin-bottom: 1rem;
       font-weight: 500;
       font-family: 'Nunito', sans-serif;
-
     }
 
     .user-profiles {
@@ -135,8 +131,9 @@
       justify-content: center;
       align-items: center;
       gap: 1rem;
-       color: #888;
-      margin-bottom: 1rem;
+      color: #888;
+      margin-bottom: 0.5rem;
+      position: relative;
     }
 
     .user-profiles a {
@@ -149,18 +146,34 @@
       color: #007aff;
     }
 
+    .user-profiles:before, .user-profiles:after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 25%;
+      height: 1px;
+      background-color: #ccc;
+    }
+
+    .user-profiles:before {
+      left: -30%;
+    }
+
+    .user-profiles:after {
+      right: -30%;
+    }
+
     .visitor-count-container {
       display: flex;
       flex-direction: column;
       align-items: center;
       margin-top: 1rem;
-      
     }
 
     .visitor-count {
       width: 50px;
       height: auto;
-      margin-top: 0.5rem; 
+      margin-top: 0.5rem;
       margin-bottom: 0.5rem;
     }
 
@@ -168,18 +181,14 @@
       font-size: 0.875rem;
       color: #888;
       margin-top: -1rem;
-          font-family: 'Nunito', sans-serif;
-
+      font-family: 'Nunito', sans-serif;
     }
-
-
 
     .date-time {
       font-size: 0.875rem;
       color: #888;
       margin-top: 0.5rem;
-            font-family: 'Nunito', sans-serif;
-
+      font-family: 'Nunito', sans-serif;
     }
 
     .line {
@@ -211,7 +220,6 @@
       -webkit-animation-fill-mode: both;
       animation-fill-mode: both;
     }
-
   </style>
 </head>
 <body>
@@ -227,60 +235,48 @@
     </div>
     <div class="user-meta">
       <div class="user-name">
-        Samartha Gs
+        Samartha GS
       </div>
       
       <div class="user-location">
-   Until next time ! <br>
-      Thank you for visiting
- <br>
+        Until next time! <br>
+        Thank you for visiting
+        <br>
       </div>
       
       <div class="user-profiles">
-        <a href="https://t.me/Samartha_gs" aria-label="telegram"><i class="fab fa-telegram"></i></a>
-             <a href="https://www.linkedin.com/in/samarthags/" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+        <a href="https://t.me/Samartha_gs" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+        <a href="https://www.linkedin.com/in/samarthags/" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
         <a href="https://twitter.com/@samarth600/" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-        <a href="mailto:samarthags121@gmail.com" aria-label="Gmail"><i class="far fa-envelope"></i></a>
-        <a href="https://wa.me/9945751404?text=Hi" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-        <a href="http://samarthags.cloud" aria-label="website" target="_blank"><i class="fas fa-bolt"></i></a>
-      <a href="https://samartha-game.onrender.com/" aria-label="game website" target="_blank"><i class="fas fa-gamepad"></i></a>
 
+        <a href="https://wa.me/9945751404?text=Hi" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        <a href="http://samarthags.cloud" aria-label="Website" target="_blank"><i class="fas fa-bolt"></i></a>
       </div>
+
+
       <div class="visitor-count-container">
         <div class="line"></div>
         <div class="visitor-count">
           <img src="https://visit-counter.vercel.app/counter.png?page=samarthags.likes&s=10&c=888888&bg=ffffff&no=2&ff=slant&tb=&ta=" alt="Visitor Count" width="100">
         </div>
         <div class="visitor-text">Visitors</div>
-      </div>
-      <div class="date-time">
-        <span id="date"></span><br>
-        <span id="time"></span><br>
+        <div class="date-time">
+          <script>
+            document.addEventListener('DOMContentLoaded', function() {
+              function updateDateTime() {
+                var now = new Date();
+                var formattedDate = now.toLocaleString();
+                document.querySelector('.date-time').textContent = formattedDate;
+              }
+              updateDateTime();
+              setInterval(updateDateTime, 1000);
+            });
+          </script>
+        </div>
       </div>
     </div>
   </div>
 </div>
-
-<script>
-  function getCurrentDate() {
-    var today = new Date();
-    var date = today.toLocaleDateString('en', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-    document.getElementById('date').textContent = "" + date;
-  }
-
-  function getCurrentTime() {
-    var today = new Date();
-    var time = today.toLocaleTimeString('en', { hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true });
-    document.getElementById('time').textContent = "" + time;
-  }
-
-  setInterval(getCurrentDate, 1000 * 60 * 60 * 24); 
-  setInterval(getCurrentTime, 1000);
-
-
-  getCurrentDate();
-  getCurrentTime();
-</script>
 
 </body>
 </html>
