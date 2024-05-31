@@ -302,12 +302,6 @@
     function startMessageRotation() {
       setInterval(changeMessage, 5000);
     }
-        var visitedBefore = localStorage.getItem("visitedBefore");
-    if (visitedBefore === "true") {
-      var name = document.cookie.split('; ').find(row => row.startsWith('username=')).split('=')[1];
-      displayThankYouMessage(name);
-    }
-
     
   </script>
 </body>
