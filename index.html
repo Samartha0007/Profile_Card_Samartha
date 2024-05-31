@@ -3,297 +3,312 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="icon.jpg" type="image/webp">
-  <meta name="description" content="Samartha GS is enthusiastic about web development and IoT">
-  <meta property="og:image:secure_url" content="about.jpg">
-  <meta property="og:image" content="about.jpg">
-  <title>Samartha GS</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
-  
+  <title>Samartha Web</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
+
+    :root {
+      --hue-color: 250;
+      --first-color: hsl(var(--hue-color), 69%, 1%);
+      --first-color-alt: hsl(var(--hue-color), 57%, 53%);
+      --title-color: hsl(var(--hue-color), 8%, 15%);
+      --text-color: hsl(var(--hue-color), 8%, 45%);
+      --input-color: hsl(var(--hue-color), 70%, 96%);
+      --body-color: hsl(var(--hue-color), 60%, 99%);
+      --container-color: #fff;
+      --font-medium: 500;
     }
 
-    img {
-      max-width: 100%;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
     body {
-      font-family: system-ui, sans-serif;
-      font-size: 16px;
-      line-height: 1.5;
-      color: #0f0f0f;
-      background-color: #ecedef;
-      padding: 50px;
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--body-color);
+      color: var(--text-color);
     }
 
-    h1 {
-      text-align: center;
-      margin-bottom: 4rem;
+    .container {
+      max-width: 768px;
+      margin: 0 auto;
+      padding: 0 20px;
     }
 
-    .users {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 30px;
+    .button-container {
+      margin-top: 20px;
     }
 
-    .user {
-      position: relative;
-      z-index: 1;
-      width: 250px;
-      aspect-ratio: 1 / 1.4;
-      padding: 1rem;
-      border-radius: 20px;
-      background-color: #fff;
-      box-shadow: 0 30px 30px 5px #d6d9e2;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      gap: 1rem;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .user:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 40px 40px 5px #c6c9d2;
-    }
-
-    .user-img-wrap {
-      position: relative;
-      width: 117px;
-      aspect-ratio: 1;
-      padding: 7px;
-      border-radius: 100%;
-    }
-
-    .user-img-wrap::after {
-      position: absolute;
-      z-index: -1;
-      content: "";
-      inset: 0;
-      border-radius: 100%;
-      background: linear-gradient(
-        #4cd964,
-        #5ac8fa,
-        #007aff,
-        #7dc8e8,
-        #5856d6,
-        #ff2d55
-      );
-      opacity: 1;
-      animation: rotate 4s linear infinite;
-      filter: saturate(2) blur(10px);
-    }
-
-    @keyframes rotate {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    .user-img {
-      aspect-ratio: 1;
-      border-radius: 100%;
-      overflow: hidden;
-    }
-
-    .user-meta {
-      text-align: center;
-    }
-
-    .user-name {
-      font-size: 1.25rem;
-      font-weight: 750;
-      color: #a0a2b6;
-      font-family: 'Nunito', sans-serif;
-    }
-
-    .user-location {
-      font-size: 0.875rem;
-      color: #a0a2b6;
-      margin-bottom: 1rem;
-      font-weight: 500;
-      font-family: 'Nunito', sans-serif;
-    }
-
-    .user-profiles {
-      font-size: 1rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 1rem;
-      color: #888;
-      margin-bottom: 0.5rem;
-      position: relative;
-    }
-
-    .user-profiles a {
-      color: inherit;
+    .button {
+      display: inline-block;
+      background-color: var(--first-color);
+      color: #fff;
+      padding: 11px 90px;
+      border-radius: 15px;
+      font-weight: var(--font-medium);
       text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+    
+    .button:hover {
+      background-color: var(--first-color-alt);
+    }
+
+    .header {
+      background-color: var(--body-color);
+      padding: 20px 0;
+      text-align: center;
+    }
+
+    .header_title {
+      color: var(--title-color);
+      font-size: 24px;
+    }
+
+    .main {
+      min-height: calc(100vh - 120px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+            flex-direction: column; /* Added */
+
+    }
+
+    .section {
+      text-align: center;
+      margin-bottom: 100px;
+    }
+
+    .section_title {
+      color: var(--title-color);
+      font-size: 36px;
+      margin-bottom: 20px;
+    }
+
+    .section_subtitle {
+      color: var(--text-color);
+      font-size: 15px;
+      margin-bottom: 30px;
+    }
+
+    .name_form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .name_input {
+      width: 300px;
+      height: 40px;
+      padding: 0 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      font-size: 16px;
+    }
+
+    .name_input:focus {
+      outline: none;
+      border-color: var(--first-color);
+    }
+
+    #designed-by {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #555;
+      text-align: center;
+    }
+
+    .thank-you-message {
+      display: none;
+      font-size: 36px;
+      color: var(--first-color);
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .thank-you-message span {
+      color: var(--first-color-alt);
+      font-weight: bold;
+    }
+
+    .share-container {
+      display: none;
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .share-button {
+      display: inline-block;
+      background-color: var(--first-color-alt);
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-size: 16px;
+      text-decoration: none;
+      margin-top: 10px;
+    }
+
+    .share-icons {
+      margin-top: 10px;
+    }
+
+    .share-icons a {
+      color: var(--first-color);
+      font-size: 24px;
+      margin: 0 10px;
       transition: color 0.3s ease;
     }
 
-    .user-profiles a:hover {
-      color: #007aff;
-    }
-
-    .user-profiles:before, .user-profiles:after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      width: 25%;
-      height: 1px;
-      background-color: #ccc;
-    }
-
-    .user-profiles:before {
-      left: -30%;
-    }
-
-    .user-profiles:after {
-      right: -30%;
-    }
-
-    .visitor-count-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-top: 1rem;
-    }
-
-    .visitor-count {
-      width: 50px;
-      height: auto;
-      margin-top: 0.5rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .visitor-text {
-      font-size: 0.875rem;
-      color: #888;
-      margin-top: -1rem;
-      font-family: 'Nunito', sans-serif;
-    }
-
-    .date-time {
-      font-size: 0.875rem;
-      color: #888;
-      margin-top: 0.5rem;
-      font-family: 'Nunito', sans-serif;
-    }
-
-    .line {
-      width: 100%;
-      height: 1px;
-      background-color: #ccc;
-      margin-top: 1rem;
-    }
-
-    @-webkit-keyframes bouncy {
-      from, to { -webkit-transform: scale(1, 1); }
-      25% { -webkit-transform: scale(0.9, 1.1); }
-      50% { -webkit-transform: scale(1.1, 0.9); }
-      75% { -webkit-transform: scale(0.95, 1.05); }
-    }
-
-    @keyframes bouncy {
-      from, to { transform: scale(1, 1); }
-      25% { transform: scale(0.9, 1.1); }
-      50% { transform: scale(1.1, 0.9); }
-      75% { transform: scale(0.95, 1.05); }
-    }
-
-    .bouncy {
-      -webkit-animation: bouncy 0.6s;
-      animation: bouncy 0.6s;
-      -webkit-animation-duration: 0.6s;
-      animation-duration: 0.6s;
-      -webkit-animation-fill-mode: both;
-      animation-fill-mode: both;
+    .share-icons a:hover {
+      color: var(--first-color-alt);
     }
   </style>
 </head>
 <body>
+  <header class="header">
+    <div class="container">
+      <h1 class="header_title">Samartha Web</h1>
+    </div>
+  </header>
 
-<h1></h1>
-
-<div class="users">
-  <div class="user">
-    <div class="user-img-wrap">
-      <div class="user-img">
-        <img src="about.jpg" alt="Samartha">
+  <main class="main">
+    <section class="section" id="mainSection">
+      <div class="container">
+        <h2 class="section_title">Hey! 👋</h2>
+        <p class="section_subtitle">Please enter your name.</p>
+        <form class="name_form" action="#" aria-label="name form">
+          <input type="text" id="nameInput" class="name_input" placeholder="Enter your name" oninput="checkNameInput()" aria-label="Name input">
+          <div class="button-container">
+            <button id="submitButton" class="button" disabled onclick="submitUsername(event)">Let's Begin</button>
+          </div>
+        </form>
+      </div>
+    </section>
+    <div id="thankYouMessage" class="thank-you-message animate__animated"></div>
+    <div id="shareContainer" class="share-container">
+      <a href="#" class="share-button">Share</a>
+      <div class="share-icons">
+        <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+        <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin-in"></i></a>
       </div>
     </div>
-    <div class="user-meta">
-      <div class="user-name">
-        Samartha GS
-      </div>
-      
-      <div class="user-location">
-        Until next time! <br>
-        Thank you for visiting
-        <br>
-      </div>
-      
-      <div class="user-profiles">
-        <a href="https://t.me/Samartha_gs" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
-        <a href="https://www.linkedin.com/in/samarthags/" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-        <a href="https://twitter.com/@samarth600/" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-
-        <a href="https://wa.me/9945751404?text=Hi" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-        <a href="http://samarthags.cloud" aria-label="Website" target="_blank"><i class="fas fa-bolt"></i></a>
-      </div>
-
-
-      <div class="visitor-count-container">
-        <div class="line"></div>
-        <div class="visitor-count">
-          <img src="https://visit-counter.vercel.app/counter.png?page=samarthags.likes&s=10&c=888888&bg=ffffff&no=2&ff=slant&tb=&ta=" alt="Visitor Count" width="100">
-        </div>
-        <div class="visitor-text">Visitors</div>
-        <div class="date-time">
-                <div class="date-time">
-        <span id="date"></span><br>
-        <span id="time"></span><br>
-      </div>
-    </div>
+  </main>
+  <div id="designed-by">
+    Made With 💜 By <span style="font-weight: bold;">Samartha Gs</span>
   </div>
-</div>
 
-          <script>
-  function getCurrentDate() {
-    var today = new Date();
-    var date = today.toLocaleDateString('en', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-    document.getElementById('date').textContent = "" + date;
-  }
+  <script>
+    const messages = [
+      "<span>{name}</span>",
+      "<span>{name}</span>, you are awesome!",
+      "<span>{name}</span>, your support means the world to me.",
+      "<span>{name}</span>, I know you have a great future.",
+      "All the best to you, <span>{name}</span>! Keep shining bright! 🌟",
+      "<span>{name}</span>, you rock!",
+      "<span>250,000 +</span> visitors! 🎉",
+      "Thanks <span>{name}</span> for being a part of my web success! 🥰",
+      "<span>{name}</span> let's stay connected! 😊",
+      "<span>{name}</span> Until next time!",
+      "Be <span>happy</span>, do <span>good</span>, and <span>spread</span> positivity <span>wherever</span> you go!",
+      "<span>{name}</span> See you soon! 👋❤️",
+      "Have a happy day <span>{name}</span>✨",
+    ];
 
-  function getCurrentTime() {
-    var today = new Date();
-    var time = today.toLocaleTimeString('en', { hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true });
-    document.getElementById('time').textContent = "" + time;
-  }
+    let messageIndex = 0;
+    let name = '';
 
-  setInterval(getCurrentDate, 1000 * 60 * 60 * 24); 
-  setInterval(getCurrentTime, 1000);
+    const animations = [
+  'animate__fadeIn',
+  'animate__zoomIn',
+  'animate__rotateIn',
+  'animate__bounceIn',
+  'animate__flipInX',
+  'animate__slideInDown',
+  'animate__slideInUp',
+  'animate__slideInLeft',
+  'animate__slideInRight',
+  'animate__lightSpeedInLeft',
+  'animate__lightSpeedInRight',
+  'animate__rollIn',
+  'animate__jackInTheBox',
+  'animate__heartBeat'
+    ];
 
+    function checkNameInput() {
+      var nameInput = document.getElementById("nameInput");
+      var submitButton = document.getElementById("submitButton");
 
-  getCurrentDate();
-  getCurrentTime();
-          </script>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+      if (nameInput.value.trim() !== "") {
+        submitButton.disabled = false;
+      } else {
+        submitButton.disabled = true;
+      }
+    }
 
+    function validateName(name) {
+      return /^[a-zA-Z\s]+$/.test(name);
+    }
+
+    function submitUsername(event) {
+      event.preventDefault();
+      name = document.getElementById("nameInput").value.trim();
+      if (name !== "" && validateName(name)) {
+        document.cookie = "username=" + name;
+        localStorage.setItem("visitedBefore", "true");
+        displayThankYouMessage(name);
+        startMessageRotation();
+      } else {
+        alert("Please enter a valid name.");
+      }
+    }
+
+    function displayThankYouMessage(name) {
+      var mainSection = document.getElementById("mainSection");
+      mainSection.style.display = "none";
+      var thankYouMessage = document.getElementById("thankYouMessage");
+      messageIndex = 0;
+      thankYouMessage.innerHTML = messages[messageIndex].replace("{name}", name);
+      thankYouMessage.style.display = "block";
+      changeMessage(); // Apply initial animation
+    }
+
+    function changeMessage() {
+      var thankYouMessage = document.getElementById("thankYouMessage");
+
+      // Remove all previous animation classes
+      thankYouMessage.classList.remove(...animations);
+
+      // Get the next message
+      messageIndex++;
+
+      if (messageIndex < messages.length) {
+        // Apply the next message with a random animation
+        thankYouMessage.innerHTML = messages[messageIndex].replace("{name}", name);
+        const randomAnimation = animations[Math.floor(Math.random() * animations.length)];
+        thankYouMessage.classList.add(randomAnimation);
+      } else {
+        // Show the share button and social icons
+        var shareContainer = document.getElementById("shareContainer");
+        shareContainer.style.display = "block";
+      }
+    }
+
+    function startMessageRotation() {
+      setInterval(changeMessage, 5000);
+    }
+        var visitedBefore = localStorage.getItem("visitedBefore");
+    if (visitedBefore === "true") {
+      var name = document.cookie.split('; ').find(row => row.startsWith('username=')).split('=')[1];
+      displayThankYouMessage(name);
+    }
+
+    
+  </script>
 </body>
 </html>
