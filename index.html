@@ -3,7 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Samartha Web</title>
+   <meta property="og:image:secure_url" content="https://i.ibb.co/Yp8DxdS/Screenshot-20240531-144130.jpg" />
+  <meta property="og:image" content="https://i.ibb.co/Yp8DxdS/Screenshot-20240531-144130.jpg" />
+  <title>Web Insane</title>
+    <link rel="shortcut icon" href="icon.jpg" type="image/webp">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
   <style>
@@ -174,7 +177,7 @@
     <div class="container">
     </div>
   </header>
-    <audio id="bgMusic" src="https://dl.sndup.net/vkyx/Je.mp3" loop></audio>
+
 
 
   <main class="main">
@@ -303,25 +306,6 @@
     function startMessageRotation() {
       setInterval(changeMessage, 5000);
     }
-// music.js
-
-// Function to play background music
-function playBackgroundMusic() {
-  var bgMusic = document.getElementById("bgMusic");
-  if (bgMusic.paused) {
-    bgMusic.play();
-  }
-}
-
-// Function to stop background music
-function stopBackgroundMusic() {
-  var bgMusic = document.getElementById("bgMusic");
-  if (!bgMusic.paused) {
-    bgMusic.pause();
-    bgMusic.currentTime = 0; // Reset music to the beginning
-  }
-}
-
     
   </script>
 </body>
