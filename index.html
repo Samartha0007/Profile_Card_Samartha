@@ -172,15 +172,16 @@
 <body>
   <header class="header">
     <div class="container">
-
     </div>
   </header>
+    <audio id="bgMusic" src="https://dl.sndup.net/vkyx/Je.mp3" loop></audio>
+
 
   <main class="main">
     <section class="section" id="mainSection">
       <div class="container">
         <h2 class="section_title">Hey! 👋</h2>
-        <p class="section_subtitle">Please enter your name.</p>
+        <p class="section_subtitle">Please enter your name. For Magic !</p>
         <form class="name_form" action="#" aria-label="name form">
           <input type="text" id="nameInput" class="name_input" placeholder="Enter your name" oninput="checkNameInput()" aria-label="Name input">
           <div class="button-container">
@@ -191,11 +192,11 @@
     </section>
     <div id="thankYouMessage" class="thank-you-message animate__animated"></div>
     <div id="shareContainer" class="share-container">
-      <a href="#" class="share-button">Share</a>
-      <div class="share-icons">
-        <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
-        <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
-        <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+              <div class="share-icons">
+        <a href="https://t.me/Samartha_gs" target="_blank"><i class="fab fa-telegram"></i></a>
+        <a href="https://twitter.com/@samarth600/" target="_blank"><i class="fab fa-twitter"></i></a>
+        <a href="https://www.linkedin.com/in/samarthags/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://wa.me/9945751404?text=Hi" target="_blank"><i class="fab fa-whatsapp"></i></a>
       </div>
     </div>
   </main>
@@ -302,28 +303,26 @@
     function startMessageRotation() {
       setInterval(changeMessage, 5000);
     }
-function shareContent() {
-  // Text to share (customize as needed)
-  var text = "Check out this awesome website!";
-  
-  // Check if Web Share API is supported
-  if (navigator.share) {
-    navigator.share({
-      title: document.title,
-      text: text,
-      url: window.location.href
-    })
-    .then(() => console.log('Shared successfully'))
-    .catch((error) => console.error('Error sharing:', error));
-  } else {
-    console.error('Web Share API not supported');
+// music.js
+
+// Function to play background music
+function playBackgroundMusic() {
+  var bgMusic = document.getElementById("bgMusic");
+  if (bgMusic.paused) {
+    bgMusic.play();
   }
 }
 
-document.getElementById("shareButton").addEventListener("click", function(event) {
-  event.preventDefault();
-  shareContent();
-});
+// Function to stop background music
+function stopBackgroundMusic() {
+  var bgMusic = document.getElementById("bgMusic");
+  if (!bgMusic.paused) {
+    bgMusic.pause();
+    bgMusic.currentTime = 0; // Reset music to the beginning
+  }
+}
+
+    
   </script>
 </body>
 </html>
