@@ -172,7 +172,7 @@
 <body>
   <header class="header">
     <div class="container">
-      <h1 class="header_title">Samartha Web</h1>
+
     </div>
   </header>
 
@@ -302,25 +302,21 @@
     function startMessageRotation() {
       setInterval(changeMessage, 5000);
     }
-    function shareContent() {
-  // URL to share (replace with your desired URL)
-  var url = window.location.href;
+function shareContent() {
   // Text to share (customize as needed)
   var text = "Check out this awesome website!";
-  // Share via Web Share API if supported
+  
+  // Check if Web Share API is supported
   if (navigator.share) {
     navigator.share({
       title: document.title,
       text: text,
-      url: url
+      url: window.location.href
     })
     .then(() => console.log('Shared successfully'))
     .catch((error) => console.error('Error sharing:', error));
   } else {
-    // Fallback for browsers that don't support Web Share API
-    var socialUrl = "https://twitter.com/intent/tweet?url=" + encodeURIComponent(url) + "&text=" + encodeURIComponent(text);
-    // Open a new window with the sharing URL
-    window.open(socialUrl, '_blank');
+    console.error('Web Share API not supported');
   }
 }
 
@@ -328,9 +324,6 @@ document.getElementById("shareButton").addEventListener("click", function(event)
   event.preventDefault();
   shareContent();
 });
-
-// Other JavaScript functions are here
-
   </script>
 </body>
 </html>
