@@ -6,20 +6,23 @@
     <title>Profile Card Service</title>
     <style>
         body { font-family: Arial, sans-serif; text-align: center; background-color: #f4f4f4; }
-        .container { width: 80%; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-        input, textarea, button { width: 100%; padding: 10px; margin: 10px 0; }
-        img { max-width: 100px; border-radius: 50%; }
+        .container { width: 80%; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); margin-top: 20px; }
+        input, textarea, button { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; }
+        button { background: #007bff; color: white; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        img { max-width: 150px; border-radius: 50%; margin: 10px; }
+        .profile-card { padding: 15px; border: 1px solid #ddd; border-radius: 10px; margin-bottom: 10px; background: #fff; }
     </style>
 </head>
 <body>
 
     <div class="container">
         <h2>Create Profile</h2>
-        <input type="text" id="name" placeholder="Name (unique)" required><br>
+        <input type="text" id="name" placeholder="Unique Username" required><br>
         <input type="email" id="email" placeholder="Email" required><br>
         <textarea id="bio" placeholder="Short Bio" required></textarea><br>
         <input type="file" id="imageUpload" accept="image/*"><br>
-        <button onclick="createProfile()">Create</button>
+        <button onclick="createProfile()">Create Profile</button>
     </div>
 
     <div class="container">
@@ -32,6 +35,7 @@
         import { getFirestore, collection, addDoc, getDocs, doc, getDoc, query, where } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
         import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-storage.js";
 
+        // Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyDVQpZYEQmmM3fRgr2PEAxaDQzeOyZYCF0",
             authDomain: "garena-a6421.firebaseapp.com",
@@ -45,20 +49,27 @@
         const db = getFirestore(app);
         const storage = getStorage(app);
 
+        // Function to create a profile
         window.createProfile = async function () {
             const name = document.getElementById("name").value.trim().toLowerCase();
             const email = document.getElementById("email").value;
             const bio = document.getElementById("bio").value;
             const file = document.getElementById("imageUpload").files[0];
 
-            if (!name || !email || !bio) return alert("All fields are required!");
+            if (!name || !email || !bio) {
+                alert("All fields are required!");
+                return;
+            }
 
-            // Check if the name is already taken
+            // Check if username is already taken
             const q = query(collection(db, "profiles"), where("name", "==", name));
             const querySnapshot = await getDocs(q);
-            if (!querySnapshot.empty) return alert("This name is already taken. Choose another.");
+            if (!querySnapshot.empty) {
+                alert("This username is already taken. Choose another.");
+                return;
+            }
 
-            let imageUrl = "";
+            let imageUrl = "default.jpg"; // Default image
             if (file) {
                 const imageRef = ref(storage, `profile_images/${name}`);
                 await uploadBytes(imageRef, file);
@@ -71,17 +82,22 @@
             location.reload();
         };
 
+        // Load all profiles
         async function loadProfiles() {
             const querySnapshot = await getDocs(collection(db, "profiles"));
             let profilesHTML = "";
             querySnapshot.forEach((doc) => {
-                profilesHTML += `<p><img src="${doc.data().imageUrl || 'default.jpg'}"><br>
-                <strong>${doc.data().name}</strong>: ${doc.data().bio} 
-                (<a href="?name=${doc.data().name}">View</a>)</p>`;
+                profilesHTML += `<div class="profile-card">
+                    <img src="${doc.data().imageUrl || 'default.jpg'}" alt="Profile Image"><br>
+                    <strong>${doc.data().name}</strong><br>
+                    ${doc.data().bio} <br>
+                    (<a href="?name=${doc.data().name}">View Profile</a>)
+                </div>`;
             });
             document.getElementById("profiles").innerHTML = profilesHTML;
         }
 
+        // Show a single profile if URL has ?name=username
         const params = new URLSearchParams(window.location.search);
         if (params.has("name")) {
             const q = query(collection(db, "profiles"), where("name", "==", params.get("name")));
@@ -90,7 +106,7 @@
                     const docSnap = querySnapshot.docs[0];
                     document.body.innerHTML = `<div class="container">
                         <h2>${docSnap.data().name}</h2>
-                        <img src="${docSnap.data().imageUrl || 'default.jpg'}"><br>
+                        <img src="${docSnap.data().imageUrl || 'default.jpg'}" alt="Profile Image"><br>
                         <p>${docSnap.data().bio}</p>
                         <p>Email: ${docSnap.data().email}</p>
                     </div>`;
