@@ -4,76 +4,96 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile Card Service</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; background-color: #f4f4f4; }
+        .container { width: 80%; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        input, textarea, button { width: 100%; padding: 10px; margin: 10px 0; }
+        img { max-width: 100px; border-radius: 50%; }
+    </style>
 </head>
 <body>
-    <h2>Create Profile</h2>
-    <input type="text" id="name" placeholder="Name" required><br>
-    <input type="email" id="email" placeholder="Email" required><br>
-    <textarea id="bio" placeholder="Short Bio" required></textarea><br>
-    <button onclick="createProfile()">Create</button>
 
-    <h2>All Profiles</h2>
-    <div id="profiles"></div>
+    <div class="container">
+        <h2>Create Profile</h2>
+        <input type="text" id="name" placeholder="Name (unique)" required><br>
+        <input type="email" id="email" placeholder="Email" required><br>
+        <textarea id="bio" placeholder="Short Bio" required></textarea><br>
+        <input type="file" id="imageUpload" accept="image/*"><br>
+        <button onclick="createProfile()">Create</button>
+    </div>
+
+    <div class="container">
+        <h2>All Profiles</h2>
+        <div id="profiles"></div>
+    </div>
 
     <script type="module">
-        // Import Firebase modules
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, getDoc, query, where } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-storage.js";
 
-        // Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyDVQpZYEQmmM3fRgr2PEAxaDQzeOyZYCF0",
             authDomain: "garena-a6421.firebaseapp.com",
             projectId: "garena-a6421",
-            storageBucket: "garena-a6421.firebasestorage.app",
+            storageBucket: "garena-a6421.appspot.com",
             messagingSenderId: "1099395566306",
             appId: "1:1099395566306:web:fd4524cb40882dcd2cecbb"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+        const storage = getStorage(app);
 
-        // Create Profile Function
         window.createProfile = async function () {
-            const name = document.getElementById("name").value;
+            const name = document.getElementById("name").value.trim().toLowerCase();
             const email = document.getElementById("email").value;
             const bio = document.getElementById("bio").value;
+            const file = document.getElementById("imageUpload").files[0];
 
-            if (!name || !email || !bio) {
-                alert("All fields are required!");
-                return;
+            if (!name || !email || !bio) return alert("All fields are required!");
+
+            // Check if the name is already taken
+            const q = query(collection(db, "profiles"), where("name", "==", name));
+            const querySnapshot = await getDocs(q);
+            if (!querySnapshot.empty) return alert("This name is already taken. Choose another.");
+
+            let imageUrl = "";
+            if (file) {
+                const imageRef = ref(storage, `profile_images/${name}`);
+                await uploadBytes(imageRef, file);
+                imageUrl = await getDownloadURL(imageRef);
             }
 
-            try {
-                const docRef = await addDoc(collection(db, "profiles"), { name, email, bio });
-                alert(`Profile Created! Share this link: ?id=${docRef.id}`);
-                location.reload();
-            } catch (error) {
-                console.error("Error adding document: ", error);
-            }
+            await addDoc(collection(db, "profiles"), { name, email, bio, imageUrl });
+
+            alert(`Profile Created! Share this link: ?name=${name}`);
+            location.reload();
         };
 
-        // Load All Profiles
         async function loadProfiles() {
             const querySnapshot = await getDocs(collection(db, "profiles"));
             let profilesHTML = "";
             querySnapshot.forEach((doc) => {
-                profilesHTML += `<p><strong>${doc.data().name}</strong>: ${doc.data().bio} 
-                (<a href="?id=${doc.id}">View</a>)</p>`;
+                profilesHTML += `<p><img src="${doc.data().imageUrl || 'default.jpg'}"><br>
+                <strong>${doc.data().name}</strong>: ${doc.data().bio} 
+                (<a href="?name=${doc.data().name}">View</a>)</p>`;
             });
             document.getElementById("profiles").innerHTML = profilesHTML;
         }
 
-        // Show Single Profile if URL has ID
         const params = new URLSearchParams(window.location.search);
-        if (params.has("id")) {
-            const docRef = doc(db, "profiles", params.get("id"));
-            getDoc(docRef).then((docSnap) => {
-                if (docSnap.exists()) {
-                    document.body.innerHTML = `<h2>${docSnap.data().name}</h2>
+        if (params.has("name")) {
+            const q = query(collection(db, "profiles"), where("name", "==", params.get("name")));
+            getDocs(q).then((querySnapshot) => {
+                if (!querySnapshot.empty) {
+                    const docSnap = querySnapshot.docs[0];
+                    document.body.innerHTML = `<div class="container">
+                        <h2>${docSnap.data().name}</h2>
+                        <img src="${docSnap.data().imageUrl || 'default.jpg'}"><br>
                         <p>${docSnap.data().bio}</p>
-                        <p>Email: ${docSnap.data().email}</p>`;
+                        <p>Email: ${docSnap.data().email}</p>
+                    </div>`;
                 } else {
                     document.body.innerHTML = "<h2>Profile Not Found</h2>";
                 }
