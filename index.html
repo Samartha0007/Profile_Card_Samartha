@@ -44,7 +44,7 @@
             padding: 15px;
             margin: 10px;
             border-radius: 10px;
-            text-align: left;
+            text-align: center;
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
         }
         .profile-card img {
@@ -53,18 +53,18 @@
             border-radius: 50%;
             border: 3px solid #007BFF;
         }
-        a {
+        .social-icons a {
+            margin: 5px;
+            font-size: 24px;
             color: #007BFF;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
         }
     </style>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <h2>Create Profile</h2>
     <div class="container">
+        <input type="text" id="username" placeholder="Username (Unique)" required><br>
         <input type="text" id="name" placeholder="Name" required><br>
         <input type="email" id="email" placeholder="Email" required><br>
         <textarea id="bio" placeholder="Short Bio" required></textarea><br>
@@ -81,11 +81,9 @@
     <div id="profiles"></div>
 
     <script type="module">
-        // Import Firebase SDKs
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
         import { getFirestore, collection, addDoc, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
 
-        // Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyBb3x_zD9JaFwL9PhmngCNZlS2fOh6MBa4",
             authDomain: "newai-52371.firebaseapp.com",
@@ -95,11 +93,9 @@
             appId: "1:480586908639:web:f4645a852c4df724c6fa6a"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // Fetch Instagram profile picture using a public API
         async function fetchInstagramProfilePicture(username) {
             if (!username) return null;
             try {
@@ -112,8 +108,8 @@
             }
         }
 
-        // Create profile function
         window.createProfile = async function () {
+            const username = document.getElementById("username").value.toLowerCase();
             const name = document.getElementById("name").value;
             const email = document.getElementById("email").value;
             const bio = document.getElementById("bio").value;
@@ -121,12 +117,12 @@
             const snapchat = document.getElementById("snapchat").value;
             const whatsapp = document.getElementById("whatsapp").value;
 
-            if (!name || !email || !bio) {
-                alert("Name, Email, and Bio are required!");
+            if (!username || !name || !email || !bio) {
+                alert("Username, Name, Email, and Bio are required!");
                 return;
             }
 
-            let profilePicURL = "https://via.placeholder.com/80"; // Default Avatar
+            let profilePicURL = "https://via.placeholder.com/80"; 
             if (instagram) {
                 const instaPic = await fetchInstagramProfilePicture(instagram);
                 if (instaPic) profilePicURL = instaPic;
@@ -138,17 +134,16 @@
             if (whatsapp) socialProfiles.whatsapp = `https://api.whatsapp.com/send?phone=${whatsapp}`;
 
             try {
-                const docRef = await addDoc(collection(db, "profiles"), { 
-                    name, email, bio, profilePicURL, socialProfiles 
+                await addDoc(collection(db, "profiles"), { 
+                    username, name, email, bio, profilePicURL, socialProfiles 
                 });
-                alert(`Profile Created! Share this link: ?id=${docRef.id}`);
+                alert(`Profile Created! Share this link: /profile/${username}`);
                 location.reload();
             } catch (error) {
                 console.error("Error adding document: ", error);
             }
         };
 
-        // Load profiles function
         async function loadProfiles() {
             const querySnapshot = await getDocs(collection(db, "profiles"));
             let profilesHTML = "";
@@ -159,24 +154,26 @@
                         <img src="${data.profilePicURL}">
                         <h3>${data.name}</h3>
                         <p>${data.bio}</p>
-                        <a href="?id=${doc.id}">View Profile</a>
+                        <a href="/profile/${data.username}">View Profile</a>
                     </div>
                 `;
             });
             document.getElementById("profiles").innerHTML = profilesHTML;
         }
 
-        // Show Single Profile
         const params = new URLSearchParams(window.location.search);
-        if (params.has("id")) {
-            const docRef = doc(db, "profiles", params.get("id"));
+        if (params.has("username")) {
+            const docRef = doc(db, "profiles", params.get("username"));
             getDoc(docRef).then((docSnap) => {
                 if (docSnap.exists()) {
                     const data = docSnap.data();
-                    let socialLinks = "";
-                    for (const [platform, url] of Object.entries(data.socialProfiles || {})) {
-                        if (url) socialLinks += `<p>${platform}: <a href="${url}" target="_blank">${url}</a></p>`;
-                    }
+                    let socialLinks = `
+                        <div class="social-icons">
+                            ${data.socialProfiles.instagram ? `<a href="${data.socialProfiles.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>` : ""}
+                            ${data.socialProfiles.snapchat ? `<a href="${data.socialProfiles.snapchat}" target="_blank"><i class="fab fa-snapchat"></i></a>` : ""}
+                            ${data.socialProfiles.whatsapp ? `<a href="${data.socialProfiles.whatsapp}" target="_blank"><i class="fab fa-whatsapp"></i></a>` : ""}
+                        </div>
+                    `;
 
                     document.body.innerHTML = `
                         <div class="container">
