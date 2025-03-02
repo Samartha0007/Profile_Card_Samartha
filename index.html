@@ -99,15 +99,20 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // Function to fetch profile picture
-        function getProfilePicture(instagram, snapchat, whatsapp) {
-            if (instagram) return `https://www.instagram.com/${instagram}/profile_pic.jpg`;
-            if (snapchat) return `https://www.snapchat.com/add/${snapchat}/profile_pic.jpg`;
-            if (whatsapp) return `https://api.whatsapp.com/send?phone=${whatsapp}`;
-            return "https://via.placeholder.com/80";
+        // Fetch Instagram profile picture using a public API
+        async function fetchInstagramProfilePicture(username) {
+            if (!username) return null;
+            try {
+                const response = await fetch(`https://www.instagram.com/${username}/?__a=1&__d=1`);
+                const data = await response.json();
+                return data.graphql.user.profile_pic_url_hd || null;
+            } catch (error) {
+                console.error("Failed to fetch Instagram profile picture", error);
+                return null;
+            }
         }
 
-        // Function to create profile
+        // Create profile function
         window.createProfile = async function () {
             const name = document.getElementById("name").value;
             const email = document.getElementById("email").value;
@@ -121,7 +126,11 @@
                 return;
             }
 
-            const profilePicURL = getProfilePicture(instagram, snapchat, whatsapp);
+            let profilePicURL = "https://via.placeholder.com/80"; // Default Avatar
+            if (instagram) {
+                const instaPic = await fetchInstagramProfilePicture(instagram);
+                if (instaPic) profilePicURL = instaPic;
+            }
 
             const socialProfiles = {};
             if (instagram) socialProfiles.instagram = `https://www.instagram.com/${instagram}`;
@@ -139,7 +148,7 @@
             }
         };
 
-        // Function to load profiles
+        // Load profiles function
         async function loadProfiles() {
             const querySnapshot = await getDocs(collection(db, "profiles"));
             let profilesHTML = "";
