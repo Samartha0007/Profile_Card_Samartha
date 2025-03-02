@@ -1,104 +1,84 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Card Service</title>
-</head>
-<body>
-    <h2>Create Profile</h2>
-    <input type="text" id="name" placeholder="Name" required><br>
-    <input type="email" id="email" placeholder="Email" required><br>
-    <textarea id="bio" placeholder="Short Bio" required></textarea><br>
-    
-    <h3>Social Profiles</h3>
-    <input type="url" id="instagram" placeholder="Instagram URL"><br>
-    <input type="url" id="snapchat" placeholder="Snapchat URL"><br>
-    <input type="url" id="whatsapp" placeholder="WhatsApp URL"><br>
-    
-    <button onclick="createProfile()">Create</button>
+<!DOCTYPE html>  <html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Profile Card Service</title>  
+</head>  
+<body>  
+    <h2>Create Profile</h2>  
+    <input type="text" id="name" placeholder="Name" required><br>  
+    <input type="email" id="email" placeholder="Email" required><br>  
+    <textarea id="bio" placeholder="Short Bio" required></textarea><br>  
+    <button onclick="createProfile()">Create</button>  <h2>All Profiles</h2>  
+<div id="profiles"></div>  
 
-    <h2>All Profiles</h2>
-    <div id="profiles"></div>
+<script type="module">  
+    // Import Firebase modules  
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";  
+    import { getFirestore, collection, addDoc, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";  
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
+    // Firebase Configuration  
+    const firebaseConfig = {  
+        apiKey: "AIzaSyDVQpZYEQmmM3fRgr2PEAxaDQzeOyZYCF0",  
+        authDomain: "garena-a6421.firebaseapp.com",  
+        projectId: "garena-a6421",  
+        storageBucket: "garena-a6421.firebasestorage.app",  
+        messagingSenderId: "1099395566306",  
+        appId: "1:1099395566306:web:fd4524cb40882dcd2cecbb"  
+    };  
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyDVQpZYEQmmM3fRgr2PEAxaDQzeOyZYCF0",
-            authDomain: "garena-a6421.firebaseapp.com",
-            projectId: "garena-a6421",
-            storageBucket: "garena-a6421.appspot.com",
-            messagingSenderId: "1099395566306",
-            appId: "1:1099395566306:web:fd4524cb40882dcd2cecbb"
-        };
+    // Initialize Firebase  
+    const app = initializeApp(firebaseConfig);  
+    const db = getFirestore(app);  
 
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+    // Create Profile Function  
+    window.createProfile = async function () {  
+        const name = document.getElementById("name").value;  
+        const email = document.getElementById("email").value;  
+        const bio = document.getElementById("bio").value;  
 
-        window.createProfile = async function () {
-            const name = document.getElementById("name").value;
-            const email = document.getElementById("email").value;
-            const bio = document.getElementById("bio").value;
-            const instagram = document.getElementById("instagram").value;
-            const snapchat = document.getElementById("snapchat").value;
-            const whatsapp = document.getElementById("whatsapp").value;
+        if (!name || !email || !bio) {  
+            alert("All fields are required!");  
+            return;  
+        }  
 
-            if (!name || !email || !bio) {
-                alert("Name, Email, and Bio are required!");
-                return;
-            }
+        try {  
+            const docRef = await addDoc(collection(db, "profiles"), { name, email, bio });  
+            alert(`Profile Created! Share this link: ?id=${docRef.id}`);  
+            location.reload();  
+        } catch (error) {  
+            console.error("Error adding document: ", error);  
+        }  
+    };  
 
-            const socialProfiles = {};
-            if (instagram) socialProfiles.instagram = instagram;
-            if (snapchat) socialProfiles.snapchat = snapchat;
-            if (whatsapp) socialProfiles.whatsapp = whatsapp;
+    // Load All Profiles  
+    async function loadProfiles() {  
+        const querySnapshot = await getDocs(collection(db, "profiles"));  
+        let profilesHTML = "";  
+        querySnapshot.forEach((doc) => {  
+            profilesHTML += `<p><strong>${doc.data().name}</strong>: ${doc.data().bio}   
+            (<a href="?id=${doc.id}">View</a>)</p>`;  
+        });  
+        document.getElementById("profiles").innerHTML = profilesHTML;  
+    }  
 
-            try {
-                const docRef = await addDoc(collection(db, "profiles"), { 
-                    name, email, bio, socialProfiles
-                });
-                alert(`Profile Created! Share this link: ?id=${docRef.id}`);
-                location.reload();
-            } catch (error) {
-                console.error("Error adding document: ", error);
-            }
-        };
+    // Show Single Profile if URL has ID  
+    const params = new URLSearchParams(window.location.search);  
+    if (params.has("id")) {  
+        const docRef = doc(db, "profiles", params.get("id"));  
+        getDoc(docRef).then((docSnap) => {  
+            if (docSnap.exists()) {  
+                document.body.innerHTML = `<h2>${docSnap.data().name}</h2>  
+                    <p>${docSnap.data().bio}</p>  
+                    <p>Email: ${docSnap.data().email}</p>`;  
+            } else {  
+                document.body.innerHTML = "<h2>Profile Not Found</h2>";  
+            }  
+        });  
+    } else {  
+        loadProfiles();  
+    }  
+</script>
 
-        async function loadProfiles() {
-            const querySnapshot = await getDocs(collection(db, "profiles"));
-            let profilesHTML = "";
-            querySnapshot.forEach((doc) => {
-                const data = doc.data();
-                profilesHTML += `<p><strong>${data.name}</strong>: ${data.bio} 
-                (<a href="?id=${doc.id}">View</a>)</p>`;
-            });
-            document.getElementById("profiles").innerHTML = profilesHTML;
-        }
-
-        const params = new URLSearchParams(window.location.search);
-        if (params.has("id")) {
-            const docRef = doc(db, "profiles", params.get("id"));
-            getDoc(docRef).then((docSnap) => {
-                if (docSnap.exists()) {
-                    const data = docSnap.data();
-                    let socialLinks = "";
-                    for (const [platform, url] of Object.entries(data.socialProfiles || {})) {
-                        if (url) socialLinks += `<p>${platform}: <a href="${url}" target="_blank">${url}</a></p>`;
-                    }
-
-                    document.body.innerHTML = `<h2>${data.name}</h2>
-                        <p>${data.bio}</p>
-                        <p>Email: ${data.email}</p>
-                        ${socialLinks}`;
-                } else {
-                    document.body.innerHTML = "<h2>Profile Not Found</h2>";
-                }
-            });
-        } else {
-            loadProfiles();
-        }
-    </script>
-</body>
-</html>
+</body>  
+</html>  
