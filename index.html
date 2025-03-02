@@ -21,7 +21,12 @@
         <input type="text" id="name" placeholder="Unique Username" required><br>
         <input type="email" id="email" placeholder="Email" required><br>
         <textarea id="bio" placeholder="Short Bio" required></textarea><br>
-        <input type="file" id="imageUpload" accept="image/*"><br>
+
+        <h3>Social Profiles (At least one required)</h3>
+        <input type="text" id="instagram" placeholder="Instagram Username (@username)"><br>
+        <input type="text" id="snapchat" placeholder="Snapchat Username"><br>
+        <input type="text" id="whatsapp" placeholder="WhatsApp Number (with country code)"><br>
+
         <button onclick="createProfile()">Create Profile</button>
     </div>
 
@@ -33,7 +38,6 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
         import { getFirestore, collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
-        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-storage.js";
 
         // Firebase Configuration
         const firebaseConfig = {
@@ -47,7 +51,6 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-        const storage = getStorage(app);
 
         // Function to create a profile
         window.createProfile = async function () {
@@ -55,10 +58,17 @@
                 const name = document.getElementById("name").value.trim().toLowerCase();
                 const email = document.getElementById("email").value;
                 const bio = document.getElementById("bio").value;
-                const file = document.getElementById("imageUpload").files[0];
+                const instagram = document.getElementById("instagram").value.trim();
+                const snapchat = document.getElementById("snapchat").value.trim();
+                const whatsapp = document.getElementById("whatsapp").value.trim();
 
                 if (!name || !email || !bio) {
                     alert("All fields are required!");
+                    return;
+                }
+
+                if (!instagram && !snapchat && !whatsapp) {
+                    alert("At least one social profile is required!");
                     return;
                 }
 
@@ -71,17 +81,17 @@
                     return;
                 }
 
-                let imageUrl = "default.jpg"; // Default image
-                if (file) {
-                    console.log("Uploading image...");
-                    const imageRef = ref(storage, `profile_images/${name}`);
-                    await uploadBytes(imageRef, file);
-                    imageUrl = await getDownloadURL(imageRef);
-                    console.log("Image uploaded:", imageUrl);
+                let profileImage = "default.jpg"; // Default image
+                if (instagram) {
+                    profileImage = `https://www.instagram.com/${instagram.replace('@', '')}/profile_pic.jpg`;
+                } else if (snapchat) {
+                    profileImage = `https://app.snapchat.com/web/deeplink/snapcode/${snapchat}`;
+                } else if (whatsapp) {
+                    profileImage = `https://api.whatsapp.com/send?phone=${whatsapp}`;
                 }
 
                 console.log("Saving profile to Firestore...");
-                await addDoc(collection(db, "profiles"), { name, email, bio, imageUrl });
+                await addDoc(collection(db, "profiles"), { name, email, bio, instagram, snapchat, whatsapp, profileImage });
 
                 alert(`Profile Created! Share this link: ?name=${name}`);
                 location.reload();
@@ -97,9 +107,14 @@
             let profilesHTML = "";
             querySnapshot.forEach((doc) => {
                 profilesHTML += `<div class="profile-card">
-                    <img src="${doc.data().imageUrl || 'default.jpg'}" alt="Profile Image"><br>
+                    <img src="${doc.data().profileImage}" alt="Profile Image"><br>
                     <strong>${doc.data().name}</strong><br>
                     ${doc.data().bio} <br>
+                    <p>Socials:
+                        ${doc.data().instagram ? `<a href="https://www.instagram.com/${doc.data().instagram.replace('@', '')}" target="_blank">Instagram</a> | ` : ""}
+                        ${doc.data().snapchat ? `<a href="https://www.snapchat.com/add/${doc.data().snapchat}" target="_blank">Snapchat</a> | ` : ""}
+                        ${doc.data().whatsapp ? `<a href="https://api.whatsapp.com/send?phone=${doc.data().whatsapp}" target="_blank">WhatsApp</a>` : ""}
+                    </p>
                     (<a href="?name=${doc.data().name}">View Profile</a>)
                 </div>`;
             });
@@ -115,9 +130,14 @@
                     const docSnap = querySnapshot.docs[0];
                     document.body.innerHTML = `<div class="container">
                         <h2>${docSnap.data().name}</h2>
-                        <img src="${docSnap.data().imageUrl || 'default.jpg'}" alt="Profile Image"><br>
+                        <img src="${docSnap.data().profileImage}" alt="Profile Image"><br>
                         <p>${docSnap.data().bio}</p>
                         <p>Email: ${docSnap.data().email}</p>
+                        <p>Socials:
+                            ${docSnap.data().instagram ? `<a href="https://www.instagram.com/${docSnap.data().instagram.replace('@', '')}" target="_blank">Instagram</a> | ` : ""}
+                            ${docSnap.data().snapchat ? `<a href="https://www.snapchat.com/add/${docSnap.data().snapchat}" target="_blank">Snapchat</a> | ` : ""}
+                            ${docSnap.data().whatsapp ? `<a href="https://api.whatsapp.com/send?phone=${docSnap.data().whatsapp}" target="_blank">WhatsApp</a>` : ""}
+                        </p>
                     </div>`;
                 } else {
                     document.body.innerHTML = "<h2>Profile Not Found</h2>";
