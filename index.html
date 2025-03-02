@@ -32,7 +32,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, doc, getDoc, query, where } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
         import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-storage.js";
 
         // Firebase Configuration
@@ -51,35 +51,44 @@
 
         // Function to create a profile
         window.createProfile = async function () {
-            const name = document.getElementById("name").value.trim().toLowerCase();
-            const email = document.getElementById("email").value;
-            const bio = document.getElementById("bio").value;
-            const file = document.getElementById("imageUpload").files[0];
+            try {
+                const name = document.getElementById("name").value.trim().toLowerCase();
+                const email = document.getElementById("email").value;
+                const bio = document.getElementById("bio").value;
+                const file = document.getElementById("imageUpload").files[0];
 
-            if (!name || !email || !bio) {
-                alert("All fields are required!");
-                return;
+                if (!name || !email || !bio) {
+                    alert("All fields are required!");
+                    return;
+                }
+
+                console.log("Checking if username exists...");
+                const q = query(collection(db, "profiles"), where("name", "==", name));
+                const querySnapshot = await getDocs(q);
+
+                if (!querySnapshot.empty) {
+                    alert("This username is already taken. Choose another.");
+                    return;
+                }
+
+                let imageUrl = "default.jpg"; // Default image
+                if (file) {
+                    console.log("Uploading image...");
+                    const imageRef = ref(storage, `profile_images/${name}`);
+                    await uploadBytes(imageRef, file);
+                    imageUrl = await getDownloadURL(imageRef);
+                    console.log("Image uploaded:", imageUrl);
+                }
+
+                console.log("Saving profile to Firestore...");
+                await addDoc(collection(db, "profiles"), { name, email, bio, imageUrl });
+
+                alert(`Profile Created! Share this link: ?name=${name}`);
+                location.reload();
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Error creating profile. Check console for details.");
             }
-
-            // Check if username is already taken
-            const q = query(collection(db, "profiles"), where("name", "==", name));
-            const querySnapshot = await getDocs(q);
-            if (!querySnapshot.empty) {
-                alert("This username is already taken. Choose another.");
-                return;
-            }
-
-            let imageUrl = "default.jpg"; // Default image
-            if (file) {
-                const imageRef = ref(storage, `profile_images/${name}`);
-                await uploadBytes(imageRef, file);
-                imageUrl = await getDownloadURL(imageRef);
-            }
-
-            await addDoc(collection(db, "profiles"), { name, email, bio, imageUrl });
-
-            alert(`Profile Created! Share this link: ?name=${name}`);
-            location.reload();
         };
 
         // Load all profiles
