@@ -10,6 +10,7 @@
             background-color: #121212;
             color: #fff;
             text-align: center;
+            padding: 20px;
         }
         .container {
             max-width: 400px;
@@ -17,6 +18,7 @@
             padding: 20px;
             background: #1e1e1e;
             border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
         }
         input, textarea {
             width: 100%;
@@ -35,6 +37,7 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            font-weight: bold;
         }
         .profile-card {
             background: #2a2a2a;
@@ -42,26 +45,34 @@
             margin: 10px;
             border-radius: 10px;
             text-align: left;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
         }
         .profile-card img {
             width: 80px;
             height: 80px;
             border-radius: 50%;
+            border: 3px solid #007BFF;
+        }
+        a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
     <h2>Create Profile</h2>
     <div class="container">
-        <input type="file" id="profilePic"><br>
         <input type="text" id="name" placeholder="Name" required><br>
         <input type="email" id="email" placeholder="Email" required><br>
         <textarea id="bio" placeholder="Short Bio" required></textarea><br>
 
         <h3>Social Profiles</h3>
-        <input type="url" id="instagram" placeholder="Instagram URL"><br>
-        <input type="url" id="snapchat" placeholder="Snapchat URL"><br>
-        <input type="url" id="whatsapp" placeholder="WhatsApp URL"><br>
+        <input type="text" id="instagram" placeholder="Instagram Username"><br>
+        <input type="text" id="snapchat" placeholder="Snapchat Username"><br>
+        <input type="text" id="whatsapp" placeholder="WhatsApp Number"><br>
 
         <button onclick="createProfile()">Create</button>
     </div>
@@ -73,7 +84,6 @@
         // Import Firebase SDKs
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
         import { getFirestore, collection, addDoc, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
-        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-storage.js";
 
         // Firebase configuration
         const firebaseConfig = {
@@ -88,15 +98,13 @@
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-        const storage = getStorage(app);
 
-        // Function to upload image & get URL
-        async function uploadProfilePicture(file) {
-            if (!file) return null;
-
-            const storageRef = ref(storage, `profile_pictures/${file.name}`);
-            await uploadBytes(storageRef, file);
-            return await getDownloadURL(storageRef);
+        // Function to fetch profile picture
+        function getProfilePicture(instagram, snapchat, whatsapp) {
+            if (instagram) return `https://www.instagram.com/${instagram}/profile_pic.jpg`;
+            if (snapchat) return `https://www.snapchat.com/add/${snapchat}/profile_pic.jpg`;
+            if (whatsapp) return `https://api.whatsapp.com/send?phone=${whatsapp}`;
+            return "https://via.placeholder.com/80";
         }
 
         // Function to create profile
@@ -104,8 +112,6 @@
             const name = document.getElementById("name").value;
             const email = document.getElementById("email").value;
             const bio = document.getElementById("bio").value;
-            const file = document.getElementById("profilePic").files[0];
-
             const instagram = document.getElementById("instagram").value;
             const snapchat = document.getElementById("snapchat").value;
             const whatsapp = document.getElementById("whatsapp").value;
@@ -115,12 +121,12 @@
                 return;
             }
 
-            const socialProfiles = {};
-            if (instagram) socialProfiles.instagram = instagram;
-            if (snapchat) socialProfiles.snapchat = snapchat;
-            if (whatsapp) socialProfiles.whatsapp = whatsapp;
+            const profilePicURL = getProfilePicture(instagram, snapchat, whatsapp);
 
-            let profilePicURL = await uploadProfilePicture(file);
+            const socialProfiles = {};
+            if (instagram) socialProfiles.instagram = `https://www.instagram.com/${instagram}`;
+            if (snapchat) socialProfiles.snapchat = `https://www.snapchat.com/add/${snapchat}`;
+            if (whatsapp) socialProfiles.whatsapp = `https://api.whatsapp.com/send?phone=${whatsapp}`;
 
             try {
                 const docRef = await addDoc(collection(db, "profiles"), { 
@@ -141,7 +147,7 @@
                 const data = doc.data();
                 profilesHTML += `
                     <div class="profile-card">
-                        <img src="${data.profilePicURL || 'https://via.placeholder.com/80'}">
+                        <img src="${data.profilePicURL}">
                         <h3>${data.name}</h3>
                         <p>${data.bio}</p>
                         <a href="?id=${doc.id}">View Profile</a>
@@ -165,7 +171,7 @@
 
                     document.body.innerHTML = `
                         <div class="container">
-                            <img src="${data.profilePicURL || 'https://via.placeholder.com/100'}" width="100" height="100">
+                            <img src="${data.profilePicURL}" width="100" height="100">
                             <h2>${data.name}</h2>
                             <p>${data.bio}</p>
                             <p>Email: ${data.email}</p>
