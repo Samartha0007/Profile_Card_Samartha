@@ -4,19 +4,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile Card Service</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #fff;
+            text-align: center;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            background: #1e1e1e;
+            border-radius: 10px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            background: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .profile-card {
+            background: #2a2a2a;
+            padding: 15px;
+            margin: 10px;
+            border-radius: 10px;
+            text-align: left;
+        }
+        .profile-card img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+        }
+    </style>
 </head>
 <body>
     <h2>Create Profile</h2>
-    <input type="text" id="name" placeholder="Name" required><br>
-    <input type="email" id="email" placeholder="Email" required><br>
-    <textarea id="bio" placeholder="Short Bio" required></textarea><br>
-    
-    <h3>Social Profiles</h3>
-    <input type="url" id="instagram" placeholder="Instagram URL"><br>
-    <input type="url" id="snapchat" placeholder="Snapchat URL"><br>
-    <input type="url" id="whatsapp" placeholder="WhatsApp URL"><br>
-    
-    <button onclick="createProfile()">Create</button>
+    <div class="container">
+        <input type="file" id="profilePic"><br>
+        <input type="text" id="name" placeholder="Name" required><br>
+        <input type="email" id="email" placeholder="Email" required><br>
+        <textarea id="bio" placeholder="Short Bio" required></textarea><br>
+
+        <h3>Social Profiles</h3>
+        <input type="url" id="instagram" placeholder="Instagram URL"><br>
+        <input type="url" id="snapchat" placeholder="Snapchat URL"><br>
+        <input type="url" id="whatsapp" placeholder="WhatsApp URL"><br>
+
+        <button onclick="createProfile()">Create</button>
+    </div>
 
     <h2>All Profiles</h2>
     <div id="profiles"></div>
@@ -25,13 +73,14 @@
         // Import Firebase SDKs
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
         import { getFirestore, collection, addDoc, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-storage.js";
 
         // Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyBb3x_zD9JaFwL9PhmngCNZlS2fOh6MBa4",
             authDomain: "newai-52371.firebaseapp.com",
             projectId: "newai-52371",
-            storageBucket: "newai-52371.appspot.com", // ✅ Corrected
+            storageBucket: "newai-52371.appspot.com",
             messagingSenderId: "480586908639",
             appId: "1:480586908639:web:f4645a852c4df724c6fa6a"
         };
@@ -39,12 +88,24 @@
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+        const storage = getStorage(app);
 
-        // Function to create a new profile
+        // Function to upload image & get URL
+        async function uploadProfilePicture(file) {
+            if (!file) return null;
+
+            const storageRef = ref(storage, `profile_pictures/${file.name}`);
+            await uploadBytes(storageRef, file);
+            return await getDownloadURL(storageRef);
+        }
+
+        // Function to create profile
         window.createProfile = async function () {
             const name = document.getElementById("name").value;
             const email = document.getElementById("email").value;
             const bio = document.getElementById("bio").value;
+            const file = document.getElementById("profilePic").files[0];
+
             const instagram = document.getElementById("instagram").value;
             const snapchat = document.getElementById("snapchat").value;
             const whatsapp = document.getElementById("whatsapp").value;
@@ -54,15 +115,16 @@
                 return;
             }
 
-            // Store only non-empty social profiles
             const socialProfiles = {};
             if (instagram) socialProfiles.instagram = instagram;
             if (snapchat) socialProfiles.snapchat = snapchat;
             if (whatsapp) socialProfiles.whatsapp = whatsapp;
 
+            let profilePicURL = await uploadProfilePicture(file);
+
             try {
                 const docRef = await addDoc(collection(db, "profiles"), { 
-                    name, email, bio, socialProfiles
+                    name, email, bio, profilePicURL, socialProfiles 
                 });
                 alert(`Profile Created! Share this link: ?id=${docRef.id}`);
                 location.reload();
@@ -71,19 +133,25 @@
             }
         };
 
-        // Function to load all profiles
+        // Function to load profiles
         async function loadProfiles() {
             const querySnapshot = await getDocs(collection(db, "profiles"));
             let profilesHTML = "";
             querySnapshot.forEach((doc) => {
                 const data = doc.data();
-                profilesHTML += `<p><strong>${data.name}</strong>: ${data.bio} 
-                (<a href="?id=${doc.id}">View</a>)</p>`;
+                profilesHTML += `
+                    <div class="profile-card">
+                        <img src="${data.profilePicURL || 'https://via.placeholder.com/80'}">
+                        <h3>${data.name}</h3>
+                        <p>${data.bio}</p>
+                        <a href="?id=${doc.id}">View Profile</a>
+                    </div>
+                `;
             });
             document.getElementById("profiles").innerHTML = profilesHTML;
         }
 
-        // Function to display a single profile
+        // Show Single Profile
         const params = new URLSearchParams(window.location.search);
         if (params.has("id")) {
             const docRef = doc(db, "profiles", params.get("id"));
@@ -95,10 +163,15 @@
                         if (url) socialLinks += `<p>${platform}: <a href="${url}" target="_blank">${url}</a></p>`;
                     }
 
-                    document.body.innerHTML = `<h2>${data.name}</h2>
-                        <p>${data.bio}</p>
-                        <p>Email: ${data.email}</p>
-                        ${socialLinks}`;
+                    document.body.innerHTML = `
+                        <div class="container">
+                            <img src="${data.profilePicURL || 'https://via.placeholder.com/100'}" width="100" height="100">
+                            <h2>${data.name}</h2>
+                            <p>${data.bio}</p>
+                            <p>Email: ${data.email}</p>
+                            ${socialLinks}
+                        </div>
+                    `;
                 } else {
                     document.body.innerHTML = "<h2>Profile Not Found</h2>";
                 }
