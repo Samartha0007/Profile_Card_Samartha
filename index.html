@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile Card</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Montserrat:wght@700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -26,16 +26,26 @@
     <button id="createProfileBtn">Create Profile</button>
 </div>
 
-<!-- Modal -->
-<div id="modal" class="modal">
+<div id="loading-modal">
     <div class="modal-content">
-        <h3 id="modal-title">Creating your web...</h3>
-        <div id="profile-url-container" style="display: none;">
+        <h3>Creating Your Web...</h3>
+    </div>
+</div>
+
+<div class="profile-card" id="profile-container" style="display: none;">
+    <div class="top-section"></div>
+    <img class="profile-image" id="profile-image" src="" alt="Profile Picture">
+    <div class="profile-details">
+        <div class="profile-name" id="profile-name"></div>
+        <div class="profile-bio" id="profile-bio"></div>
+        <div class="social-icons" id="social-icons"></div>
+        <div id="spotify-container"></div>
+        <div id="profile-url-container">
             <input type="text" id="profile-url" readonly>
-            <button onclick="copyToClipboard()">Copy</button>
-            <button id="openProfileBtn">Open Web</button>
-            <button id="shareProfileBtn">Share</button>
+            <button onclick="copyURL()">Copy</button>
         </div>
+        <button id="open-web">Open Web</button>
+        <button id="share-profile">Share</button>
     </div>
 </div>
 
@@ -76,7 +86,7 @@
         let username = name.toLowerCase().replace(/\s+/g, '');
         let count = 1;
 
-        const q = query(collection(db, "profiles"), where("username", "==", username));
+        let q = query(collection(db, "profiles"), where("username", "==", username));
         let querySnapshot = await getDocs(q);
 
         while (!querySnapshot.empty) {
@@ -97,7 +107,8 @@
             return;
         }
 
-        document.getElementById("modal").style.display = "flex";
+        document.getElementById("loading-modal").style.display = "flex";
+
         let username = await generateUniqueUsername(name);
         let imageUrl = imageFile ? await uploadImage(imageFile) : "";
 
@@ -106,30 +117,20 @@
                 name, username, imageUrl, bio
             });
 
-            const profileUrl = `${window.location.origin}/?user=${username}`;
+            const profileUrl = `${window.location.origin}?user=${username}`;
             document.getElementById("profile-url").value = profileUrl;
-            document.getElementById("modal-title").innerText = "Your Profile is Ready!";
-            document.getElementById("profile-url-container").style.display = "block";
-
-            document.getElementById("openProfileBtn").addEventListener("click", () => {
-                window.open(profileUrl, "_blank");
-            });
-
-            document.getElementById("shareProfileBtn").addEventListener("click", () => {
-                navigator.share({ title: "My Profile", url: profileUrl });
-            });
-
+            document.getElementById("loading-modal").style.display = "none";
+            document.getElementById("profile-container").style.display = "block";
         } catch (error) {
-            console.error("Error adding document: ", error);
-            alert("Failed to create profile.");
+            alert("Error creating profile!");
         }
     }
 
-    function copyToClipboard() {
-        const copyText = document.getElementById("profile-url");
-        copyText.select();
+    function copyURL() {
+        const urlField = document.getElementById("profile-url");
+        urlField.select();
         document.execCommand("copy");
-        alert("Copied to clipboard!");
+        alert("URL copied to clipboard!");
     }
 
     document.getElementById("createProfileBtn").addEventListener("click", createProfile);
@@ -138,41 +139,41 @@
 <style>
     body {
         font-family: 'Poppins', sans-serif;
-        background: linear-gradient(120deg, #eceff1, #b0bec5);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-        margin: 0;
+        background: #f5f5f5;
+        text-align: center;
     }
 
     .container {
-        background: rgba(255, 255, 255, 0.9);
-        padding: 30px;
-        border-radius: 15px;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        width: 350px;
-        max-width: 90%;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        width: 300px;
+        margin: 50px auto;
+    }
+
+    input, textarea {
+        width: 100%;
+        padding: 8px;
+        margin: 10px 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
     }
 
     button {
-        background: linear-gradient(45deg, #7e57c2, #5e35b1);
+        background: #6200ea;
         color: white;
+        padding: 10px;
         border: none;
-        padding: 12px 25px;
-        border-radius: 8px;
+        border-radius: 5px;
         cursor: pointer;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        width: 100%;
     }
 
     button:hover {
-        background: linear-gradient(45deg, #5e35b1, #4527a0);
-        transform: translateY(-3px);
+        background: #3700b3;
     }
 
-    .modal {
+    #loading-modal {
         display: none;
         position: fixed;
         top: 0;
@@ -188,14 +189,17 @@
         background: white;
         padding: 20px;
         border-radius: 10px;
-        text-align: center;
+    }
+
+    #profile-url-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     #profile-url {
-        border: none;
-        padding: 8px;
-        width: 80%;
-        text-align: center;
+        width: 200px;
+        margin-right: 10px;
     }
 </style>
 
