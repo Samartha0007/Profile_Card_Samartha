@@ -10,11 +10,8 @@
     <script src="https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/11.4.0/firebase-storage.js"></script>
     <style>
-        /* Global Styles */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         body { background: #f4f8f2; display: flex; align-items: center; justify-content: center; flex-direction: column; height: 100vh; padding: 20px; }
-
-        /* Profile Card */
         .profile-card { width: 340px; background: white; border-radius: 20px; text-align: center; box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15); position: relative; overflow: hidden; transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out; }
         .profile-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2); }
         .top-section { background: linear-gradient(135deg, #D84A65, #C13584); height: 140px; border-bottom-left-radius: 50px; border-bottom-right-radius: 50px; position: relative; }
@@ -88,10 +85,11 @@
             }
 
             try {
-                const docRef = await db.collection("profiles").add({
+                const docRef = db.collection("profiles").doc(name);
+                await docRef.set({
                     name, bio, instagram, twitter, imageUrl
                 });
-                alert(`Profile Created! Share this link: ?id=${docRef.id}`);
+                alert(`Profile Created! Share this link: ?id=${name}`);
                 location.reload();
             } catch (error) {
                 console.error("Error adding profile:", error);
