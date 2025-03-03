@@ -58,10 +58,10 @@
         const UPLOAD_PRESET = "profile_uploads";
 
         async function createProfile() {
-            const name = document.getElementById("name").value;
-            const bio = document.getElementById("bio").value;
-            const instagram = document.getElementById("instagram").value;
-            const twitter = document.getElementById("twitter").value;
+            const name = document.getElementById("name").value.trim();
+            const bio = document.getElementById("bio").value.trim();
+            const instagram = document.getElementById("instagram").value.trim();
+            const twitter = document.getElementById("twitter").value.trim();
             const imageFile = document.getElementById("imageUpload").files[0];
 
             if (!name || !bio) {
@@ -75,24 +75,23 @@
                 formData.append("file", imageFile);
                 formData.append("upload_preset", UPLOAD_PRESET);
 
-                const response = await fetch(CLOUDINARY_URL, {
-                    method: "POST",
-                    body: formData
-                });
-
-                const data = await response.json();
-                imageUrl = data.secure_url;
+                try {
+                    const response = await fetch(CLOUDINARY_URL, { method: "POST", body: formData });
+                    const data = await response.json();
+                    imageUrl = data.secure_url;
+                } catch (error) {
+                    console.error("Image upload failed:", error);
+                }
             }
 
             try {
-                const docRef = db.collection("profiles").doc(name);
-                await docRef.set({
+                await db.collection("profiles").doc(name).set({
                     name, bio, instagram, twitter, imageUrl
                 });
                 alert(`Profile Created! Share this link: ?id=${name}`);
-                location.reload();
+                window.location.href = `?id=${name}`;
             } catch (error) {
-                console.error("Error adding profile:", error);
+                console.error("Error saving profile:", error);
             }
         }
 
