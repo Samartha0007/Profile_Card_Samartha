@@ -153,7 +153,7 @@
             min-height: 100vh;
             padding: 20px;
         }
-        .container {
+        .container, .profile-card {
             background: white;
             padding: 20px;
             border-radius: 10px;
@@ -161,24 +161,20 @@
             text-align: center;
             width: 340px;
         }
-        input, textarea {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-            border: 1px solid #ddd;
+        .profile-card {
+            position: relative;
+            padding-top: 50px;
         }
-        button {
-            background: #D84A65;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        button:hover {
-            background: #C13584;
+        .profile-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            position: absolute;
+            top: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid white;
         }
         .social-icons a {
             font-size: 24px;
