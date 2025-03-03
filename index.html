@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile Card</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -23,7 +23,9 @@
 
     <div class="profile-card" id="profile-container" style="display: none;">
         <div class="top-section"></div>
-        <img class="profile-image" id="profile-image" src="" alt="Profile Picture">
+        <div class="image-wrapper">
+            <img class="profile-image" id="profile-image" src="" alt="Profile Picture">
+        </div>
         <div class="profile-details">
             <div class="profile-name" id="profile-name"></div>
             <div class="profile-bio" id="profile-bio"></div>
@@ -34,7 +36,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDoc, doc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBb3x_zD9JaFwL9PhmngCNZlS2fOh6MBa4",
@@ -95,7 +97,11 @@
             }
 
             let username = await generateUniqueUsername(name);
-            let imageUrl = imageFile ? await uploadImage(imageFile) : "";
+
+            let imageUrl = "";
+            if (imageFile) {
+                imageUrl = await uploadImage(imageFile);
+            }
 
             try {
                 await addDoc(collection(db, "profiles"), {
@@ -124,7 +130,6 @@
                     const profile = querySnapshot.docs[0].data();
                     document.getElementById("profile-name").innerText = profile.name;
                     document.getElementById("profile-bio").innerText = profile.bio;
-
                     if (profile.imageUrl) {
                         document.getElementById("profile-image").src = profile.imageUrl;
                     }
@@ -134,14 +139,6 @@
                     if (profile.snapchat) socialHTML += `<a href="https://snapchat.com/add/${profile.snapchat}" target="_blank"><i class="fab fa-snapchat"></i></a>`;
                     if (profile.whatsapp) socialHTML += `<a href="https://wa.me/${profile.whatsapp}" target="_blank"><i class="fab fa-whatsapp"></i></a>`;
                     document.getElementById("social-icons").innerHTML = socialHTML;
-
-                    if (profile.spotify) {
-                        const spotifyEmbed = `<iframe src="https://open.spotify.com/embed/track/${profile.spotify.split('/').pop()}" width="300" height="80" frameborder="0" allow="encrypted-media"></iframe>`;
-                        document.getElementById("spotify-container").innerHTML = spotifyEmbed;
-                    }
-                } else {
-                    alert("Profile not found!");
-                    window.location.href = "/";
                 }
             }
         }
@@ -161,9 +158,16 @@
             text-align: center;
         }
 
-        .profile-card {
-            position: relative;
+        .profile-name {
+            font-size: 28px;
+            font-family: 'Playfair Display', serif;
+            font-weight: bold;
             animation: fadeIn 1s ease-in-out;
+        }
+
+        .image-wrapper {
+            position: relative;
+            display: inline-block;
         }
 
         .profile-image {
@@ -171,23 +175,12 @@
             height: 130px;
             border-radius: 50%;
             object-fit: cover;
-            transition: transform 0.3s ease-in-out;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s;
         }
 
         .profile-image:hover {
             transform: scale(1.1);
-        }
-
-        .social-icons a {
-            font-size: 24px;
-            margin: 10px;
-            color: black;
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .social-icons a:hover {
-            transform: translateY(-5px);
-            color: #444;
         }
 
         @keyframes fadeIn {
