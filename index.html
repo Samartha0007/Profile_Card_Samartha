@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/11.4.0/firebase-storage.js"></script>
+    <script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         body { background: #f4f8f2; display: flex; align-items: center; justify-content: center; flex-direction: column; height: 100vh; padding: 20px; }
@@ -32,7 +32,8 @@
     <textarea id="bio" placeholder="Short Bio" required></textarea><br>
     <input type="url" id="instagram" placeholder="Instagram URL"><br>
     <input type="url" id="twitter" placeholder="Twitter URL"><br>
-    <input type="file" id="imageUpload" accept="image/*"><br>
+    <input type="hidden" id="imageUrl">
+    <input type="file" id="imageUpload" data-public-key="cb094328b303daf58bac"><br>
     <button onclick="createProfile()">Create Profile</button>
 
     <h2>Profile</h2>
@@ -53,35 +54,24 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        // Cloudinary Upload Config
-        const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/dw1qrki2c/upload";
-        const UPLOAD_PRESET = "profile_uploads";
+        // Uploadcare Widget
+        const widget = uploadcare.Widget("#imageUpload");
+        widget.onChange(function(file) {
+            file.done(function(fileInfo) {
+                document.getElementById("imageUrl").value = fileInfo.cdnUrl;
+            });
+        });
 
         async function createProfile() {
             const name = document.getElementById("name").value.trim();
             const bio = document.getElementById("bio").value.trim();
             const instagram = document.getElementById("instagram").value.trim();
             const twitter = document.getElementById("twitter").value.trim();
-            const imageFile = document.getElementById("imageUpload").files[0];
+            const imageUrl = document.getElementById("imageUrl").value || "https://via.placeholder.com/100";
 
             if (!name || !bio) {
                 alert("Name and Bio are required!");
                 return;
-            }
-
-            let imageUrl = "https://via.placeholder.com/100"; // Default image
-            if (imageFile) {
-                const formData = new FormData();
-                formData.append("file", imageFile);
-                formData.append("upload_preset", UPLOAD_PRESET);
-
-                try {
-                    const response = await fetch(CLOUDINARY_URL, { method: "POST", body: formData });
-                    const data = await response.json();
-                    imageUrl = data.secure_url;
-                } catch (error) {
-                    console.error("Image upload failed:", error);
-                }
             }
 
             try {
