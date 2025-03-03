@@ -165,7 +165,7 @@
 </script>  
 
 <style>  
-      /* Global Styles */
+   /* Global Styles */
 body {  
     font-family: 'Poppins', sans-serif;  
     background: linear-gradient(120deg, #eceff1, #b0bec5);  
@@ -180,43 +180,26 @@ body {
 /* Profile Card */
 .profile-card {  
     background: white;  
-    padding: 20px;  
+    padding: 30px;  
     border-radius: 10px;  
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);  
-    text-align: center;  
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);  
     position: relative;  
-    width: 360px;  
     animation: fadeIn 1s ease-in-out;  
 }  
 
 /* Profile Image with Neon Glow */
 .profile-image {  
-    width: 130px;  
-    height: 130px;  
-    border-radius: 50%;  
-    object-fit: cover;  
-    border: 5px solid white;  
-    animation: glow 3s infinite alternate;  
-    transition: transform 0.3s ease-in-out;  
-}  
-
-.profile-image:hover {  
-    transform: scale(1.1);  
-}  
-
-/* Neon Glow Animation */
-@keyframes glow {  
-    0% {  
-        box-shadow: 0 0 10px #ff00ff,  
-                    0 0 20px #ff00ff,  
-                    0 0 30px #ff00ff;  
+        width: 130px;  
+        height: 130px;  
+        border-radius: 50%;  
+        border: 5px solid white;  
+        animation: glow 3s infinite alternate;  
     }  
-    100% {  
-        box-shadow: 0 0 15px #00ffff,  
-                    0 0 25px #00ffff,  
-                    0 0 35px #00ffff;  
+    @keyframes glow {  
+        0% { box-shadow: 0 0 10px #ff00ff; }  
+        100% { box-shadow: 0 0 30px #00ffff; }  
     }  
-}  
+
 
 /* Social Icons */
 .social-icons {  
@@ -236,17 +219,13 @@ body {
     color: #444;  
 }  
 
+/* Neon Glow Animation */
+
+
 /* Fade-in Animation */
 @keyframes fadeIn {  
     from { opacity: 0; }  
     to { opacity: 1; }  
-}  
-
-/* Profile Name */
-.profile-name {  
-    font-size: 24px;  
-    font-weight: 600;  
-    animation: fadeIn 2s ease-in-out;  
 }
 </style>
 
