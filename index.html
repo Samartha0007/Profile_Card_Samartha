@@ -1,181 +1,148 @@
-<!DOCTYPE html>  
-<html lang="en">  
-<head>  
-    <meta charset="UTF-8">  
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-    <title>Profile Card</title>  
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">  
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Montserrat:wght@700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">  
-</head>  
-<body>  
-<div class="container" id="create-container">  
-    <h2>Create Your Profile</h2>  
-    <input type="text" id="name" placeholder="Name" required><br>  
-    <input type="file" id="profileImage" accept="image/*"><br>  
-    <input type="text" id="instagram" placeholder="Instagram ID"><br>  
-    <input type="text" id="snapchat" placeholder="Snapchat ID"><br>  
-    <input type="text" id="twitter" placeholder="Twitter/X Username"><br>  
-    <input type="text" id="facebook" placeholder="Facebook Username"><br>  
-    <input type="text" id="tiktok" placeholder="TikTok Username"><br>  
-    <input type="text" id="linkedin" placeholder="LinkedIn Username"><br>  
-    <input type="text" id="whatsapp" placeholder="WhatsApp Number"><br>  
-    <input type="text" id="telegram" placeholder="Telegram Username"><br>  
-    <input type="url" id="spotify" placeholder="Spotify Song URL"><br>  
-    <textarea id="bio" placeholder="Short Bio" required></textarea><br>  
-    <button id="createProfileBtn">Create Profile</button>  
-</div>  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Card</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Montserrat:wght@700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="container" id="create-container">
+    <h2>Create Your Profile</h2>
+    <input type="text" id="name" placeholder="Name" required><br>
+    <input type="file" id="profileImage" accept="image/*"><br>
+    <input type="text" id="instagram" placeholder="Instagram ID"><br>
+    <input type="text" id="snapchat" placeholder="Snapchat ID"><br>
+    <input type="text" id="twitter" placeholder="Twitter/X Username"><br>
+    <input type="text" id="facebook" placeholder="Facebook Username"><br>
+    <input type="text" id="tiktok" placeholder="TikTok Username"><br>
+    <input type="text" id="linkedin" placeholder="LinkedIn Username"><br>
+    <input type="text" id="whatsapp" placeholder="WhatsApp Number"><br>
+    <input type="text" id="telegram" placeholder="Telegram Username"><br>
+    <input type="url" id="spotify" placeholder="Spotify Song URL"><br>
+    <textarea id="bio" placeholder="Short Bio" required></textarea><br>
+    <button id="createProfileBtn">Create Profile</button>
+</div>
 
-<div class="profile-card" id="profile-container" style="display: none;">  
-    <div class="top-section"></div>  
-    <img class="profile-image" id="profile-image" src="" alt="Profile Picture">  
-    <div class="profile-details">  
-        <div class="profile-name" id="profile-name"></div>  
-        <div class="profile-bio" id="profile-bio"></div>  
-        <div class="social-icons" id="social-icons"></div>  
-        <div id="spotify-container"></div>  
-    </div>  
-</div>  
+<!-- Modal for Profile Creation -->
+<div id="profileModal" class="modal">
+    <div class="modal-content">
+        <h3 id="modalText">Creating Your Profile...</h3>
+        <div id="loading" class="loader"></div>
+        <p id="profileLink" style="display: none;"></p>
+        <button id="openProfileBtn" style="display: none;">Open Profile</button>
+        <button id="shareProfileBtn" style="display: none;">Share Profile</button>
+    </div>
+</div>
 
-<script type="module">  
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";  
-    import { getFirestore, collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";  
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
 
-    const firebaseConfig = {  
-        apiKey: "AIzaSyBb3x_zD9JaFwL9PhmngCNZlS2fOh6MBa4",  
-        authDomain: "newai-52371.firebaseapp.com",  
-        projectId: "newai-52371",  
-        storageBucket: "newai-52371.appspot.com",  
-        messagingSenderId: "480586908639",  
-        appId: "1:480586908639:web:f4645a852c4df724c6fa6a"  
-    };  
+    const firebaseConfig = {
+        apiKey: "AIzaSyBb3x_zD9JaFwL9PhmngCNZlS2fOh6MBa4",
+        authDomain: "newai-52371.firebaseapp.com",
+        projectId: "newai-52371",
+        storageBucket: "newai-52371.appspot.com",
+        messagingSenderId: "480586908639",
+        appId: "1:480586908639:web:f4645a852c4df724c6fa6a"
+    };
 
-    const app = initializeApp(firebaseConfig);  
-    const db = getFirestore(app);  
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-    async function uploadImage(file) {  
-        const cloudName = "dw1qrki2c";  
-        const uploadPreset = "profile_uploads";  
+    async function uploadImage(file) {
+        const cloudName = "dw1qrki2c";
+        const uploadPreset = "profile_uploads";
 
-        const formData = new FormData();  
-        formData.append("file", file);  
-        formData.append("upload_preset", uploadPreset);  
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", uploadPreset);
 
-        const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {  
-            method: "POST",  
-            body: formData  
-        });  
+        const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+            method: "POST",
+            body: formData
+        });
 
-        const data = await response.json();  
-        return data.secure_url;  
-    }  
+        const data = await response.json();
+        return data.secure_url;
+    }
 
-    async function generateUniqueUsername(name) {  
-        let username = name.toLowerCase().replace(/\s+/g, '');  
-        let count = 1;  
+    async function generateUniqueUsername(name) {
+        let username = name.toLowerCase().replace(/\s+/g, '');
+        let count = 1;
 
-        const q = query(collection(db, "profiles"), where("username", "==", username));  
-        let querySnapshot = await getDocs(q);  
+        const q = query(collection(db, "profiles"), where("username", "==", username));
+        let querySnapshot = await getDocs(q);
 
-        while (!querySnapshot.empty) {  
-            username = name.toLowerCase().replace(/\s+/g, '') + count;  
-            querySnapshot = await getDocs(query(collection(db, "profiles"), where("username", "==", username)));  
-            count++;  
-        }  
-        return username;  
-    }  
+        while (!querySnapshot.empty) {
+            username = name.toLowerCase().replace(/\s+/g, '') + count;
+            querySnapshot = await getDocs(query(collection(db, "profiles"), where("username", "==", username)));
+            count++;
+        }
+        return username;
+    }
 
-    async function createProfile() {  
-        const name = document.getElementById("name").value;  
-        const imageFile = document.getElementById("profileImage").files[0];  
-        const instagram = document.getElementById("instagram").value;  
-        const snapchat = document.getElementById("snapchat").value;  
-        const twitter = document.getElementById("twitter").value;  
-        const facebook = document.getElementById("facebook").value;  
-        const tiktok = document.getElementById("tiktok").value;  
-        const linkedin = document.getElementById("linkedin").value;  
-        const whatsapp = document.getElementById("whatsapp").value;  
-        const telegram = document.getElementById("telegram").value;  
-        const spotify = document.getElementById("spotify").value;  
-        const bio = document.getElementById("bio").value;  
+    async function createProfile() {
+        const name = document.getElementById("name").value;
+        const imageFile = document.getElementById("profileImage").files[0];
 
-        if (!name) {  
-            alert("Name is required!");  
-            return;  
-        }  
+        if (!name) {
+            alert("Name is required!");
+            return;
+        }
 
-        let username = await generateUniqueUsername(name);  
-        let imageUrl = imageFile ? await uploadImage(imageFile) : "";  
+        let modal = document.getElementById("profileModal");
+        modal.style.display = "block";
 
-        try {  
-            await addDoc(collection(db, "profiles"), {  
-                name, username, imageUrl, instagram, snapchat, twitter, facebook, tiktok, linkedin, whatsapp, telegram, spotify, bio  
-            });  
+        let username = await generateUniqueUsername(name);
+        let imageUrl = imageFile ? await uploadImage(imageFile) : "";
 
-            window.location.href = "?user=" + username;  
-        } catch (error) {  
-            console.error("Error adding document: ", error);  
-            alert("Failed to create profile. Check Firebase rules!");  
-        }  
-    }  
+        try {
+            await addDoc(collection(db, "profiles"), { name, username, imageUrl });
 
-    async function loadProfile() {  
-        const urlParams = new URLSearchParams(window.location.search);  
-        const username = urlParams.get("user");  
+            let profileUrl = window.location.origin + "?user=" + username;
+            document.getElementById("modalText").innerText = "Profile Created Successfully!";
+            document.getElementById("loading").style.display = "none";
 
-        if (username) {  
-            document.getElementById("profile-container").style.display = "block";  
-            document.getElementById("create-container").style.display = "none";  
+            let profileLinkElem = document.getElementById("profileLink");
+            profileLinkElem.style.display = "block";
+            profileLinkElem.innerHTML = `<a href="${profileUrl}" target="_blank">${profileUrl}</a>`;
 
-            const q = query(collection(db, "profiles"), where("username", "==", username));  
-            const querySnapshot = await getDocs(q);  
+            document.getElementById("openProfileBtn").style.display = "inline-block";
+            document.getElementById("shareProfileBtn").style.display = "inline-block";
 
-            if (!querySnapshot.empty) {  
-                const profile = querySnapshot.docs[0].data();  
-                document.getElementById("profile-name").innerText = profile.name;  
-                document.getElementById("profile-bio").innerText = profile.bio;  
+            document.getElementById("openProfileBtn").addEventListener("click", () => {
+                window.open(profileUrl, "_blank");
+            });
 
-                if (profile.imageUrl) {  
-                    document.getElementById("profile-image").src = profile.imageUrl;  
-                }  
+            document.getElementById("shareProfileBtn").addEventListener("click", () => {
+                navigator.clipboard.writeText(profileUrl);
+                alert("Profile link copied to clipboard!");
+            });
 
-                let socialHTML = "";  
-                if (profile.instagram) socialHTML += `<a href="https://instagram.com/${profile.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>`;  
-                if (profile.snapchat) socialHTML += `<a href="https://snapchat.com/add/${profile.snapchat}" target="_blank"><i class="fab fa-snapchat"></i></a>`;  
-                if (profile.twitter) socialHTML += `<a href="https://twitter.com/${profile.twitter}" target="_blank"><i class="fab fa-twitter"></i></a>`;  
-                if (profile.facebook) socialHTML += `<a href="https://facebook.com/${profile.facebook}" target="_blank"><i class="fab fa-facebook"></i></a>`;  
-                if (profile.tiktok) socialHTML += `<a href="https://tiktok.com/@${profile.tiktok}" target="_blank"><i class="fab fa-tiktok"></i></a>`;  
-                if (profile.linkedin) socialHTML += `<a href="https://linkedin.com/in/${profile.linkedin}" target="_blank"><i class="fab fa-linkedin"></i></a>`;  
-                if (profile.whatsapp) socialHTML += `<a href="https://wa.me/${profile.whatsapp}" target="_blank"><i class="fab fa-whatsapp"></i></a>`;  
-                if (profile.telegram) socialHTML += `<a href="https://t.me/${profile.telegram}" target="_blank"><i class="fab fa-telegram"></i></a>`;  
-                document.getElementById("social-icons").innerHTML = socialHTML;  
+        } catch (error) {
+            console.error("Error adding document: ", error);
+            alert("Failed to create profile. Check Firebase rules!");
+            modal.style.display = "none";
+        }
+    }
 
-                if (profile.spotify) {  
-                    const spotifyEmbed = `<iframe src="https://open.spotify.com/embed/track/${profile.spotify.split('/').pop()}" width="300" height="80" frameborder="0" allow="encrypted-media"></iframe>`;  
-                    document.getElementById("spotify-container").innerHTML = spotifyEmbed;  
-                }  
-            } else {  
-                alert("Profile not found!");  
-                window.location.href = "/";  
-            }  
-        }  
-    }  
+    document.getElementById("createProfileBtn").addEventListener("click", createProfile);
+</script>
 
-    document.getElementById("createProfileBtn").addEventListener("click", createProfile);  
-    window.onload = loadProfile;  
-</script>  
-
-<style>  
-    body {  
-        font-family: 'Poppins', sans-serif;  
-        background: linear-gradient(120deg, #eceff1, #b0bec5);  
-        display: flex;  
-        align-items: center;  
-        justify-content: center;  
-        height: 100vh;  
-        text-align: center;  
+<style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        text-align: center;
         margin: 0;
         padding: 0;
-    }  
+    }
 
     .container {
         background: rgba(255, 255, 255, 0.9);
@@ -184,96 +151,43 @@
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         width: 350px;
         max-width: 90%;
-        animation: fadeIn 1s ease-in-out;
-        margin: 20px auto;
     }
 
-    .container h2 {
-        color: #333;
-        margin-bottom: 25px;
-        font-family: 'Montserrat', sans-serif;
-        font-size: 28px;
-    }
-
-    input, textarea {
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
         width: 100%;
-        padding: 12px;
-margin-top: -20px;
-        margin-bottom: 20px;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        font-family: 'Poppins', sans-serif;
-        box-sizing: border-box;
-        transition: all 0.3s ease;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
     }
 
-    input:focus, textarea:focus {
-        border-color: #7e57c2;
-        box-shadow: 0 0 8px rgba(126, 87, 194, 0.4);
-        outline: none;
+    .modal-content {
+        background: white;
+        padding: 20px;
+        margin: 15% auto;
+        width: 80%;
+        max-width: 400px;
+        border-radius: 10px;
+        text-align: center;
     }
 
-    textarea {
-        min-height: 100px;
-        resize: vertical;
+    .loader {
+        border: 6px solid #ccc;
+        border-top: 6px solid #7e57c2;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        margin: 20px auto;
+        animation: spin 1s linear infinite;
     }
 
-    button {
-        background: linear-gradient(45deg, #7e57c2, #5e35b1);
-        color: white;
-        border: none;
-        padding: 12px 25px;
-        border-radius: 8px;
-        cursor: pointer;
-        font-family: 'Montserrat', sans-serif;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        margin-top: 10px;
-        width: 70%;
-    }
-
-    button:hover {
-        background: linear-gradient(45deg, #5e35b1, #4527a0);
-        transform: translateY(-3px);
-        box-shadow: 0 5px 15px rgba(94, 53, 177, 0.3);
-    }
-
-      
-
-    .profile-card {  
-        position: relative;  
-        animation: fadeIn 1s ease-in-out;  
-    }  
-
-    .profile-image {  
-        width: 130px;  
-        height: 130px;  
-        border-radius: 50%;  
-        object-fit: cover;  
-        transition: transform 0.3s ease-in-out;  
-    }  
-
-    .profile-image:hover {  
-        transform: scale(1.1);  
-    }  
-
-    .social-icons a {  
-        font-size: 24px;  
-        margin: 10px;  
-        color: black;  
-        transition: transform 0.3s ease-in-out;  
-    }  
-
-    .social-icons a:hover {  
-        transform: translateY(-5px);  
-        color: #444;  
-    }  
-
-    @keyframes fadeIn {  
-        from { opacity: 0; }  
-        to { opacity: 1; }  
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
     }
 </style>
-
-</body>  
+</body>
 </html>
