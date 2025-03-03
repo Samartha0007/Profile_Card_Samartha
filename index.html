@@ -6,8 +6,32 @@
     <title>Profile Card</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container" id="create-container">
+        <h2>Create Your Profile</h2>
+        <input type="text" id="name" placeholder="Name" required><br>
+        <input type="text" id="instagram" placeholder="Instagram ID"><br>
+        <input type="text" id="snapchat" placeholder="Snapchat ID"><br>
+        <input type="text" id="whatsapp" placeholder="WhatsApp Number"><br>
+        <input type="url" id="spotify" placeholder="Spotify Song URL"><br>
+        <textarea id="bio" placeholder="Short Bio" required></textarea><br>
+        <button id="createProfileBtn">Create Profile</button>
+    </div>
+
+    <div class="profile-card" id="profile-container" style="display: none;">
+        <div class="top-section"></div>
+        <img class="profile-image" id="profile-image" src="" alt="Profile Picture">
+        <div class="profile-details">
+            <div class="profile-name" id="profile-name"></div>
+            <div class="profile-bio" id="profile-bio"></div>
+            <div class="social-icons" id="social-icons"></div>
+            <div id="spotify-container"></div>
+        </div>
+    </div>
+
     <script type="module">
-        // Firebase SDK
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
         import { getFirestore, collection, addDoc, getDoc, doc } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
 
@@ -36,11 +60,16 @@
                 return;
             }
 
-            const docRef = await addDoc(collection(db, "profiles"), {
-                name, instagram, snapchat, whatsapp, spotify, bio
-            });
+            try {
+                const docRef = await addDoc(collection(db, "profiles"), {
+                    name, instagram, snapchat, whatsapp, spotify, bio
+                });
 
-            window.location.href = "?id=" + docRef.id;
+                window.location.href = "?id=" + docRef.id;
+            } catch (error) {
+                console.error("Error adding document: ", error);
+                alert("Failed to create profile. Check Firebase rules!");
+            }
         }
 
         async function loadProfile() {
@@ -81,8 +110,10 @@
             }
         }
 
+        document.getElementById("createProfileBtn").addEventListener("click", createProfile);
         window.onload = loadProfile;
     </script>
+
     <style>
         * {
             margin: 0;
@@ -126,88 +157,6 @@
         button:hover {
             background: #C13584;
         }
-        .profile-card {
-            width: 340px;
-            background: white;
-            border-radius: 20px;
-            text-align: center;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-            padding: 20px;
-            transition: transform 0.3s ease-in-out;
-        }
-        .profile-card:hover {
-            transform: scale(1.05);
-        }
-        .top-section {
-            background: linear-gradient(135deg, #D84A65, #C13584);
-            height: 140px;
-            border-bottom-left-radius: 50px;
-            border-bottom-right-radius: 50px;
-            position: relative;
-        }
-        .profile-image {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            border: 5px solid white;
-            position: absolute;
-            top: 70px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        .profile-details {
-            padding: 60px 20px 20px;
-        }
-        .profile-name {
-            font-size: 18px;
-            font-weight: 600;
-            color: #333;
-        }
-        .profile-bio {
-            font-size: 14px;
-            color: #777;
-            margin-top: 5px;
-        }
-        .social-icons {
-            margin-top: 15px;
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-        }
-        .social-icons a {
-            font-size: 18px;
-            color: #444;
-            transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
-        }
-        .social-icons a:hover {
-            color: #D84A65;
-            transform: scale(1.2);
-        }
     </style>
-</head>
-<body>
-
-    <div class="container" id="create-container">
-        <h2>Create Your Profile</h2>
-        <input type="text" id="name" placeholder="Name" required><br>
-        <input type="text" id="instagram" placeholder="Instagram ID"><br>
-        <input type="text" id="snapchat" placeholder="Snapchat ID"><br>
-        <input type="text" id="whatsapp" placeholder="WhatsApp ID"><br>
-        <input type="url" id="spotify" placeholder="Spotify Song URL"><br>
-        <textarea id="bio" placeholder="Short Bio" required></textarea><br>
-        <button onclick="createProfile()">Create Profile</button>
-    </div>
-
-    <div class="profile-card" id="profile-container" style="display: none;">
-        <div class="top-section"></div>
-        <img class="profile-image" id="profile-image" src="" alt="Profile Picture">
-        <div class="profile-details">
-            <div class="profile-name" id="profile-name"></div>
-            <div class="profile-bio" id="profile-bio"></div>
-            <div class="social-icons" id="social-icons"></div>
-            <div id="spotify-container"></div>
-        </div>
-    </div>
-
 </body>
 </html>
