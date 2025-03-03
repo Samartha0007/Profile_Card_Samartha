@@ -237,38 +237,18 @@
         box-shadow: 0 5px 15px rgba(94, 53, 177, 0.3);
     }
 
+      
+
     .profile-card {  
-        background: rgba(255, 255, 255, 0.9);
-        border-radius: 15px;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        width: 350px;
         position: relative;  
         animation: fadeIn 1s ease-in-out;  
-        padding: 30px 20px;
-        max-width: 90%;
     }  
-
-    .top-section {  
-        height: 80px;
-        background: linear-gradient(120deg, #7e57c2, #5e35b1);
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        border-top-left-radius: 15px;
-        border-top-right-radius: 15px;
-    }
 
     .profile-image {  
         width: 130px;  
         height: 130px;  
         border-radius: 50%;  
         object-fit: cover;  
-        border: 5px solid white;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        margin-top: 15px;
-        position: relative;
-        z-index: 2;
         transition: transform 0.3s ease-in-out;  
     }  
 
@@ -276,52 +256,22 @@
         transform: scale(1.1);  
     }  
 
-    .profile-details {
-        margin-top: 15px;
-    }
-
-    .profile-name {  
-        font-family: 'Dancing Script', cursive;
-        font-size: 38px;
-        font-weight: 700;
-        color: #333;
-        margin: 15px 0 5px;
-    }  
-
-    .profile-bio {
-        color: #666;
-        margin: 10px 0 20px;
-        line-height: 1.6;
-        padding: 0 15px;
-    }
-
-    .social-icons {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        margin: 15px 0;
-    }
-
     .social-icons a {  
         font-size: 24px;  
         margin: 10px;  
-        color: #5e35b1;  
-        transition: all 0.3s ease-in-out;  
+        color: black;  
+        transition: transform 0.3s ease-in-out;  
     }  
 
     .social-icons a:hover {  
         transform: translateY(-5px);  
-        color: #7e57c2;  
+        color: #444;  
     }  
-
-    #spotify-container {
-        margin-top: 15px;
-    }
 
     @keyframes fadeIn {  
-        from { opacity: 0; transform: translateY(20px); }  
-        to { opacity: 1; transform: translateY(0); }  
-    }  
+        from { opacity: 0; }  
+        to { opacity: 1; }  
+    }
 </style>
 
 </body>  
