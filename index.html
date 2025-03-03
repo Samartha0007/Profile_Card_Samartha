@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Card Service</title>
+    <title>Profile Card</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
         body {
@@ -16,16 +16,66 @@
             flex-direction: column;
             align-items: center;
         }
-        .container {
+        .profile-container {
+            width: 350px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            text-align: center;
+        }
+        .profile-header {
+            background: linear-gradient(135deg, #ff7eb3, #ff758c);
+            padding: 50px 0;
+            position: relative;
+            border-bottom-left-radius: 50% 20px;
+            border-bottom-right-radius: 50% 20px;
+        }
+        .profile-header img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 4px solid white;
+            position: absolute;
+            bottom: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .profile-content {
+            padding: 60px 20px 20px;
+        }
+        .profile-name {
+            font-size: 22px;
+            font-weight: bold;
+        }
+        .profile-bio {
+            font-size: 14px;
+            color: #555;
+            margin-top: 5px;
+        }
+        .social-icons {
+            margin-top: 10px;
+        }
+        .social-icons a {
+            font-size: 20px;
+            margin: 0 10px;
+            color: #007bff;
+            text-decoration: none;
+        }
+        .social-icons a:hover {
+            color: #0056b3;
+        }
+        .spotify-widget {
+            margin-top: 15px;
+        }
+        .profile-form {
             background: white;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             width: 100%;
             max-width: 400px;
-        }
-        h2 {
-            text-align: center;
+            margin-bottom: 20px;
         }
         input, textarea {
             width: 100%;
@@ -49,42 +99,11 @@
         button:hover {
             background: #0056b3;
         }
-        .profile-card {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            margin: 10px 0;
-        }
-        .profile-name {
-            font-size: 24px;
-            font-weight: bold;
-        }
-        .profile-bio {
-            font-size: 14px;
-            color: #555;
-            margin-top: 5px;
-        }
-        .social-icons {
-            margin-top: 10px;
-        }
-        .social-icons a {
-            font-size: 18px;
-            margin: 0 8px;
-            text-decoration: none;
-            color: #007bff;
-        }
-        .social-icons a:hover {
-            color: #0056b3;
-        }
-        .spotify-widget {
-            margin-top: 10px;
-        }
     </style>
 </head>
 <body>
-    <div class="container">
+
+    <div class="profile-form">
         <h2>Create Profile</h2>
         <input type="text" id="name" placeholder="Full Name" required>
         <textarea id="bio" placeholder="Short Bio" required></textarea>
@@ -154,16 +173,20 @@
             querySnapshot.forEach((doc) => {
                 const data = doc.data();
                 profilesHTML += `
-                    <div class="profile-card">
-                        <div class="profile-name">${data.name}</div>
-                        <div class="profile-bio">${data.bio}</div>
-                        <div class="social-icons">
-                            ${data.socialProfiles.instagram ? `<a href="${data.socialProfiles.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>` : ''}
-                            ${data.socialProfiles.snapchat ? `<a href="${data.socialProfiles.snapchat}" target="_blank"><i class="fab fa-snapchat"></i></a>` : ''}
-                            ${data.socialProfiles.whatsapp ? `<a href="${data.socialProfiles.whatsapp}" target="_blank"><i class="fab fa-whatsapp"></i></a>` : ''}
+                    <div class="profile-container">
+                        <div class="profile-header">
+                            <img src="https://via.placeholder.com/100" alt="Profile Picture">
                         </div>
-                        ${data.spotify ? `<iframe class="spotify-widget" src="https://open.spotify.com/embed/track/${getSpotifyID(data.spotify)}" width="100%" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>` : ''}
-                        <a href="?id=${doc.id}">View Profile</a>
+                        <div class="profile-content">
+                            <div class="profile-name">${data.name}</div>
+                            <div class="profile-bio">${data.bio}</div>
+                            <div class="social-icons">
+                                ${data.socialProfiles.instagram ? `<a href="${data.socialProfiles.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>` : ''}
+                                ${data.socialProfiles.snapchat ? `<a href="${data.socialProfiles.snapchat}" target="_blank"><i class="fab fa-snapchat"></i></a>` : ''}
+                                ${data.socialProfiles.whatsapp ? `<a href="${data.socialProfiles.whatsapp}" target="_blank"><i class="fab fa-whatsapp"></i></a>` : ''}
+                            </div>
+                            ${data.spotify ? `<iframe class="spotify-widget" src="https://open.spotify.com/embed/track/${getSpotifyID(data.spotify)}" width="100%" height="80"></iframe>` : ''}
+                        </div>
                     </div>
                 `;
             });
@@ -174,31 +197,8 @@
             return url.split("track/")[1]?.split("?")[0] || "";
         }
 
-        const params = new URLSearchParams(window.location.search);
-        if (params.has("id")) {
-            const docRef = doc(db, "profiles", params.get("id"));
-            getDoc(docRef).then((docSnap) => {
-                if (docSnap.exists()) {
-                    const data = docSnap.data();
-                    document.body.innerHTML = `
-                        <div class="container">
-                            <div class="profile-name">${data.name}</div>
-                            <div class="profile-bio">${data.bio}</div>
-                            <div class="social-icons">
-                                ${data.socialProfiles.instagram ? `<a href="${data.socialProfiles.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>` : ''}
-                                ${data.socialProfiles.snapchat ? `<a href="${data.socialProfiles.snapchat}" target="_blank"><i class="fab fa-snapchat"></i></a>` : ''}
-                                ${data.socialProfiles.whatsapp ? `<a href="${data.socialProfiles.whatsapp}" target="_blank"><i class="fab fa-whatsapp"></i></a>` : ''}
-                            </div>
-                            ${data.spotify ? `<iframe class="spotify-widget" src="https://open.spotify.com/embed/track/${getSpotifyID(data.spotify)}" width="100%" height="80"></iframe>` : ''}
-                        </div>
-                    `;
-                } else {
-                    document.body.innerHTML = "<h2>Profile Not Found</h2>";
-                }
-            });
-        } else {
-            loadProfiles();
-        }
+        loadProfiles();
     </script>
+
 </body>
 </html>
