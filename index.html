@@ -3,61 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Card Service</title>
+    <title>Profile Card</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <style>
-        /* Global Styles */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body { background: #f4f8f2; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
-
-        /* Profile Card */
-        .profile-card { width: 340px; background: white; border-radius: 20px; text-align: center; box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15); position: relative; overflow: hidden; transition: 0.4s ease-in-out; }
-        .profile-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2); }
-
-        /* Top Section */
-        .top-section { background: linear-gradient(135deg, #D84A65, #C13584); height: 140px; border-bottom-left-radius: 50px; border-bottom-right-radius: 50px; position: relative; }
-
-        /* Profile Image */
-        .profile-image { width: 100px; height: 100px; border-radius: 50%; border: 5px solid white; position: absolute; top: 70px; left: 50%; transform: translateX(-50%); transition: 0.3s ease-in-out; }
-        .profile-image:hover { transform: translateX(-50%) scale(1.1); }
-
-        /* Profile Details */
-        .profile-details { padding: 60px 20px 20px; }
-        .profile-name { font-size: 18px; font-weight: 600; color: #333; }
-        .profile-bio { font-size: 14px; color: #777; margin-top: 5px; }
-
-        /* Social Icons */
-        .social-icons { margin-top: 15px; display: flex; justify-content: center; gap: 15px; }
-        .social-icons a { font-size: 18px; color: #444; transition: 0.3s ease-in-out; }
-        .social-icons a:hover { color: #D84A65; transform: scale(1.2); }
-
-        /* Spotify Widget */
-        .spotify-widget { margin-top: 15px; width: 100%; }
-
-        /* Responsive Design */
-        @media (max-width: 400px) { .profile-card { width: 90%; } }
-    </style>
 </head>
 <body>
 
-    <div class="profile-card">
+    <div class="container" id="create-container">
+        <h2>Create Your Profile</h2>
+        <input type="text" id="name" placeholder="Name" required><br>
+        <input type="text" id="instagram" placeholder="Instagram ID"><br>
+        <input type="text" id="snapchat" placeholder="Snapchat ID"><br>
+        <input type="text" id="whatsapp" placeholder="WhatsApp Number"><br>
+        <input type="url" id="spotify" placeholder="Spotify Song URL"><br>
+        <textarea id="bio" placeholder="Short Bio" required></textarea><br>
+        <button id="createProfileBtn">Create Profile</button>
+    </div>
+
+    <div class="profile-card" id="profile-container" style="display: none;">
         <div class="top-section"></div>
-        <img class="profile-image" id="profileImage" src="https://via.placeholder.com/100" alt="Profile Picture">
+        <img class="profile-image" id="profile-image" src="" alt="Profile Picture">
         <div class="profile-details">
-            <div class="profile-name" id="profileName">User Name</div>
-            <div class="profile-bio" id="profileBio">Short Bio</div>
-            <div class="social-icons" id="socialLinks"></div>
-            <div class="spotify-widget" id="spotifyEmbed"></div>
+            <div class="profile-name" id="profile-name"></div>
+            <div class="profile-bio" id="profile-bio"></div>
+            <div class="social-icons" id="social-icons"></div>
+            <div id="spotify-container"></div>
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
-        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
-        import { getStorage, ref, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-storage.js";
+        import { getFirestore, collection, addDoc, getDoc, doc } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
 
-        // Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyBb3x_zD9JaFwL9PhmngCNZlS2fOh6MBa4",
             authDomain: "newai-52371.firebaseapp.com",
@@ -67,55 +44,119 @@
             appId: "1:480586908639:web:f4645a852c4df724c6fa6a"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-        const storage = getStorage(app);
 
-        // Get profile ID from URL
-        const params = new URLSearchParams(window.location.search);
-        if (params.has("id")) {
-            const profileId = params.get("id");
-            loadProfile(profileId);
-        } else {
-            document.body.innerHTML = "<h2>Profile Not Found</h2>";
-        }
+        async function createProfile() {
+            const name = document.getElementById("name").value;
+            const instagram = document.getElementById("instagram").value;
+            const snapchat = document.getElementById("snapchat").value;
+            const whatsapp = document.getElementById("whatsapp").value;
+            const spotify = document.getElementById("spotify").value;
+            const bio = document.getElementById("bio").value;
 
-        // Function to load profile data
-        async function loadProfile(profileId) {
-            const docRef = doc(db, "profiles", profileId);
-            const docSnap = await getDoc(docRef);
+            if (!name) {
+                alert("Name is required!");
+                return;
+            }
 
-            if (docSnap.exists()) {
-                const data = docSnap.data();
-                document.getElementById("profileName").textContent = data.name;
-                document.getElementById("profileBio").textContent = data.bio;
+            try {
+                const docRef = await addDoc(collection(db, "profiles"), {
+                    name, instagram, snapchat, whatsapp, spotify, bio
+                });
 
-                // Social links
-                let socialLinksHtml = "";
-                for (const [platform, id] of Object.entries(data.socialProfiles || {})) {
-                    if (id) {
-                        socialLinksHtml += `<a href="${id}" target="_blank"><i class="fab fa-${platform}"></i></a>`;
-                    }
-                }
-                document.getElementById("socialLinks").innerHTML = socialLinksHtml;
-
-                // Profile image (from Firebase Storage)
-                if (data.image) {
-                    getDownloadURL(ref(storage, data.image)).then((url) => {
-                        document.getElementById("profileImage").src = url;
-                    });
-                }
-
-                // Spotify embed
-                if (data.spotify) {
-                    document.getElementById("spotifyEmbed").innerHTML = `<iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/${data.spotify}?utm_source=generator" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>`;
-                }
-
-            } else {
-                document.body.innerHTML = "<h2>Profile Not Found</h2>";
+                window.location.href = "?id=" + docRef.id;
+            } catch (error) {
+                console.error("Error adding document: ", error);
+                alert("Failed to create profile. Check Firebase rules!");
             }
         }
+
+        async function loadProfile() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const profileId = urlParams.get("id");
+
+            if (profileId) {
+                document.getElementById("profile-container").style.display = "block";
+                document.getElementById("create-container").style.display = "none";
+
+                const docSnap = await getDoc(doc(db, "profiles", profileId));
+
+                if (docSnap.exists()) {
+                    const profile = docSnap.data();
+                    document.getElementById("profile-name").innerText = profile.name;
+                    document.getElementById("profile-bio").innerText = profile.bio;
+
+                    // Fetch Instagram Profile Picture
+                    if (profile.instagram) {
+                        document.getElementById("profile-image").src = `https://www.instagram.com/${profile.instagram}/profile_pic/?size=large`;
+                    }
+
+                    // Social Icons
+                    let socialHTML = "";
+                    if (profile.instagram) socialHTML += `<a href="https://instagram.com/${profile.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>`;
+                    if (profile.snapchat) socialHTML += `<a href="https://snapchat.com/add/${profile.snapchat}" target="_blank"><i class="fab fa-snapchat"></i></a>`;
+                    if (profile.whatsapp) socialHTML += `<a href="https://wa.me/${profile.whatsapp}" target="_blank"><i class="fab fa-whatsapp"></i></a>`;
+                    document.getElementById("social-icons").innerHTML = socialHTML;
+
+                    // Spotify Embed
+                    if (profile.spotify) {
+                        document.getElementById("spotify-container").innerHTML = `<iframe src="https://open.spotify.com/embed/track/${profile.spotify.split('/').pop()}" width="100%" height="80" frameborder="0"></iframe>`;
+                    }
+                } else {
+                    alert("Profile not found!");
+                    window.location.href = "/";
+                }
+            }
+        }
+
+        document.getElementById("createProfileBtn").addEventListener("click", createProfile);
+        window.onload = loadProfile;
     </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background: #f4f8f2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 340px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        button {
+            background: #D84A65;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: #C13584;
+        }
+    </style>
 </body>
 </html>
