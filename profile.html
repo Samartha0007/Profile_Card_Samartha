@@ -5,36 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile Card</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(120deg, #eceff1, #b0bec5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            text-align: center;
-        }
-        .profile-card {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            width: 300px;
-        }
-        .social-icons a {
-            font-size: 24px;
-            margin: 10px;
-            color: black;
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="profile-card">
-        <h2 id="profile-name"></h2>
-        <p id="profile-bio"></p>
-        <div id="social-icons"></div>
-        <div id="spotify-container"></div>
+    <div class="profile-card" id="profile-container" style="display: none;">
+        <div class="top-section"></div>
+        <img class="profile-image" id="profile-image" src="" alt="Profile Picture">
+        <div class="profile-details">
+            <div class="profile-name" id="profile-name"></div>
+            <div class="profile-bio" id="profile-bio"></div>
+            <div class="social-icons" id="social-icons"></div>
+            <div id="spotify-container"></div>
+        </div>
     </div>
 
     <script type="module">
@@ -54,10 +36,11 @@
         const db = getFirestore(app);
 
         async function loadProfile() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const username = urlParams.get("user");
+            let username = window.location.pathname.substring(1); // Extract username from URL
 
             if (username) {
+                document.getElementById("profile-container").style.display = "block";
+
                 const q = query(collection(db, "profiles"), where("username", "==", username));
                 const querySnapshot = await getDocs(q);
 
@@ -66,10 +49,18 @@
                     document.getElementById("profile-name").innerText = profile.name;
                     document.getElementById("profile-bio").innerText = profile.bio;
 
+                    // Fix: Ensure image is displayed properly
+                    if (profile.imageUrl) {
+                        document.getElementById("profile-image").src = profile.imageUrl;
+                    } else {
+                        document.getElementById("profile-image").src = "default-profile.png"; // Fallback image
+                    }
+
                     let socialHTML = "";
                     if (profile.instagram) socialHTML += `<a href="https://instagram.com/${profile.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>`;
                     if (profile.snapchat) socialHTML += `<a href="https://snapchat.com/add/${profile.snapchat}" target="_blank"><i class="fab fa-snapchat"></i></a>`;
                     if (profile.whatsapp) socialHTML += `<a href="https://wa.me/${profile.whatsapp}" target="_blank"><i class="fab fa-whatsapp"></i></a>`;
+
                     document.getElementById("social-icons").innerHTML = socialHTML;
 
                     if (profile.spotify) {
@@ -78,12 +69,58 @@
                     }
                 } else {
                     alert("Profile not found!");
-                    window.location.href = "create.html";
+                    window.location.href = "/";
                 }
             }
         }
 
         window.onload = loadProfile;
     </script>
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(120deg, #eceff1, #b0bec5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .profile-card {
+            position: relative;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .profile-image {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            object-fit: cover;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .profile-image:hover {
+            transform: scale(1.1);
+        }
+
+        .social-icons a {
+            font-size: 24px;
+            margin: 10px;
+            color: black;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .social-icons a:hover {
+            transform: translateY(-5px);
+            color: #444;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
 </body>
 </html>
