@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile Card</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Montserrat:wght@700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Montserrat:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
+
 <div class="container" id="create-container">
     <h2>Create Your Profile</h2>
     <input type="text" id="name" placeholder="Name" required><br>
@@ -25,14 +26,16 @@
     <button id="createProfileBtn">Create Profile</button>
 </div>
 
-<!-- Modal for Profile Creation -->
-<div id="profileModal" class="modal">
+<!-- Modal -->
+<div id="modal" class="modal">
     <div class="modal-content">
-        <h3 id="modalText">Creating Your Profile...</h3>
-        <div id="loading" class="loader"></div>
-        <p id="profileLink" style="display: none;"></p>
-        <button id="openProfileBtn" style="display: none;">Open Profile</button>
-        <button id="shareProfileBtn" style="display: none;">Share Profile</button>
+        <h3 id="modal-title">Creating your web...</h3>
+        <div id="profile-url-container" style="display: none;">
+            <input type="text" id="profile-url" readonly>
+            <button onclick="copyToClipboard()">Copy</button>
+            <button id="openProfileBtn">Open Web</button>
+            <button id="shareProfileBtn">Share</button>
+        </div>
     </div>
 </div>
 
@@ -87,46 +90,46 @@
     async function createProfile() {
         const name = document.getElementById("name").value;
         const imageFile = document.getElementById("profileImage").files[0];
+        const bio = document.getElementById("bio").value;
 
         if (!name) {
             alert("Name is required!");
             return;
         }
 
-        let modal = document.getElementById("profileModal");
-        modal.style.display = "block";
-
+        document.getElementById("modal").style.display = "flex";
         let username = await generateUniqueUsername(name);
         let imageUrl = imageFile ? await uploadImage(imageFile) : "";
 
         try {
-            await addDoc(collection(db, "profiles"), { name, username, imageUrl });
+            await addDoc(collection(db, "profiles"), {
+                name, username, imageUrl, bio
+            });
 
-            let profileUrl = window.location.origin + "?user=" + username;
-            document.getElementById("modalText").innerText = "Profile Created Successfully!";
-            document.getElementById("loading").style.display = "none";
-
-            let profileLinkElem = document.getElementById("profileLink");
-            profileLinkElem.style.display = "block";
-            profileLinkElem.innerHTML = `<a href="${profileUrl}" target="_blank">${profileUrl}</a>`;
-
-            document.getElementById("openProfileBtn").style.display = "inline-block";
-            document.getElementById("shareProfileBtn").style.display = "inline-block";
+            const profileUrl = `${window.location.origin}/?user=${username}`;
+            document.getElementById("profile-url").value = profileUrl;
+            document.getElementById("modal-title").innerText = "Your Profile is Ready!";
+            document.getElementById("profile-url-container").style.display = "block";
 
             document.getElementById("openProfileBtn").addEventListener("click", () => {
                 window.open(profileUrl, "_blank");
             });
 
             document.getElementById("shareProfileBtn").addEventListener("click", () => {
-                navigator.clipboard.writeText(profileUrl);
-                alert("Profile link copied to clipboard!");
+                navigator.share({ title: "My Profile", url: profileUrl });
             });
 
         } catch (error) {
             console.error("Error adding document: ", error);
-            alert("Failed to create profile. Check Firebase rules!");
-            modal.style.display = "none";
+            alert("Failed to create profile.");
         }
+    }
+
+    function copyToClipboard() {
+        const copyText = document.getElementById("profile-url");
+        copyText.select();
+        document.execCommand("copy");
+        alert("Copied to clipboard!");
     }
 
     document.getElementById("createProfileBtn").addEventListener("click", createProfile);
@@ -135,13 +138,12 @@
 <style>
     body {
         font-family: 'Poppins', sans-serif;
+        background: linear-gradient(120deg, #eceff1, #b0bec5);
         display: flex;
         align-items: center;
         justify-content: center;
         height: 100vh;
-        text-align: center;
         margin: 0;
-        padding: 0;
     }
 
     .container {
@@ -153,41 +155,49 @@
         max-width: 90%;
     }
 
+    button {
+        background: linear-gradient(45deg, #7e57c2, #5e35b1);
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        width: 100%;
+    }
+
+    button:hover {
+        background: linear-gradient(45deg, #5e35b1, #4527a0);
+        transform: translateY(-3px);
+    }
+
     .modal {
         display: none;
         position: fixed;
-        z-index: 1;
-        left: 0;
         top: 0;
+        left: 0;
         width: 100%;
         height: 100%;
         background: rgba(0, 0, 0, 0.5);
+        align-items: center;
+        justify-content: center;
     }
 
     .modal-content {
         background: white;
         padding: 20px;
-        margin: 15% auto;
-        width: 80%;
-        max-width: 400px;
         border-radius: 10px;
         text-align: center;
     }
 
-    .loader {
-        border: 6px solid #ccc;
-        border-top: 6px solid #7e57c2;
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        margin: 20px auto;
-        animation: spin 1s linear infinite;
-    }
-
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
+    #profile-url {
+        border: none;
+        padding: 8px;
+        width: 80%;
+        text-align: center;
     }
 </style>
+
 </body>
 </html>
