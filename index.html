@@ -78,6 +78,9 @@
         .social-icons a:hover {
             color: #0056b3;
         }
+        .spotify-widget {
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -90,6 +93,9 @@
         <input type="url" id="instagram" placeholder="Instagram URL">
         <input type="url" id="snapchat" placeholder="Snapchat URL">
         <input type="url" id="whatsapp" placeholder="WhatsApp URL">
+        
+        <h3>Spotify Song</h3>
+        <input type="url" id="spotify" placeholder="Spotify Song URL">
         
         <button onclick="createProfile()">Create Profile</button>
     </div>
@@ -119,6 +125,7 @@
             const instagram = document.getElementById("instagram").value;
             const snapchat = document.getElementById("snapchat").value;
             const whatsapp = document.getElementById("whatsapp").value;
+            const spotify = document.getElementById("spotify").value;
 
             if (!name || !bio) {
                 alert("Name and Bio are required!");
@@ -131,7 +138,9 @@
             if (whatsapp) socialProfiles.whatsapp = whatsapp;
 
             try {
-                const docRef = await addDoc(collection(db, "profiles"), { name, bio, socialProfiles });
+                const docRef = await addDoc(collection(db, "profiles"), { 
+                    name, bio, socialProfiles, spotify 
+                });
                 alert(`Profile Created! Share this link: ?id=${docRef.id}`);
                 location.reload();
             } catch (error) {
@@ -153,11 +162,16 @@
                             ${data.socialProfiles.snapchat ? `<a href="${data.socialProfiles.snapchat}" target="_blank"><i class="fab fa-snapchat"></i></a>` : ''}
                             ${data.socialProfiles.whatsapp ? `<a href="${data.socialProfiles.whatsapp}" target="_blank"><i class="fab fa-whatsapp"></i></a>` : ''}
                         </div>
+                        ${data.spotify ? `<iframe class="spotify-widget" src="https://open.spotify.com/embed/track/${getSpotifyID(data.spotify)}" width="100%" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>` : ''}
                         <a href="?id=${doc.id}">View Profile</a>
                     </div>
                 `;
             });
             document.getElementById("profiles").innerHTML = profilesHTML;
+        }
+
+        function getSpotifyID(url) {
+            return url.split("track/")[1]?.split("?")[0] || "";
         }
 
         const params = new URLSearchParams(window.location.search);
@@ -175,6 +189,7 @@
                                 ${data.socialProfiles.snapchat ? `<a href="${data.socialProfiles.snapchat}" target="_blank"><i class="fab fa-snapchat"></i></a>` : ''}
                                 ${data.socialProfiles.whatsapp ? `<a href="${data.socialProfiles.whatsapp}" target="_blank"><i class="fab fa-whatsapp"></i></a>` : ''}
                             </div>
+                            ${data.spotify ? `<iframe class="spotify-widget" src="https://open.spotify.com/embed/track/${getSpotifyID(data.spotify)}" width="100%" height="80"></iframe>` : ''}
                         </div>
                     `;
                 } else {
