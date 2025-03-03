@@ -115,14 +115,12 @@
                         document.getElementById("profile-image").src = profile.imageUrl;
                     }
 
-                    // Social Icons
                     let socialHTML = "";
                     if (profile.instagram) socialHTML += `<a href="https://instagram.com/${profile.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>`;
                     if (profile.snapchat) socialHTML += `<a href="https://snapchat.com/add/${profile.snapchat}" target="_blank"><i class="fab fa-snapchat"></i></a>`;
                     if (profile.whatsapp) socialHTML += `<a href="https://wa.me/${profile.whatsapp}" target="_blank"><i class="fab fa-whatsapp"></i></a>`;
                     document.getElementById("social-icons").innerHTML = socialHTML;
 
-                    // Spotify Embed
                     if (profile.spotify) {
                         document.getElementById("spotify-container").innerHTML = `<iframe src="https://open.spotify.com/embed/track/${profile.spotify.split('/').pop()}" width="100%" height="80" frameborder="0"></iframe>`;
                     }
@@ -147,43 +145,39 @@
         body {
             background: #f4f8f2;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
             padding: 20px;
         }
-        .container, .profile-card {
+        .profile-card {
             background: white;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
             text-align: center;
-            width: 340px;
-        }
-        .profile-card {
             position: relative;
-            padding-top: 50px;
+            width: 360px;
         }
         .profile-image {
-            width: 120px;
-            height: 120px;
+            width: 130px;
+            height: 130px;
             border-radius: 50%;
-            object-fit: cover;
-            position: absolute;
-            top: -60px;
-            left: 50%;
-            transform: translateX(-50%);
             border: 5px solid white;
+            animation: glow 3s infinite alternate;
         }
-        .social-icons a {
+        @keyframes glow {
+            0% { box-shadow: 0 0 10px #ff00ff; }
+            100% { box-shadow: 0 0 30px #00ffff; }
+        }
+        .profile-name {
             font-size: 24px;
-            margin: 0 10px;
-            color: #555;
-            transition: 0.3s;
+            font-weight: 600;
+            animation: fadeIn 2s ease-in-out;
         }
-        .social-icons a:hover {
-            color: #C13584;
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
     </style>
 
