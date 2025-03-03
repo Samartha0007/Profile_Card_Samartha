@@ -3,117 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Card</title>
+    <title>Profile Card Service</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.4.0/firebase-storage.js"></script>
     <style>
         /* Global Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
-        body {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background: #f4f8f2;
-            padding: 20px;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background: #f4f8f2; display: flex; align-items: center; justify-content: center; flex-direction: column; height: 100vh; padding: 20px; }
 
         /* Profile Card */
-        .profile-card {
-            width: 340px;
-            background: white;
-            border-radius: 20px;
-            text-align: center;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-            overflow: hidden;
-            transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
-            padding: 20px;
-        }
-        .profile-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Profile Image */
-        .profile-image {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            border: 5px solid white;
-            transition: transform 0.3s ease-in-out;
-        }
-        .profile-image:hover {
-            transform: scale(1.1);
-        }
-
-        /* Profile Details */
+        .profile-card { width: 340px; background: white; border-radius: 20px; text-align: center; box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15); position: relative; overflow: hidden; transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out; }
+        .profile-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2); }
+        .top-section { background: linear-gradient(135deg, #D84A65, #C13584); height: 140px; border-bottom-left-radius: 50px; border-bottom-right-radius: 50px; position: relative; }
+        .profile-image { width: 100px; height: 100px; border-radius: 50%; border: 5px solid white; position: absolute; top: 70px; left: 50%; transform: translateX(-50%); transition: transform 0.3s ease-in-out; }
+        .profile-details { padding: 60px 20px 20px; }
         .profile-name { font-size: 18px; font-weight: 600; color: #333; }
         .profile-bio { font-size: 14px; color: #777; margin-top: 5px; }
-
-        /* Social Icons */
         .social-icons { margin-top: 15px; display: flex; justify-content: center; gap: 15px; }
         .social-icons a { font-size: 18px; color: #444; transition: transform 0.3s ease-in-out, color 0.3s ease-in-out; }
         .social-icons a:hover { color: #D84A65; transform: scale(1.2); }
-
-        /* Input Form */
-        .form-container {
-            text-align: center;
-            width: 100%;
-            max-width: 350px;
-            padding: 20px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-        .form-container input, .form-container button {
-            width: 100%;
-            padding: 10px;
-            margin: 5px 0;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-        .form-container button {
-            background: #D84A65;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        .form-container button:hover { background: #C13584; }
-
+        @media (max-width: 400px) { .profile-card { width: 90%; } }
     </style>
 </head>
 <body>
 
-    <div id="profileContainer" style="display: none;">
-        <div class="profile-card">
-            <img id="profileImage" class="profile-image" src="" alt="Profile Picture">
-            <h2 id="profileName">User Name</h2>
-            <p id="profileBio">Short Bio</p>
-            <div id="socialLinks" class="social-icons"></div>
-            <div id="spotifyEmbed"></div>
-            <button onclick="copyProfileUrl()">Copy Profile URL</button>
-        </div>
-    </div>
+    <h2>Create Profile</h2>
+    <input type="text" id="name" placeholder="Name" required><br>
+    <textarea id="bio" placeholder="Short Bio" required></textarea><br>
+    <input type="url" id="instagram" placeholder="Instagram URL"><br>
+    <input type="url" id="twitter" placeholder="Twitter URL"><br>
+    <input type="file" id="imageUpload" accept="image/*"><br>
+    <button onclick="createProfile()">Create Profile</button>
 
-    <div id="formContainer" class="form-container">
-        <h2>Create Profile</h2>
-        <input type="text" id="name" placeholder="Enter Name"><br>
-        <input type="text" id="bio" placeholder="Enter Bio"><br>
-        <input type="text" id="instagram" placeholder="Instagram ID"><br>
-        <input type="text" id="spotify" placeholder="Spotify Track ID"><br>
-        <input type="file" id="imageInput"><br>
-        <button id="createProfile">Create Profile</button>
-    </div>
+    <h2>Profile</h2>
+    <div id="profileContainer"></div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
-        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
-        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-storage.js";
-
+    <script>
         // Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyBb3x_zD9JaFwL9PhmngCNZlS2fOh6MBa4",
@@ -124,65 +52,83 @@
             appId: "1:480586908639:web:f4645a852c4df724c6fa6a"
         };
 
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const storage = getStorage(app);
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
 
-        const params = new URLSearchParams(window.location.search);
-        if (params.has("id")) {
-            loadProfile(params.get("id"));
-        }
+        // Cloudinary Upload Config
+        const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/dw1qrki2c/upload";
+        const UPLOAD_PRESET = "profile_uploads";
 
-        async function loadProfile(profileId) {
-            const docRef = doc(db, "profiles", profileId);
-            const docSnap = await getDoc(docRef);
+        async function createProfile() {
+            const name = document.getElementById("name").value;
+            const bio = document.getElementById("bio").value;
+            const instagram = document.getElementById("instagram").value;
+            const twitter = document.getElementById("twitter").value;
+            const imageFile = document.getElementById("imageUpload").files[0];
 
-            if (docSnap.exists()) {
-                document.getElementById("formContainer").style.display = "none";
-                document.getElementById("profileContainer").style.display = "block";
-
-                const data = docSnap.data();
-                document.getElementById("profileName").textContent = data.name;
-                document.getElementById("profileBio").textContent = data.bio;
-                document.getElementById("profileImage").src = data.image || `https://www.instagram.com/${data.instagram}/profile_pic`;
-
-                let socialLinksHtml = "";
-                if (data.instagram) {
-                    socialLinksHtml += `<a href="https://instagram.com/${data.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>`;
-                }
-                document.getElementById("socialLinks").innerHTML = socialLinksHtml;
-
-                if (data.spotify) {
-                    document.getElementById("spotifyEmbed").innerHTML = `<iframe src="https://open.spotify.com/embed/track/${data.spotify}" width="100%" height="80"></iframe>`;
-                }
-            } else {
-                document.body.innerHTML = "<h2>Profile Not Found</h2>";
+            if (!name || !bio) {
+                alert("Name and Bio are required!");
+                return;
             }
-        }
 
-        document.getElementById("createProfile").addEventListener("click", async () => {
-            const name = document.getElementById("name").value.trim();
-            const bio = document.getElementById("bio").value.trim();
-            const instagram = document.getElementById("instagram").value.trim();
-            const spotify = document.getElementById("spotify").value.trim();
-            const imageFile = document.getElementById("imageInput").files[0];
-
-            let imageUrl = `https://www.instagram.com/${instagram}/profile_pic`;
+            let imageUrl = "https://via.placeholder.com/100"; // Default image
             if (imageFile) {
-                const imageRef = ref(storage, `profile_images/${name}.jpg`);
-                await uploadBytes(imageRef, imageFile);
-                imageUrl = await getDownloadURL(imageRef);
+                const formData = new FormData();
+                formData.append("file", imageFile);
+                formData.append("upload_preset", UPLOAD_PRESET);
+
+                const response = await fetch(CLOUDINARY_URL, {
+                    method: "POST",
+                    body: formData
+                });
+
+                const data = await response.json();
+                imageUrl = data.secure_url;
             }
 
-            await setDoc(doc(db, "profiles", name), { name, bio, instagram, spotify, image: imageUrl });
-            window.location.href = `?id=${name}`;
-        });
-
-        function copyProfileUrl() {
-            navigator.clipboard.writeText(window.location.href);
-            alert("Profile URL copied!");
+            try {
+                const docRef = await db.collection("profiles").add({
+                    name, bio, instagram, twitter, imageUrl
+                });
+                alert(`Profile Created! Share this link: ?id=${docRef.id}`);
+                location.reload();
+            } catch (error) {
+                console.error("Error adding profile:", error);
+            }
         }
-    </script>
 
+        async function loadProfile() {
+            const params = new URLSearchParams(window.location.search);
+            if (!params.has("id")) return;
+
+            const docId = params.get("id");
+            const docRef = db.collection("profiles").doc(docId);
+            const docSnap = await docRef.get();
+
+            if (!docSnap.exists) {
+                document.body.innerHTML = "<h2>Profile Not Found</h2>";
+                return;
+            }
+
+            const data = docSnap.data();
+            document.getElementById("profileContainer").innerHTML = `
+                <div class="profile-card">
+                    <div class="top-section"></div>
+                    <img class="profile-image" src="${data.imageUrl}" alt="Profile Picture">
+                    <div class="profile-details">
+                        <div class="profile-name">${data.name}</div>
+                        <div class="profile-bio">${data.bio}</div>
+                        <div class="social-icons">
+                            ${data.instagram ? `<a href="${data.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>` : ""}
+                            ${data.twitter ? `<a href="${data.twitter}" target="_blank"><i class="fab fa-twitter"></i></a>` : ""}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        loadProfile();
+    </script>
 </body>
 </html>
