@@ -5,27 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile Card</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
+    <!-- Profile Creation Form -->
     <div class="container" id="create-container">
         <h2>Create Your Profile</h2>
         <input type="text" id="name" placeholder="Name" required><br>
         <input type="file" id="profileImage" accept="image/*"><br>
-        <input type="text" id="instagram" placeholder="Instagram ID"><br>
-        <input type="text" id="snapchat" placeholder="Snapchat ID"><br>
-        <input type="text" id="whatsapp" placeholder="WhatsApp Number"><br>
-        <input type="url" id="spotify" placeholder="Spotify Song URL"><br>
         <textarea id="bio" placeholder="Short Bio" required></textarea><br>
+        
+        <h3>Social Links</h3>
+        <div id="social-links">
+            <input type="text" class="social-input" placeholder="Add social link (https://example.com)">
+        </div>
+        <button id="addSocialLink">+ Add More</button><br>
+        
+        <input type="url" id="spotify" placeholder="Spotify Song URL"><br>
         <button id="createProfileBtn">Create Profile</button>
     </div>
 
+    <!-- Profile Card Display -->
     <div class="profile-card" id="profile-container" style="display: none;">
         <div class="top-section"></div>
-        <div class="image-wrapper">
-            <img class="profile-image" id="profile-image" src="" alt="Profile Picture">
-        </div>
+        <img class="profile-image" id="profile-image" src="" alt="Profile Picture">
         <div class="profile-details">
             <div class="profile-name" id="profile-name"></div>
             <div class="profile-bio" id="profile-bio"></div>
@@ -36,7 +40,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDoc, doc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBb3x_zD9JaFwL9PhmngCNZlS2fOh6MBa4",
@@ -85,27 +89,27 @@
         async function createProfile() {
             const name = document.getElementById("name").value;
             const imageFile = document.getElementById("profileImage").files[0];
-            const instagram = document.getElementById("instagram").value;
-            const snapchat = document.getElementById("snapchat").value;
-            const whatsapp = document.getElementById("whatsapp").value;
-            const spotify = document.getElementById("spotify").value;
             const bio = document.getElementById("bio").value;
+            const spotify = document.getElementById("spotify").value;
 
             if (!name) {
                 alert("Name is required!");
                 return;
             }
 
-            let username = await generateUniqueUsername(name);
+            let socialLinks = [];
+            document.querySelectorAll(".social-input").forEach(input => {
+                if (input.value.trim() !== "") {
+                    socialLinks.push(input.value.trim());
+                }
+            });
 
-            let imageUrl = "";
-            if (imageFile) {
-                imageUrl = await uploadImage(imageFile);
-            }
+            let username = await generateUniqueUsername(name);
+            let imageUrl = imageFile ? await uploadImage(imageFile) : "";
 
             try {
                 await addDoc(collection(db, "profiles"), {
-                    name, username, imageUrl, instagram, snapchat, whatsapp, spotify, bio
+                    name, username, imageUrl, socialLinks, spotify, bio
                 });
 
                 window.location.href = "?user=" + username;
@@ -130,20 +134,37 @@
                     const profile = querySnapshot.docs[0].data();
                     document.getElementById("profile-name").innerText = profile.name;
                     document.getElementById("profile-bio").innerText = profile.bio;
+
                     if (profile.imageUrl) {
                         document.getElementById("profile-image").src = profile.imageUrl;
                     }
 
                     let socialHTML = "";
-                    if (profile.instagram) socialHTML += `<a href="https://instagram.com/${profile.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>`;
-                    if (profile.snapchat) socialHTML += `<a href="https://snapchat.com/add/${profile.snapchat}" target="_blank"><i class="fab fa-snapchat"></i></a>`;
-                    if (profile.whatsapp) socialHTML += `<a href="https://wa.me/${profile.whatsapp}" target="_blank"><i class="fab fa-whatsapp"></i></a>`;
+                    profile.socialLinks.forEach(link => {
+                        socialHTML += `<a href="${link}" target="_blank"><i class="fa fa-link"></i></a>`;
+                    });
                     document.getElementById("social-icons").innerHTML = socialHTML;
+
+                    if (profile.spotify) {
+                        const spotifyEmbed = `<iframe src="https://open.spotify.com/embed/track/${profile.spotify.split('/').pop()}" width="300" height="80" frameborder="0" allow="encrypted-media"></iframe>`;
+                        document.getElementById("spotify-container").innerHTML = spotifyEmbed;
+                    }
+                } else {
+                    alert("Profile not found!");
+                    window.location.href = "/";
                 }
             }
         }
 
         document.getElementById("createProfileBtn").addEventListener("click", createProfile);
+        document.getElementById("addSocialLink").addEventListener("click", () => {
+            const input = document.createElement("input");
+            input.type = "text";
+            input.className = "social-input";
+            input.placeholder = "Add another social link (https://example.com)";
+            document.getElementById("social-links").appendChild(input);
+        });
+
         window.onload = loadProfile;
     </script>
 
@@ -151,23 +172,7 @@
         body {
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(120deg, #eceff1, #b0bec5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
             text-align: center;
-        }
-
-        .profile-name {
-            font-size: 28px;
-            font-family: 'Playfair Display', serif;
-            font-weight: bold;
-            animation: fadeIn 1s ease-in-out;
-        }
-
-        .image-wrapper {
-            position: relative;
-            display: inline-block;
         }
 
         .profile-image {
@@ -175,17 +180,14 @@
             height: 130px;
             border-radius: 50%;
             object-fit: cover;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s;
+            border: 5px solid transparent;
+            animation: glowing 2s infinite alternate;
         }
 
-        .profile-image:hover {
-            transform: scale(1.1);
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        @keyframes glowing {
+            0% { border-color: #ff5733; box-shadow: 0 0 10px #ff5733; }
+            50% { border-color: #33ff57; box-shadow: 0 0 15px #33ff57; }
+            100% { border-color: #3357ff; box-shadow: 0 0 20px #3357ff; }
         }
     </style>
 
