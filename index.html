@@ -6,30 +6,41 @@
     <title>Profile Card</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
+        /* Global Styles */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
             background-color: #f8f9fa;
-            color: #333;
-            margin: 0;
-            padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
         }
+
+        /* Profile Card */
         .profile-container {
             width: 350px;
             background: white;
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
             overflow: hidden;
             text-align: center;
+            transition: transform 0.3s ease-in-out;
         }
+        .profile-container:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Header with Gradient */
         .profile-header {
-            background: linear-gradient(135deg, #ff7eb3, #ff758c);
+            background: linear-gradient(135deg, #ff758c, #ff7eb3);
             padding: 50px 0;
             position: relative;
             border-bottom-left-radius: 50% 20px;
             border-bottom-right-radius: 50% 20px;
+            animation: fadeIn 1s ease-in-out;
         }
         .profile-header img {
             width: 100px;
@@ -40,9 +51,16 @@
             bottom: -50px;
             left: 50%;
             transform: translateX(-50%);
+            transition: transform 0.3s ease-in-out;
         }
+        .profile-header img:hover {
+            transform: translateX(-50%) scale(1.1);
+        }
+
+        /* Profile Content */
         .profile-content {
             padding: 60px 20px 20px;
+            animation: fadeIn 1.2s ease-in-out;
         }
         .profile-name {
             font-size: 22px;
@@ -53,6 +71,8 @@
             color: #555;
             margin-top: 5px;
         }
+
+        /* Social Icons */
         .social-icons {
             margin-top: 10px;
         }
@@ -60,145 +80,46 @@
             font-size: 20px;
             margin: 0 10px;
             color: #007bff;
-            text-decoration: none;
+            transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
         }
         .social-icons a:hover {
-            color: #0056b3;
+            color: #ff758c;
+            transform: scale(1.2);
         }
+
+        /* Spotify Widget */
         .spotify-widget {
             margin-top: 15px;
-        }
-        .profile-form {
-            background: white;
-            padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 400px;
-            margin-bottom: 20px;
+            overflow: hidden;
         }
-        input, textarea {
-            width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-        button {
-            width: 100%;
-            padding: 10px;
-            background: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 18px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-        button:hover {
-            background: #0056b3;
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body>
 
-    <div class="profile-form">
-        <h2>Create Profile</h2>
-        <input type="text" id="name" placeholder="Full Name" required>
-        <textarea id="bio" placeholder="Short Bio" required></textarea>
-        
-        <h3>Social Profiles</h3>
-        <input type="url" id="instagram" placeholder="Instagram URL">
-        <input type="url" id="snapchat" placeholder="Snapchat URL">
-        <input type="url" id="whatsapp" placeholder="WhatsApp URL">
-        
-        <h3>Spotify Song</h3>
-        <input type="url" id="spotify" placeholder="Spotify Song URL">
-        
-        <button onclick="createProfile()">Create Profile</button>
+    <div class="profile-container">
+        <div class="profile-header">
+            <img src="https://via.placeholder.com/100" alt="Profile Picture">
+        </div>
+        <div class="profile-content">
+            <div class="profile-name">John Doe</div>
+            <div class="profile-bio">Web Developer & AI Enthusiast</div>
+            <div class="social-icons">
+                <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-snapchat"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            </div>
+            <div class="spotify-widget">
+                <iframe src="https://open.spotify.com/embed/track/3n3Ppam7vgaVa1iaRUc9Lp" width="100%" height="80" frameborder="0"></iframe>
+            </div>
+        </div>
     </div>
-
-    <h2>All Profiles</h2>
-    <div id="profiles"></div>
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyBb3x_zD9JaFwL9PhmngCNZlS2fOh6MBa4",
-            authDomain: "newai-52371.firebaseapp.com",
-            projectId: "newai-52371",
-            storageBucket: "newai-52371.appspot.com",
-            messagingSenderId: "480586908639",
-            appId: "1:480586908639:web:f4645a852c4df724c6fa6a"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        window.createProfile = async function () {
-            const name = document.getElementById("name").value;
-            const bio = document.getElementById("bio").value;
-            const instagram = document.getElementById("instagram").value;
-            const snapchat = document.getElementById("snapchat").value;
-            const whatsapp = document.getElementById("whatsapp").value;
-            const spotify = document.getElementById("spotify").value;
-
-            if (!name || !bio) {
-                alert("Name and Bio are required!");
-                return;
-            }
-
-            const socialProfiles = {};
-            if (instagram) socialProfiles.instagram = instagram;
-            if (snapchat) socialProfiles.snapchat = snapchat;
-            if (whatsapp) socialProfiles.whatsapp = whatsapp;
-
-            try {
-                const docRef = await addDoc(collection(db, "profiles"), { 
-                    name, bio, socialProfiles, spotify 
-                });
-                alert(`Profile Created! Share this link: ?id=${docRef.id}`);
-                location.reload();
-            } catch (error) {
-                console.error("Error adding document: ", error);
-            }
-        };
-
-        async function loadProfiles() {
-            const querySnapshot = await getDocs(collection(db, "profiles"));
-            let profilesHTML = "";
-            querySnapshot.forEach((doc) => {
-                const data = doc.data();
-                profilesHTML += `
-                    <div class="profile-container">
-                        <div class="profile-header">
-                            <img src="https://via.placeholder.com/100" alt="Profile Picture">
-                        </div>
-                        <div class="profile-content">
-                            <div class="profile-name">${data.name}</div>
-                            <div class="profile-bio">${data.bio}</div>
-                            <div class="social-icons">
-                                ${data.socialProfiles.instagram ? `<a href="${data.socialProfiles.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>` : ''}
-                                ${data.socialProfiles.snapchat ? `<a href="${data.socialProfiles.snapchat}" target="_blank"><i class="fab fa-snapchat"></i></a>` : ''}
-                                ${data.socialProfiles.whatsapp ? `<a href="${data.socialProfiles.whatsapp}" target="_blank"><i class="fab fa-whatsapp"></i></a>` : ''}
-                            </div>
-                            ${data.spotify ? `<iframe class="spotify-widget" src="https://open.spotify.com/embed/track/${getSpotifyID(data.spotify)}" width="100%" height="80"></iframe>` : ''}
-                        </div>
-                    </div>
-                `;
-            });
-            document.getElementById("profiles").innerHTML = profilesHTML;
-        }
-
-        function getSpotifyID(url) {
-            return url.split("track/")[1]?.split("?")[0] || "";
-        }
-
-        loadProfiles();
-    </script>
 
 </body>
 </html>
