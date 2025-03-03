@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Card</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(120deg, #eceff1, #b0bec5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+        }
+        .profile-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 300px;
+        }
+        .social-icons a {
+            font-size: 24px;
+            margin: 10px;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-card">
+        <h2 id="profile-name"></h2>
+        <p id="profile-bio"></p>
+        <div id="social-icons"></div>
+        <div id="spotify-container"></div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+        import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBb3x_zD9JaFwL9PhmngCNZlS2fOh6MBa4",
+            authDomain: "newai-52371.firebaseapp.com",
+            projectId: "newai-52371",
+            storageBucket: "newai-52371.appspot.com",
+            messagingSenderId: "480586908639",
+            appId: "1:480586908639:web:f4645a852c4df724c6fa6a"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        async function loadProfile() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const username = urlParams.get("user");
+
+            if (username) {
+                const q = query(collection(db, "profiles"), where("username", "==", username));
+                const querySnapshot = await getDocs(q);
+
+                if (!querySnapshot.empty) {
+                    const profile = querySnapshot.docs[0].data();
+                    document.getElementById("profile-name").innerText = profile.name;
+                    document.getElementById("profile-bio").innerText = profile.bio;
+
+                    let socialHTML = "";
+                    if (profile.instagram) socialHTML += `<a href="https://instagram.com/${profile.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>`;
+                    if (profile.snapchat) socialHTML += `<a href="https://snapchat.com/add/${profile.snapchat}" target="_blank"><i class="fab fa-snapchat"></i></a>`;
+                    if (profile.whatsapp) socialHTML += `<a href="https://wa.me/${profile.whatsapp}" target="_blank"><i class="fab fa-whatsapp"></i></a>`;
+                    document.getElementById("social-icons").innerHTML = socialHTML;
+
+                    if (profile.spotify) {
+                        const spotifyEmbed = `<iframe src="https://open.spotify.com/embed/track/${profile.spotify.split('/').pop()}" width="300" height="80" frameborder="0" allow="encrypted-media"></iframe>`;
+                        document.getElementById("spotify-container").innerHTML = spotifyEmbed;
+                    }
+                } else {
+                    alert("Profile not found!");
+                    window.location.href = "create.html";
+                }
+            }
+        }
+
+        window.onload = loadProfile;
+    </script>
+</body>
+</html>
