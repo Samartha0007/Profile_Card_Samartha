@@ -5,121 +5,142 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile Card</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        /* Global Styles */
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f8f9fa;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-        }
-
-        /* Profile Card */
-        .profile-container {
-            width: 350px;
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background: #f4f8f2; display: flex; align-items: center; justify-content: center; height: 100vh; padding: 20px; }
+        .profile-card {
+            width: 340px;
             background: white;
             border-radius: 20px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
             text-align: center;
-            transition: transform 0.3s ease-in-out;
-        }
-        .profile-container:hover {
-            transform: translateY(-5px);
-        }
-
-        /* Header with Gradient */
-        .profile-header {
-            background: linear-gradient(135deg, #ff758c, #ff7eb3);
-            padding: 50px 0;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
             position: relative;
-            border-bottom-left-radius: 50% 20px;
-            border-bottom-right-radius: 50% 20px;
-            animation: fadeIn 1s ease-in-out;
+            overflow: hidden;
+            transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
         }
-        .profile-header img {
+        .profile-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2); }
+        .top-section {
+            background: linear-gradient(135deg, #D84A65, #C13584);
+            height: 140px;
+            border-bottom-left-radius: 50px;
+            border-bottom-right-radius: 50px;
+            position: relative;
+        }
+        .profile-image {
             width: 100px;
             height: 100px;
             border-radius: 50%;
-            border: 4px solid white;
+            border: 5px solid white;
             position: absolute;
-            bottom: -50px;
+            top: 70px;
             left: 50%;
             transform: translateX(-50%);
             transition: transform 0.3s ease-in-out;
         }
-        .profile-header img:hover {
-            transform: translateX(-50%) scale(1.1);
-        }
-
-        /* Profile Content */
-        .profile-content {
-            padding: 60px 20px 20px;
-            animation: fadeIn 1.2s ease-in-out;
-        }
-        .profile-name {
-            font-size: 22px;
-            font-weight: bold;
-        }
-        .profile-bio {
-            font-size: 14px;
-            color: #555;
-            margin-top: 5px;
-        }
-
-        /* Social Icons */
-        .social-icons {
-            margin-top: 10px;
-        }
-        .social-icons a {
-            font-size: 20px;
-            margin: 0 10px;
-            color: #007bff;
-            transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
-        }
-        .social-icons a:hover {
-            color: #ff758c;
-            transform: scale(1.2);
-        }
-
-        /* Spotify Widget */
-        .spotify-widget {
-            margin-top: 15px;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        .profile-image:hover { transform: translateX(-50%) scale(1.1); }
+        .profile-details { padding: 60px 20px 20px; }
+        .profile-name { font-size: 18px; font-weight: 600; color: #333; }
+        .profile-bio { font-size: 14px; color: #777; margin-top: 5px; }
+        .social-icons { margin-top: 15px; display: flex; justify-content: center; gap: 15px; }
+        .social-icons a { font-size: 18px; color: #444; transition: transform 0.3s ease-in-out, color 0.3s ease-in-out; }
+        .social-icons a:hover { color: #D84A65; transform: scale(1.2); }
+        iframe { margin-top: 10px; border-radius: 10px; }
+        @media (max-width: 400px) { .profile-card { width: 90%; } }
     </style>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBb3x_zD9JaFwL9PhmngCNZlS2fOh6MBa4",
+            authDomain: "newai-52371.firebaseapp.com",
+            projectId: "newai-52371",
+            storageBucket: "newai-52371.appspot.com",
+            messagingSenderId: "480586908639",
+            appId: "1:480586908639:web:f4645a852c4df724c6fa6a"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        window.createProfile = async function () {
+            const name = document.getElementById("name").value;
+            const username = document.getElementById("username").value.toLowerCase().replace(/\s+/g, "");
+            const bio = document.getElementById("bio").value;
+            const instagram = document.getElementById("instagram").value;
+            const snapchat = document.getElementById("snapchat").value;
+            const whatsapp = document.getElementById("whatsapp").value;
+            const spotify = document.getElementById("spotify").value;
+
+            if (!name || !username || !bio) {
+                alert("Name, Username, and Bio are required!");
+                return;
+            }
+
+            try {
+                await addDoc(collection(db, "profiles"), { 
+                    name, username, bio, instagram, snapchat, whatsapp, spotify 
+                });
+                alert(`Profile Created! Share this link: ?user=${username}`);
+                location.href = `?user=${username}`;
+            } catch (error) {
+                console.error("Error adding profile:", error);
+            }
+        };
+
+        async function displayProfile(username) {
+            const querySnapshot = await getDocs(collection(db, "profiles"));
+            let profileData = null;
+
+            querySnapshot.forEach((doc) => {
+                if (doc.data().username === username) {
+                    profileData = doc.data();
+                }
+            });
+
+            if (profileData) {
+                document.body.innerHTML = `
+                    <div class="profile-card">
+                        <div class="top-section"></div>
+                        <img class="profile-image" src="https://via.placeholder.com/100" alt="Profile Picture">
+                        <div class="profile-details">
+                            <div class="profile-name">${profileData.name}</div>
+                            <div class="profile-bio">${profileData.bio}</div>
+                            <div class="social-icons">
+                                ${profileData.instagram ? `<a href="${profileData.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>` : ""}
+                                ${profileData.snapchat ? `<a href="${profileData.snapchat}" target="_blank"><i class="fab fa-snapchat"></i></a>` : ""}
+                                ${profileData.whatsapp ? `<a href="${profileData.whatsapp}" target="_blank"><i class="fab fa-whatsapp"></i></a>` : ""}
+                            </div>
+                            ${profileData.spotify ? `<iframe src="https://open.spotify.com/embed/track/${profileData.spotify.split('/').pop()}" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>` : ""}
+                        </div>
+                    </div>
+                `;
+            } else {
+                document.body.innerHTML = `<h2>User not found</h2>`;
+            }
+        }
+
+        const params = new URLSearchParams(window.location.search);
+        if (params.has('user')) {
+            displayProfile(params.get('user'));
+        }
+    </script>
 </head>
 <body>
-
-    <div class="profile-container">
-        <div class="profile-header">
-            <img src="https://via.placeholder.com/100" alt="Profile Picture">
-        </div>
-        <div class="profile-content">
-            <div class="profile-name">John Doe</div>
-            <div class="profile-bio">Web Developer & AI Enthusiast</div>
-            <div class="social-icons">
-                <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
-                <a href="#" target="_blank"><i class="fab fa-snapchat"></i></a>
-                <a href="#" target="_blank"><i class="fab fa-whatsapp"></i></a>
-            </div>
-            <div class="spotify-widget">
-                <iframe src="https://open.spotify.com/embed/track/3n3Ppam7vgaVa1iaRUc9Lp" width="100%" height="80" frameborder="0"></iframe>
-            </div>
+    <div class="profile-card">
+        <div class="top-section"></div>
+        <img class="profile-image" src="https://via.placeholder.com/100" alt="Profile Picture">
+        <div class="profile-details">
+            <input type="text" id="name" placeholder="Your Name" required>
+            <input type="text" id="username" placeholder="Unique Username" required>
+            <textarea id="bio" placeholder="Short Bio" required></textarea>
+            <input type="url" id="instagram" placeholder="Instagram URL">
+            <input type="url" id="snapchat" placeholder="Snapchat URL">
+            <input type="url" id="whatsapp" placeholder="WhatsApp URL">
+            <input type="url" id="spotify" placeholder="Spotify Song URL">
+            <button onclick="createProfile()">Create Profile</button>
         </div>
     </div>
-
 </body>
 </html>
