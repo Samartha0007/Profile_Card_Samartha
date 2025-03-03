@@ -9,7 +9,7 @@
     <script type="module">
         // Firebase SDK
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDoc, doc } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBb3x_zD9JaFwL9PhmngCNZlS2fOh6MBa4",
@@ -40,37 +40,48 @@
                 name, instagram, snapchat, whatsapp, spotify, bio
             });
 
-            alert("Profile created! Share your profile URL: " + window.location.href + "?id=" + docRef.id);
-            location.reload();
+            window.location.href = "?id=" + docRef.id;
         }
 
-        async function loadProfiles() {
-            const profilesContainer = document.getElementById("profiles");
-            const querySnapshot = await getDocs(collection(db, "profiles"));
+        async function loadProfile() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const profileId = urlParams.get("id");
 
-            querySnapshot.forEach((doc) => {
-                const profile = doc.data();
-                const profileCard = `
-                    <div class="profile-card">
-                        <div class="top-section">
-                            <img class="profile-image" src="https://www.instagram.com/${profile.instagram}/profile_pic" alt="Profile Picture">
-                        </div>
-                        <div class="profile-details">
-                            <div class="profile-name">${profile.name}</div>
-                            <div class="profile-bio">${profile.bio}</div>
-                            <div class="social-icons">
-                                ${profile.instagram ? `<a href="https://instagram.com/${profile.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>` : ''}
-                                ${profile.snapchat ? `<a href="https://snapchat.com/add/${profile.snapchat}" target="_blank"><i class="fab fa-snapchat"></i></a>` : ''}
-                                ${profile.whatsapp ? `<a href="https://wa.me/${profile.whatsapp}" target="_blank"><i class="fab fa-whatsapp"></i></a>` : ''}
-                            </div>
-                            ${profile.spotify ? `<iframe src="https://open.spotify.com/embed/track/${profile.spotify.split('/').pop()}" width="100%" height="80" frameborder="0"></iframe>` : ''}
-                        </div>
-                    </div>`;
-                profilesContainer.innerHTML += profileCard;
-            });
+            if (profileId) {
+                document.getElementById("profile-container").style.display = "block";
+                document.getElementById("create-container").style.display = "none";
+
+                const docSnap = await getDoc(doc(db, "profiles", profileId));
+
+                if (docSnap.exists()) {
+                    const profile = docSnap.data();
+                    document.getElementById("profile-name").innerText = profile.name;
+                    document.getElementById("profile-bio").innerText = profile.bio;
+
+                    // Fetch Instagram Profile Picture
+                    if (profile.instagram) {
+                        document.getElementById("profile-image").src = `https://www.instagram.com/${profile.instagram}/profile_pic/?size=large`;
+                    }
+
+                    // Social Icons
+                    let socialHTML = "";
+                    if (profile.instagram) socialHTML += `<a href="https://instagram.com/${profile.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>`;
+                    if (profile.snapchat) socialHTML += `<a href="https://snapchat.com/add/${profile.snapchat}" target="_blank"><i class="fab fa-snapchat"></i></a>`;
+                    if (profile.whatsapp) socialHTML += `<a href="https://wa.me/${profile.whatsapp}" target="_blank"><i class="fab fa-whatsapp"></i></a>`;
+                    document.getElementById("social-icons").innerHTML = socialHTML;
+
+                    // Spotify Embed
+                    if (profile.spotify) {
+                        document.getElementById("spotify-container").innerHTML = `<iframe src="https://open.spotify.com/embed/track/${profile.spotify.split('/').pop()}" width="100%" height="80" frameborder="0"></iframe>`;
+                    }
+                } else {
+                    alert("Profile not found!");
+                    window.location.href = "/";
+                }
+            }
         }
 
-        window.onload = loadProfiles;
+        window.onload = loadProfile;
     </script>
     <style>
         * {
@@ -121,7 +132,6 @@
             border-radius: 20px;
             text-align: center;
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-            margin: 20px;
             padding: 20px;
             transition: transform 0.3s ease-in-out;
         }
@@ -177,7 +187,7 @@
 </head>
 <body>
 
-    <div class="container">
+    <div class="container" id="create-container">
         <h2>Create Your Profile</h2>
         <input type="text" id="name" placeholder="Name" required><br>
         <input type="text" id="instagram" placeholder="Instagram ID"><br>
@@ -188,8 +198,16 @@
         <button onclick="createProfile()">Create Profile</button>
     </div>
 
-    <h2>All Profiles</h2>
-    <div id="profiles"></div>
+    <div class="profile-card" id="profile-container" style="display: none;">
+        <div class="top-section"></div>
+        <img class="profile-image" id="profile-image" src="" alt="Profile Picture">
+        <div class="profile-details">
+            <div class="profile-name" id="profile-name"></div>
+            <div class="profile-bio" id="profile-bio"></div>
+            <div class="social-icons" id="social-icons"></div>
+            <div id="spotify-container"></div>
+        </div>
+    </div>
 
 </body>
 </html>
