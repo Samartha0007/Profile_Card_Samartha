@@ -165,30 +165,22 @@
 </script>  
 
 <style>  
-   /* Global Styles */
-body {  
-    font-family: 'Poppins', sans-serif;  
-    background: linear-gradient(120deg, #eceff1, #b0bec5);  
-    display: flex;  
-    align-items: center;  
-    justify-content: center;  
-    height: 100vh;  
-    text-align: center;  
-    margin: 0;  
-}  
+  /    body {  
+        font-family: 'Poppins', sans-serif;  
+        background: linear-gradient(120deg, #eceff1, #b0bec5);  
+        display: flex;  
+        align-items: center;  
+        justify-content: center;  
+        height: 100vh;  
+        text-align: center;  
+    }  
 
-/* Profile Card */
-.profile-card {  
-    background: white;  
-    padding: 30px;  
-    border-radius: 10px;  
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);  
-    position: relative;  
-    animation: fadeIn 1s ease-in-out;  
-}  
+    .profile-card {  
+        position: relative;  
+        animation: fadeIn 1s ease-in-out;  
+    }  
 
-/* Profile Image with Neon Glow */
-.profile-image {  
+   .profile-image {  
         width: 130px;  
         height: 130px;  
         border-radius: 50%;  
@@ -200,33 +192,29 @@ body {
         100% { box-shadow: 0 0 30px #00ffff; }  
     }  
 
+    .profile-image:hover {  
+        transform: scale(1.1);  
+    }  
 
-/* Social Icons */
-.social-icons {  
-    margin-top: 15px;  
-}  
+    .social-icons a {  
+        font-size: 24px;  
+        margin: 10px;  
+        color: black;  
+        transition: transform 0.3s ease-in-out;  
+    }  
 
-.social-icons a {  
-    font-size: 24px;  
-    margin: 10px;  
-    color: black;  
-    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;  
-    text-decoration: none;  
-}  
+    .social-icons a:hover {  
+        transform: translateY(-5px);  
+        color: #444;  
+    }  
 
-.social-icons a:hover {  
-    transform: translateY(-5px);  
-    color: #444;  
-}  
-
-/* Neon Glow Animation */
+    @keyframes fadeIn {  
+        from { opacity: 0; }  
+        to { opacity: 1; }  
+    }  
 
 
-/* Fade-in Animation */
-@keyframes fadeIn {  
-    from { opacity: 0; }  
-    to { opacity: 1; }  
-}
+
 </style>
 
 </body>  
