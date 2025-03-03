@@ -9,22 +9,131 @@
 </head>
 <body>
 
-    <div class="profile-card">
+    <div class="container" id="create-container">
+        <h2>Create Your Profile</h2>
+        <input type="text" id="name" placeholder="Name" required><br>
+        <input type="file" id="profileImage" accept="image/*"><br>
+        <input type="text" id="instagram" placeholder="Instagram ID"><br>
+        <input type="text" id="snapchat" placeholder="Snapchat ID"><br>
+        <input type="text" id="whatsapp" placeholder="WhatsApp Number"><br>
+        <input type="url" id="spotify" placeholder="Spotify Song URL"><br>
+        <textarea id="bio" placeholder="Short Bio" required></textarea><br>
+        <button id="createProfileBtn">Create Profile</button>
+    </div>
+
+    <div class="profile-card" id="profile-container" style="display: none;">
         <div class="top-section"></div>
-        <img class="profile-image" src="https://via.placeholder.com/150" alt="Profile Picture">
+        <img class="profile-image" id="profile-image" src="" alt="Profile Picture">
         <div class="profile-details">
-            <div class="profile-name">John Doe</div>
-            <div class="profile-bio">Web Developer | Tech Enthusiast</div>
-            <div class="social-icons">
-                <a href="#" class="social instagram"><i class="fab fa-instagram"></i></a>
-                <a href="#" class="social snapchat"><i class="fab fa-snapchat"></i></a>
-                <a href="#" class="social whatsapp"><i class="fab fa-whatsapp"></i></a>
-            </div>
-            <div id="spotify-container">
-                <iframe src="https://open.spotify.com/embed/track/7ouMYWpwJ422jRcDASZB7P" width="100%" height="80" frameborder="0"></iframe>
-            </div>
+            <div class="profile-name" id="profile-name"></div>
+            <div class="profile-bio" id="profile-bio"></div>
+            <div class="social-icons" id="social-icons"></div>
+            <div id="spotify-container"></div>
         </div>
     </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDoc, doc } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBb3x_zD9JaFwL9PhmngCNZlS2fOh6MBa4",
+            authDomain: "newai-52371.firebaseapp.com",
+            projectId: "newai-52371",
+            storageBucket: "newai-52371.appspot.com",
+            messagingSenderId: "480586908639",
+            appId: "1:480586908639:web:f4645a852c4df724c6fa6a"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        async function uploadImage(file) {
+            const cloudName = "dw1qrki2c";
+            const uploadPreset = "profile_uploads";
+
+            const formData = new FormData();
+            formData.append("file", file);
+            formData.append("upload_preset", uploadPreset);
+
+            const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+                method: "POST",
+                body: formData
+            });
+
+            const data = await response.json();
+            return data.secure_url;
+        }
+
+        async function createProfile() {
+            const name = document.getElementById("name").value;
+            const imageFile = document.getElementById("profileImage").files[0];
+            const instagram = document.getElementById("instagram").value;
+            const snapchat = document.getElementById("snapchat").value;
+            const whatsapp = document.getElementById("whatsapp").value;
+            const spotify = document.getElementById("spotify").value;
+            const bio = document.getElementById("bio").value;
+
+            if (!name) {
+                alert("Name is required!");
+                return;
+            }
+
+            let imageUrl = "";
+            if (imageFile) {
+                imageUrl = await uploadImage(imageFile);
+            }
+
+            try {
+                const docRef = await addDoc(collection(db, "profiles"), {
+                    name, imageUrl, instagram, snapchat, whatsapp, spotify, bio
+                });
+
+                window.location.href = "?id=" + docRef.id;
+            } catch (error) {
+                console.error("Error adding document: ", error);
+                alert("Failed to create profile. Check Firebase rules!");
+            }
+        }
+
+        async function loadProfile() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const profileId = urlParams.get("id");
+
+            if (profileId) {
+                document.getElementById("profile-container").style.display = "block";
+                document.getElementById("create-container").style.display = "none";
+
+                const docSnap = await getDoc(doc(db, "profiles", profileId));
+
+                if (docSnap.exists()) {
+                    const profile = docSnap.data();
+                    document.getElementById("profile-name").innerText = profile.name;
+                    document.getElementById("profile-bio").innerText = profile.bio;
+
+                    if (profile.imageUrl) {
+                        document.getElementById("profile-image").src = profile.imageUrl;
+                    }
+
+                    let socialHTML = "";
+                    if (profile.instagram) socialHTML += `<a href="https://instagram.com/${profile.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>`;
+                    if (profile.snapchat) socialHTML += `<a href="https://snapchat.com/add/${profile.snapchat}" target="_blank"><i class="fab fa-snapchat"></i></a>`;
+                    if (profile.whatsapp) socialHTML += `<a href="https://wa.me/${profile.whatsapp}" target="_blank"><i class="fab fa-whatsapp"></i></a>`;
+                    document.getElementById("social-icons").innerHTML = socialHTML;
+
+                    if (profile.spotify) {
+                        document.getElementById("spotify-container").innerHTML = `<iframe src="https://open.spotify.com/embed/track/${profile.spotify.split('/').pop()}" width="100%" height="80" frameborder="0"></iframe>`;
+                    }
+                } else {
+                    alert("Profile not found!");
+                    window.location.href = "/";
+                }
+            }
+        }
+
+        document.getElementById("createProfileBtn").addEventListener("click", createProfile);
+        window.onload = loadProfile;
+    </script>
 
     <style>
         * {
@@ -36,110 +145,39 @@
         body {
             background: #f4f8f2;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
             padding: 20px;
         }
-        .profile-card {
+        .container, .profile-card {
             background: white;
             padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             text-align: center;
-            position: relative;
-            width: 380px;
-            overflow: hidden;
-            transition: all 0.4s ease-in-out;
-        }
-        .profile-card:hover {
-            transform: scale(1.03);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        }
-        .profile-image {
-            width: 130px;
-            height: 130px;
-            border-radius: 50%;
-            border: 5px solid white;
-            margin-top: -65px;
-            animation: glow 3s infinite alternate;
-            transition: transform 0.3s ease-in-out;
-        }
-        .profile-image:hover {
-            transform: scale(1.1);
-        }
-        @keyframes glow {
-            0% { box-shadow: 0 0 10px #ff00ff; }
-            100% { box-shadow: 0 0 30px #00ffff; }
+            width: 340px;
         }
         .profile-name {
-            font-size: 22px;
+            font-size: 28px;
             font-weight: 600;
-            color: #333;
-            margin-top: 10px;
-            transition: color 0.3s ease-in-out;
+            animation: fadeIn 1.2s ease-in-out;
         }
-        .profile-card:hover .profile-name {
-            color: #007bff;
-        }
-        .profile-bio {
-            font-size: 14px;
-            color: #666;
-            margin-top: 5px;
-            transition: transform 0.3s ease-in-out;
-        }
-        .profile-card:hover .profile-bio {
-            transform: scale(1.05);
-        }
-        .social-icons {
-            margin-top: 15px;
-        }
-        .social {
-            display: inline-block;
-            margin: 0 10px;
-            font-size: 24px;
-            width: 50px;
-            height: 50px;
-            line-height: 50px;
-            text-align: center;
+        .profile-image {
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
-            transition: all 0.3s ease-in-out;
-            position: relative;
+            border: 5px solid white;
         }
-        .social i {
-            transition: transform 0.3s ease-in-out;
+        .social-icons a {
+            font-size: 24px;
+            margin: 0 10px;
+            color: #000;
+            transition: 0.3s;
         }
-        .social:hover i {
-            transform: scale(1.2);
-        }
-        .instagram {
-            background: linear-gradient(45deg, #fd5949, #d6249f, #285AEB);
-            color: white;
-            box-shadow: 0 0 10px rgba(253, 89, 73, 0.5);
-        }
-        .snapchat {
-            background: #fffc00;
-            color: black;
-            box-shadow: 0 0 10px rgba(255, 252, 0, 0.5);
-        }
-        .whatsapp {
-            background: #25d366;
-            color: white;
-            box-shadow: 0 0 10px rgba(37, 211, 102, 0.5);
-        }
-        .social:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
-        }
-        #spotify-container {
-            margin-top: 15px;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
-        }
-        .profile-card:hover #spotify-container {
-            opacity: 1;
-            transform: translateY(0);
+        .social-icons a:hover {
+            color: #555;
         }
     </style>
 
