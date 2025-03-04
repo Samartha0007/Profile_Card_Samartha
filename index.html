@@ -1,59 +1,76 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Card</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <style>
-        /* General Styles */
+/* General Styles */
 body {
     font-family: 'Poppins', sans-serif;
     text-align: center;
-    background-color: #f4f4f4;
+    background: linear-gradient(to right, #1e3c72, #2a5298);
+    color: white;
     margin: 0;
     padding: 0;
 }
 
 /* Main Container */
 .container {
-    margin: 20px auto;
+    margin: 30px auto;
     padding: 20px;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     max-width: 400px;
+    color: white;
 }
 
 /* Input Fields */
 input, textarea {
     width: 90%;
-    padding: 10px;
+    padding: 12px;
     margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-}
-
-textarea {
-    resize: none;
-    height: 80px;
-}
-
-/* Create Profile Button */
-button {
-    background-color: #007BFF;
-    color: white;
-    padding: 10px 15px;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
+    font-size: 16px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    outline: none;
+}
+
+/* Placeholder Color */
+input::placeholder, textarea::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Buttons */
+button {
+    background: linear-gradient(to right, #ff416c, #ff4b2b);
+    color: white;
+    padding: 12px 15px;
+    border: none;
+    border-radius: 8px;
     font-size: 16px;
     cursor: pointer;
+    transition: 0.3s;
 }
 
 button:hover {
-    background-color: #0056b3;
+    background: linear-gradient(to right, #ff4b2b, #ff416c);
+}
+
+/* Share Button (Top Right) */
+.share-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    padding: 10px;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.share-btn:hover {
+    background: rgba(255, 255, 255, 0.4);
 }
 
 /* Creating Profile Modal */
@@ -62,14 +79,17 @@ button:hover {
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.7);
     text-align: center;
+    justify-content: center;
+    align-items: center;
 }
 
 .modal-content {
     background: white;
+    color: black;
     padding: 20px;
-    border-radius: 10px;
+    border-radius: 15px;
     display: inline-block;
     margin-top: 20%;
 }
@@ -78,12 +98,13 @@ button:hover {
 .profile-card {
     display: none;
     text-align: center;
-    background: white;
+    background: rgba(255, 255, 255, 0.1);
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     max-width: 400px;
     margin: 20px auto;
+    backdrop-filter: blur(15px);
 }
 
 /* Profile Image */
@@ -93,224 +114,67 @@ button:hover {
     border-radius: 50%;
     object-fit: cover;
     margin-bottom: 10px;
-    border: 3px solid #007BFF;
+    border: 4px solid #ff4b2b;
 }
 
 /* Profile Name */
 .profile-name {
-    font-size: 22px;
+    font-size: 24px;
     font-weight: bold;
+    animation: fadeIn 1s ease-in-out;
 }
 
 /* Profile Bio */
 .profile-bio {
     font-size: 16px;
-    color: #555;
+    color: rgba(255, 255, 255, 0.8);
     margin: 5px 0;
 }
 
 /* Profile Birthday */
 .profile-birthday {
     font-size: 14px;
-    color: #777;
+    color: rgba(255, 255, 255, 0.6);
 }
 
-/* Social Icons */
+/* Social Profiles */
+.social-profiles {
+    margin-top: 20px;
+}
+
 .social-icons {
     display: flex;
     justify-content: center;
     gap: 15px;
-    margin-top: 15px;
 }
 
 .social-icons a {
     text-decoration: none;
-    color: white;
-    font-size: 20px;
-    width: 40px;
-    height: 40px;
+    font-size: 22px;
+    width: 45px;
+    height: 45px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
+    transition: 0.3s;
 }
 
-.social-icons .instagram { background: #E4405F; }
+.social-icons .instagram { background: #E4405F; color: white; }
 .social-icons .snapchat { background: #FFFC00; color: black; }
-.social-icons .whatsapp { background: #25D366; }
+.social-icons .whatsapp { background: #25D366; color: white; }
+
+.social-icons a:hover {
+    transform: scale(1.1);
+}
 
 /* Spotify Embed */
 #spotify-container {
     margin-top: 15px;
 }
-    </style>
-</head>
-<body>
 
-<div class="container" id="create-container">
-    <h2>Create Your Profile</h2>
-
-    <!-- Social Media Inputs -->
-    <div id="social-inputs">
-        <input type="text" id="instagram" placeholder="Instagram ID"><br>
-        <input type="text" id="snapchat" placeholder="Snapchat ID"><br>
-        <input type="text" id="whatsapp" placeholder="WhatsApp Number"><br>
-    </div>
-
-    <input type="text" id="name" placeholder="Name" required><br>
-    <input type="date" id="birthday" required><br>
-    <input type="file" id="profileImage" accept="image/*" required><br>
-    <textarea id="bio" placeholder="Short Bio" required></textarea><br>
-    <input type="url" id="spotify" placeholder="Spotify Song URL"><br>
-
-    <button id="createProfileBtn">Create Profile</button>
-</div>
-
-<!-- Creating Profile Modal -->
-<div id="loadingModal" class="modal">
-    <div class="modal-content">
-        <h3>Creating Profile...</h3>
-    </div>
-</div>
-
-<!-- Profile Display -->
-<div class="profile-card" id="profile-container">
-    <div class="top-section">
-        <button id="shareProfile"><i class="fas fa-share-alt"></i></button>
-    </div>
-    <img class="profile-image" id="profile-image" src="" alt="Profile Picture">
-    <div class="profile-details">
-        <div class="profile-name" id="profile-name"></div>
-        <div class="profile-bio" id="profile-bio"></div>
-        <div class="profile-birthday" id="profile-birthday"></div>
-    </div>
-    <div class="social-icons" id="social-icons"></div>
-    <div id="spotify-container"></div>
-</div>
-
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyBb3x_zD9JaFwL9PhmngCNZlS2fOh6MBa4",
-        authDomain: "newai-52371.firebaseapp.com",
-        projectId: "newai-52371",
-        storageBucket: "newai-52371.appspot.com",
-        messagingSenderId: "480586908639",
-        appId: "1:480586908639:web:f4645a852c4df724c6fa6a"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    function showLoadingModal() {
-        document.getElementById("loadingModal").style.display = "block";
-    }
-
-    function hideLoadingModal() {
-        document.getElementById("loadingModal").style.display = "none";
-    }
-
-    async function uploadImage(file) {
-        const cloudName = "dw1qrki2c";
-        const uploadPreset = "profile_uploads";
-
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("upload_preset", uploadPreset);
-
-        const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
-            method: "POST",
-            body: formData
-        });
-
-        const data = await response.json();
-        return data.secure_url;
-    }
-
-    async function generateUniqueUsername(name) {
-        let username = name.toLowerCase().replace(/\s+/g, '');
-        let count = 1;
-
-        const q = query(collection(db, "profiles"), where("username", "==", username));
-        let querySnapshot = await getDocs(q);
-
-        while (!querySnapshot.empty) {
-            username = name.toLowerCase().replace(/\s+/g, '') + count;
-            querySnapshot = await getDocs(query(collection(db, "profiles"), where("username", "==", username)));
-            count++;
-        }
-        return username;
-    }
-
-    async function createProfile() {
-        const name = document.getElementById("name").value;
-        const birthday = document.getElementById("birthday").value;
-        const imageFile = document.getElementById("profileImage").files[0];
-        const bio = document.getElementById("bio").value;
-        const spotify = document.getElementById("spotify").value;
-        const instagram = document.getElementById("instagram").value;
-        const snapchat = document.getElementById("snapchat").value;
-        const whatsapp = document.getElementById("whatsapp").value;
-
-        if (!name || !birthday || !bio || !imageFile) {
-            alert("All fields are required!");
-            return;
-        }
-
-        showLoadingModal();
-
-        let username = await generateUniqueUsername(name);
-        let imageUrl = await uploadImage(imageFile);
-
-        let socialProfiles = { instagram, snapchat, whatsapp };
-
-        try {
-            await addDoc(collection(db, "profiles"), {
-                name, username, imageUrl, birthday, bio, spotify, socialProfiles
-            });
-
-            let profileUrl = `${window.location.origin}?user=${username}`;
-            navigator.clipboard.writeText(profileUrl);
-
-            window.location.href = profileUrl;
-        } catch (error) {
-            console.error("Error adding document: ", error);
-            alert("Failed to create profile.");
-        } finally {
-            hideLoadingModal();
-        }
-    }
-
-    async function loadProfile() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const username = urlParams.get("user");
-
-        if (username) {
-            document.getElementById("profile-container").style.display = "block";
-            document.getElementById("create-container").style.display = "none";
-
-            const q = query(collection(db, "profiles"), where("username", "==", username));
-            const querySnapshot = await getDocs(q);
-
-            if (!querySnapshot.empty) {
-                const profile = querySnapshot.docs[0].data();
-                document.getElementById("profile-name").innerText = profile.name;
-                document.getElementById("profile-bio").innerText = profile.bio;
-                document.getElementById("profile-birthday").innerText = "Birthday: " + profile.birthday;
-                document.getElementById("profile-image").src = profile.imageUrl;
-            }
-        }
-    }
-
-    document.getElementById("createProfileBtn").addEventListener("click", createProfile);
-    document.getElementById("shareProfile").addEventListener("click", () => {
-        navigator.clipboard.writeText(window.location.href);
-        alert("Profile link copied!");
-    });
-
-    window.onload = loadProfile;
-</script>
-</body>
-</html>
+/* Animations */
+@keyframes fadeIn {
+    0% { opacity: 0; transform: scale(0.9); }
+    100% { opacity: 1; transform: scale(1); }
+}
