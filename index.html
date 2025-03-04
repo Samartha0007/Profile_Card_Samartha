@@ -4,67 +4,129 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile Card</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(120deg, #eceff1, #b0bec5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            text-align: center;
-            flex-direction: column;
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBb3x_zD9JaFwL9PhmngCNZlS2fOh6MBa4",
+            authDomain: "newai-52371.firebaseapp.com",
+            projectId: "newai-52371",
+            storageBucket: "newai-52371.appspot.com",
+            messagingSenderId: "480586908639",
+            appId: "1:480586908639:web:f4645a852c4df724c6fa6a"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        async function uploadImage(file) {
+            const cloudName = "dw1qrki2c";
+            const uploadPreset = "profile_uploads";
+
+            const formData = new FormData();
+            formData.append("file", file);
+            formData.append("upload_preset", uploadPreset);
+
+            const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+                method: "POST",
+                body: formData
+            });
+
+            const data = await response.json();
+            return data.secure_url;
         }
-        .container {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+        async function createProfile() {
+            const name = document.getElementById("name").value;
+            const imageFile = document.getElementById("profileImage").files[0];
+            const instagram = document.getElementById("instagram").value;
+            const snapchat = document.getElementById("snapchat").value;
+            const whatsapp = document.getElementById("whatsapp").value;
+            const spotify = document.getElementById("spotify").value;
+            const bio = document.getElementById("bio").value;
+
+            if (!name) {
+                alert("Name is required!");
+                return;
+            }
+
+            document.getElementById("loadingModal").style.display = "flex";
+
+            let imageUrl = imageFile ? await uploadImage(imageFile) : "";
+            let username = name.toLowerCase().replace(/\s+/g, '');
+
+            try {
+                await addDoc(collection(db, "profiles"), {
+                    name, username, imageUrl, instagram, snapchat, whatsapp, spotify, bio
+                });
+
+                const profileUrl = `${window.location.origin}?user=${username}`;
+                document.getElementById("profileUrl").value = profileUrl;
+                document.getElementById("loadingModal").style.display = "none";
+                document.getElementById("successModal").style.display = "flex";
+            } catch (error) {
+                alert("Failed to create profile.");
+            }
         }
-        .profile-card {
-            display: none;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+        function copyUrl() {
+            const urlField = document.getElementById("profileUrl");
+            urlField.select();
+            document.execCommand("copy");
+            alert("Copied to clipboard!");
         }
-        .profile-image {
-            width: 130px;
-            height: 130px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-top: -60px;
-            border: 4px solid white;
+
+        function shareProfile() {
+            const url = document.getElementById("profileUrl").value;
+            navigator.share ? navigator.share({ url }) : alert("Sharing not supported.");
         }
-        .social-icons a {
-            font-size: 24px;
-            margin: 10px;
-            color: black;
+
+        function openProfile() {
+            window.open(document.getElementById("profileUrl").value, "_blank");
         }
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
+
+        async function loadProfile(username) {
+            const q = query(collection(db, "profiles"), where("username", "==", username));
+            const querySnapshot = await getDocs(q);
+
+            if (!querySnapshot.empty) {
+                const data = querySnapshot.docs[0].data();
+                document.getElementById("create-container").style.display = "none";
+                document.getElementById("profile-container").style.display = "block";
+                document.getElementById("profile-name").innerText = data.name;
+                document.getElementById("profile-bio").innerText = data.bio;
+                document.getElementById("profile-image").src = data.imageUrl || "default.png";
+                
+                let socialIcons = "";
+                if (data.instagram) socialIcons += `<a href="https://instagram.com/${data.instagram}" target="_blank">Instagram</a><br>`;
+                if (data.snapchat) socialIcons += `<a href="https://snapchat.com/add/${data.snapchat}" target="_blank">Snapchat</a><br>`;
+                if (data.whatsapp) socialIcons += `<a href="https://wa.me/${data.whatsapp}" target="_blank">WhatsApp</a><br>`;
+                
+                document.getElementById("social-icons").innerHTML = socialIcons;
+                
+                if (data.spotify) {
+                    document.getElementById("spotify-container").innerHTML = `<iframe src="https://open.spotify.com/embed/track/${data.spotify.split('/').pop()}" width="300" height="80" frameborder="0"></iframe>`;
+                }
+            } else {
+                alert("Profile not found.");
+            }
         }
-        .modal-content {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-        }
-    </style>
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const username = urlParams.get("user");
+            if (username) {
+                loadProfile(username);
+            }
+        });
+
+        document.getElementById("createProfileBtn").addEventListener("click", createProfile);
+    </script>
 </head>
 <body>
 
-<div class="container" id="create-container">
+<div id="create-container">
     <h2>Create Your Profile</h2>
     <input type="text" id="name" placeholder="Name" required><br>
     <input type="file" id="profileImage" accept="image/*"><br>
@@ -76,119 +138,28 @@
     <button id="createProfileBtn">Create Profile</button>
 </div>
 
-<div class="profile-card" id="profile-container">
-    <div class="top-section"></div>
-    <img class="profile-image" id="profile-image" src="" alt="Profile Picture">
-    <div class="profile-details">
-        <div class="profile-name" id="profile-name"></div>
-        <div class="profile-bio" id="profile-bio"></div>
-        <div class="social-icons" id="social-icons"></div>
-        <div id="spotify-container"></div>
-    </div>
+<div id="profile-container" style="display: none;">
+    <h2>Profile</h2>
+    <img id="profile-image" src="" alt="Profile Picture"><br>
+    <div id="profile-name"></div>
+    <div id="profile-bio"></div>
+    <div id="social-icons"></div>
+    <div id="spotify-container"></div>
 </div>
 
 <!-- Modal for Creating Profile -->
-<div class="modal" id="loadingModal">
-    <div class="modal-content">
-        <h3>Creating Profile...</h3>
-    </div>
+<div id="loadingModal" style="display: none;">
+    <h3>Creating Profile...</h3>
 </div>
 
 <!-- Modal for Success -->
-<div class="modal" id="successModal">
-    <div class="modal-content">
-        <h3>Profile Created!</h3>
-        <input type="text" id="profileUrl" readonly>
-        <button onclick="copyUrl()">Copy URL</button>
-        <button onclick="shareProfile()">Share</button>
-        <button onclick="openProfile()">Open Profile</button>
-    </div>
+<div id="successModal" style="display: none;">
+    <h3>Profile Created!</h3>
+    <input type="text" id="profileUrl" readonly>
+    <button onclick="copyUrl()">Copy URL</button>
+    <button onclick="shareProfile()">Share</button>
+    <button onclick="openProfile()">Open Profile</button>
 </div>
-
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyBb3x_zD9JaFwL9PhmngCNZlS2fOh6MBa4",
-        authDomain: "newai-52371.firebaseapp.com",
-        projectId: "newai-52371",
-        storageBucket: "newai-52371.appspot.com",
-        messagingSenderId: "480586908639",
-        appId: "1:480586908639:web:f4645a852c4df724c6fa6a"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    async function uploadImage(file) {
-        const cloudName = "dw1qrki2c";
-        const uploadPreset = "profile_uploads";
-
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("upload_preset", uploadPreset);
-
-        const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
-            method: "POST",
-            body: formData
-        });
-
-        const data = await response.json();
-        return data.secure_url;
-    }
-
-    async function createProfile() {
-        const name = document.getElementById("name").value;
-        const imageFile = document.getElementById("profileImage").files[0];
-        const instagram = document.getElementById("instagram").value;
-        const snapchat = document.getElementById("snapchat").value;
-        const whatsapp = document.getElementById("whatsapp").value;
-        const spotify = document.getElementById("spotify").value;
-        const bio = document.getElementById("bio").value;
-
-        if (!name) {
-            alert("Name is required!");
-            return;
-        }
-
-        document.getElementById("loadingModal").style.display = "flex";
-
-        let imageUrl = imageFile ? await uploadImage(imageFile) : "";
-        let username = name.toLowerCase().replace(/\s+/g, '');
-
-        try {
-            await addDoc(collection(db, "profiles"), {
-                name, username, imageUrl, instagram, snapchat, whatsapp, spotify, bio
-            });
-
-            const profileUrl = `${window.location.origin}?user=${username}`;
-            document.getElementById("profileUrl").value = profileUrl;
-            document.getElementById("loadingModal").style.display = "none";
-            document.getElementById("successModal").style.display = "flex";
-        } catch (error) {
-            alert("Failed to create profile.");
-        }
-    }
-
-    function copyUrl() {
-        const urlField = document.getElementById("profileUrl");
-        urlField.select();
-        document.execCommand("copy");
-        alert("Copied to clipboard!");
-    }
-
-    function shareProfile() {
-        const url = document.getElementById("profileUrl").value;
-        navigator.share ? navigator.share({ url }) : alert("Sharing not supported.");
-    }
-
-    function openProfile() {
-        window.open(document.getElementById("profileUrl").value, "_blank");
-    }
-
-    document.getElementById("createProfileBtn").addEventListener("click", createProfile);
-</script>
 
 </body>
 </html>
