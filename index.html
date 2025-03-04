@@ -8,14 +8,14 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
         import { getFirestore, collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyBb3x_zD9JaFwL9PhmngCNZlS2fOh6MBa4",
-            authDomain: "newai-52371.firebaseapp.com",
-            projectId: "newai-52371",
-            storageBucket: "newai-52371.appspot.com",
-            messagingSenderId: "480586908639",
-            appId: "1:480586908639:web:f4645a852c4df724c6fa6a"
-        };
+        const firebaseConfig = {  
+            apiKey: "AIzaSyBb3x_zD9JaFwL9PhmngCNZlS2fOh6MBa4",  
+            authDomain: "newai-52371.firebaseapp.com",  
+            projectId: "newai-52371",  
+            storageBucket: "newai-52371.appspot.com",  
+            messagingSenderId: "480586908639",  
+            appId: "1:480586908639:web:f4645a852c4df724c6fa6a"  
+        };  
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
@@ -37,91 +37,121 @@
             return data.secure_url;
         }
 
+        async function generateUniqueUsername(name) {
+            let username = name.toLowerCase().replace(/\s+/g, '');
+            let count = 1;
+
+            let q = query(collection(db, "profiles"), where("username", "==", username));
+            let querySnapshot = await getDocs(q);
+
+            while (!querySnapshot.empty) {
+                username = name.toLowerCase().replace(/\s+/g, '') + count;
+                querySnapshot = await getDocs(query(collection(db, "profiles"), where("username", "==", username)));
+                count++;
+            }
+            return username;
+        }
+
         async function createProfile() {
             const name = document.getElementById("name").value;
             const imageFile = document.getElementById("profileImage").files[0];
+            const birthday = document.getElementById("birthday").value;
+            const bio = document.getElementById("bio").value;
             const instagram = document.getElementById("instagram").value;
             const snapchat = document.getElementById("snapchat").value;
             const whatsapp = document.getElementById("whatsapp").value;
             const spotify = document.getElementById("spotify").value;
-            const bio = document.getElementById("bio").value;
 
-            if (!name) {
-                alert("Name is required!");
+            if (!name || !bio || !birthday || !imageFile) {
+                alert("Name, Bio, Birthday, and Profile Picture are required!");
                 return;
             }
 
-            document.getElementById("loadingModal").style.display = "flex";
+            document.getElementById("creatingModal").style.display = "block";
 
-            let imageUrl = imageFile ? await uploadImage(imageFile) : "";
-            let username = name.toLowerCase().replace(/\s+/g, '');
+            let username = await generateUniqueUsername(name);
+            let imageUrl = await uploadImage(imageFile);
 
             try {
-                await addDoc(collection(db, "profiles"), {
-                    name, username, imageUrl, instagram, snapchat, whatsapp, spotify, bio
+                await addDoc(collection(db, "profiles"), {  
+                    name, username, imageUrl, birthday, bio, instagram, snapchat, whatsapp, spotify  
                 });
 
-                const profileUrl = `${window.location.origin}?user=${username}`;
+                const profileUrl = window.location.origin + "?user=" + username;
+                document.getElementById("creatingModal").style.display = "none";
+                document.getElementById("successModal").style.display = "block";
                 document.getElementById("profileUrl").value = profileUrl;
-                document.getElementById("loadingModal").style.display = "none";
-                document.getElementById("successModal").style.display = "flex";
             } catch (error) {
+                console.error("Error adding document: ", error);
                 alert("Failed to create profile.");
+                document.getElementById("creatingModal").style.display = "none";
             }
         }
 
-        function copyUrl() {
-            const urlField = document.getElementById("profileUrl");
-            urlField.select();
+        function copyProfileUrl() {
+            const copyText = document.getElementById("profileUrl");
+            copyText.select();
             document.execCommand("copy");
-            alert("Copied to clipboard!");
+            alert("Profile URL copied!");
         }
 
-        function shareProfile() {
-            const url = document.getElementById("profileUrl").value;
-            navigator.share ? navigator.share({ url }) : alert("Sharing not supported.");
+        function shareProfileUrl() {
+            const profileUrl = document.getElementById("profileUrl").value;
+            if (navigator.share) {
+                navigator.share({
+                    title: "Check out this profile!",
+                    url: profileUrl
+                }).catch(err => console.log("Sharing failed", err));
+            } else {
+                alert("Sharing not supported on this browser.");
+            }
         }
 
         function openProfile() {
-            window.open(document.getElementById("profileUrl").value, "_blank");
+            const profileUrl = document.getElementById("profileUrl").value;
+            window.open(profileUrl, "_blank");
         }
 
-        async function loadProfile(username) {
-            const q = query(collection(db, "profiles"), where("username", "==", username));
-            const querySnapshot = await getDocs(q);
-
-            if (!querySnapshot.empty) {
-                const data = querySnapshot.docs[0].data();
-                document.getElementById("create-container").style.display = "none";
-                document.getElementById("profile-container").style.display = "block";
-                document.getElementById("profile-name").innerText = data.name;
-                document.getElementById("profile-bio").innerText = data.bio;
-                document.getElementById("profile-image").src = data.imageUrl || "default.png";
-                
-                let socialIcons = "";
-                if (data.instagram) socialIcons += `<a href="https://instagram.com/${data.instagram}" target="_blank">Instagram</a><br>`;
-                if (data.snapchat) socialIcons += `<a href="https://snapchat.com/add/${data.snapchat}" target="_blank">Snapchat</a><br>`;
-                if (data.whatsapp) socialIcons += `<a href="https://wa.me/${data.whatsapp}" target="_blank">WhatsApp</a><br>`;
-                
-                document.getElementById("social-icons").innerHTML = socialIcons;
-                
-                if (data.spotify) {
-                    document.getElementById("spotify-container").innerHTML = `<iframe src="https://open.spotify.com/embed/track/${data.spotify.split('/').pop()}" width="300" height="80" frameborder="0"></iframe>`;
-                }
-            } else {
-                alert("Profile not found.");
-            }
-        }
-
-        document.addEventListener("DOMContentLoaded", () => {
+        async function loadProfile() {
             const urlParams = new URLSearchParams(window.location.search);
             const username = urlParams.get("user");
+
             if (username) {
-                loadProfile(username);
+                document.getElementById("profile-container").style.display = "block";
+                document.getElementById("create-container").style.display = "none";
+
+                const q = query(collection(db, "profiles"), where("username", "==", username));
+                const querySnapshot = await getDocs(q);
+
+                if (!querySnapshot.empty) {
+                    const profile = querySnapshot.docs[0].data();
+                    document.getElementById("profile-name").innerText = profile.name;
+                    document.getElementById("profile-bio").innerText = profile.bio;
+                    document.getElementById("profile-birthday").innerText = "Birthday: " + profile.birthday;
+
+                    if (profile.imageUrl) {
+                        document.getElementById("profile-image").src = profile.imageUrl;
+                    }
+
+                    let socialHTML = "";
+                    if (profile.instagram) socialHTML += `<a href="https://instagram.com/${profile.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>`;
+                    if (profile.snapchat) socialHTML += `<a href="https://snapchat.com/add/${profile.snapchat}" target="_blank"><i class="fab fa-snapchat"></i></a>`;
+                    if (profile.whatsapp) socialHTML += `<a href="https://wa.me/${profile.whatsapp}" target="_blank"><i class="fab fa-whatsapp"></i></a>`;
+                    document.getElementById("social-icons").innerHTML = socialHTML;
+
+                    if (profile.spotify) {
+                        const spotifyEmbed = `<iframe src="https://open.spotify.com/embed/track/${profile.spotify.split('/').pop()}" width="300" height="80" frameborder="0" allow="encrypted-media"></iframe>`;
+                        document.getElementById("spotify-container").innerHTML = spotifyEmbed;
+                    }
+                } else {
+                    alert("Profile not found!");
+                    window.location.href = "/";
+                }
             }
-        });
+        }
 
         document.getElementById("createProfileBtn").addEventListener("click", createProfile);
+        window.onload = loadProfile;
     </script>
 </head>
 <body>
@@ -129,36 +159,27 @@
 <div id="create-container">
     <h2>Create Your Profile</h2>
     <input type="text" id="name" placeholder="Name" required><br>
-    <input type="file" id="profileImage" accept="image/*"><br>
-    <input type="text" id="instagram" placeholder="Instagram ID"><br>
-    <input type="text" id="snapchat" placeholder="Snapchat ID"><br>
-    <input type="text" id="whatsapp" placeholder="WhatsApp Number"><br>
-    <input type="url" id="spotify" placeholder="Spotify Song URL"><br>
+    <input type="date" id="birthday" required><br>
+    <input type="file" id="profileImage" accept="image/*" required><br>
     <textarea id="bio" placeholder="Short Bio" required></textarea><br>
     <button id="createProfileBtn">Create Profile</button>
 </div>
 
+<div id="creatingModal" style="display: none;">Creating Profile...</div>
+<div id="successModal" style="display: none;">
+    <input type="text" id="profileUrl" readonly>
+    <button onclick="copyProfileUrl()">Copy</button>
+    <button onclick="shareProfileUrl()">Share</button>
+    <button onclick="openProfile()">Open</button>
+</div>
+
 <div id="profile-container" style="display: none;">
-    <h2>Profile</h2>
-    <img id="profile-image" src="" alt="Profile Picture"><br>
-    <div id="profile-name"></div>
-    <div id="profile-bio"></div>
+    <h2 id="profile-name"></h2>
+    <p id="profile-birthday"></p>
+    <img id="profile-image" src="" alt="Profile Picture">
+    <p id="profile-bio"></p>
     <div id="social-icons"></div>
     <div id="spotify-container"></div>
-</div>
-
-<!-- Modal for Creating Profile -->
-<div id="loadingModal" style="display: none;">
-    <h3>Creating Profile...</h3>
-</div>
-
-<!-- Modal for Success -->
-<div id="successModal" style="display: none;">
-    <h3>Profile Created!</h3>
-    <input type="text" id="profileUrl" readonly>
-    <button onclick="copyUrl()">Copy URL</button>
-    <button onclick="shareProfile()">Share</button>
-    <button onclick="openProfile()">Open Profile</button>
 </div>
 
 </body>
