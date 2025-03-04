@@ -7,103 +7,37 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-       /* Global Styling */
-body {
-    font-family: 'Poppins', sans-serif;
-    text-align: center;
-    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-    color: white;
+       /* Import Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #1e1e1e, #323232);
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     height: 100vh;
+    text-align: center;
+    overflow: hidden;
 }
 
-/* Profile Card */
+/* Container for Profile Card */
 .profile-card {
-    position: relative;
-    width: 420px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    border-radius: 15px;
     padding: 25px;
-    border-radius: 20px;
-    backdrop-filter: blur(25px);
-    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
+    width: 350px;
+    box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.3);
+    position: relative;
     animation: fadeIn 1s ease-in-out;
-}
-
-/* Profile Image */
-.profile-image {
-    width: 130px;
-    height: 130px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 6px solid rgba(255, 255, 255, 0.3);
-    transition: 0.4s;
-    box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.3);
-}
-
-.profile-image:hover {
-    transform: scale(1.1);
-    box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.6);
-}
-
-/* Profile Name */
-.profile-name {
-    font-size: 28px;
-    font-weight: bold;
-    margin-top: 10px;
-    color: #ff4b2b;
-    text-shadow: 2px 2px 10px rgba(255, 75, 43, 0.6);
-    animation: fadeIn 1s ease-in-out;
-}
-
-/* Profile Bio */
-.profile-bio {
-    font-size: 16px;
-    color: rgba(255, 255, 255, 0.8);
-    margin: 8px 0;
-}
-
-/* Profile Birthday */
-.profile-birthday {
-    font-size: 14px;
-    color: rgba(255, 255, 255, 0.5);
-}
-
-/* Social Profiles */
-.social-profiles {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-}
-
-.social-icons a {
-    text-decoration: none;
-    font-size: 24px;
-    width: 50px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    transition: 0.3s;
-    box-shadow: 0px 5px 15px rgba(255, 255, 255, 0.2);
-}
-
-.social-icons .instagram { background: #E4405F; color: white; }
-.social-icons .snapchat { background: #FFFC00; color: black; }
-.social-icons .whatsapp { background: #25D366; color: white; }
-
-.social-icons a:hover {
-    transform: scale(1.2) rotate(5deg);
-    box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.5);
-}
-
-/* Spotify Embed */
-#spotify-container {
-    margin-top: 20px;
+    transition: all 0.3s ease-in-out;
 }
 
 /* Share Button (Top Right) */
@@ -113,44 +47,81 @@ body {
     right: 15px;
     background: rgba(255, 255, 255, 0.2);
     border: none;
-    color: white;
-    padding: 12px;
     border-radius: 50%;
-    font-size: 20px;
+    padding: 10px;
     cursor: pointer;
-    transition: 0.3s;
+    transition: all 0.3s ease-in-out;
+}
+
+.share-btn i {
+    font-size: 20px;
+    color: #ffffff;
 }
 
 .share-btn:hover {
-    background: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.3);
     transform: scale(1.1);
 }
 
-/* Creating Profile Modal */
-.modal {
-    display: none;
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    text-align: center;
-    justify-content: center;
-    align-items: center;
+/* Profile Image */
+.profile-image {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid rgba(255, 255, 255, 0.5);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
-.modal-content {
-    background: white;
-    color: black;
-    padding: 20px;
-    border-radius: 15px;
-    display: inline-block;
-    margin-top: 20%;
+.profile-image:hover {
+    transform: scale(1.1);
+    box-shadow: 0px 4px 15px rgba(255, 255, 255, 0.2);
+}
+
+/* Name */
+.profile-name {
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: 10px;
+    color: #ffffff;
+    text-transform: capitalize;
+}
+
+/* Bio */
+.profile-bio {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
+    margin-top: 5px;
+}
+
+/* Social Icons */
+.social-icons {
+    margin-top: 15px;
+}
+
+.social-icons a {
+    font-size: 22px;
+    margin: 8px;
+    color: rgba(255, 255, 255, 0.7);
+    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.social-icons a:hover {
+    transform: translateY(-5px);
+    color: #ffffff;
+}
+
+/* Spotify Embed */
+.spotify-container {
+    margin-top: 15px;
+    border-radius: 10px;
+    overflow: hidden;
 }
 
 /* Animations */
 @keyframes fadeIn {
-    0% { opacity: 0; transform: scale(0.9); }
-    100% { opacity: 1; transform: scale(1); }
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
     </style>
 </head>
