@@ -19,18 +19,16 @@
         <input type="url" id="spotify" placeholder="Spotify Song URL"><br>
         <textarea id="bio" placeholder="Short Bio" required></textarea><br>
         <button id="createProfileBtn">Create Profile</button>
+        <p id="loadingMessage" style="display: none;">Creating Profile...</p>  
     </div>
 
-    <div class="profile-card" id="profile-container" style="display: none;">
-        <button class="share-btn" id="share-profile"><i class="fas fa-share-alt"></i></button>
-        <div class="top-section"></div>
-        <img class="profile-image" id="profile-image" src="" alt="Profile Picture">
-        <div class="profile-details">
-            <div class="profile-name" id="profile-name"></div>
-            <div class="profile-birthday" id="profile-birthday"></div>  
-            <div class="profile-bio" id="profile-bio"></div>
-            <div class="social-icons" id="social-icons"></div>
-            <div id="spotify-container"></div>
+    <div id="profileModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h3>Profile Created!</h3>
+            <p>Profile URL: <span id="profileUrl"></span></p>
+            <button id="copyUrlBtn">Copy URL</button>
+            <button id="openProfileBtn">Open Profile</button>
+            <button id="shareProfileBtn">Share</button>
         </div>
     </div>
 
@@ -97,6 +95,9 @@
             return;  
         }
 
+        document.getElementById("loadingMessage").style.display = "block";
+        document.getElementById("createProfileBtn").disabled = true;
+
         let username = await generateUniqueUsername(name);
         let imageUrl = imageFile ? await uploadImage(imageFile) : "";
 
@@ -107,70 +108,58 @@
 
             const profileUrl = `${window.location.origin}?user=${username}`;
             navigator.clipboard.writeText(profileUrl);
-            alert("Profile created! URL copied to clipboard.");
-            window.location.href = profileUrl;
+
+            document.getElementById("loadingMessage").style.display = "none";
+            document.getElementById("profileUrl").textContent = profileUrl;
+            document.getElementById("profileModal").style.display = "block";
+
         } catch (error) {
             console.error("Error adding document: ", error);
             alert("Failed to create profile. Check Firebase rules!");
         }
     }
 
-    async function loadProfile() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const username = urlParams.get("user");
-
-        if (username) {
-            document.getElementById("profile-container").style.display = "block";
-            document.getElementById("create-container").style.display = "none";
-
-            const q = query(collection(db, "profiles"), where("username", "==", username));
-            const querySnapshot = await getDocs(q);
-
-            if (!querySnapshot.empty) {
-                const profile = querySnapshot.docs[0].data();
-                document.getElementById("profile-name").innerText = profile.name;
-                document.getElementById("profile-birthday").innerText = "🎂 " + profile.birthday;  
-                document.getElementById("profile-bio").innerText = profile.bio;
-
-                if (profile.imageUrl) {
-                    document.getElementById("profile-image").src = profile.imageUrl;
-                }
-
-                let socialHTML = "";
-                if (profile.instagram) socialHTML += `<a href="https://instagram.com/${profile.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>`;
-                if (profile.snapchat) socialHTML += `<a href="https://snapchat.com/add/${profile.snapchat}" target="_blank"><i class="fab fa-snapchat"></i></a>`;
-                if (profile.whatsapp) socialHTML += `<a href="https://wa.me/${profile.whatsapp}" target="_blank"><i class="fab fa-whatsapp"></i></a>`;
-                document.getElementById("social-icons").innerHTML = socialHTML;
-
-                if (profile.spotify) {
-                    const spotifyEmbed = `<iframe src="https://open.spotify.com/embed/track/${profile.spotify.split('/').pop()}" width="300" height="80" frameborder="0" allow="encrypted-media"></iframe>`;
-                    document.getElementById("spotify-container").innerHTML = spotifyEmbed;
-                }
-            } else {
-                alert("Profile not found!");
-                window.location.href = "/";
-            }
-        }
-    }
-
     document.getElementById("createProfileBtn").addEventListener("click", createProfile);
-    document.getElementById("share-profile").addEventListener("click", () => {
-        const profileUrl = window.location.href;
+    document.getElementById("copyUrlBtn").addEventListener("click", () => {
+        navigator.clipboard.writeText(document.getElementById("profileUrl").textContent);
+        alert("Copied!");
+    });
+    document.getElementById("openProfileBtn").addEventListener("click", () => {
+        window.open(document.getElementById("profileUrl").textContent, "_blank");
+    });
+    document.getElementById("shareProfileBtn").addEventListener("click", () => {
+        const profileUrl = document.getElementById("profileUrl").textContent;
         navigator.share ? navigator.share({ url: profileUrl }) : navigator.clipboard.writeText(profileUrl);
     });
 
-    window.onload = loadProfile;
 </script>
 
 <style>
-    .share-btn {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        background: none;
-        border: none;
-        font-size: 20px;
+    .modal {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        padding: 20px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        display: none;
+    }
+
+    .modal-content {
+        text-align: center;
+    }
+
+    .modal button {
+        margin-top: 10px;
+        padding: 10px;
         cursor: pointer;
+    }
+
+    #loadingMessage {
+        color: blue;
+        font-weight: bold;
     }
 </style>
 
