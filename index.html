@@ -32,9 +32,7 @@
             <div class="social-icons" id="social-icons"></div>
         </div>
         <div id="spotify-container"></div>
-<div class="profile-image-container">
-    <img id="profile-image" src="default.png" alt="Profile Picture">
-</div>
+
     </div>
 </div>
 
@@ -274,30 +272,7 @@
     border-radius: 10px;  /* Rounded corners for a modern look */  
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);  /* Soft shadow effect */  
 }
-.profile-image-container {
-    position: relative;
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    padding: 5px;
-    background: linear-gradient(45deg, #ff0000, #ff7300, #ffeb00, #47ff00, #00ff62, #00ffeb, #003bff, #a200ff, #ff00eb, #ff0055);
-    background-size: 300% 300%;
-    animation: moveGradient 3s infinite linear;
-}
 
-@keyframes moveGradient {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-.profile-image-container img {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    display: block;
-    border: 4px solid white; /* White border inside the animated frame */
-}
 
 </style>  
 
