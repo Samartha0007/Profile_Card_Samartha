@@ -138,13 +138,12 @@
                 if (profile.whatsapp) socialHTML += `<a href="https://wa.me/${profile.whatsapp}" target="_blank"><i class="fab fa-whatsapp"></i></a>`;  
                 document.getElementById("social-icons").innerHTML = socialHTML;  
 
-            if (profile.spotify) {  
-    let spotifyID = profile.spotify.split('/').pop();  
-    let embedType = profile.spotify.includes("playlist") ? "playlist" : "track";  
+                if (profile.spotify) {  
+                    let spotifyID = profile.spotify.split('/').pop();  
+                    let embedType = profile.spotify.includes("playlist") ? "playlist" : "track";  
 
-    const spotifyEmbed = `<iframe src="https://open.spotify.com/embed/${embedType}/${spotifyID}" width="300" height="80" frameborder="0" allow="encrypted-media"></iframe>`;  
-    document.getElementById("spotify-container").innerHTML = spotifyEmbed;  
-}
+                    const spotifyEmbed = `<iframe src="https://open.spotify.com/embed/${embedType}/${spotifyID}" width="300" height="80" frameborder="0" allow="encrypted-media"></iframe>`;  
+                    document.getElementById("spotify-container").innerHTML = spotifyEmbed;  
                 }  
             } else {  
                 alert("Profile not found!");  
@@ -156,20 +155,21 @@
     document.getElementById("createProfileBtn").addEventListener("click", createProfile);  
     window.onload = loadProfile; 
 
-document.getElementById("shareBtn").addEventListener("click", async () => {
-    const url = window.location.href;  
-    const text = "Made with ❤️‍🔥 by Samartha GS\nCheck out this profile:";
+    document.getElementById("shareBtn").addEventListener("click", async () => {
+        const url = window.location.href;  
+        const text = "Made with ❤️‍🔥 by Samartha GS\nCheck out this profile:";
 
-    if (navigator.share) {  
-        try {  
-            await navigator.share({ title: "Profile Card", text, url });  
-        } catch (error) {  
-            console.error("Sharing failed:", error);  
+        if (navigator.share) {  
+            try {  
+                await navigator.share({ title: "Profile Card", text, url });  
+            } catch (error) {  
+                console.error("Sharing failed:", error);  
+            }  
+        } else {  
+            alert("Sharing not supported!");  
         }  
-    } else {  
-        alert("Sharing not supported!");  
-    }  
-});
+    });
+</script>
 </script>  
 
 <style>  
