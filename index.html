@@ -138,9 +138,13 @@
                 if (profile.whatsapp) socialHTML += `<a href="https://wa.me/${profile.whatsapp}" target="_blank"><i class="fab fa-whatsapp"></i></a>`;  
                 document.getElementById("social-icons").innerHTML = socialHTML;  
 
-                if (profile.spotify) {  
-                    const spotifyEmbed = `<iframe src="https://open.spotify.com/embed/track/${profile.spotify.split('/').pop()}" width="300" height="80" frameborder="0" allow="encrypted-media"></iframe>`;  
-                    document.getElementById("spotify-container").innerHTML = spotifyEmbed;  
+            if (profile.spotify) {  
+    let spotifyID = profile.spotify.split('/').pop();  
+    let embedType = profile.spotify.includes("playlist") ? "playlist" : "track";  
+
+    const spotifyEmbed = `<iframe src="https://open.spotify.com/embed/${embedType}/${spotifyID}" width="300" height="80" frameborder="0" allow="encrypted-media"></iframe>`;  
+    document.getElementById("spotify-container").innerHTML = spotifyEmbed;  
+}
                 }  
             } else {  
                 alert("Profile not found!");  
