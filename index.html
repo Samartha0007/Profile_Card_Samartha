@@ -153,20 +153,20 @@
     document.getElementById("createProfileBtn").addEventListener("click", createProfile);  
     window.onload = loadProfile; 
 
-document.getElementById("shareProfile").addEventListener("click", async () => {
-    const url = window.location.href;
-    const text = "Made with ❤️‍🔥 by Samartha GS\nCheck out this profile: " + url;
+function shareProfile() {
+    const profileUrl = window.location.href; // Get the current profile URL
+    const message = `Made with ❤️‍🔥 by Samartha GS\n\nCheck out this profile: ${profileUrl}`;
 
-    if (navigator.share) {  
-        try {  
-            await navigator.share({ title: "Profile Card", text, url });  
-        } catch (error) {  
-            console.error("Sharing failed:", error);  
-        }  
-    } else {  
-        alert("Sharing not supported!");  
-    }  
-});
+    if (navigator.share) {
+        navigator.share({
+            title: "Profile Card",
+            text: message,
+            url: profileUrl
+        }).catch((error) => console.log("Sharing failed:", error));
+    } else {
+        alert("Sharing not supported on this device.");
+    }
+}
 </script>  
 
 <style>  
