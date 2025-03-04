@@ -6,56 +6,100 @@
     <title>Profile Card</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(120deg, #eceff1, #b0bec5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+            flex-direction: column;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .profile-card {
+            display: none;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .profile-image {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-top: -60px;
+            border: 4px solid white;
+        }
+        .social-icons a {
+            font-size: 24px;
+            margin: 10px;
+            color: black;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
 
-<!-- Create Profile Section -->
 <div class="container" id="create-container">
     <h2>Create Your Profile</h2>
     <input type="text" id="name" placeholder="Name" required><br>
-    <input type="date" id="birthday" required><br>
     <input type="file" id="profileImage" accept="image/*"><br>
-    <textarea id="bio" placeholder="Short Bio" required></textarea><br>
-    
-    <h3>Social Profiles</h3>
     <input type="text" id="instagram" placeholder="Instagram ID"><br>
     <input type="text" id="snapchat" placeholder="Snapchat ID"><br>
     <input type="text" id="whatsapp" placeholder="WhatsApp Number"><br>
-
-    <h3>Favorite Song</h3>
     <input type="url" id="spotify" placeholder="Spotify Song URL"><br>
-
+    <textarea id="bio" placeholder="Short Bio" required></textarea><br>
     <button id="createProfileBtn">Create Profile</button>
 </div>
 
-<!-- Profile Card Section -->
-<div class="profile-card" id="profile-container" style="display: none;">
+<div class="profile-card" id="profile-container">
     <div class="top-section"></div>
     <img class="profile-image" id="profile-image" src="" alt="Profile Picture">
     <div class="profile-details">
         <div class="profile-name" id="profile-name"></div>
-        <div class="profile-birthday" id="profile-birthday"></div>
         <div class="profile-bio" id="profile-bio"></div>
-        <div class="social-container">
-            <div class="social-icons" id="social-icons"></div>
-        </div>
+        <div class="social-icons" id="social-icons"></div>
         <div id="spotify-container"></div>
     </div>
 </div>
 
 <!-- Modal for Creating Profile -->
-<div id="loadingModal" class="modal">
+<div class="modal" id="loadingModal">
     <div class="modal-content">
         <h3>Creating Profile...</h3>
     </div>
 </div>
 
-<!-- Success Modal -->
-<div id="successModal" class="modal">
+<!-- Modal for Success -->
+<div class="modal" id="successModal">
     <div class="modal-content">
-        <h3>Profile Created Successfully!</h3>
-        <input type="text" id="profileURL" readonly>
-        <button onclick="copyProfileURL()">Copy URL</button>
+        <h3>Profile Created!</h3>
+        <input type="text" id="profileUrl" readonly>
+        <button onclick="copyUrl()">Copy URL</button>
         <button onclick="shareProfile()">Share</button>
         <button onclick="openProfile()">Open Profile</button>
     </div>
@@ -94,107 +138,57 @@
         return data.secure_url;
     }
 
-    async function generateUniqueUsername(name) {
-        let username = name.toLowerCase().replace(/\s+/g, '');
-        let count = 1;
-
-        const q = query(collection(db, "profiles"), where("username", "==", username));
-        let querySnapshot = await getDocs(q);
-
-        while (!querySnapshot.empty) {
-            username = name.toLowerCase().replace(/\s+/g, '') + count;
-            querySnapshot = await getDocs(query(collection(db, "profiles"), where("username", "==", username)));
-            count++;
-        }
-        return username;
-    }
-
     async function createProfile() {
         const name = document.getElementById("name").value;
-        const birthday = document.getElementById("birthday").value;
         const imageFile = document.getElementById("profileImage").files[0];
-        const bio = document.getElementById("bio").value;
         const instagram = document.getElementById("instagram").value;
         const snapchat = document.getElementById("snapchat").value;
         const whatsapp = document.getElementById("whatsapp").value;
         const spotify = document.getElementById("spotify").value;
+        const bio = document.getElementById("bio").value;
 
-        if (!name || !bio || !birthday) {
-            alert("Name, Bio, and Birthday are required!");
+        if (!name) {
+            alert("Name is required!");
             return;
         }
 
-        document.getElementById("loadingModal").style.display = "block";
+        document.getElementById("loadingModal").style.display = "flex";
 
-        let username = await generateUniqueUsername(name);
         let imageUrl = imageFile ? await uploadImage(imageFile) : "";
+        let username = name.toLowerCase().replace(/\s+/g, '');
 
         try {
             await addDoc(collection(db, "profiles"), {
-                name, username, birthday, imageUrl, instagram, snapchat, whatsapp, spotify, bio
+                name, username, imageUrl, instagram, snapchat, whatsapp, spotify, bio
             });
 
+            const profileUrl = `${window.location.origin}?user=${username}`;
+            document.getElementById("profileUrl").value = profileUrl;
             document.getElementById("loadingModal").style.display = "none";
-            document.getElementById("successModal").style.display = "block";
-            document.getElementById("profileURL").value = window.location.origin + "?user=" + username;
+            document.getElementById("successModal").style.display = "flex";
         } catch (error) {
-            console.error("Error adding document: ", error);
             alert("Failed to create profile.");
         }
     }
 
-    function copyProfileURL() {
-        const profileURL = document.getElementById("profileURL");
-        profileURL.select();
+    function copyUrl() {
+        const urlField = document.getElementById("profileUrl");
+        urlField.select();
         document.execCommand("copy");
-        alert("Profile URL copied!");
+        alert("Copied to clipboard!");
     }
 
     function shareProfile() {
-        const url = document.getElementById("profileURL").value;
-        if (navigator.share) {
-            navigator.share({
-                title: "Check out my profile!",
-                url: url
-            }).catch(console.error);
-        } else {
-            alert("Sharing not supported on this browser.");
-        }
+        const url = document.getElementById("profileUrl").value;
+        navigator.share ? navigator.share({ url }) : alert("Sharing not supported.");
     }
 
     function openProfile() {
-        window.open(document.getElementById("profileURL").value, "_blank");
+        window.open(document.getElementById("profileUrl").value, "_blank");
     }
 
     document.getElementById("createProfileBtn").addEventListener("click", createProfile);
 </script>
-
-<style>
-body {
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(120deg, #eceff1, #b0bec5);
-    text-align: center;
-}
-
-.modal {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.profile-image {
-    width: 130px;
-    height: 130px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-</style>
 
 </body>
 </html>
