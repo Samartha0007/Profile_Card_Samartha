@@ -154,8 +154,8 @@
     window.onload = loadProfile; 
 
 document.getElementById("shareBtn").addEventListener("click", async () => {
-    const url = window.location.href.split("?")[0] + window.location.search;  
-    const text = `Made with ❤️‍🔥 by Samartha GS\nCheck out this profile: ${url}`;
+    const url = window.location.href;  
+    const text = "Made with ❤️‍🔥 by Samartha GS\nCheck out this profile:";
 
     if (navigator.share) {  
         try {  
