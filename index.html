@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-       /* Import Poppins Font */
+     /* Import Poppins Font */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
 * {
@@ -27,40 +27,17 @@ body {
     overflow: hidden;
 }
 
-/* Main Profile Card */
+/* Profile View Card */
 .profile-card {
     background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(12px);
     border-radius: 15px;
     padding: 25px;
-    width: 380px;
+    width: 400px;
     box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.3);
     position: relative;
     animation: fadeIn 1s ease-in-out;
     transition: all 0.3s ease-in-out;
-}
-
-/* Share Button (Top Right) */
-.share-btn {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: rgba(255, 255, 255, 0.2);
-    border: none;
-    border-radius: 50%;
-    padding: 10px;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-}
-
-.share-btn i {
-    font-size: 20px;
-    color: #ffffff;
-}
-
-.share-btn:hover {
-    background: rgba(255, 255, 255, 0.3);
-    transform: scale(1.1);
 }
 
 /* Profile Image */
@@ -80,7 +57,7 @@ body {
 
 /* Profile Name */
 .profile-name {
-    font-size: 22px;
+    font-size: 24px;
     font-weight: 600;
     margin-top: 10px;
     color: #ffffff;
@@ -127,48 +104,33 @@ body {
     overflow: hidden;
 }
 
-/* Modal (Creating Profile...) */
-.modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    align-items: center;
-    justify-content: center;
-}
-
-.modal-content {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.2);
-    text-align: center;
-    color: white;
-}
-
-/* Loading Spinner */
-.spinner {
-    width: 50px;
-    height: 50px;
-    border: 4px solid rgba(255, 255, 255, 0.2);
-    border-top: 4px solid white;
+/* Share Button (Top Right) */
+.share-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
     border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin: 20px auto;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.share-btn i {
+    font-size: 20px;
+    color: #ffffff;
+}
+
+.share-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
 }
 
 /* Animations */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
 }
     </style>
 </head>
