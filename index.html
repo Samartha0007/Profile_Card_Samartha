@@ -157,69 +157,48 @@
 
 <style>  
     body {  
-    font-family: 'Poppins', sans-serif;  
-    background: #f0f2f5;  
-    display: flex;  
-    justify-content: center;  
-    align-items: center;  
-    height: 100vh;  
-    flex-direction: column;  
-}  
+        font-family: 'Poppins', sans-serif;  
+        background: linear-gradient(120deg, #eceff1, #b0bec5);  
+        display: flex;  
+        align-items: center;  
+        justify-content: center;  
+        height: 100vh;  
+        text-align: center;  
+    }  
 
-.container {  
-    background: #fff;  
-    padding: 20px;  
-    border-radius: 10px;  
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);  
-    text-align: center;  
-    width: 300px;  
-}  
+    .profile-card {  
+        position: relative;  
+        animation: fadeIn 1s ease-in-out;  
+    }  
 
-input, textarea {  
-    width: 100%;  
-    margin: 8px 0;  
-    padding: 10px;  
-    border-radius: 5px;  
-    border: 1px solid #ccc;  
-}  
+    .profile-image {  
+        width: 130px;  
+        height: 130px;  
+        border-radius: 50%;  
+        object-fit: cover;  
+        transition: transform 0.3s ease-in-out;  
+    }  
 
-button {  
-    background: #007bff;  
-    color: #fff;  
-    border: none;  
-    padding: 10px;  
-    width: 100%;  
-    border-radius: 5px;  
-    cursor: pointer;  
-}  
+    .profile-image:hover {  
+        transform: scale(1.1);  
+    }  
 
-.profile-card {  
-    background: #fff;  
-    padding: 20px;  
-    border-radius: 10px;  
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);  
-    text-align: center;  
-    width: 350px;  
-    margin-top: 20px;  
-}  
+    .social-icons a {  
+        font-size: 24px;  
+        margin: 10px;  
+        color: black;  
+        transition: transform 0.3s ease-in-out;  
+    }  
 
-.profile-image {  
-    width: 100px;  
-    height: 100px;  
-    border-radius: 50%;  
-    border: 3px solid #007bff;  
-}  
+    .social-icons a:hover {  
+        transform: translateY(-5px);  
+        color: #444;  
+    }  
 
-.profile-name {  
-    font-size: 20px;  
-    font-weight: 600;  
-}  
-
-.profile-bio {  
-    font-size: 14px;  
-    color: #666;  
-}  
-
+    @keyframes fadeIn {  
+        from { opacity: 0; }  
+        to { opacity: 1; }  
+    }  
 .social-container {  
     background: rgba(255, 255, 255, 0.2);  
     padding: 10px;  
