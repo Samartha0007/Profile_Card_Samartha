@@ -189,17 +189,26 @@
         animation: fadeIn 1s ease-in-out;  
     }  
 
-    .profile-image {  
-        width: 130px;  
-        height: 130px;  
-        border-radius: 50%;  
-        
-        animation: glow 3s infinite alternate;  
-    }  
-    @keyframes glow {  
-        0% { box-shadow: 0 0 10px #ff00ff; }  
-        100% { box-shadow: 0 0 30px #00ffff; }  
-    }  
+   .profile-image {  
+    width: 130px;  
+    height: 130px;  
+    border-radius: 50%;  
+    border: 3px solid white;  
+    animation: glow 3s infinite alternate, rotate 6s infinite linear;  
+}  
+
+@keyframes glow {  
+    0% { box-shadow: 0 0 10px #ff00ff, 0 0 20px #ff4500; }  
+    25% { box-shadow: 0 0 15px #ff4500, 0 0 25px #ffff00; }  
+    50% { box-shadow: 0 0 20px #ffff00, 0 0 30px #00ff00; }  
+    75% { box-shadow: 0 0 25px #00ff00, 0 0 35px #00ffff; }  
+    100% { box-shadow: 0 0 30px #00ffff, 0 0 40px #ff00ff; }  
+}  
+
+@keyframes rotate {  
+    0% { transform: rotate(0deg); }  
+    100% { transform: rotate(360deg); }  
+}
 
     .profile-image:hover {  
         transform: scale(1.1);  
