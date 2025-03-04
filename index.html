@@ -6,91 +6,6 @@
     <title>Profile Card</title>  
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">  
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">  
-    <style>  
-        body {  
-            font-family: 'Poppins', sans-serif;  
-            background: #f0f2f5;  
-            display: flex;  
-            justify-content: center;  
-            align-items: center;  
-            height: 100vh;  
-            flex-direction: column;  
-        }  
-
-        .container {  
-            background: #fff;  
-            padding: 20px;  
-            border-radius: 10px;  
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);  
-            text-align: center;  
-            width: 300px;  
-        }  
-
-        input, textarea {  
-            width: 100%;  
-            margin: 8px 0;  
-            padding: 10px;  
-            border-radius: 5px;  
-            border: 1px solid #ccc;  
-        }  
-
-        button {  
-            background: #007bff;  
-            color: #fff;  
-            border: none;  
-            padding: 10px;  
-            width: 100%;  
-            border-radius: 5px;  
-            cursor: pointer;  
-        }  
-
-        .profile-card {  
-            background: #fff;  
-            padding: 20px;  
-            border-radius: 10px;  
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);  
-            text-align: center;  
-            width: 350px;  
-            margin-top: 20px;  
-        }  
-
-        .profile-image {  
-            width: 100px;  
-            height: 100px;  
-            border-radius: 50%;  
-            border: 3px solid #007bff;  
-        }  
-
-        .profile-name {  
-            font-size: 20px;  
-            font-weight: 600;  
-        }  
-
-        .profile-bio {  
-            font-size: 14px;  
-            color: #666;  
-        }  
-
-        .social-container {  
-            background: rgba(255, 255, 255, 0.2);  
-            padding: 10px;  
-            border-radius: 10px;  
-            backdrop-filter: blur(10px);  
-            display: inline-block;  
-            margin-top: 10px;  
-        }  
-
-        .social-icons a {  
-            margin: 5px;  
-            color: #007bff;  
-            font-size: 20px;  
-            text-decoration: none;  
-        }  
-
-        #spotify-container {  
-            margin-top: 10px;  
-        }  
-    </style>  
 </head>  
 <body>  
 
@@ -112,9 +27,12 @@
     <div class="profile-details">  
         <div class="profile-name" id="profile-name"></div>  
         <div class="profile-bio" id="profile-bio"></div>  
+
+        <!-- Added Transparent Social Container -->
         <div class="social-container">  
             <div class="social-icons" id="social-icons"></div>  
         </div>  
+
         <div id="spotify-container"></div>  
     </div>  
 </div>  
@@ -196,8 +114,57 @@
         }  
     }  
 
+    async function loadProfile() {  
+        const urlParams = new URLSearchParams(window.location.search);  
+        const username = urlParams.get("user");  
+
+        if (username) {  
+            document.getElementById("profile-container").style.display = "block";  
+            document.getElementById("create-container").style.display = "none";  
+
+            const q = query(collection(db, "profiles"), where("username", "==", username));  
+            const querySnapshot = await getDocs(q);  
+
+            if (!querySnapshot.empty) {  
+                const profile = querySnapshot.docs[0].data();  
+                document.getElementById("profile-name").innerText = profile.name;  
+                document.getElementById("profile-bio").innerText = profile.bio;  
+
+                if (profile.imageUrl) {  
+                    document.getElementById("profile-image").src = profile.imageUrl;  
+                }  
+
+                let socialHTML = "";  
+                if (profile.instagram) socialHTML += `<a href="https://instagram.com/${profile.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>`;  
+                if (profile.snapchat) socialHTML += `<a href="https://snapchat.com/add/${profile.snapchat}" target="_blank"><i class="fab fa-snapchat"></i></a>`;  
+                if (profile.whatsapp) socialHTML += `<a href="https://wa.me/${profile.whatsapp}" target="_blank"><i class="fab fa-whatsapp"></i></a>`;  
+                document.getElementById("social-icons").innerHTML = socialHTML;  
+
+                if (profile.spotify) {  
+                    const spotifyEmbed = `<iframe src="https://open.spotify.com/embed/track/${profile.spotify.split('/').pop()}" width="300" height="80" frameborder="0" allow="encrypted-media"></iframe>`;  
+                    document.getElementById("spotify-container").innerHTML = spotifyEmbed;  
+                }  
+            } else {  
+                alert("Profile not found!");  
+                window.location.href = "/";  
+            }  
+        }  
+    }  
+
     document.getElementById("createProfileBtn").addEventListener("click", createProfile);  
+    window.onload = loadProfile;  
 </script>  
+
+<style>  
+    .social-container {  
+        background: rgba(255, 255, 255, 0.2);  
+        padding: 10px;  
+        border-radius: 10px;  
+        backdrop-filter: blur(10px);  
+        display: inline-block;  
+        margin-top: 10px;  
+    }  
+</style>  
 
 </body>  
 </html>
