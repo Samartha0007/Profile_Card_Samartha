@@ -1,360 +1,371 @@
-<!DOCTYPE html>  
-<html lang="en">  
-<head>  
-    <meta charset="UTF-8">  
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-    <title>Profile Card</title>  
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">  
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">  
-</head>  
-<body>  
-<button id="shareBtn" class="sharebtn">
-    <i class="fas fa-share-alt"></i>
-</button>
-<div class="container" id="create-container">  
-    <h2>Create Your Profile</h2>  
-    <input type="text" id="name" placeholder="Name" required><br>  
-    <input type="file" id="profileImage" accept="image/*"><br>  
-    <input type="text" id="instagram" placeholder="Instagram ID"><br>  
-    <input type="text" id="snapchat" placeholder="Snapchat ID"><br>  
-    <input type="text" id="whatsapp" placeholder="WhatsApp Number"><br>  
-    <input type="url" id="spotify" placeholder="Spotify Song URL"><br>  
-    <textarea id="bio" placeholder="Short Bio" required></textarea><br>  
-    <button id="createProfileBtn">Create Profile</button>  
-</div>  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Card</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<div class="profile-card" id="profile-container" style="display: none;">
-    <img class="profile-image" id="profile-image" src="" alt="Profile Picture">
-    <div class="profile-details">
-        <div class="profile-name" id="profile-name"></div>
-        <div class="profile-bio" id="profile-bio"></div>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(120deg, #eceff1, #b0bec5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Profile Creation Container Styles */
+        .create-container {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 30px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .create-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .create-container input,
+        .create-container textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .create-container input:focus,
+        .create-container textarea:focus {
+            outline: none;
+            border-color: #4a90e2;
+            box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+        }
+
+        .create-container textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        #createProfileBtn {
+            width: 100%;
+            padding: 12px;
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        #createProfileBtn:hover {
+            background-color: #357abd;
+        }
+
+        #profileImage {
+            border: 2px dashed #ddd;
+            padding: 10px;
+        }
+
+        /* Profile Card Styles */
+        .profile-container {
+            display: none;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 30px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .profile-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: center;
+            border: 4px solid #4a90e2;
+            margin-bottom: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .profile-image:hover {
+            transform: scale(1.05);
+        }
+
+        .profile-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .profile-bio {
+            color: #666;
+            margin-top: 10px;
+            max-width: 300px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .social-container {
+            background: rgba(74, 144, 226, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .social-icons a {
+            margin: 0 10px;
+            color: #4a90e2;
+            font-size: 24px;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: #357abd;
+        }
+
+        .spotify-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .spotify-container iframe {
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .sharebtn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #4a90e2;
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .sharebtn:hover {
+            background-color: #357abd;
+            transform: scale(1.1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <button id="shareBtn" class="sharebtn">
+        <i class="fas fa-share-alt"></i>
+    </button>
+
+    <div class="create-container" id="create-container">
+        <h2>Create Your Profile</h2>
+        <input type="text" id="name" placeholder="Name" required>
+        <input type="file" id="profileImage" accept="image/*" required>
+        <textarea id="bio" placeholder="Short Bio" required></textarea>
+        
+        <h3>Social Profiles (Optional)</h3>
+        <input type="text" id="instagram" placeholder="Instagram ID">
+        <input type="text" id="snapchat" placeholder="Snapchat ID">
+        <input type="text" id="whatsapp" placeholder="WhatsApp Number">
+        
+        <h3>Spotify (Optional)</h3>
+        <input type="url" id="spotify" placeholder="Spotify Song/Playlist URL">
+        
+        <button id="createProfileBtn">Create Profile</button>
+    </div>
+
+    <div class="profile-container" id="profile-container">
+        <div class="profile-header">
+            <img class="profile-image" id="profile-image" src="" alt="Profile Picture">
+            <div class="profile-name" id="profile-name"></div>
+            <div class="profile-bio" id="profile-bio"></div>
+        </div>
+
         <div class="social-container">
             <div class="social-icons" id="social-icons"></div>
         </div>
-        <div id="spotify-container"></div>
 
+        <div class="spotify-container" id="spotify-container"></div>
     </div>
-</div>
 
-<script type="module">  
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";  
-    import { getFirestore, collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";  
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
 
-    const firebaseConfig = {  
-        apiKey: "AIzaSyBb3x_zD9JaFwL9PhmngCNZlS2fOh6MBa4",  
-        authDomain: "newai-52371.firebaseapp.com",  
-        projectId: "newai-52371",  
-        storageBucket: "newai-52371.appspot.com",  
-        messagingSenderId: "480586908639",  
-        appId: "1:480586908639:web:f4645a852c4df724c6fa6a"  
-    };  
+        const firebaseConfig = {
+            apiKey: "AIzaSyBb3x_zD9JaFwL9PhmngCNZlS2fOh6MBa4",
+            authDomain: "newai-52371.firebaseapp.com",
+            projectId: "newai-52371",
+            storageBucket: "newai-52371.appspot.com",
+            messagingSenderId: "480586908639",
+            appId: "1:480586908639:web:f4645a852c4df724c6fa6a"
+        };
 
-    const app = initializeApp(firebaseConfig);  
-    const db = getFirestore(app);  
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
 
-    async function uploadImage(file) {  
-        const cloudName = "dw1qrki2c";  
-        const uploadPreset = "profile_uploads";  
+        async function uploadImage(file) {
+            const cloudName = "dw1qrki2c";
+            const uploadPreset = "profile_uploads";
 
-        const formData = new FormData();  
-        formData.append("file", file);  
-        formData.append("upload_preset", uploadPreset);  
+            const formData = new FormData();
+            formData.append("file", file);
+            formData.append("upload_preset", uploadPreset);
 
-        const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {  
-            method: "POST",  
-            body: formData  
-        });  
+            const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+                method: "POST",
+                body: formData
+            });
 
-        const data = await response.json();  
-        return data.secure_url;  
-    }  
+            const data = await response.json();
+            return data.secure_url;
+        }
 
-    async function generateUniqueUsername(name) {  
-        let username = name.toLowerCase().replace(/\s+/g, '');  
-        let count = 1;  
+        async function generateUniqueUsername(name) {
+            let username = name.toLowerCase().replace(/\s+/g, '');
+            let count = 1;
 
-        const q = query(collection(db, "profiles"), where("username", "==", username));  
-        let querySnapshot = await getDocs(q);  
+            const q = query(collection(db, "profiles"), where("username", "==", username));
+            let querySnapshot = await getDocs(q);
 
-        while (!querySnapshot.empty) {  
-            username = name.toLowerCase().replace(/\s+/g, '') + count;  
-            querySnapshot = await getDocs(query(collection(db, "profiles"), where("username", "==", username)));  
-            count++;  
-        }  
-        return username;  
-    }  
+            while (!querySnapshot.empty) {
+                username = name.toLowerCase().replace(/\s+/g, '') + count;
+                querySnapshot = await getDocs(query(collection(db, "profiles"), where("username", "==", username)));
+                count++;
+            }
+            return username;
+        }
 
-    async function createProfile() {  
-        const name = document.getElementById("name").value;  
-        const imageFile = document.getElementById("profileImage").files[0];  
-        const instagram = document.getElementById("instagram").value;  
-        const snapchat = document.getElementById("snapchat").value;  
-        const whatsapp = document.getElementById("whatsapp").value;  
-        const spotify = document.getElementById("spotify").value;  
-        const bio = document.getElementById("bio").value;  
+        async function createProfile() {
+            const name = document.getElementById("name").value;
+            const imageFile = document.getElementById("profileImage").files[0];
+            const bio = document.getElementById("bio").value;
+            const instagram = document.getElementById("instagram").value;
+            const snapchat = document.getElementById("snapchat").value;
+            const whatsapp = document.getElementById("whatsapp").value;
+            const spotify = document.getElementById("spotify").value;
 
-        if (!name) {  
-            alert("Name is required!");  
-            return;  
-        }  
+            if (!name || !imageFile || !bio) {
+                alert("Name, Profile Image, and Bio are required!");
+                return;
+            }
 
-        let username = await generateUniqueUsername(name);  
-        let imageUrl = imageFile ? await uploadImage(imageFile) : "";  
+            let username = await generateUniqueUsername(name);
+            let imageUrl = await uploadImage(imageFile);
 
-        try {  
-            await addDoc(collection(db, "profiles"), {  
-                name, username, imageUrl, instagram, snapchat, whatsapp, spotify, bio  
-            });  
+            try {
+                await addDoc(collection(db, "profiles"), {
+                    name, username, imageUrl, bio, instagram, snapchat, whatsapp, spotify
+                });
 
-            window.location.href = "?user=" + username;  
-        } catch (error) {  
-            console.error("Error adding document: ", error);  
-            alert("Failed to create profile. Check Firebase rules!");  
-        }  
-    }  
+                window.location.href = "?user=" + username;
+            } catch (error) {
+                console.error("Error adding document: ", error);
+                alert("Failed to create profile. Check Firebase rules!");
+            }
+        }
 
-    async function loadProfile() {  
-        const urlParams = new URLSearchParams(window.location.search);  
-        const username = urlParams.get("user");  
+        async function loadProfile() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const username = urlParams.get("user");
 
-        if (username) {  
-            document.getElementById("profile-container").style.display = "block";  
-            document.getElementById("create-container").style.display = "none";  
+            if (username) {
+                document.getElementById("profile-container").style.display = "block";
+                document.getElementById("create-container").style.display = "none";
 
-            const q = query(collection(db, "profiles"), where("username", "==", username));  
-            const querySnapshot = await getDocs(q);  
+                const q = query(collection(db, "profiles"), where("username", "==", username));
+                const querySnapshot = await getDocs(q);
 
-            if (!querySnapshot.empty) {  
-                const profile = querySnapshot.docs[0].data();  
-                document.getElementById("profile-name").innerText = profile.name;  
-                document.getElementById("profile-bio").innerText = profile.bio;  
+                if (!querySnapshot.empty) {
+                    const profile = querySnapshot.docs[0].data();
+                    document.getElementById("profile-name").innerText = profile.name;
+                    document.getElementById("profile-bio").innerText = profile.bio;
 
-                if (profile.imageUrl) {  
-                    document.getElementById("profile-image").src = profile.imageUrl;  
-                }  
+                    if (profile.imageUrl) {
+                        document.getElementById("profile-image").src = profile.imageUrl;
+                    }
 
-                let socialHTML = "";  
-                if (profile.instagram) socialHTML += `<a href="https://instagram.com/${profile.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>`;  
-                if (profile.snapchat) socialHTML += `<a href="https://snapchat.com/add/${profile.snapchat}" target="_blank"><i class="fab fa-snapchat"></i></a>`;  
-                if (profile.whatsapp) socialHTML += `<a href="https://wa.me/${profile.whatsapp}" target="_blank"><i class="fab fa-whatsapp"></i></a>`;  
-                document.getElementById("social-icons").innerHTML = socialHTML;  
+                    let socialHTML = "";
+                    if (profile.instagram) socialHTML += `<a href="https://instagram.com/${profile.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>`;
+                    if (profile.snapchat) socialHTML += `<a href="https://snapchat.com/add/${profile.snapchat}" target="_blank"><i class="fab fa-snapchat"></i></a>`;
+                    if (profile.whatsapp) socialHTML += `<a href="https://wa.me/${profile.whatsapp}" target="_blank"><i class="fab fa-whatsapp"></i></a>`;
+                    document.getElementById("social-icons").innerHTML = socialHTML;
 
-                if (profile.spotify) {  
-                    let spotifyID = profile.spotify.split('/').pop();  
-                    let embedType = profile.spotify.includes("playlist") ? "playlist" : "track";  
+                    if (profile.spotify) {
+                        let spotifyID = profile.spotify.split('/').pop();
+                        let embedType = profile.spotify.includes("playlist") ? "playlist" : "track";
 
-                    const spotifyEmbed = `<iframe src="https://open.spotify.com/embed/${embedType}/${spotifyID}" width="300" height="80" frameborder="0" allow="encrypted-media"></iframe>`;  
-                    document.getElementById("spotify-container").innerHTML = spotifyEmbed;  
-                }  
-            } else {  
-                alert("Profile not found!");  
-                window.location.href = "/";  
-            }  
-        }  
-    }  
+                        const spotifyEmbed = `<iframe src="https://open.spotify.com/embed/${embedType}/${spotifyID}" width="300" height="80" frameborder="0" allow="encrypted-media"></iframe>`;
+                        document.getElementById("spotify-container").innerHTML = spotifyEmbed;
+                    }
+                } else {
+                    alert("Profile not found!");
+                    window.location.href = "/";
+                }
+            }
+        }
 
-    document.getElementById("createProfileBtn").addEventListener("click", createProfile);  
-    window.onload = loadProfile; 
+        document.getElementById("createProfileBtn").addEventListener("click", createProfile);
+        window.onload = loadProfile;
 
-    document.getElementById("shareBtn").addEventListener("click", async () => {
-        const url = window.location.href;  
-        const text = "Made with ❤️‍🔥 by Samartha GS\nCheck out this profile:";
+        document.getElementById("shareBtn").addEventListener("click", async () => {
+            const url = window.location.href;
+            const text = "Made with ❤️‍🔥 by Samartha GS\nCheck out this profile:";
 
-        if (navigator.share) {  
-            try {  
-                await navigator.share({ title: "Profile Card", text, url });  
-            } catch (error) {  
-                console.error("Sharing failed:", error);  
-            }  
-        } else {  
-            alert("Sharing not supported!");  
-        }  
-    });
-</script>
-</script>  
-
-<style>  
-    body {  
-        font-family: 'Poppins', sans-serif;  
-        background: linear-gradient(120deg, #eceff1, #b0bec5);  
-        display: flex;  
-        align-items: center;  
-        justify-content: center;  
-        height: 100vh;  
-        text-align: center;  
-    }  
-
-    .profile-card {  
-        position: relative;  
-        animation: fadeIn 1s ease-in-out;  
-    }  
-
-   .profile-image {  
-    width: 130px;  
-    height: 130px;  
-    border-radius: 50%;  
-object-fit: cover;
-object-position:center;
-
-    animation: glow 3s infinite alternate ease-in-out;  
-    transition: box-shadow 0.5s ease-in-out, transform 0.3s ease-in-out;
-}  
-
-.profile-image:hover {
-    transform: scale(1.05);
-}
-
-@keyframes glow {  
-    0% { box-shadow: 0 0 5px rgba(255, 0, 255, 0.5), 0 0 10px rgba(255, 0, 255, 0.5); }  
-    100% { box-shadow: 0 0 15px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.5); }  
-}
-
-
-    
-
-    .social-icons a {  
-        font-size: 24px;  
-        margin: 10px;  
-        color: black;  
-        transition: transform 0.3s ease-in-out;  
-    }  
-
-    .social-icons a:hover {  
-        transform: translateY(-5px);  
-        color: blue;  
-    }  
-
-    @keyframes fadeIn {  
-        from { opacity: 0; }  
-        to { opacity: 1; }  
-    }  
-.social-container {  
-    background: rgba(255, 255, 255, 0.2);  
-    padding: 10px;  
-    border-radius: 10px;  
-    backdrop-filter: blur(10px);  
-    display: inline-block;  
-    margin-top: 10px;  
-}  
-
-.social-icons a {  
-    margin: 5px;  
-    color: black;  
-    font-size: 20px;  
-    text-decoration: none;  
-}  
-
-#spotify-container {  
-    margin-bottom: 20px;  
-}
-.profile-name {  
-    font-size: 24px;  
-    font-weight: bold;  
-}
-.sharebtn {  
-    position: fixed;  
-    top: 10px;  
-    right: 10px;  
-    background: none;  
-    border: none;  
-    cursor: pointer;  
-    font-size: 22px;  
-    color: black;  
-    transition: transform 0.3s ease-in-out;  
-}  
-
-.sharebtn:hover {  
-    transform: scale(1.1);  
-    color: gray;  
-}
-#spotify-container {  
-    width: 100%;  
-    display: flex;  
-    justify-content: center;  
-    position: fixed;  
-    bottom: 10px;  /* Positioned at the bottom */  
-    left: 0;  
-    padding: 10px;  
-}  
-
-#spotify-container iframe {  
-    width: 300px;  
-    height: 80px;  
-    border-radius: 10px;  /* Rounded corners for a modern look */  
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);  /* Soft shadow effect */  
-}
-#create-container {  
-    display: flex;  
-    flex-direction: column;  
-    align-items: center;  
-    background: white;  
-    padding: 20px;  
-    border-radius: 10px;  
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);  
-    max-width: 400px;  
-    width: 100%;  
-}  
-
-.profile-section {  
-    background: rgba(255, 255, 255, 0.8);  
-    padding: 15px;  
-    margin-bottom: 15px;  
-    border-radius: 10px;  
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);  
-    width: 100%;  
-}  
-
-#profile-details {  
-    text-align: center;  
-}  
-
-#profile-details input,  
-#profile-details textarea {  
-    width: 100%;  
-    margin: 5px 0;  
-    padding: 8px;  
-    border-radius: 5px;  
-    border: 1px solid #ccc;  
-}  
-
-#social-profiles {  
-    display: flex;  
-    flex-wrap: wrap;  
-    justify-content: center;  
-    gap: 10px;  
-}  
-
-.social-input {  
-    display: flex;  
-    align-items: center;  
-    gap: 5px;  
-}  
-
-.social-input input {  
-    flex: 1;  
-    padding: 8px;  
-    border-radius: 5px;  
-    border: 1px solid #ccc;  
-}  
-
-.add-social {  
-    background: #007bff;  
-    color: white;  
-    padding: 5px 10px;  
-    border: none;  
-    border-radius: 5px;  
-    cursor: pointer;  
-}  
-
-.add-social:hover {  
-    background: #0056b3;  
-}  
-
-#spotify-container {  
-    text-align: center;  
-}
-
-</style>  
-
-</body>  
+            if (navigator.share) {
+                try {
+                    await navigator.share({ title: "Profile Card", text, url });
+                } catch (error) {
+                    console.error("Sharing failed:", error);
+                }
+            } else {
+                alert("Sharing not supported!");
+            }
+        });
+    </script>
+</body>
 </html>
