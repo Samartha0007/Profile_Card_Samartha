@@ -22,10 +22,9 @@
 </div>  
 
 <div class="profile-card" id="profile-container" style="display: none;">  
-   <div class="top-section">
-    <button class="share-btn" id="shareProfile">
-        <i class="fas fa-share-alt"></i>
-    </button>
+ <button class="share-btn" id="shareProfile">
+    <i class="fas fa-share-alt"></i>
+</button>
 </div>  
     <img class="profile-image" id="profile-image" src="" alt="Profile Picture">  
     <div class="profile-details">  
@@ -158,13 +157,19 @@
     document.getElementById("createProfileBtn").addEventListener("click", createProfile);  
     window.onload = loadProfile; 
 
-document.getElementById("shareProfile").addEventListener("click", () => {
+document.getElementById("shareProfile").addEventListener("click", async () => {
     const url = window.location.href;
-    navigator.clipboard.writeText(url).then(() => {
-        alert("Profile link copied!");
-    }).catch(err => {
-        console.error("Failed to copy: ", err);
-    });
+    const text = "Made with ❤️‍🔥 by Samartha GS\nCheck out this profile: " + url;
+
+    if (navigator.share) {  
+        try {  
+            await navigator.share({ title: "Profile Card", text, url });  
+        } catch (error) {  
+            console.error("Sharing failed:", error);  
+        }  
+    } else {  
+        alert("Sharing not supported!");  
+    }  
 });
 </script>  
 
@@ -236,13 +241,13 @@ document.getElementById("shareProfile").addEventListener("click", () => {
     font-weight: bold;  
 }
 .share-btn {  
-    position: absolute;  
+    position: fixed;  
     top: 10px;  
-    right: 10px;  
+    left: 10px;  
     background: none;  
     border: none;  
     cursor: pointer;  
-    font-size: 20px;  
+    font-size: 22px;  
     color: black;  
     transition: transform 0.3s ease-in-out;  
 }  
@@ -250,6 +255,18 @@ document.getElementById("shareProfile").addEventListener("click", () => {
 .share-btn:hover {  
     transform: scale(1.1);  
     color: blue;  
+}
+#spotify-container {  
+    width: 100%;  
+    display: flex;  
+    justify-content: center;  
+    margin-top: auto;  
+}  
+
+.profile-card {  
+    display: flex;  
+    flex-direction: column;  
+    align-items: center;  
 }
 </style>  
 
