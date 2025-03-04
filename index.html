@@ -7,29 +7,37 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(120deg, #eceff1, #b0bec5);
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 100vh;
-            text-align: center;
-            margin: 0;
-            padding: 0;
+            min-height: 100vh;
+            padding: 20px;
         }
 
+        /* Profile Creation Container Styles */
         .create-container {
-            background: white;
+            background: rgba(255, 255, 255, 0.9);
             border-radius: 15px;
             padding: 30px;
             width: 100%;
             max-width: 400px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.5s ease-in-out;
         }
 
         .create-container h2 {
+            text-align: center;
             margin-bottom: 20px;
+            color: #333;
         }
 
         .create-container input,
@@ -39,6 +47,20 @@
             margin-bottom: 15px;
             border: 1px solid #ddd;
             border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .create-container input:focus,
+        .create-container textarea:focus {
+            outline: none;
+            border-color: #4a90e2;
+            box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+        }
+
+        .create-container textarea {
+            resize: vertical;
+            min-height: 100px;
         }
 
         #createProfileBtn {
@@ -49,152 +71,128 @@
             border: none;
             border-radius: 8px;
             cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
         }
 
-        /* Loading Modal Styles */
-        #loadingModal {
+        #createProfileBtn:hover {
+            background-color: #357abd;
+        }
+
+        #profileImage {
+            border: 2px dashed #ddd;
+            padding: 10px;
+        }
+
+        /* Profile Card Styles */
+        .profile-container {
             display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-        }
-
-        .modal-content {
-            background-color: white;
-            padding: 30px;
-            border-radius: 15px;
             text-align: center;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 30px;
+            width: 100%;
             max-width: 400px;
-            width: 90%;
-        }
-
-        .modal-footer {
-            margin-top: 20px;
-            font-size: 14px;
-            color: #666;
-        }
-
-        .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #3498db;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-            margin-bottom: 20px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Profile Card Styles (Original) */
-        .profile-card {
-            position: relative;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
             animation: fadeIn 1s ease-in-out;
         }
 
+        .profile-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
         .profile-image {
-            width: 130px;
-            height: 130px;
+            width: 150px;
+            height: 150px;
             border-radius: 50%;
             object-fit: cover;
             object-position: center;
-            animation: glow 3s infinite alternate ease-in-out;
-            transition: box-shadow 0.5s ease-in-out, transform 0.3s ease-in-out;
+            border: 4px solid #4a90e2;
+            margin-bottom: 15px;
+            transition: transform 0.3s ease;
         }
 
         .profile-image:hover {
             transform: scale(1.05);
         }
 
-        @keyframes glow {
-            0% { box-shadow: 0 0 5px rgba(255, 0, 255, 0.5), 0 0 10px rgba(255, 0, 255, 0.5); }
-            100% { box-shadow: 0 0 15px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.5); }
+        .profile-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .profile-bio {
+            color: #666;
+            margin-top: 10px;
+            max-width: 300px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .social-container {
+            background: rgba(74, 144, 226, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .social-icons a {
+            margin: 0 10px;
+            color: #4a90e2;
             font-size: 24px;
-            margin: 10px;
-            color: black;
-            transition: transform 0.3s ease-in-out;
+            text-decoration: none;
+            transition: color 0.3s ease;
         }
 
         .social-icons a:hover {
-            transform: translateY(-5px);
-            color: blue;
+            color: #357abd;
+        }
+
+        .spotify-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .spotify-container iframe {
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .sharebtn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #4a90e2;
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .sharebtn:hover {
+            background-color: #357abd;
+            transform: scale(1.1);
         }
 
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
-        }
-
-        .social-container {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 10px;
-            border-radius: 10px;
-            backdrop-filter: blur(10px);
-            display: inline-block;
-            margin-top: 10px;
-        }
-
-        .social-icons a {
-            margin: 5px;
-            color: black;
-            font-size: 20px;
-            text-decoration: none;
-        }
-
-        #spotify-container {
-            margin-bottom: 20px;
-        }
-
-        .profile-name {
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        .sharebtn {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 22px;
-            color: black;
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .sharebtn:hover {
-            transform: scale(1.1);
-            color: gray;
-        }
-
-        #spotify-container {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            position: fixed;
-            bottom: 10px;
-            left: 0;
-            padding: 10px;
-        }
-
-        #spotify-container iframe {
-            width: 300px;
-            height: 80px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
     </style>
 </head>
@@ -213,11 +211,6 @@
         <input type="text" id="instagram" placeholder="Instagram ID">
         <input type="text" id="snapchat" placeholder="Snapchat ID">
         <input type="text" id="whatsapp" placeholder="WhatsApp Number">
-        <input type="text" id="twitter" placeholder="Twitter Handle">
-        <input type="text" id="linkedin" placeholder="LinkedIn Username">
-        <input type="text" id="github" placeholder="GitHub Username">
-        <input type="text" id="facebook" placeholder="Facebook Username">
-        <input type="text" id="tiktok" placeholder="TikTok Username">
         
         <h3>Spotify (Optional)</h3>
         <input type="url" id="spotify" placeholder="Spotify Song/Playlist URL">
@@ -225,27 +218,18 @@
         <button id="createProfileBtn">Create Profile</button>
     </div>
 
-    <!-- Loading Modal -->
-    <div id="loadingModal">
-        <div class="modal-content">
-            <div class="spinner"></div>
-            <h3>Creating Profile...</h3>
-            <div class="modal-footer">
-                Made with 💖 By Samarth
-            </div>
-        </div>
-    </div>
-
-    <div class="profile-card" id="profile-container" style="display: none;">
-        <img class="profile-image" id="profile-image" src="" alt="Profile Picture">
-        <div class="profile-details">
+    <div class="profile-container" id="profile-container">
+        <div class="profile-header">
+            <img class="profile-image" id="profile-image" src="" alt="Profile Picture">
             <div class="profile-name" id="profile-name"></div>
             <div class="profile-bio" id="profile-bio"></div>
-            <div class="social-container">
-                <div class="social-icons" id="social-icons"></div>
-            </div>
-            <div id="spotify-container"></div>
         </div>
+
+        <div class="social-container">
+            <div class="social-icons" id="social-icons"></div>
+        </div>
+
+        <div class="spotify-container" id="spotify-container"></div>
     </div>
 
     <script type="module">
@@ -303,11 +287,6 @@
             const instagram = document.getElementById("instagram").value;
             const snapchat = document.getElementById("snapchat").value;
             const whatsapp = document.getElementById("whatsapp").value;
-            const twitter = document.getElementById("twitter").value;
-            const linkedin = document.getElementById("linkedin").value;
-            const github = document.getElementById("github").value;
-            const facebook = document.getElementById("facebook").value;
-            const tiktok = document.getElementById("tiktok").value;
             const spotify = document.getElementById("spotify").value;
 
             if (!name || !imageFile || !bio) {
@@ -315,37 +294,17 @@
                 return;
             }
 
-            // Show loading modal
-            document.getElementById("loadingModal").style.display = "flex";
+            let username = await generateUniqueUsername(name);
+            let imageUrl = await uploadImage(imageFile);
 
             try {
-                let username = await generateUniqueUsername(name);
-                let imageUrl = await uploadImage(imageFile);
-
                 await addDoc(collection(db, "profiles"), {
-                    name, 
-                    username, 
-                    imageUrl, 
-                    bio, 
-                    instagram, 
-                    snapchat, 
-                    whatsapp,
-                    twitter,
-                    linkedin,
-                    github,
-                    facebook,
-                    tiktok,
-                    spotify
+                    name, username, imageUrl, bio, instagram, snapchat, whatsapp, spotify
                 });
 
-                // Redirect after a short delay to show loading
-                setTimeout(() => {
-                    window.location.href = "?user=" + username;
-                }, 1500);
-
+                window.location.href = "?user=" + username;
             } catch (error) {
                 console.error("Error adding document: ", error);
-                document.getElementById("loadingModal").style.display = "none";
                 alert("Failed to create profile. Check Firebase rules!");
             }
         }
@@ -374,11 +333,6 @@
                     if (profile.instagram) socialHTML += `<a href="https://instagram.com/${profile.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>`;
                     if (profile.snapchat) socialHTML += `<a href="https://snapchat.com/add/${profile.snapchat}" target="_blank"><i class="fab fa-snapchat"></i></a>`;
                     if (profile.whatsapp) socialHTML += `<a href="https://wa.me/${profile.whatsapp}" target="_blank"><i class="fab fa-whatsapp"></i></a>`;
-                    if (profile.twitter) socialHTML += `<a href="https://twitter.com/${profile.twitter}" target="_blank"><i class="fab fa-twitter"></i></a>`;
-                    if (profile.linkedin) socialHTML += `<a href="https://linkedin.com/in/${profile.linkedin}" target="_blank"><i class="fab fa-linkedin"></i></a>`;
-                    if (profile.github) socialHTML += `<a href="https://github.com/${profile.github}" target="_blank"><i class="fab fa-github"></i></a>`;
-                    if (profile.facebook) socialHTML += `<a href="https://facebook.com/${profile.facebook}" target="_blank"><i class="fab fa-facebook"></i></a>`;
-                    if (profile.tiktok) socialHTML += `<a href="https://tiktok.com/@${profile.tiktok}" target="_blank"><i class="fab fa-tiktok"></i></a>`;
                     document.getElementById("social-icons").innerHTML = socialHTML;
 
                     if (profile.spotify) {
@@ -392,3 +346,26 @@
                     alert("Profile not found!");
                     window.location.href = "/";
                 }
+            }
+        }
+
+        document.getElementById("createProfileBtn").addEventListener("click", createProfile);
+        window.onload = loadProfile;
+
+        document.getElementById("shareBtn").addEventListener("click", async () => {
+            const url = window.location.href;
+            const text = "Made with ❤️‍🔥 by Samartha GS\nCheck out this profile:";
+
+            if (navigator.share) {
+                try {
+                    await navigator.share({ title: "Profile Card", text, url });
+                } catch (error) {
+                    console.error("Sharing failed:", error);
+                }
+            } else {
+                alert("Sharing not supported!");
+            }
+        });
+    </script>
+</body>
+</html>
