@@ -7,181 +7,190 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+     * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(120deg, #eceff1, #b0bec5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(120deg, #eceff1, #b0bec5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+}
 
-        /* Profile Creation Container Styles */
-        .create-container {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 15px;
-            padding: 30px;
-            width: 100%;
-            max-width: 400px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            animation: fadeIn 0.5s ease-in-out;
-        }
+/* Profile Creation Container */
+.create-container {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    padding: 30px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.5s ease-in-out;
+}
 
-        .create-container h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #333;
-        }
+.create-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
 
-        .create-container input,
-        .create-container textarea {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-family: 'Poppins', sans-serif;
-            transition: all 0.3s ease;
-        }
+.create-container input,
+.create-container textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    transition: all 0.3s ease;
+}
 
-        .create-container input:focus,
-        .create-container textarea:focus {
-            outline: none;
-            border-color: #4a90e2;
-            box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
-        }
+.create-container input:focus,
+.create-container textarea:focus {
+    outline: none;
+    border-color: #4a90e2;
+    box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+}
 
-        .create-container textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
+.create-container textarea {
+    resize: vertical;
+    min-height: 100px;
+}
 
-        #createProfileBtn {
-            width: 100%;
-            padding: 12px;
-            background-color: #4a90e2;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 600;
-            transition: background-color 0.3s ease;
-        }
+#createProfileBtn {
+    width: 100%;
+    padding: 12px;
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
 
-        #createProfileBtn:hover {
-            background-color: #357abd;
-        }
+#createProfileBtn:hover {
+    background-color: #357abd;
+}
 
-       
+/* Profile Card Styling */
+.profile-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers everything inside */
+    text-align: center;
+    animation: fadeIn 1s ease-in-out;
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
 
-     
-
-           .profile-card {  
-        position: relative;  
-        animation: fadeIn 1s ease-in-out;  
-    }  
-
-   .profile-image {  
-    width: 130px;  
-    height: 130px;  
-    border-radius: 50%;  
-object-fit: cover;
-object-position:center;
-
-    animation: glow 3s infinite alternate ease-in-out;  
+/* Profile Image */
+.profile-image {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+    animation: glow 3s infinite alternate ease-in-out;
     transition: box-shadow 0.5s ease-in-out, transform 0.3s ease-in-out;
-}  
+}
 
 .profile-image:hover {
     transform: scale(1.05);
 }
 
-@keyframes glow {  
-    0% { box-shadow: 0 0 5px rgba(255, 0, 255, 0.5), 0 0 10px rgba(255, 0, 255, 0.5); }  
-    100% { box-shadow: 0 0 15px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.5); }  
+@keyframes glow {
+    0% { box-shadow: 0 0 5px rgba(255, 0, 255, 0.5), 0 0 10px rgba(255, 0, 255, 0.5); }
+    100% { box-shadow: 0 0 15px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.5); }
 }
 
-
-
-
-    .social-icons a {  
-        font-size: 24px;  
-        margin: 10px;  
-        color: black;  
-        transition: transform 0.3s ease-in-out;  
-    }  
-
-    .social-icons a:hover {  
-        transform: translateY(-5px);  
-        color: blue;  
-    }  
-
-    @keyframes fadeIn {  
-        from { opacity: 0; }  
-        to { opacity: 1; }  
-    }  
-.social-container {  
-    background: rgba(255, 255, 255, 0.2);  
-    padding: 10px;  
-    border-radius: 10px;  
-    backdrop-filter: blur(10px);  
-    display: inline-block;  
-    margin-top: 10px;  
-}  
-
-.social-icons a {  
-    margin: 5px;  
-    color: black;  
-    font-size: 20px;  
-    text-decoration: none;  
-}  
-
-#spotify-container {  
-    margin-bottom: 20px;  
+/* Profile Name */
+.profile-name {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 10px;
 }
-.profile-name {  
-    font-size: 24px;  
-    font-weight: bold;  
-}
-.sharebtn {  
-    position: fixed;  
-    top: 10px;  
-    right: 10px;  
-    background: none;  
-    border: none;  
-    cursor: pointer;  
-    font-size: 22px;  
-    color: black;  
-    transition: transform 0.3s ease-in-out;  
-}  
 
-.sharebtn:hover {  
-    transform: scale(1.1);  
-    color: gray;  
+/* Social Icons */
+.social-container {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 10px;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    margin-top: 10px;
+    display: flex;
+    justify-content: center; /* Centers the social icons */
+    gap: 15px; /* Adds spacing between icons */
 }
-#spotify-container {  
-    width: 100%;  
-    display: flex;  
-    justify-content: center;  
-    position: fixed;  
-    bottom: 10px;  /* Positioned at the bottom */  
-    left: 0;  
-    padding: 10px;  
-}  
 
-#spotify-container iframe {  
-    width: 300px;  
-    height: 80px;  
-    border-radius: 10px;  /* Rounded corners for a modern look */  
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);  /* Soft shadow effect */  
+.social-icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px; /* Adds space between icons */
+}
+
+.social-icons a {
+    font-size: 24px;
+    color: black;
+    text-decoration: none;
+    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.social-icons a:hover {
+    transform: translateY(-5px);
+    color: blue;
+}
+
+/* Share Button */
+.sharebtn {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 22px;
+    color: black;
+    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.sharebtn:hover {
+    transform: scale(1.1);
+    color: gray;
+}
+
+/* Spotify Container */
+#spotify-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    bottom: 10px;
+    left: 0;
+    padding: 10px;
+}
+
+#spotify-container iframe {
+    width: 300px;
+    height: 80px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Fade In Animation */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
     </style>
 </head>
