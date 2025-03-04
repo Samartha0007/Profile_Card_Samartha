@@ -6,38 +6,44 @@
     <title>Profile Card</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <script src="https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js"></script>
 </head>
 <body>
 
 <div class="container" id="create-container">
     <h2>Create Your Profile</h2>
+
+    <!-- Social Media Selection -->
+    <div id="social-selection">
+        <label>Select Social Profiles:</label>
+        <div class="social-options">
+            <button onclick="addSocialField('instagram')"><i class="fab fa-instagram"></i></button>
+            <button onclick="addSocialField('snapchat')"><i class="fab fa-snapchat"></i></button>
+            <button onclick="addSocialField('whatsapp')"><i class="fab fa-whatsapp"></i></button>
+        </div>
+        <div id="social-fields"></div>
+    </div>
+
     <input type="text" id="name" placeholder="Name" required><br>
     <input type="date" id="birthday" required><br>
     <input type="file" id="profileImage" accept="image/*" required><br>
-    
-    <div class="social-selection">
-        <h3>Select Social Profiles</h3>
-        <button class="social-btn" data-platform="instagram"><i class="fab fa-instagram"></i></button>
-        <button class="social-btn" data-platform="snapchat"><i class="fab fa-snapchat"></i></button>
-        <button class="social-btn" data-platform="whatsapp"><i class="fab fa-whatsapp"></i></button>
-    </div>
-    
-    <input type="url" id="spotify" placeholder="Spotify Song URL"><br>
     <textarea id="bio" placeholder="Short Bio" required></textarea><br>
+    <input type="url" id="spotify" placeholder="Spotify Song URL"><br>
+
     <button id="createProfileBtn">Create Profile</button>
 </div>
 
-<div class="modal" id="loading-modal">
+<!-- Creating Profile Modal -->
+<div id="loadingModal" class="modal">
     <div class="modal-content">
-        <p>Creating Profile...</p>
+        <h3>Creating Profile...</h3>
     </div>
 </div>
 
+<!-- Profile Display -->
 <div class="profile-card" id="profile-container" style="display: none;">
-    <button id="share-btn"><i class="fas fa-share"></i></button>
-    <div class="top-section"></div>
+    <div class="top-section">
+        <button id="shareProfile"><i class="fas fa-share-alt"></i></button>
+    </div>
     <img class="profile-image" id="profile-image" src="" alt="Profile Picture">
     <div class="profile-details">
         <div class="profile-name" id="profile-name"></div>
@@ -48,37 +54,10 @@
     <div id="spotify-container"></div>
 </div>
 
-<style>
-    body {
-        font-family: 'Poppins', sans-serif;
-        background: linear-gradient(120deg, #eceff1, #b0bec5);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-        text-align: center;
-    }
-    .modal {
-        display: none;
-        position: fixed;
-        top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        justify-content: center;
-        align-items: center;
-    }
-    .modal-content {
-        background: white;
-        padding: 20px;
-        border-radius: 10px;
-    }
-    .social-icons a {
-        font-size: 24px;
-        margin: 10px;
-        color: black;
-    }
-</style>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
 
-<script>
     const firebaseConfig = {
         apiKey: "AIzaSyBb3x_zD9JaFwL9PhmngCNZlS2fOh6MBa4",
         authDomain: "newai-52371.firebaseapp.com",
@@ -88,8 +67,16 @@
         appId: "1:480586908639:web:f4645a852c4df724c6fa6a"
     };
 
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    function showLoadingModal() {
+        document.getElementById("loadingModal").style.display = "block";
+    }
+
+    function hideLoadingModal() {
+        document.getElementById("loadingModal").style.display = "none";
+    }
 
     async function uploadImage(file) {
         const cloudName = "dw1qrki2c";
@@ -112,52 +99,103 @@
         let username = name.toLowerCase().replace(/\s+/g, '');
         let count = 1;
 
-        const querySnapshot = await db.collection("profiles").where("username", "==", username).get();
+        const q = query(collection(db, "profiles"), where("username", "==", username));
+        let querySnapshot = await getDocs(q);
 
         while (!querySnapshot.empty) {
             username = name.toLowerCase().replace(/\s+/g, '') + count;
+            querySnapshot = await getDocs(query(collection(db, "profiles"), where("username", "==", username)));
             count++;
         }
         return username;
     }
 
     async function createProfile() {
-        document.getElementById("loading-modal").style.display = "flex";
-
         const name = document.getElementById("name").value;
         const birthday = document.getElementById("birthday").value;
         const imageFile = document.getElementById("profileImage").files[0];
-        const spotify = document.getElementById("spotify").value;
         const bio = document.getElementById("bio").value;
+        const spotify = document.getElementById("spotify").value;
 
-        if (!name || !birthday || !imageFile) {
-            alert("Name, Birthday, and Image are required!");
-            document.getElementById("loading-modal").style.display = "none";
+        if (!name || !birthday || !bio || !imageFile) {
+            alert("All fields are required!");
             return;
         }
+
+        showLoadingModal();
 
         let username = await generateUniqueUsername(name);
         let imageUrl = await uploadImage(imageFile);
 
+        let socialProfiles = {};
+        document.querySelectorAll(".social-input").forEach(input => {
+            socialProfiles[input.id] = input.value;
+        });
+
         try {
-            await db.collection("profiles").add({
-                name, username, imageUrl, birthday, spotify, bio
+            await addDoc(collection(db, "profiles"), {
+                name, username, imageUrl, birthday, bio, spotify, socialProfiles
             });
 
-            const profileURL = window.location.origin + "?user=" + username;
-            navigator.clipboard.writeText(profileURL);
+            let profileUrl = `${window.location.origin}?user=${username}`;
+            navigator.clipboard.writeText(profileUrl);
 
-            window.location.href = "?user=" + username;
+            window.location.href = profileUrl;
         } catch (error) {
-            console.error("Error adding document:", error);
-            alert("Error creating profile.");
+            console.error("Error adding document: ", error);
+            alert("Failed to create profile.");
+        } finally {
+            hideLoadingModal();
         }
+    }
 
-        document.getElementById("loading-modal").style.display = "none";
+    async function loadProfile() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const username = urlParams.get("user");
+
+        if (username) {
+            document.getElementById("profile-container").style.display = "block";
+            document.getElementById("create-container").style.display = "none";
+
+            const q = query(collection(db, "profiles"), where("username", "==", username));
+            const querySnapshot = await getDocs(q);
+
+            if (!querySnapshot.empty) {
+                const profile = querySnapshot.docs[0].data();
+                document.getElementById("profile-name").innerText = profile.name;
+                document.getElementById("profile-bio").innerText = profile.bio;
+                document.getElementById("profile-birthday").innerText = "Birthday: " + profile.birthday;
+
+                if (profile.imageUrl) {
+                    document.getElementById("profile-image").src = profile.imageUrl;
+                }
+
+                let socialHTML = "";
+                Object.keys(profile.socialProfiles).forEach(platform => {
+                    if (profile.socialProfiles[platform]) {
+                        socialHTML += `<a href="${profile.socialProfiles[platform]}" target="_blank"><i class="fab fa-${platform}"></i></a>`;
+                    }
+                });
+                document.getElementById("social-icons").innerHTML = socialHTML;
+            } else {
+                alert("Profile not found!");
+                window.location.href = "/";
+            }
+        }
+    }
+
+    function addSocialField(platform) {
+        let input = `<input type="text" id="${platform}" class="social-input" placeholder="${platform} ID">`;
+        document.getElementById("social-fields").innerHTML += input;
     }
 
     document.getElementById("createProfileBtn").addEventListener("click", createProfile);
-</script>
+    document.getElementById("shareProfile").addEventListener("click", () => {
+        navigator.clipboard.writeText(window.location.href);
+        alert("Profile link copied!");
+    });
 
+    window.onload = loadProfile;
+</script>
 </body>
 </html>
