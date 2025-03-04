@@ -22,7 +22,11 @@
 </div>  
 
 <div class="profile-card" id="profile-container" style="display: none;">  
-    <div class="top-section"></div>  
+   <div class="top-section">
+    <button class="share-btn" id="shareProfile">
+        <i class="fas fa-share-alt"></i>
+    </button>
+</div>  
     <img class="profile-image" id="profile-image" src="" alt="Profile Picture">  
     <div class="profile-details">  
         <div class="profile-name" id="profile-name"></div>  
@@ -152,7 +156,16 @@
     }  
 
     document.getElementById("createProfileBtn").addEventListener("click", createProfile);  
-    window.onload = loadProfile;  
+    window.onload = loadProfile; 
+
+document.getElementById("shareProfile").addEventListener("click", () => {
+    const url = window.location.href;
+    navigator.clipboard.writeText(url).then(() => {
+        alert("Profile link copied!");
+    }).catch(err => {
+        console.error("Failed to copy: ", err);
+    });
+});
 </script>  
 
 <style>  
@@ -217,6 +230,26 @@
 
 #spotify-container {  
     margin-bottom: 20px;  
+}
+.profile-name {  
+    font-size: 24px;  
+    font-weight: bold;  
+}
+.share-btn {  
+    position: absolute;  
+    top: 10px;  
+    right: 10px;  
+    background: none;  
+    border: none;  
+    cursor: pointer;  
+    font-size: 20px;  
+    color: black;  
+    transition: transform 0.3s ease-in-out;  
+}  
+
+.share-btn:hover {  
+    transform: scale(1.1);  
+    color: blue;  
 }
 </style>  
 
