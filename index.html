@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-       /* Import Fonts */
+       /* Import Poppins Font */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
 * {
@@ -27,13 +27,13 @@ body {
     overflow: hidden;
 }
 
-/* Container for Profile Card */
+/* Main Profile Card */
 .profile-card {
     background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(12px);
     border-radius: 15px;
     padding: 25px;
-    width: 350px;
+    width: 380px;
     box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.3);
     position: relative;
     animation: fadeIn 1s ease-in-out;
@@ -78,7 +78,7 @@ body {
     box-shadow: 0px 4px 15px rgba(255, 255, 255, 0.2);
 }
 
-/* Name */
+/* Profile Name */
 .profile-name {
     font-size: 22px;
     font-weight: 600;
@@ -87,16 +87,25 @@ body {
     text-transform: capitalize;
 }
 
-/* Bio */
+/* Profile Bio */
 .profile-bio {
     font-size: 14px;
     color: rgba(255, 255, 255, 0.8);
     margin-top: 5px;
 }
 
+/* Social Profiles Container */
+.social-container {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.2);
+}
+
 /* Social Icons */
 .social-icons {
-    margin-top: 15px;
+    margin-top: 10px;
 }
 
 .social-icons a {
@@ -118,10 +127,48 @@ body {
     overflow: hidden;
 }
 
+/* Modal (Creating Profile...) */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.2);
+    text-align: center;
+    color: white;
+}
+
+/* Loading Spinner */
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(255, 255, 255, 0.2);
+    border-top: 4px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+}
+
 /* Animations */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
     </style>
 </head>
