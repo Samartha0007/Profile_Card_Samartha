@@ -282,7 +282,13 @@ body {
             return username;
         }
 
-        async function createProfile() {
+        // Ensure Firebase is initialized correctly
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+}
+const db = firebase.firestore();
+
+async function createProfile() {
     const name = document.getElementById("name").value.trim();
     const imageFile = document.getElementById("profileImage").files[0];
     const bio = document.getElementById("bio").value.trim();
@@ -300,14 +306,18 @@ body {
     document.getElementById("creatingModal").style.display = "block";
 
     try {
+        console.log("Generating unique username...");
         let username = await generateUniqueUsername(name);
+        console.log("Uploading image...");
         let imageUrl = await uploadImage(imageFile);
 
-        await addDoc(collection(db, "profiles"), {
+        console.log("Adding profile to Firestore...");
+        await firebase.firestore().collection("profiles").add({
             name, username, imageUrl, bio, instagram, snapchat, whatsapp, spotify
         });
 
         let profileUrl = `${window.location.origin}?user=${username}`;
+        console.log("Profile Created! URL:", profileUrl);
 
         // Auto-copy profile URL
         navigator.clipboard.writeText(profileUrl).catch(err => console.error("Copy failed", err));
@@ -339,8 +349,8 @@ async function loadProfile() {
         document.getElementById("profile-container").style.display = "block";
         document.getElementById("create-container").style.display = "none";
 
-        const q = query(collection(db, "profiles"), where("username", "==", username));
-        const querySnapshot = await getDocs(q);
+        const q = firebase.firestore().collection("profiles").where("username", "==", username);
+        const querySnapshot = await q.get();
 
         if (!querySnapshot.empty) {
             const profile = querySnapshot.docs[0].data();
