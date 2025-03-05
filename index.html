@@ -357,16 +357,15 @@ async function createProfile() {
             twitter, linkedin, youtube, email, telegram, github, josh, spotify
         });
 
-        window.location.href = "?user=" + username;
+        window.location.href = "/" + username;
     } catch (error) {
         console.error("Error adding document: ", error);
         alert("Failed to create profile. Check Firebase rules!");
     }
 }
     async function loadProfile() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const username = urlParams.get("user");
-
+   const path = window.location.pathname.substring(1); 
+const username = path ? decodeURIComponent(path) : null;
     if (username) {
         document.getElementById("profile-container").style.display = "block";
         document.getElementById("create-container").style.display = "none";
