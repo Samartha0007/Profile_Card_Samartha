@@ -283,91 +283,109 @@ body {
         }
 
         async function createProfile() {
-            const name = document.getElementById("name").value;
-            const imageFile = document.getElementById("profileImage").files[0];
-            const bio = document.getElementById("bio").value;
-            const instagram = document.getElementById("instagram").value;
-            const snapchat = document.getElementById("snapchat").value;
-            const whatsapp = document.getElementById("whatsapp").value;
-            const spotify = document.getElementById("spotify").value;
+    const name = document.getElementById("name").value.trim();
+    const imageFile = document.getElementById("profileImage").files[0];
+    const bio = document.getElementById("bio").value.trim();
+    const instagram = document.getElementById("instagram").value.trim();
+    const snapchat = document.getElementById("snapchat").value.trim();
+    const whatsapp = document.getElementById("whatsapp").value.trim();
+    const spotify = document.getElementById("spotify").value.trim();
 
-            if (!name || !imageFile || !bio) {
-                alert("Name, Profile Image, and Bio are required!");
-                return;
-            }
+    if (!name || !imageFile || !bio) {
+        alert("Name, Profile Image, and Bio are required!");
+        return;
+    }
 
-            let username = await generateUniqueUsername(name);
-            let imageUrl = await uploadImage(imageFile);
+    // Show modal while creating profile
+    document.getElementById("creatingModal").style.display = "block";
 
-            try {
-                await addDoc(collection(db, "profiles"), {
-                    name, username, imageUrl, bio, instagram, snapchat, whatsapp, spotify
-                });
+    try {
+        let username = await generateUniqueUsername(name);
+        let imageUrl = await uploadImage(imageFile);
 
-                window.location.href = "?user=" + username;
-            } catch (error) {
-                console.error("Error adding document: ", error);
-                alert("Failed to create profile. Check Firebase rules!");
-            }
-        }
-
-        async function loadProfile() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const username = urlParams.get("user");
-
-            if (username) {
-                document.getElementById("profile-container").style.display = "block";
-                document.getElementById("create-container").style.display = "none";
-
-                const q = query(collection(db, "profiles"), where("username", "==", username));
-                const querySnapshot = await getDocs(q);
-
-                if (!querySnapshot.empty) {
-                    const profile = querySnapshot.docs[0].data();
-                    document.getElementById("profile-name").innerText = profile.name;
-                    document.getElementById("profile-bio").innerText = profile.bio;
-
-                    if (profile.imageUrl) {
-                        document.getElementById("profile-image").src = profile.imageUrl;
-                    }
-
-                    let socialHTML = "";
-                    if (profile.instagram) socialHTML += `<a href="https://instagram.com/${profile.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>`;
-                    if (profile.snapchat) socialHTML += `<a href="https://snapchat.com/add/${profile.snapchat}" target="_blank"><i class="fab fa-snapchat"></i></a>`;
-                    if (profile.whatsapp) socialHTML += `<a href="https://wa.me/${profile.whatsapp}" target="_blank"><i class="fab fa-whatsapp"></i></a>`;
-                    document.getElementById("social-icons").innerHTML = socialHTML;
-
-                    if (profile.spotify) {
-                        let spotifyID = profile.spotify.split('/').pop();
-                        let embedType = profile.spotify.includes("playlist") ? "playlist" : "track";
-
-                        const spotifyEmbed = `<iframe src="https://open.spotify.com/embed/${embedType}/${spotifyID}" width="300" height="80" frameborder="0" allow="encrypted-media"></iframe>`;
-                        document.getElementById("spotify-container").innerHTML = spotifyEmbed;
-                    }
-                } else {
-                    alert("Profile not found!");
-                    window.location.href = "/";
-                }
-            }
-        }
-
-        document.getElementById("createProfileBtn").addEventListener("click", createProfile);
-        window.onload = loadProfile;
-
-        document.getElementById("shareBtn").addEventListener("click", async () => {
-            const url = window.location.href;
-            const text = "Made with ❤️‍🔥 by Samartha GS\nCheck out this profile:";
-
-            if (navigator.share) {
-                try {
-                    await navigator.share({ title: "Profile Card", text, url });
-                } catch (error) {
-                    console.error("Sharing failed:", error);
-                }
-            } else {
-                alert("Sharing not supported!");
-            }
+        await addDoc(collection(db, "profiles"), {
+            name, username, imageUrl, bio, instagram, snapchat, whatsapp, spotify
         });
+
+        let profileUrl = `${window.location.origin}?user=${username}`;
+
+        // Auto-copy profile URL
+        navigator.clipboard.writeText(profileUrl).catch(err => console.error("Copy failed", err));
+
+        // Show success modal with share options
+        document.getElementById("creatingModal").style.display = "none";
+        document.getElementById("successModal").style.display = "block";
+        document.getElementById("profileLink").value = profileUrl;
+
+        // Set share function
+        document.getElementById("openProfileBtn").onclick = () => window.open(profileUrl, "_blank");
+        document.getElementById("copyProfileBtn").onclick = () => {
+            navigator.clipboard.writeText(profileUrl);
+            alert("Profile link copied!");
+        };
+
+    } catch (error) {
+        console.error("Error adding document: ", error);
+        alert("Failed to create profile. Check Firebase rules!");
+        document.getElementById("creatingModal").style.display = "none";
+    }
+}
+
+async function loadProfile() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const username = urlParams.get("user");
+
+    if (username) {
+        document.getElementById("profile-container").style.display = "block";
+        document.getElementById("create-container").style.display = "none";
+
+        const q = query(collection(db, "profiles"), where("username", "==", username));
+        const querySnapshot = await getDocs(q);
+
+        if (!querySnapshot.empty) {
+            const profile = querySnapshot.docs[0].data();
+            document.getElementById("profile-name").innerText = profile.name;
+            document.getElementById("profile-bio").innerText = profile.bio;
+            if (profile.imageUrl) {
+                document.getElementById("profile-image").src = profile.imageUrl;
+            }
+
+            let socialHTML = "";
+            if (profile.instagram) socialHTML += `<a href="https://instagram.com/${profile.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>`;
+            if (profile.snapchat) socialHTML += `<a href="https://snapchat.com/add/${profile.snapchat}" target="_blank"><i class="fab fa-snapchat"></i></a>`;
+            if (profile.whatsapp) socialHTML += `<a href="https://wa.me/${profile.whatsapp}" target="_blank"><i class="fab fa-whatsapp"></i></a>`;
+            document.getElementById("social-icons").innerHTML = socialHTML;
+
+            if (profile.spotify) {
+                let spotifyID = profile.spotify.split('/').pop();
+                let embedType = profile.spotify.includes("playlist") ? "playlist" : "track";
+                document.getElementById("spotify-container").innerHTML = `<iframe src="https://open.spotify.com/embed/${embedType}/${spotifyID}" width="300" height="80" frameborder="0" allow="encrypted-media"></iframe>`;
+            }
+        } else {
+            alert("Profile not found!");
+            window.location.href = "/";
+        }
+    }
+}
+
+document.getElementById("createProfileBtn").addEventListener("click", createProfile);
+window.onload = loadProfile;
+
+// Share function
+document.getElementById("shareBtn").addEventListener("click", async () => {
+    const url = window.location.href;
+    const text = "Made with ❤️‍🔥 by Samartha GS\nCheck out this profile:";
+
+    if (navigator.share) {
+        try {
+            await navigator.share({ title: "Profile Card", text, url });
+        } catch (error) {
+            console.error("Sharing failed:", error);
+        }
+    } else {
+        alert("Sharing not supported!");
+    }
+});
     </script>
 </body>
 </html>
