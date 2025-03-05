@@ -432,22 +432,24 @@ const username = path ? decodeURIComponent(path) : null;
     });
 document.getElementById("createProfileBtn").addEventListener("click", function () {
     // Show "Creating Profile..." modal
-    document.getElementById("creatingProfileModal").style.display = "block";
+    let modal = document.getElementById("creatingProfileModal");
+    modal.style.display = "block";
 
-    // Simulate profile creation delay (replace this with actual Firebase logic)
+    // Allow UI to update before starting the process
     setTimeout(function () {
-        // Hide modal after profile creation
-        document.getElementById("creatingProfileModal").style.display = "none";
+        // Simulate profile creation (replace this with actual Firebase logic)
+        setTimeout(function () {
+            // Hide modal after profile creation
+            modal.style.display = "none";
 
-        // Assume profile URL is generated (replace 'your-profile-url' with actual URL)
-        let profileURL = "https://yourwebsite.com/username"; 
+            // Assume profile URL is generated (replace with actual URL)
+            let profileURL = "https://yourwebsite.com/username"; 
 
-        // Open the profile in a new tab
-        window.open(profileURL, "_blank");
-    }, 3000); // Simulated delay
+            // Open the profile in a new tab
+            window.open(profileURL, "_blank");
+        }, 3000); // Simulated delay for profile creation
+    }, 100); // Small delay to allow the modal to appear
 });
-
-
     </script>
 </body>
 </html>
