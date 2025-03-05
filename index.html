@@ -25,31 +25,29 @@ body {
     padding: 20px;
 }
 
-/* Full-Screen Background */
+/* Full-Screen Container */
 .fullscreen-container {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100vh;
-    background: linear-gradient(135deg, #1e3c72, #2a5298); /* Cool Gradient Background */
+    background: #f5f5f5; /* Solid background to cover everything */
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    animation: fadeIn 0.5s ease-in-out;
 }
 
 /* Profile Creation Container */
 .create-container {
-    background: rgba(255, 255, 255, 0.95);
+    background: #ffffff;
     border-radius: 15px;
     padding: 30px;
     width: 100%;
     max-width: 400px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    animation: slideIn 0.5s ease-in-out;
-    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.5s ease-in-out;
 }
 
 /* Heading */
@@ -111,25 +109,13 @@ body {
     transform: scale(1.02);
 }
 
-/* Fade-in Background Animation */
+/* Fade-in Animation */
 @keyframes fadeIn {
     from {
         opacity: 0;
     }
     to {
         opacity: 1;
-    }
-}
-
-/* Slide-in Form Animation */
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
     }
 }
 /* Profile Card Styling */
