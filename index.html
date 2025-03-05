@@ -25,24 +25,38 @@ body {
     padding: 20px;
 }
 
-/* Profile Creation Container */
+/* Full-Screen Background */
+.fullscreen-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(135deg, #1e3c72, #2a5298); /* Cool Gradient Background */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
 /* Profile Creation Container */
 .create-container {
-    background: #ffffff;
+    background: rgba(255, 255, 255, 0.95);
     border-radius: 15px;
     padding: 30px;
     width: 100%;
     max-width: 400px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    animation: fadeIn 0.5s ease-in-out;
-    margin-bottom: 20px; /* Adds space below */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    animation: slideIn 0.5s ease-in-out;
+    backdrop-filter: blur(10px);
 }
 
 /* Heading */
 .create-container h2 {
     text-align: center;
     margin-bottom: 20px;
-    color: #444;
+    color: #222;
     font-size: 22px;
     font-weight: 700;
     font-family: 'Poppins', sans-serif;
@@ -67,7 +81,7 @@ body {
 .create-container textarea:focus {
     outline: none;
     border-color: #4a90e2;
-    box-shadow: 0 0 8px rgba(74, 144, 226, 0.3);
+    box-shadow: 0 0 8px rgba(74, 144, 226, 0.4);
 }
 
 /* Textarea Settings */
@@ -97,11 +111,21 @@ body {
     transform: scale(1.02);
 }
 
-/* Animation */
+/* Fade-in Background Animation */
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Slide-in Form Animation */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
     }
     to {
         opacity: 1;
