@@ -351,10 +351,8 @@ body {
             }
         }
 
-        document.getElementById("createProfileBtn").addEventListener("click", function() {
-    // Show Profile Card
-    document.querySelector(".profile-card").style.display = "flex";
-});
+        document.getElementById("createProfileBtn").addEventListener("click", createProfile);
+        window.onload = loadProfile;
 
         document.getElementById("shareBtn").addEventListener("click", async () => {
             const url = window.location.href;
