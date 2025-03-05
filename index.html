@@ -13,91 +13,71 @@
     box-sizing: border-box;
 }
 
-body {  
-    font-family: 'Poppins', sans-serif;  
-    background: linear-gradient(120deg, #eceff1, #b0bec5);  
-    display: flex;  
-    align-items: center;  
-    justify-content: center;  
-    height: 100vh;  
-    text-align: center;  
-    flex-direction: column; /* Ensure content stacks properly */
-    padding: 20px;
-}
-
 /* Full-Screen Background */
-.fullscreen-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.6); /* Dark overlay */
+body {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #f3f4f6, #e3e7eb); /* Soft gradient */
+    font-family: "Poppins", sans-serif;
 }
 
-/* Very Small Centered Container */
-.create-container {
-    background: #ffffff;
-    border-radius: 12px;
-    padding: 15px;
-    width: 100%;
-    max-width: 250px; /* Much smaller container */
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-    animation: fadeIn 0.4s ease-in-out;
-    text-align: center;
-}
-
-/* Heading */
-.create-container h2 {
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 10px;
-    color: #333;
-}
-
-/* Input Styling */
-.create-container input {
-    width: 100%;
-    padding: 8px;
+/* Input Fields - Floating & Separate */
+input {
+    width: 280px; /* Adjust width */
+    padding: 12px;
     font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-bottom: 8px;
-    background: #f9f9f9;
+    margin: 10px 0; /* Space between inputs */
+    border: none;
+    outline: none;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.2); /* Glass effect */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+    backdrop-filter: blur(10px);
+    position: relative;
 }
 
-/* Button Styling */
-#createProfileBtn {
-    width: 100%;
-    padding: 10px;
+/* Input Hover Effect */
+input:hover {
+    background: rgba(255, 255, 255, 0.4);
+    transform: scale(1.02);
+}
+
+/* Input Focus Effect */
+input:focus {
+    background: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    transform: scale(1.05);
+}
+
+/* Submit Button */
+button {
+    width: 300px;
+    padding: 12px;
     background: #4a90e2;
     color: white;
-    border: none;
-    border-radius: 5px;
     font-size: 14px;
-    font-weight: 600;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
     cursor: pointer;
-    transition: 0.3s;
+    transition: 0.3s ease-in-out;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    margin-top: 15px;
 }
 
 /* Hover Effect */
-#createProfileBtn:hover {
+button:hover {
     background: #357abd;
+    transform: scale(1.05);
 }
 
-/* Fade-in Animation */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: scale(0.9);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
+/* Button Click Animation */
+button:active {
+    transform: scale(0.98);
 }
 .profile-card {
     display: none; /* Hidden by default */
