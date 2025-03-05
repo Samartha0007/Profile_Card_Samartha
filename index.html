@@ -430,7 +430,22 @@ const username = path ? decodeURIComponent(path) : null;
             alert("Sharing not supported!");  
         }  
     });
+document.getElementById("createProfileBtn").addEventListener("click", function () {
+    // Show "Creating Profile..." modal
+    document.getElementById("creatingProfileModal").style.display = "block";
 
+    // Simulate profile creation delay (replace this with actual Firebase logic)
+    setTimeout(function () {
+        // Hide modal after profile creation
+        document.getElementById("creatingProfileModal").style.display = "none";
+
+        // Assume profile URL is generated (replace 'your-profile-url' with actual URL)
+        let profileURL = "https://yourwebsite.com/username"; 
+
+        // Open the profile in a new tab
+        window.open(profileURL, "_blank");
+    }, 3000); // Simulated delay
+});
 
 
     </script>
