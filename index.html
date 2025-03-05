@@ -231,12 +231,37 @@ body {
     from { opacity: 0; }
     to { opacity: 1; }
 }
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+}
     </style>
 </head>
 <body>
     <button id="shareBtn" class="sharebtn">
         <i class="fas fa-share-alt"></i>
     </button>
+<div id="creatingProfileModal" class="modal">
+    <div class="modal-content">
+        <h2 id="modalText">Creating Profile...</h2>
+    </div>
+</div>
 
     <div class="create-container" id="create-container">
         <h2>Create Your Profile</h2>
@@ -428,6 +453,12 @@ const username = path ? decodeURIComponent(path) : null;
             alert("Sharing not supported!");  
         }  
     });
+document.getElementById("creatingProfileModal").style.display = "flex";
+document.getElementById("modalText").innerHTML = `
+    Profile Created Successfully! <br>
+    <button onclick="copyProfileURL()">Copy URL</button>
+    <button onclick="openProfile()">Open Profile</button>
+`;
 
 
     </script>
