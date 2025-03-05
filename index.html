@@ -355,45 +355,54 @@ if (!name || !imageFile || !bio) {
         }  
     }  
 
-    async function loadProfile() {  
-        const urlParams = new URLSearchParams(window.location.search);  
-        const username = urlParams.get("user");  
+    async function loadProfile() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const username = urlParams.get("user");
 
-        if (username) {  
-            document.getElementById("profile-container").style.display = "block";  
-            document.getElementById("create-container").style.display = "none";  
+    if (username) {
+        document.getElementById("profile-container").style.display = "block";
+        document.getElementById("create-container").style.display = "none";
 
-            const q = query(collection(db, "profiles"), where("username", "==", username));  
-            const querySnapshot = await getDocs(q);  
+        const q = query(collection(db, "profiles"), where("username", "==", username));
+        const querySnapshot = await getDocs(q);
 
-            if (!querySnapshot.empty) {  
-                const profile = querySnapshot.docs[0].data();  
-                document.getElementById("profile-name").innerText = profile.name;  
-                document.getElementById("profile-bio").innerText = profile.bio;  
+        if (!querySnapshot.empty) {
+            const profile = querySnapshot.docs[0].data();
+            document.getElementById("profile-name").innerText = profile.name;
+            document.getElementById("profile-bio").innerText = profile.bio;
 
-                if (profile.imageUrl) {  
-                    document.getElementById("profile-image").src = profile.imageUrl;  
-                }  
+            if (profile.imageUrl) {
+                document.getElementById("profile-image").src = profile.imageUrl;
+            }
 
-                let socialHTML = "";  
-                if (profile.instagram) socialHTML += `<a href="https://instagram.com/${profile.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>`;  
-                if (profile.snapchat) socialHTML += `<a href="https://snapchat.com/add/${profile.snapchat}" target="_blank"><i class="fab fa-snapchat"></i></a>`;  
-                if (profile.whatsapp) socialHTML += `<a href="https://wa.me/${profile.whatsapp}" target="_blank"><i class="fab fa-whatsapp"></i></a>`;  
-                document.getElementById("social-icons").innerHTML = socialHTML;  
+            let socialHTML = "";
+            if (profile.instagram) socialHTML += `<a href="https://instagram.com/${profile.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>`;
+            if (profile.snapchat) socialHTML += `<a href="https://snapchat.com/add/${profile.snapchat}" target="_blank"><i class="fab fa-snapchat"></i></a>`;
+            if (profile.whatsapp) socialHTML += `<a href="https://wa.me/${profile.whatsapp}" target="_blank"><i class="fab fa-whatsapp"></i></a>`;
+            if (profile.facebook) socialHTML += `<a href="https://facebook.com/${profile.facebook}" target="_blank"><i class="fab fa-facebook"></i></a>`;
+            if (profile.twitter) socialHTML += `<a href="https://twitter.com/${profile.twitter}" target="_blank"><i class="fab fa-twitter"></i></a>`;
+            if (profile.linkedin) socialHTML += `<a href="https://linkedin.com/in/${profile.linkedin}" target="_blank"><i class="fab fa-linkedin"></i></a>`;
+            if (profile.youtube) socialHTML += `<a href="https://youtube.com/channel/${profile.youtube}" target="_blank"><i class="fab fa-youtube"></i></a>`;
+            if (profile.email) socialHTML += `<a href="mailto:${profile.email}" target="_blank"><i class="fas fa-envelope"></i></a>`;
+            if (profile.telegram) socialHTML += `<a href="https://t.me/${profile.telegram}" target="_blank"><i class="fab fa-telegram"></i></a>`;
+            if (profile.github) socialHTML += `<a href="https://github.com/${profile.github}" target="_blank"><i class="fab fa-github"></i></a>`;
+            if (profile.josh) socialHTML += `<a href="https://share.myjosh.in/profile/${profile.josh}" target="_blank"><i class="fas fa-play"></i></a>`;
 
-                if (profile.spotify) {  
-                    let spotifyID = profile.spotify.split('/').pop();  
-                    let embedType = profile.spotify.includes("playlist") ? "playlist" : "track";  
+            document.getElementById("social-icons").innerHTML = socialHTML;
 
-                    const spotifyEmbed = `<iframe src="https://open.spotify.com/embed/${embedType}/${spotifyID}" width="300" height="80" frameborder="0" allow="encrypted-media"></iframe>`;  
-                    document.getElementById("spotify-container").innerHTML = spotifyEmbed;  
-                }  
-            } else {  
-                alert("Profile not found!");  
-                window.location.href = "/";  
-            }  
-        }  
-    }  
+            if (profile.spotify) {
+                let spotifyID = profile.spotify.split('/').pop();
+                let embedType = profile.spotify.includes("playlist") ? "playlist" : "track";
+
+                const spotifyEmbed = `<iframe src="https://open.spotify.com/embed/${embedType}/${spotifyID}" width="300" height="80" frameborder="0" allow="encrypted-media"></iframe>`;
+                document.getElementById("spotify-container").innerHTML = spotifyEmbed;
+            }
+        } else {
+            alert("Profile not found!");
+            window.location.href = "/";
+        }
+    }
+}
 
     document.getElementById("createProfileBtn").addEventListener("click", createProfile);  
     window.onload = loadProfile;  
