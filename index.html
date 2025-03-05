@@ -327,34 +327,42 @@ body {
 
         
 async function createProfile() {
-const name = document.getElementById("name").value;
-const imageFile = document.getElementById("profileImage").files[0];
-const bio = document.getElementById("bio").value;
-const instagram = document.getElementById("instagram").value;
-const snapchat = document.getElementById("snapchat").value;
-const whatsapp = document.getElementById("whatsapp").value;
-const spotify = document.getElementById("spotify").value;
+    const name = document.getElementById("name").value;
+    const imageFile = document.getElementById("profileImage").files[0];
+    const bio = document.getElementById("bio").value;
+    const instagram = document.getElementById("instagram").value;
+    const snapchat = document.getElementById("snapchat").value;
+    const whatsapp = document.getElementById("whatsapp").value;
+    const facebook = document.getElementById("facebook").value;
+    const twitter = document.getElementById("twitter").value;
+    const linkedin = document.getElementById("linkedin").value;
+    const youtube = document.getElementById("youtube").value;
+    const email = document.getElementById("email").value;
+    const telegram = document.getElementById("telegram").value;
+    const github = document.getElementById("github").value;
+    const josh = document.getElementById("josh").value;
+    const spotify = document.getElementById("spotify").value;
 
-if (!name || !imageFile || !bio) {  
-            alert("Name, Profile Image, and Bio are required!");  
-            return;  
-        }  
+    if (!name || !imageFile || !bio) {
+        alert("Name, Profile Image, and Bio are required!");
+        return;
+    }
 
-        let username = await generateUniqueUsername(name);  
-        let imageUrl = await uploadImage(imageFile);  
+    let username = await generateUniqueUsername(name);
+    let imageUrl = await uploadImage(imageFile);
 
-        try {  
-            await addDoc(collection(db, "profiles"), {  
-                name, username, imageUrl, bio, instagram, snapchat, whatsapp, spotify  
-            });  
+    try {
+        await addDoc(collection(db, "profiles"), {
+            name, username, imageUrl, bio, instagram, snapchat, whatsapp, facebook,
+            twitter, linkedin, youtube, email, telegram, github, josh, spotify
+        });
 
-            window.location.href = "?user=" + username;  
-        } catch (error) {  
-            console.error("Error adding document: ", error);  
-            alert("Failed to create profile. Check Firebase rules!");  
-        }  
-    }  
-
+        window.location.href = "?user=" + username;
+    } catch (error) {
+        console.error("Error adding document: ", error);
+        alert("Failed to create profile. Check Firebase rules!");
+    }
+}
     async function loadProfile() {
     const urlParams = new URLSearchParams(window.location.search);
     const username = urlParams.get("user");
