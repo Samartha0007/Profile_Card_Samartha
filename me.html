@@ -343,53 +343,37 @@
             from { opacity: 1; }
             to { opacity: 0; }
         }
-/* Style for Social Profiles Section */
-.input-group h3 {
-    font-size: 18px;
-    margin-bottom: 10px;
-    color: #333;
-    font-weight: 600;
-}
-
-/* Social Media Input Fields */
-/* Ensure placeholder text is visible */
-.input-group input::placeholder,
-.input-group textarea::placeholder {
-    color: #888;  /* Light gray color for visibility */
-    opacity: 1;  /* Ensure full visibility */
-    font-size: 14px;
-}
-
-/* Fix for older browsers */
-.input-group input:-ms-input-placeholder, 
-.input-group textarea:-ms-input-placeholder {
-    color: #888;
-}
-
-.input-group input::-ms-input-placeholder, 
-.input-group textarea::-ms-input-placeholder {
-    color: #888;
-}
-
-/* Ensure Spotify placeholder is also visible */
-.input-group input#spotify::placeholder {
-    color: rgba(255, 255, 255, 0.9);
-    font-weight: bold;
-}
-
-/* Remove default browser styling */
-.input-group input, 
+.input-group input,
 .input-group textarea {
     font-family: inherit;
     font-size: 16px;
-    color: #333;  /* Ensure text color is readable */
-    padding: 10px;
+    color: #333;
+    padding: 12px;
     border: 1px solid #ddd;
     border-radius: 5px;
     width: 100%;
+    background: transparent;
     transition: 0.3s;
+    margin-bottom: 12px; /* Added gap */
 }
 
+/* Placeholder visibility */
+.input-group input::placeholder,
+.input-group textarea::placeholder {
+    color: #888;
+    opacity: 1;
+    font-size: 14px;
+}
+
+/* Spacing and visibility for Spotify */
+#spotify {
+    margin-top: 10px;
+}
+
+#spotify::placeholder {
+    color: #555;
+    font-size: 14px;
+}
 
     </style>
 </head>
