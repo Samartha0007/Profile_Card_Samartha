@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Profile</title>
+    <title>Samarth</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
@@ -410,7 +410,7 @@ body {
 
     <div class="create-container">
         <div class="container-header">
-            <h2>Create Your Profile</h2>
+            <h2>Your Profile</h2>
             <p class="subtitle">Share your profile card with the world</p>
         </div>
         
@@ -456,11 +456,11 @@ body {
 
 
         <h3>Spotify (Optional)</h3>
-        <input type="url" id="spotify" placeholder="Spotify Fav Song/Playlist link ?">
+        <input type="url" id="spotify" placeholder="Favourite Spotify Song/Playlist  Link ?">
 
         
         
-        <button id="createProfileBtn">Create Profile</button>
+        <button id="createProfileBtn">Create Now</button>
 <!-- Main Footer -->
 <!-- Main Footer -->
 <footer class="main-footer">
@@ -476,9 +476,9 @@ body {
     <!-- Loading Modal -->
     <div class="modal" id="loadingModal">
         <div class="modal-content">
-            <h3 class="modal-title">Creating Your Profile</h3>
+            <h3 class="modal-title">Samarth Is Creating Your Website</h3>
             <div class="loader"></div>
-            <p>Please wait while we set up your profile...</p>
+            <p>Please wait while samarth set up your web...</p>
             <div class="modal-footer">
                 <span>Made with <i class="fas fa-heart"></i> By Samartha Gs</span>
             </div>
@@ -489,15 +489,15 @@ body {
     <div class="modal" id="successModal">
         <div class="modal-content">
             <i class="fas fa-check-circle success-icon"></i>
-            <h3 class="modal-title">Profile Created!</h3>
-            <p>Your profile is now live and ready to share</p>
+            <h3 class="modal-title">Website Created 🥳</h3>
+            <p>Your Web is now live and ready to share 🎉</p>
             
             <div class="profile-url-container">
                 <p id="profileUrl"></p>
                 <i class="fas fa-copy" id="copyIcon" style="cursor:pointer; color:#4a90e2;"></i>
             </div>
             
-            <button class="btn-primary" id="openProfileBtn">View Your Profile</button>
+            <button class="btn-primary" id="openProfileBtn">View Your Website</button>
             <button class="btn-secondary" id="createNewBtn">Create Another</button>
             
             <div class="modal-footer">
@@ -678,11 +678,11 @@ body {
 
           // Show success
           loadingModal.style.display = "none";
-          profileUrlElement.innerText = `site.com/${username}`;
+          profileUrlElement.innerText = `mywebsam/${username}`;
           successModal.style.display = "flex";
       } catch (error) {
           loadingModal.style.display = "none";
-          console.error("Error creating profile:", error);
+          console.error("Error creating web:", error);
           showToast("Something went wrong. Please try again.");
       }
   }
@@ -692,7 +692,7 @@ body {
       const profileUrl = profileUrlElement.innerText;
       navigator.clipboard.writeText(profileUrl)
           .then(() => {
-              showToast("Profile link copied to clipboard!");
+              showToast("Website link copied to clipboard!");
           })
           .catch(err => {
               console.error('Could not copy text: ', err);
