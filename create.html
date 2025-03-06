@@ -23,6 +23,7 @@
         #profileMessage {
             margin-top: 10px;
             font-weight: bold;
+            color: green;
         }
     </style>
 </head>
@@ -31,7 +32,6 @@
     <h2>Create Your Profile</h2>
     <input type="text" id="name" placeholder="Enter your name" required>
     <input type="text" id="bio" placeholder="Enter your bio" required>
-    <input type="date" id="birthday" required>
     <input type="file" id="profilePic" accept="image/*">
     <button id="createProfileBtn">Create Profile</button>
     <div id="profileMessage"></div>
@@ -48,44 +48,43 @@
         };
 
         // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
+        firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
         const storage = firebase.storage();
 
         document.getElementById("createProfileBtn").addEventListener("click", async () => {
             const name = document.getElementById("name").value.trim();
             const bio = document.getElementById("bio").value.trim();
-            const birthday = document.getElementById("birthday").value;
             const profilePic = document.getElementById("profilePic").files[0];
             const messageDiv = document.getElementById("profileMessage");
 
-            if (!name || !bio || !birthday || !profilePic) {
-                messageDiv.innerHTML = "Please fill all fields and upload a profile picture!";
+            if (!name || !bio || !profilePic) {
+                messageDiv.innerHTML = "⚠️ Please fill all fields and upload a profile picture!";
                 return;
             }
 
-            messageDiv.innerHTML = "Creating profile...";
+            messageDiv.innerHTML = "⏳ Creating profile...";
 
             try {
                 // Upload profile picture
-                const storageRef = storage.ref(`profile_pics/${name}_${Date.now()}`);
-                await storageRef.put(profilePic);
-                const profilePicURL = await storageRef.getDownloadURL();
+                const storageRef = storage.ref(`profile_pics/${Date.now()}_${profilePic.name}`);
+                const uploadTask = await storageRef.put(profilePic);
+                const profilePicURL = await uploadTask.ref.getDownloadURL();
 
                 // Store profile in Firestore
                 const profileRef = await db.collection("profiles").add({
-                    name, bio, birthday, profilePicURL
+                    name, bio, profilePicURL
                 });
 
                 const profileURL = `https://samarthags.cloud/profile/${profileRef.id}`;
 
                 messageDiv.innerHTML = `
-                    <p>Profile created successfully!</p>
-                    <p><a href="${profileURL}" target="_blank">${profileURL}</a></p>
+                    ✅ Profile created successfully!<br>
+                    <a href="${profileURL}" target="_blank">${profileURL}</a>
                 `;
             } catch (error) {
                 console.error("Error creating profile:", error);
-                messageDiv.innerHTML = "Error creating profile. Please try again.";
+                messageDiv.innerHTML = "❌ Error creating profile. Please try again.";
             }
         });
     </script>
