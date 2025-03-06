@@ -589,15 +589,23 @@ async function createProfile() {
         let imageUrl = await uploadImage(imageFile);
 
         // Add to Firestore
-        await addDoc(collection(db, "profiles"), {
-            name,
-            username,
-            imageUrl,
-            bio,
-            socialProfiles,  // Store all social profiles in one object
-            spotify,
-            createdAt: new Date().toISOString(),
-        });
+        await setDoc(doc(db, "profiles", username), {
+    name: userName,
+    bio: userBio,
+    imageUrl: uploadedImageUrl,
+    spotify: spotifyLink,
+    instagram: instagramID,
+    snapchat: snapchatID,
+    whatsapp: whatsappNumber,
+    facebook: facebookID,
+    twitter: twitterID,
+    linkedin: linkedinID,
+    youtube: youtubeID,
+    email: emailID,
+    telegram: telegramID,
+    github: githubID,
+    josh: joshID
+});
 
         // Show success
         loadingModal.style.display = "none";
