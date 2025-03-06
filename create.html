@@ -7,10 +7,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #eceff1, #90a4ae);
+            background: linear-gradient(135deg, #4a90e2, #357abd);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -19,17 +23,20 @@
             padding: 20px;
         }
         .create-container {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(15px);
+            background: white;
             border-radius: 15px;
             padding: 30px;
             width: 100%;
             max-width: 420px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             animation: fadeIn 0.5s ease-in-out;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            text-align: center;
         }
-        h2 { margin-bottom: 20px; color: #fff; font-weight: 600; }
+        h2 {
+            margin-bottom: 20px;
+            color: #222;
+            font-weight: 600;
+        }
         input, textarea {
             width: 100%;
             padding: 12px;
@@ -37,21 +44,21 @@
             border: 2px solid #ddd;
             border-radius: 8px;
             font-size: 16px;
-            background: rgba(255, 255, 255, 0.3);
-            color: #fff;
+            background: #f9f9f9;
             transition: all 0.3s ease-in-out;
         }
         input:focus, textarea:focus {
             outline: none;
             border-color: #4a90e2;
             box-shadow: 0 0 8px rgba(74, 144, 226, 0.4);
-            background: rgba(255, 255, 255, 0.5);
         }
-        textarea { min-height: 80px; }
+        textarea {
+            min-height: 80px;
+        }
         #createProfileBtn {
             width: 100%;
             padding: 14px;
-            background: linear-gradient(135deg, #4a90e2, #357abd);
+            background: linear-gradient(135deg, #ff5722, #e64a19);
             color: white;
             border: none;
             border-radius: 8px;
@@ -61,23 +68,26 @@
             transition: all 0.3s ease-in-out;
         }
         #createProfileBtn:hover {
-            background: linear-gradient(135deg, #357abd, #2a6db0);
+            background: linear-gradient(135deg, #e64a19, #d84315);
             transform: scale(1.02);
         }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
 
         /* Modal Styles */
         .modal {
             display: none;
             position: fixed;
-            z-index: 1000;
-            left: 0;
             top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            align-items: center;
+            background: rgba(0, 0, 0, 0.6);
             justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease-in-out;
         }
         .modal-content {
             background: white;
@@ -86,19 +96,21 @@
             text-align: center;
             width: 90%;
             max-width: 400px;
-            animation: fadeIn 0.3s ease-in-out;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
         .modal button {
-            margin-top: 10px;
-            padding: 10px;
             width: 100%;
+            padding: 10px;
+            margin-top: 10px;
             border: none;
+            background: #4a90e2;
+            color: white;
             border-radius: 5px;
-            font-size: 16px;
             cursor: pointer;
         }
-        .copy-btn { background: #4a90e2; color: white; }
-        .view-btn { background: #2a6db0; color: white; }
+        .modal button:hover {
+            background: #357abd;
+        }
     </style>
 </head>
 <body>
@@ -111,14 +123,22 @@
         <button id="createProfileBtn">Create Profile</button>
     </div>
 
-    <!-- Modal for Profile URL -->
-    <div id="profileModal" class="modal">
+    <!-- Modal for Profile Creation -->
+    <div class="modal" id="loadingModal">
+        <div class="modal-content">
+            <h3>Creating Profile...</h3>
+            <p>Please wait</p>
+        </div>
+    </div>
+
+    <!-- Modal for Success -->
+    <div class="modal" id="successModal">
         <div class="modal-content">
             <h3>Profile Created Successfully!</h3>
-            <p>Your profile link:</p>
-            <input type="text" id="profileLink" readonly>
-            <button class="copy-btn" onclick="copyLink()">Copy Link</button>
-            <button class="view-btn" id="viewProfileBtn">View Profile</button>
+            <p id="profileUrl"></p>
+            <button onclick="copyProfileLink()">Copy Link</button>
+            <button onclick="openProfile()">Open Profile</button>
+            <button onclick="closeModal()">Close</button>
         </div>
     </div>
 
@@ -180,23 +200,32 @@
                 return;
             }
 
+            document.getElementById("loadingModal").style.display = "flex";
+
             let username = await generateUniqueUsername(name);
             let imageUrl = await uploadImage(imageFile);
 
-            try {
-                await addDoc(collection(db, "profiles"), { name, username, imageUrl, bio });
+            await addDoc(collection(db, "profiles"), { name, username, imageUrl, bio });
 
-                document.getElementById("profileLink").value = window.location.origin + "/" + username;
-                document.getElementById("profileModal").style.display = "flex";
-            } catch (error) {
-                console.error("Error adding document: ", error);
-                alert("Failed to create profile. Check Firebase rules!");
-            }
+            document.getElementById("loadingModal").style.display = "none";
+            document.getElementById("successModal").style.display = "flex";
+            document.getElementById("profileUrl").innerText = `site.com/${username}`;
+        }
+
+        function copyProfileLink() {
+            navigator.clipboard.writeText(document.getElementById("profileUrl").innerText);
+            alert("Profile link copied!");
+        }
+
+        function openProfile() {
+            window.open(document.getElementById("profileUrl").innerText, "_blank");
+        }
+
+        function closeModal() {
+            document.getElementById("successModal").style.display = "none";
         }
 
         document.getElementById("createProfileBtn").addEventListener("click", createProfile);
-        document.getElementById("viewProfileBtn").addEventListener("click", () => window.open(document.getElementById("profileLink").value, "_blank"));
-        function copyLink() { navigator.clipboard.writeText(document.getElementById("profileLink").value); alert("Copied!"); }
     </script>
 
 </body>
