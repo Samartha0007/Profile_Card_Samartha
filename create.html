@@ -7,6 +7,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(120deg, #eceff1, #b0bec5);
@@ -15,38 +20,68 @@
             justify-content: center;
             height: 100vh;
             text-align: center;
-        }
-        .container {
-            background: white;
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
-        input, textarea, button {
-            margin: 10px;
-            padding: 10px;
-            width: 80%;
-            border-radius: 5px;
-            border: 1px solid #ccc;
+        .create-container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.5s ease-in-out;
         }
-        button {
-            background: #007bff;
+        h2 {
+            margin-bottom: 20px;
+            color: #222;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            background: #f9f9f9;
+            transition: all 0.3s ease-in-out;
+        }
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #4a90e2;
+            box-shadow: 0 0 8px rgba(74, 144, 226, 0.4);
+        }
+        textarea {
+            min-height: 80px;
+        }
+        #createProfileBtn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #4a90e2, #357abd);
             color: white;
-            cursor: pointer;
             border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+        }
+        #createProfileBtn:hover {
+            background: linear-gradient(135deg, #357abd, #2a6db0);
+            transform: scale(1.02);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
+
+    <div class="create-container">
         <h2>Create Your Profile</h2>
-        <input type="text" id="name" placeholder="Name" required><br>
-        <input type="file" id="profileImage" accept="image/*"><br>
-        <input type="text" id="instagram" placeholder="Instagram ID"><br>
-        <input type="text" id="snapchat" placeholder="Snapchat ID"><br>
-        <input type="text" id="whatsapp" placeholder="WhatsApp Number"><br>
-        <input type="url" id="spotify" placeholder="Spotify Song URL"><br>
-        <textarea id="bio" placeholder="Short Bio" required></textarea><br>
+        <input type="text" id="name" placeholder="Name" required>
+        <input type="file" id="profileImage" accept="image/*" required>
+        <textarea id="bio" placeholder="Short Bio" required></textarea>
         <button id="createProfileBtn">Create Profile</button>
     </div>
 
@@ -66,21 +101,27 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        document.getElementById("createProfileBtn").addEventListener("click", async () => {
-            const name = document.getElementById("name").value;
-            const instagram = document.getElementById("instagram").value;
-            const snapchat = document.getElementById("snapchat").value;
-            const whatsapp = document.getElementById("whatsapp").value;
-            const spotify = document.getElementById("spotify").value;
-            const bio = document.getElementById("bio").value;
+        async function uploadImage(file) {
+            const cloudName = "dw1qrki2c";
+            const uploadPreset = "profile_uploads";
 
-            if (!name) {
-                alert("Name is required!");
-                return;
-            }
+            const formData = new FormData();
+            formData.append("file", file);
+            formData.append("upload_preset", uploadPreset);
 
+            const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+                method: "POST",
+                body: formData
+            });
+
+            const data = await response.json();
+            return data.secure_url;
+        }
+
+        async function generateUniqueUsername(name) {
             let username = name.toLowerCase().replace(/\s+/g, '');
             let count = 1;
+
             const q = query(collection(db, "profiles"), where("username", "==", username));
             let querySnapshot = await getDocs(q);
 
@@ -89,15 +130,33 @@
                 querySnapshot = await getDocs(query(collection(db, "profiles"), where("username", "==", username)));
                 count++;
             }
+            return username;
+        }
+
+        async function createProfile() {
+            const name = document.getElementById("name").value;
+            const imageFile = document.getElementById("profileImage").files[0];
+            const bio = document.getElementById("bio").value;
+
+            if (!name || !imageFile || !bio) {
+                alert("Name, Profile Image, and Bio are required!");
+                return;
+            }
+
+            let username = await generateUniqueUsername(name);
+            let imageUrl = await uploadImage(imageFile);
 
             try {
-                await addDoc(collection(db, "profiles"), { name, username, instagram, snapchat, whatsapp, spotify, bio });
-                window.location.href = "profile.html?user=" + username;
+                await addDoc(collection(db, "profiles"), { name, username, imageUrl, bio });
+                window.location.href = "/" + username;
             } catch (error) {
                 console.error("Error adding document: ", error);
-                alert("Failed to create profile!");
+                alert("Failed to create profile. Check Firebase rules!");
             }
-        });
+        }
+
+        document.getElementById("createProfileBtn").addEventListener("click", createProfile);
     </script>
+
 </body>
 </html>
