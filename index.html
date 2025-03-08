@@ -239,38 +239,10 @@ body {
     </style>
 </head>
 <body>
+<body>
     <button id="shareBtn" class="sharebtn">
         <i class="fas fa-share-alt"></i>
     </button>
-
-
-    <div class="create-container" id="create-container">
-        <h2>Create Your Profile</h2>
-        <input type="text" id="name" placeholder="Name" required>
-              <input type="file" id="profileImage" accept="image/*" required>
-        <textarea id="bio" placeholder="Short Bio" required></textarea>
-
-       <h3>Social Profiles (Optional)</h3>
-<input type="text" id="instagram" placeholder="Instagram ID">
-<input type="text" id="snapchat" placeholder="Snapchat ID">
-<input type="text" id="whatsapp" placeholder="WhatsApp Number">
-<input type="text" id="facebook" placeholder="Facebook Username">
-<input type="text" id="twitter" placeholder="Twitter Username">
-<input type="text" id="linkedin" placeholder="LinkedIn Username">
-<input type="text" id="youtube" placeholder="YouTube Channel ID">
-<input type="email" id="email" placeholder="Email Address">
-<input type="text" id="telegram" placeholder="Telegram Username">
-<input type="text" id="github" placeholder="GitHub Username">
-<input type="text" id="josh" placeholder="Josh Profile ID">
-
-
-
-
-        <h3>Spotify (Optional)</h3>
-        <input type="url" id="spotify" placeholder="Spotify Song/Playlist URL">
-
-        <button id="createProfileBtn">Create Profile</button>
-    </div>
 
     <div class="profile-container" id="profile-container">
         <div class="profile-header">
@@ -288,7 +260,7 @@ body {
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBb3x_zD9JaFwL9PhmngCNZlS2fOh6MBa4",
@@ -302,144 +274,70 @@ body {
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        async function uploadImage(file) {
-            const cloudName = "dw1qrki2c";
-            const uploadPreset = "profile_uploads";
+        async function loadProfile() {
+            const path = window.location.pathname.substring(1); 
+            const username = path ? decodeURIComponent(path) : null;
 
-            const formData = new FormData();
-            formData.append("file", file);
-            formData.append("upload_preset", uploadPreset);
+            if (username) {
+                document.getElementById("profile-container").style.display = "block";
 
-            const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
-                method: "POST",
-                body: formData
-            });
+                const q = query(collection(db, "profiles"), where("username", "==", username));
+                const querySnapshot = await getDocs(q);
 
-            const data = await response.json();
-            return data.secure_url;
+                if (!querySnapshot.empty) {
+                    const profile = querySnapshot.docs[0].data();
+                    document.getElementById("profile-name").innerText = profile.name;
+                    document.getElementById("profile-bio").innerText = profile.bio;
+
+                    if (profile.imageUrl) {
+                        document.getElementById("profile-image").src = profile.imageUrl;
+                    }
+
+                    let socialHTML = "";
+                    if (profile.instagram) socialHTML += `<a href="https://instagram.com/${profile.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>`;
+                    if (profile.snapchat) socialHTML += `<a href="https://snapchat.com/add/${profile.snapchat}" target="_blank"><i class="fab fa-snapchat"></i></a>`;
+                    if (profile.whatsapp) socialHTML += `<a href="https://wa.me/${profile.whatsapp}" target="_blank"><i class="fab fa-whatsapp"></i></a>`;
+                    if (profile.facebook) socialHTML += `<a href="https://facebook.com/${profile.facebook}" target="_blank"><i class="fab fa-facebook"></i></a>`;
+                    if (profile.twitter) socialHTML += `<a href="https://twitter.com/${profile.twitter}" target="_blank"><i class="fab fa-twitter"></i></a>`;
+                    if (profile.linkedin) socialHTML += `<a href="https://linkedin.com/in/${profile.linkedin}" target="_blank"><i class="fab fa-linkedin"></i></a>`;
+                    if (profile.youtube) socialHTML += `<a href="https://m.youtube.com/${profile.youtube}" target="_blank"><i class="fab fa-youtube"></i></a>`;
+                    if (profile.email) socialHTML += `<a href="mailto:${profile.email}" target="_blank"><i class="fas fa-envelope"></i></a>`;
+                    if (profile.telegram) socialHTML += `<a href="https://t.me/${profile.telegram}" target="_blank"><i class="fab fa-telegram"></i></a>`;
+                    if (profile.github) socialHTML += `<a href="https://github.com/${profile.github}" target="_blank"><i class="fab fa-github"></i></a>`;
+                    if (profile.josh) socialHTML += `<a href="https://share.myjosh.in/profile/${profile.josh}" target="_blank"><i class="fas fa-play"></i></a>`;
+
+                    document.getElementById("social-icons").innerHTML = socialHTML;
+
+                    if (profile.spotify) {
+                        let spotifyID = profile.spotify.split('/').pop();
+                        let embedType = profile.spotify.includes("playlist") ? "playlist" : "track";
+
+                        const spotifyEmbed = `<iframe src="https://open.spotify.com/embed/${embedType}/${spotifyID}" width="300" height="80" frameborder="0" allow="encrypted-media"></iframe>`;
+                        document.getElementById("spotify-container").innerHTML = spotifyEmbed;
+                    }
+                } else {
+                    alert("Profile not found!");
+                    window.location.href = "/";
+                }
+            }
         }
 
-        async function generateUniqueUsername(name) {
-            let username = name.toLowerCase().replace(/\s+/g, '');
-            let count = 1;
+        window.onload = loadProfile;
 
-            const q = query(collection(db, "profiles"), where("username", "==", username));
-            let querySnapshot = await getDocs(q);
+        document.getElementById("shareBtn").addEventListener("click", async () => {  
+            const url = window.location.href;  
+            const text = "Check Out My Web Developed By Samartha Gs 👨‍💻:";  
 
-            while (!querySnapshot.empty) {
-                username = name.toLowerCase().replace(/\s+/g, '') + count;
-                querySnapshot = await getDocs(query(collection(db, "profiles"), where("username", "==", username)));
-                count++;
-            }
-            return username;
-        }
-
-
-async function createProfile() {
-    const name = document.getElementById("name").value;
-    const imageFile = document.getElementById("profileImage").files[0];
-    const bio = document.getElementById("bio").value;
-    const instagram = document.getElementById("instagram").value;
-    const snapchat = document.getElementById("snapchat").value;
-    const whatsapp = document.getElementById("whatsapp").value;
-    const facebook = document.getElementById("facebook").value;
-    const twitter = document.getElementById("twitter").value;
-    const linkedin = document.getElementById("linkedin").value;
-    const youtube = document.getElementById("youtube").value;
-    const email = document.getElementById("email").value;
-    const telegram = document.getElementById("telegram").value;
-    const github = document.getElementById("github").value;
-    const josh = document.getElementById("josh").value;
-    const spotify = document.getElementById("spotify").value;
-
-    if (!name || !imageFile || !bio) {
-        alert("Name, Profile Image, and Bio are required!");
-        return;
-    }
-
-    let username = await generateUniqueUsername(name);
-    let imageUrl = await uploadImage(imageFile);
-
-    try {
-        await addDoc(collection(db, "profiles"), {
-            name, username, imageUrl, bio, instagram, snapchat, whatsapp, facebook,
-            twitter, linkedin, youtube, email, telegram, github, josh, spotify
-        });
-
-        window.location.href = "/" + username;
-    } catch (error) {
-        console.error("Error adding document: ", error);
-        alert("Failed to create profile. Check Firebase rules!");
-    }
-}
-    async function loadProfile() {
-   const path = window.location.pathname.substring(1); 
-const username = path ? decodeURIComponent(path) : null;
-    if (username) {
-        document.getElementById("profile-container").style.display = "block";
-        document.getElementById("create-container").style.display = "none";
-
-        const q = query(collection(db, "profiles"), where("username", "==", username));
-        const querySnapshot = await getDocs(q);
-
-        if (!querySnapshot.empty) {
-            const profile = querySnapshot.docs[0].data();
-            document.getElementById("profile-name").innerText = profile.name;
-            document.getElementById("profile-bio").innerText = profile.bio;
-
-            if (profile.imageUrl) {
-                document.getElementById("profile-image").src = profile.imageUrl;
-            }
-
-            let socialHTML = "";
-            if (profile.instagram) socialHTML += `<a href="https://instagram.com/${profile.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>`;
-            if (profile.snapchat) socialHTML += `<a href="https://snapchat.com/add/${profile.snapchat}" target="_blank"><i class="fab fa-snapchat"></i></a>`;
-            if (profile.whatsapp) socialHTML += `<a href="https://wa.me/${profile.whatsapp}" target="_blank"><i class="fab fa-whatsapp"></i></a>`;
-            if (profile.facebook) socialHTML += `<a href="https://facebook.com/${profile.facebook}" target="_blank"><i class="fab fa-facebook"></i></a>`;
-            if (profile.twitter) socialHTML += `<a href="https://twitter.com/${profile.twitter}" target="_blank"><i class="fab fa-twitter"></i></a>`;
-            if (profile.linkedin) socialHTML += `<a href="https://linkedin.com/in/${profile.linkedin}" target="_blank"><i class="fab fa-linkedin"></i></a>`;
-            if (profile.youtube) socialHTML += `<a href="https://m.youtube.com/${profile.youtube}" target="_blank"><i class="fab fa-youtube"></i></a>`;
-            if (profile.email) socialHTML += `<a href="mailto:${profile.email}" target="_blank"><i class="fas fa-envelope"></i></a>`;
-            if (profile.telegram) socialHTML += `<a href="https://t.me/${profile.telegram}" target="_blank"><i class="fab fa-telegram"></i></a>`;
-            if (profile.github) socialHTML += `<a href="https://github.com/${profile.github}" target="_blank"><i class="fab fa-github"></i></a>`;
-            if (profile.josh) socialHTML += `<a href="https://share.myjosh.in/profile/${profile.josh}" target="_blank"><i class="fas fa-play"></i></a>`;
-
-            document.getElementById("social-icons").innerHTML = socialHTML;
-
-            if (profile.spotify) {
-                let spotifyID = profile.spotify.split('/').pop();
-                let embedType = profile.spotify.includes("playlist") ? "playlist" : "track";
-
-                const spotifyEmbed = `<iframe src="https://open.spotify.com/embed/${embedType}/${spotifyID}" width="300" height="80" frameborder="0" allow="encrypted-media"></iframe>`;
-                document.getElementById("spotify-container").innerHTML = spotifyEmbed;
-            }
-        } else {
-            alert("Profile not found!");
-            window.location.href = "/";
-        }
-    }
-}
-
-    document.getElementById("createProfileBtn").addEventListener("click", createProfile);  
-    window.onload = loadProfile;  
-
-    document.getElementById("shareBtn").addEventListener("click", async () => {  
-        const url = window.location.href;  
-        const text = "\Check Out My Web Developed By Samartha Gs 👨‍💻 :";  
-
-        if (navigator.share) {  
-            try {  
-                await navigator.share({ title: "Profile Card", text, url });  
-            } catch (error) {  
-                console.error("Sharing failed:", error);  
+            if (navigator.share) {  
+                try {  
+                    await navigator.share({ title: "Profile Card", text, url });  
+                } catch (error) {  
+                    console.error("Sharing failed:", error);  
+                }  
+            } else {  
+                alert("Sharing not supported!");  
             }  
-        } else {  
-            alert("Sharing not supported!");  
-        }  
-    });
-
-
-
-    </script>
+        });
+  <script/>
 </body>
 </html>
