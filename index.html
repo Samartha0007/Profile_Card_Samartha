@@ -1,344 +1,341 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Profile</title>
- <link rel="icon" type="image/png" href="https://i.ibb.co/sKbrkyn/Yellow-and-Grey-Pastel-Grunge-Designer-Brand-Logo-20241009-185202-0000.png">
-   
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <style>
-     * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+<!DOCTYPE html>  <html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>My Profile</title>  
+ <link rel="icon" type="image/png" href="https://i.ibb.co/sKbrkyn/Yellow-and-Grey-Pastel-Grunge-Designer-Brand-Logo-20241009-185202-0000.png">  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">  
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">  
+<style>  
+ * {  
+margin: 0;  
+padding: 0;  
+box-sizing: border-box;
+
 }
 
-body {  
-    font-family: 'Poppins', sans-serif;  
-    background: linear-gradient(120deg, #eceff1, #b0bec5);  
-    display: flex;  
-    align-items: center;  
-    justify-content: center;  
-    height: 100vh;  
-    text-align: center;  
-    flex-direction: column; /* Ensure content stacks properly */
-    padding: 20px;
+body {
+font-family: 'Poppins', sans-serif;
+background: linear-gradient(120deg, #eceff1, #b0bec5);
+display: flex;
+align-items: center;
+justify-content: center;
+height: 100vh;
+text-align: center;
+flex-direction: column; /* Ensure content stacks properly */
+padding: 20px;
 }
 
-/* Full-Screen Container */
+/* Full-Screen Container /
 .fullscreen-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background: #f5f5f5; /* Solid background to cover everything */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100vh;
+background: #f5f5f5; / Solid background to cover everything */
+display: flex;
+align-items: center;
+justify-content: center;
+overflow: hidden;
 }
 
 /* Profile Creation Container */
 .create-container {
-    background: #ffffff;
-    border-radius: 15px;
-    padding: 30px;
-    width: 100%;
-    max-width: 400px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    animation: fadeIn 0.5s ease-in-out;
+background: #ffffff;
+border-radius: 15px;
+padding: 30px;
+width: 100%;
+max-width: 400px;
+box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+animation: fadeIn 0.5s ease-in-out;
 }
 
 /* Heading */
 .create-container h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #222;
-    font-size: 22px;
-    font-weight: 700;
-    font-family: 'Poppins', sans-serif;
+text-align: center;
+margin-bottom: 20px;
+color: #222;
+font-size: 22px;
+font-weight: 700;
+font-family: 'Poppins', sans-serif;
 }
 
 /* Input and Textarea Styling */
 .create-container input,
 .create-container textarea {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 15px;
-    border: 2px solid #ddd;
-    border-radius: 8px;
-    font-family: 'Poppins', sans-serif;
-    font-size: 16px;
-    background: #f9f9f9;
-    transition: all 0.3s ease-in-out;
+width: 100%;
+padding: 12px;
+margin-bottom: 15px;
+border: 2px solid #ddd;
+border-radius: 8px;
+font-family: 'Poppins', sans-serif;
+font-size: 16px;
+background: #f9f9f9;
+transition: all 0.3s ease-in-out;
 }
 
 /* Focus Effects */
 .create-container input:focus,
 .create-container textarea:focus {
-    outline: none;
-    border-color: #4a90e2;
-    box-shadow: 0 0 8px rgba(74, 144, 226, 0.4);
+outline: none;
+border-color: #4a90e2;
+box-shadow: 0 0 8px rgba(74, 144, 226, 0.4);
 }
 
 /* Textarea Settings */
 .create-container textarea {
-    resize: vertical;
-    min-height: 120px;
+resize: vertical;
+min-height: 120px;
 }
 
 /* Submit Button */
 #createProfileBtn {
-    width: 100%;
-    padding: 14px;
-    background: linear-gradient(135deg, #4a90e2, #357abd);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 600;
-    font-size: 16px;
-    transition: all 0.3s ease-in-out;
+width: 100%;
+padding: 14px;
+background: linear-gradient(135deg, #4a90e2, #357abd);
+color: white;
+border: none;
+border-radius: 8px;
+cursor: pointer;
+font-family: 'Poppins', sans-serif;
+font-weight: 600;
+font-size: 16px;
+transition: all 0.3s ease-in-out;
 }
 
 /* Hover Effect */
 #createProfileBtn:hover {
-    background: linear-gradient(135deg, #357abd, #2a6db0);
-    transform: scale(1.02);
+background: linear-gradient(135deg, #357abd, #2a6db0);
+transform: scale(1.02);
 }
 
 /* Fade-in Animation */
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+from {
+opacity: 0;
+}
+to {
+opacity: 1;
+}
 }
 
 .profile-card {
-    display: none; /* Hidden by default */
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    animation: fadeIn 1s ease-in-out;
-    background: white;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+display: none; /* Hidden by default */
+flex-direction: column;
+align-items: center;
+text-align: center;
+animation: fadeIn 1s ease-in-out;
+background: white;
+padding: 20px;
+border-radius: 15px;
+box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
 /* Profile Image */
 .profile-image {
-    width: 130px;
-    height: 130px;
-    border-radius: 50%;
-    object-fit: cover;
-    object-position: center;
-    animation: glow 3s infinite alternate ease-in-out;
-    transition: box-shadow 0.5s ease-in-out, transform 0.3s ease-in-out;
+width: 130px;
+height: 130px;
+border-radius: 50%;
+object-fit: cover;
+object-position: center;
+animation: glow 3s infinite alternate ease-in-out;
+transition: box-shadow 0.5s ease-in-out, transform 0.3s ease-in-out;
 }
 
 .profile-image:hover {
-    transform: scale(1.05);
+transform: scale(1.05);
 }
 
 @keyframes glow {
-    0% { box-shadow: 0 0 5px rgba(255, 0, 255, 0.5), 0 0 10px rgba(255, 0, 255, 0.5); }
-    100% { box-shadow: 0 0 15px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.5); }
+0% { box-shadow: 0 0 5px rgba(255, 0, 255, 0.5), 0 0 10px rgba(255, 0, 255, 0.5); }
+100% { box-shadow: 0 0 15px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.5); }
 }
 
 /* Profile Name */
 .profile-name {
-    font-size: 24px;
-    font-weight: bold;
-    margin-top: 10px;
+font-size: 24px;
+font-weight: bold;
+margin-top: 10px;
 }
 
-/* Social Icons */
+/* Social Icons /
 .social-container {
-    background: rgba(255, 255, 255, 0.2);
-    padding: 10px;
-    border-radius: 10px;
-    backdrop-filter: blur(10px);
-    margin-top: 10px;
-    display: flex;
-    justify-content: center; /* Centers the social icons */
-    gap: 15px; /* Adds spacing between icons */
+background: rgba(255, 255, 255, 0.2);
+padding: 10px;
+border-radius: 10px;
+backdrop-filter: blur(10px);
+margin-top: 10px;
+display: flex;
+justify-content: center; / Centers the social icons /
+gap: 15px; / Adds spacing between icons */
 }
 
 .social-icons {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 15px; /* Adds space between icons */
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 15px; /* Adds space between icons */
 }
 
 .social-icons a {
-    font-size: 24px;
-    color: gray;
-    text-decoration: none;
-    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+font-size: 24px;
+color: gray;
+text-decoration: none;
+transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
 .social-icons a:hover {
-    transform: translateY(-5px);
-    color: blue;
+transform: translateY(-5px);
+color: blue;
 }
 
 /* Share Button */
 .sharebtn {
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 22px;
-    color: gray;
-    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+position: fixed;
+top: 10px;
+right: 10px;
+background: none;
+border: none;
+cursor: pointer;
+font-size: 22px;
+color: gray;
+transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
 .sharebtn:hover {
-    transform: scale(1.1);
-    color: gray;
+transform: scale(1.1);
+color: gray;
 }
 .profile-bio{
- color:gray 
+color:gray
 }
 
 /* Spotify Container */
 #spotify-container {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    position: fixed;
-    bottom: 10px;
-    left: 0;
-    padding: 10px;
+width: 100%;
+display: flex;
+justify-content: center;
+position: fixed;
+bottom: 10px;
+left: 0;
+padding: 10px;
 }
 
 #spotify-container iframe {
-    width: 300px;
-    height: 80px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+width: 300px;
+height: 80px;
+border-radius: 10px;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* Fade In Animation */
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+from { opacity: 0; }
+to { opacity: 1; }
 }
 
-    </style>
-</head>
-<body>
+</style>
 
-    <button id="shareBtn" class="sharebtn">
-        <i class="fas fa-share-alt"></i>
-    </button>
+</head>  
+<body>  <button id="shareBtn" class="sharebtn">  
+    <i class="fas fa-share-alt"></i>  
+</button>  
 
-    <div class="profile-container" id="profile-container">
-        <div class="profile-header">
-            <img class="profile-image" id="profile-image" src="" alt="">
-            <div class="profile-name" id="profile-name"></div>
-            <div class="profile-bio" id="profile-bio"></div>
-        </div>
+<div class="profile-container" id="profile-container">  
+    <div class="profile-header">  
+        <img class="profile-image" id="profile-image" src="" alt="">  
+        <div class="profile-name" id="profile-name"></div>  
+        <div class="profile-bio" id="profile-bio"></div>  
+    </div>  
 
-        <div class="social-container">
-            <div class="social-icons" id="social-icons"></div>
-        </div>
+    <div class="social-container">  
+        <div class="social-icons" id="social-icons"></div>  
+    </div>  
 
-        <div class="spotify-container" id="spotify-container"></div>
-    </div>
+    <div class="spotify-container" id="spotify-container"></div>  
+</div>  
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
-        import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
+<script type="module">  
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";  
+    import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";  
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyBb3x_zD9JaFwL9PhmngCNZlS2fOh6MBa4",
-            authDomain: "newai-52371.firebaseapp.com",
-            projectId: "newai-52371",
-            storageBucket: "newai-52371.appspot.com",
-            messagingSenderId: "480586908639",
-            appId: "1:480586908639:web:f4645a852c4df724c6fa6a"
-        };
+    const firebaseConfig = {  
+        apiKey: "AIzaSyBb3x_zD9JaFwL9PhmngCNZlS2fOh6MBa4",  
+        authDomain: "newai-52371.firebaseapp.com",  
+        projectId: "newai-52371",  
+        storageBucket: "newai-52371.appspot.com",  
+        messagingSenderId: "480586908639",  
+        appId: "1:480586908639:web:f4645a852c4df724c6fa6a"  
+    };  
 
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+    const app = initializeApp(firebaseConfig);  
+    const db = getFirestore(app);  
 
-        
-         async function loadProfile() {
-             const path = window.location.pathname.substring(1); 
-             const username = path ? decodeURIComponent(path) : null;
- 
-             if (username) {
-                 document.getElementById("profile-container").style.display = "block";
- 
-                 const q = query(collection(db, "profiles"), where("username", "==", username));
-                 const querySnapshot = await getDocs(q);
- 
-                 if (!querySnapshot.empty) {
-                     const profile = querySnapshot.docs[0].data();
-                     document.getElementById("profile-name").innerText = profile.name;
-                     document.getElementById("profile-bio").innerText = profile.bio;
- 
-                     if (profile.imageUrl) {
-                         document.getElementById("profile-image").src = profile.imageUrl;
-                     }
-         }
-         }
- 
-         window.onload = loadProfile;
- 
-                     let socialHTML = "";
-                     if (profile.instagram) socialHTML += `<a href="https://instagram.com/${profile.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>`;
-                     if (profile.snapchat) socialHTML += `<a href="https://snapchat.com/add/${profile.snapchat}" target="_blank"><i class="fab fa-snapchat"></i></a>`;
-                     if (profile.whatsapp) socialHTML += `<a href="https://wa.me/${profile.whatsapp}" target="_blank"><i class="fab fa-whatsapp"></i></a>`;
-                     if (profile.facebook) socialHTML += `<a href="https://facebook.com/${profile.facebook}" target="_blank"><i class="fab fa-facebook"></i></a>`;
-                     if (profile.twitter) socialHTML += `<a href="https://twitter.com/${profile.twitter}" target="_blank"><i class="fab fa-twitter"></i></a>`;
-                     if (profile.linkedin) socialHTML += `<a href="https://linkedin.com/in/${profile.linkedin}" target="_blank"><i class="fab fa-linkedin"></i></a>`;
-                     if (profile.youtube) socialHTML += `<a href="https://m.youtube.com/${profile.youtube}" target="_blank"><i class="fab fa-youtube"></i></a>`;
-                     if (profile.email) socialHTML += `<a href="mailto:${profile.email}" target="_blank"><i class="fas fa-envelope"></i></a>`;
-                     if (profile.telegram) socialHTML += `<a href="https://t.me/${profile.telegram}" target="_blank"><i class="fab fa-telegram"></i></a>`;
-                     if (profile.github) socialHTML += `<a href="https://github.com/${profile.github}" target="_blank"><i class="fab fa-github"></i></a>`;
-                     if (profile.josh) socialHTML += `<a href="https://share.myjosh.in/profile/${profile.josh}" target="_blank"><i class="fas fa-play"></i></a>`;
- 
-                     document.getElementById("social-icons").innerHTML = socialHTML;
- 
-                     if (profile.spotify) {
-                         let spotifyID = profile.spotify.split('/').pop();
-                         let embedType = profile.spotify.includes("playlist") ? "playlist" : "track";
- 
-                         const spotifyEmbed = `<iframe src="https://open.spotify.com/embed/${embedType}/${spotifyID}" width="300" height="80" frameborder="0" allow="encrypted-media"></iframe>`;
-                         document.getElementById("spotify-container").innerHTML = spotifyEmbed;
-                     }
-                 } else {
-                     alert("Profile not found!");
-                     window.location.href = "/";
-                 }
+    async function loadProfile() {  
+        const path = window.location.pathname.substring(1);   
+        const username = path ? decodeURIComponent(path) : null;  
 
-        document.getElementById("shareBtn").addEventListener("click", async () => {  
-            const url = window.location.href;  
-            const text = "Check Out My Web Developed By Samartha Gs 👨‍💻:";  
+        if (username) {  
+            document.getElementById("profile-container").style.display = "block";  
 
-            if (navigator.share) {  
-                try {  
-                    await navigator.share({ title: "Profile Card", text, url });  
-                } catch (error) {  
-                    console.error("Sharing failed:", error);  
+            const q = query(collection(db, "profiles"), where("username", "==", username));  
+            const querySnapshot = await getDocs(q);  
+
+            if (!querySnapshot.empty) {  
+                const profile = querySnapshot.docs[0].data();  
+                document.getElementById("profile-name").innerText = profile.name;  
+                document.getElementById("profile-bio").innerText = profile.bio;  
+
+                if (profile.imageUrl) {  
+                    document.getElementById("profile-image").src = profile.imageUrl;  
+                }  
+
+                let socialHTML = "";  
+                if (profile.instagram) socialHTML += `<a href="https://instagram.com/${profile.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>`;  
+                if (profile.snapchat) socialHTML += `<a href="https://snapchat.com/add/${profile.snapchat}" target="_blank"><i class="fab fa-snapchat"></i></a>`;  
+                if (profile.whatsapp) socialHTML += `<a href="https://wa.me/${profile.whatsapp}" target="_blank"><i class="fab fa-whatsapp"></i></a>`;  
+                if (profile.facebook) socialHTML += `<a href="https://facebook.com/${profile.facebook}" target="_blank"><i class="fab fa-facebook"></i></a>`;  
+                if (profile.twitter) socialHTML += `<a href="https://twitter.com/${profile.twitter}" target="_blank"><i class="fab fa-twitter"></i></a>`;  
+                if (profile.linkedin) socialHTML += `<a href="https://linkedin.com/in/${profile.linkedin}" target="_blank"><i class="fab fa-linkedin"></i></a>`;  
+                if (profile.youtube) socialHTML += `<a href="https://m.youtube.com/${profile.youtube}" target="_blank"><i class="fab fa-youtube"></i></a>`;  
+                if (profile.email) socialHTML += `<a href="mailto:${profile.email}" target="_blank"><i class="fas fa-envelope"></i></a>`;  
+                if (profile.telegram) socialHTML += `<a href="https://t.me/${profile.telegram}" target="_blank"><i class="fab fa-telegram"></i></a>`;  
+                if (profile.github) socialHTML += `<a href="https://github.com/${profile.github}" target="_blank"><i class="fab fa-github"></i></a>`;  
+                if (profile.josh) socialHTML += `<a href="https://share.myjosh.in/profile/${profile.josh}" target="_blank"><i class="fas fa-play"></i></a>`;  
+
+                document.getElementById("social-icons").innerHTML = socialHTML;  
+
+                if (profile.spotify) {  
+                    let spotifyID = profile.spotify.split('/').pop();  
+                    let embedType = profile.spotify.includes("playlist") ? "playlist" : "track";  
+
+                    const spotifyEmbed = `<iframe src="https://open.spotify.com/embed/${embedType}/${spotifyID}" width="300" height="80" frameborder="0" allow="encrypted-media"></iframe>`;  
+                    document.getElementById("spotify-container").innerHTML = spotifyEmbed;  
                 }  
             } else {  
-                alert("Sharing not supported!");  
+                alert("Profile not found!");  
+                window.location.href = "/";  
             }  
-        });
-  </script>
-</body>
-</html>
+        }  
+    }  
+
+    window.onload = loadProfile;  
+
+    document.getElementById("shareBtn").addEventListener("click", async () => {    
+        const url = window.location.href;    
+        const text = "Check Out My Web Developed By Samartha Gs 👨‍💻:";    
+
+        if (navigator.share) {    
+            try {    
+                await navigator.share({ title: "Profile Card", text, url });    
+            } catch (error) {    
+                console.error("Sharing failed:", error);    
+            }    
+        } else {    
+            alert("Sharing not supported!");    
+        }    
+    });
+
+  </script>  
+</body>  
+</html>  
