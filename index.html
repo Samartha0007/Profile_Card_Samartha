@@ -293,6 +293,10 @@ body {
                      if (profile.imageUrl) {
                          document.getElementById("profile-image").src = profile.imageUrl;
                      }
+         }
+         }
+ 
+         window.onload = loadProfile;
  
                      let socialHTML = "";
                      if (profile.instagram) socialHTML += `<a href="https://instagram.com/${profile.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>`;
