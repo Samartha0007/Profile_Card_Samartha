@@ -339,5 +339,20 @@ body {
             }    
         });  
   </script>  
+<script>
+  // Function to set the dynamic profile title
+  function setProfileTitle(username) {
+      if (username) {
+          document.title = `${username}'s Profile`;
+      } else {
+          document.title = "Profile";
+      }
+  }
+
+  // Extract username from the URL path and set the title
+  const path = window.location.pathname.substring(1); 
+  const username = path ? decodeURIComponent(path) : null;
+  setProfileTitle(username);
+</script>
 </body>  
 </html>  
