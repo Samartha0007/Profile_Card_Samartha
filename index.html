@@ -4,6 +4,7 @@
     <meta charset="UTF-8">  
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
     <title>My Profile</title>  
+<meta name="twitter:title" content="Profile">
  <link rel="icon" type="image/png" href="https://i.ibb.co/sKbrkyn/Yellow-and-Grey-Pastel-Grunge-Designer-Brand-Logo-20241009-185202-0000.png">  
   
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">  
@@ -340,16 +341,19 @@ body {
         });  
   </script>  
 <script>
-  // Function to set the dynamic profile title
+  // Function to set the dynamic profile title and update only the Twitter title
   function setProfileTitle(username) {
       if (username) {
           document.title = `${username}'s Profile`;
       } else {
           document.title = "Profile";
       }
+
+      // Update only the Twitter title meta tag
+      document.querySelector('meta[name="twitter:title"]').setAttribute("content", document.title);
   }
 
-  // Extract username from the URL path and set the title
+  // Extract username from the URL path and set the title/meta tags
   const path = window.location.pathname.substring(1); 
   const username = path ? decodeURIComponent(path) : null;
   setProfileTitle(username);
