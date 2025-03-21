@@ -4,9 +4,16 @@
     <meta charset="UTF-8">  
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
     <title>Profile</title>  
-<meta name="twitter:title" content="Profile">
- <link rel="icon" type="image/png" href="https://i.ibb.co/sKbrkyn/Yellow-and-Grey-Pastel-Grunge-Designer-Brand-Logo-20241009-185202-0000.png">  
-  
+    <!-- Meta tags for social sharing -->
+    <meta name="twitter:title" content="Profile">
+    <meta property="og:title" content="Profile">
+    <meta property="og:description" content="Check out my profile">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="https://i.ibb.co/sKbrkyn/Yellow-and-Grey-Pastel-Grunge-Designer-Brand-Logo-20241009-185202-0000.png">
+    
+    <link rel="icon" type="image/png" href="https://i.ibb.co/sKbrkyn/Yellow-and-Grey-Pastel-Grunge-Designer-Brand-Logo-20241009-185202-0000.png">  
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">  
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">  
     <style>  
@@ -15,7 +22,7 @@
     padding: 0;  
     box-sizing: border-box;  
 }  
-  
+
 body {    
     font-family: 'Poppins', sans-serif;    
     background: linear-gradient(120deg, #eceff1, #b0bec5);    
@@ -27,7 +34,7 @@ body {
     flex-direction: column; /* Ensure content stacks properly */  
     padding: 20px;  
 }  
-  
+
 /* Full-Screen Container */  
 .fullscreen-container {  
     position: fixed;  
@@ -41,7 +48,7 @@ body {
     justify-content: center;  
     overflow: hidden;  
 }  
-  
+
 /* Profile Creation Container */  
 .create-container {  
     background: #ffffff;  
@@ -52,7 +59,7 @@ body {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);  
     animation: fadeIn 0.5s ease-in-out;  
 }  
-  
+
 /* Heading */  
 .create-container h2 {  
     text-align: center;  
@@ -62,7 +69,7 @@ body {
     font-weight: 700;  
     font-family: 'Poppins', sans-serif;  
 }  
-  
+
 /* Input and Textarea Styling */  
 .create-container input,  
 .create-container textarea {  
@@ -76,7 +83,7 @@ body {
     background: #f9f9f9;  
     transition: all 0.3s ease-in-out;  
 }  
-  
+
 /* Focus Effects */  
 .create-container input:focus,  
 .create-container textarea:focus {  
@@ -84,13 +91,13 @@ body {
     border-color: #4a90e2;  
     box-shadow: 0 0 8px rgba(74, 144, 226, 0.4);  
 }  
-  
+
 /* Textarea Settings */  
 .create-container textarea {  
     resize: vertical;  
     min-height: 120px;  
 }  
-  
+
 /* Submit Button */  
 #createProfileBtn {  
     width: 100%;  
@@ -105,13 +112,13 @@ body {
     font-size: 16px;  
     transition: all 0.3s ease-in-out;  
 }  
-  
+
 /* Hover Effect */  
 #createProfileBtn:hover {  
     background: linear-gradient(135deg, #357abd, #2a6db0);  
     transform: scale(1.02);  
 }  
-  
+
 /* Fade-in Animation */  
 @keyframes fadeIn {  
     from {  
@@ -121,7 +128,7 @@ body {
         opacity: 1;  
     }  
 }  
-  
+
 .profile-card {  
     display: none; /* Hidden by default */  
     flex-direction: column;  
@@ -133,7 +140,7 @@ body {
     border-radius: 15px;  
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);  
 }  
-  
+
 /* Profile Image */  
 .profile-image {  
     width: 130px;  
@@ -144,23 +151,23 @@ body {
     animation: glow 3s infinite alternate ease-in-out;  
     transition: box-shadow 0.5s ease-in-out, transform 0.3s ease-in-out;  
 }  
-  
+
 .profile-image:hover {  
     transform: scale(1.05);  
 }  
-  
+
 @keyframes glow {  
     0% { box-shadow: 0 0 5px rgba(255, 0, 255, 0.5), 0 0 10px rgba(255, 0, 255, 0.5); }  
     100% { box-shadow: 0 0 15px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.5); }  
 }  
-  
+
 /* Profile Name */  
 .profile-name {  
     font-size: 24px;  
     font-weight: bold;  
     margin-top: 10px;  
 }  
-  
+
 /* Social Icons */  
 .social-container {  
     background: rgba(255, 255, 255, 0.2);  
@@ -172,26 +179,26 @@ body {
     justify-content: center; /* Centers the social icons */  
     gap: 15px; /* Adds spacing between icons */  
 }  
-  
+
 .social-icons {  
     display: flex;  
     justify-content: center;  
     align-items: center;  
     gap: 15px; /* Adds space between icons */  
 }  
-  
+
 .social-icons a {  
     font-size: 24px;  
     color: gray;  
     text-decoration: none;  
     transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;  
 }  
-  
+
 .social-icons a:hover {  
     transform: translateY(-5px);  
     color: blue;  
 }  
-  
+
 /* Share Button */  
 .sharebtn {  
     position: fixed;  
@@ -204,7 +211,7 @@ body {
     color: gray;  
     transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;  
 }  
-  
+
 .sharebtn:hover {  
     transform: scale(1.1);  
     color: gray;  
@@ -212,7 +219,7 @@ body {
 .profile-bio{  
  color:gray   
 }  
-  
+
 /* Spotify Container */  
 #spotify-container {  
     width: 100%;  
@@ -223,46 +230,46 @@ body {
     left: 0;  
     padding: 10px;  
 }  
-  
+
 #spotify-container iframe {  
     width: 300px;  
     height: 80px;  
     border-radius: 10px;  
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);  
 }  
-  
+
 /* Fade In Animation */  
 @keyframes fadeIn {  
     from { opacity: 0; }  
     to { opacity: 1; }  
 }  
-  
+
     </style>  
 </head>  
 <body>  
-  
+
     <button id="shareBtn" class="sharebtn">  
         <i class="fas fa-share-alt"></i>  
     </button>  
-  
+
     <div class="profile-container" id="profile-container">  
         <div class="profile-header">  
             <img class="profile-image" id="profile-image" src="" alt="">  
             <div class="profile-name" id="profile-name"></div>  
             <div class="profile-bio" id="profile-bio"></div>  
         </div>  
-  
+
         <div class="social-container">  
             <div class="social-icons" id="social-icons"></div>  
         </div>  
-  
+
         <div class="spotify-container" id="spotify-container"></div>  
     </div>  
-  
+
     <script type="module">  
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";  
         import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";  
-  
+
         const firebaseConfig = {  
             apiKey: "AIzaSyBb3x_zD9JaFwL9PhmngCNZlS2fOh6MBa4",  
             authDomain: "newai-52371.firebaseapp.com",  
@@ -271,29 +278,29 @@ body {
             messagingSenderId: "480586908639",  
             appId: "1:480586908639:web:f4645a852c4df724c6fa6a"  
         };  
-  
+
         const app = initializeApp(firebaseConfig);  
         const db = getFirestore(app);  
-  
+
         async function loadProfile() {  
             const path = window.location.pathname.substring(1);   
             const username = path ? decodeURIComponent(path) : null;  
-  
+
             if (username) {  
                 document.getElementById("profile-container").style.display = "block";  
-  
+
                 const q = query(collection(db, "profiles"), where("username", "==", username));  
                 const querySnapshot = await getDocs(q);  
-  
+
                 if (!querySnapshot.empty) {  
                     const profile = querySnapshot.docs[0].data();  
                     document.getElementById("profile-name").innerText = profile.name;  
                     document.getElementById("profile-bio").innerText = profile.bio;  
-  
+
                     if (profile.imageUrl) {  
                         document.getElementById("profile-image").src = profile.imageUrl;  
                     }  
-  
+
                     let socialHTML = "";  
                     if (profile.instagram) socialHTML += `<a href="https://instagram.com/${profile.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>`;  
                     if (profile.snapchat) socialHTML += `<a href="https://snapchat.com/add/${profile.snapchat}" target="_blank"><i class="fab fa-snapchat"></i></a>`;  
@@ -306,32 +313,35 @@ body {
                     if (profile.telegram) socialHTML += `<a href="https://t.me/${profile.telegram}" target="_blank"><i class="fab fa-telegram"></i></a>`;  
                     if (profile.github) socialHTML += `<a href="https://github.com/${profile.github}" target="_blank"><i class="fab fa-github"></i></a>`;  
                     if (profile.josh) socialHTML += `<a href="https://share.myjosh.in/profile/${profile.josh}" target="_blank"><i class="fas fa-play"></i></a>`;  
-  
+
                     document.getElementById("social-icons").innerHTML = socialHTML;  
-  
+
                     if (profile.spotify) {  
                         let spotifyID = profile.spotify.split('/').pop();  
                         let embedType = profile.spotify.includes("playlist") ? "playlist" : "track";  
-  
+
                         const spotifyEmbed = `<iframe src="https://open.spotify.com/embed/${embedType}/${spotifyID}" width="300" height="80" frameborder="0" allow="encrypted-media"></iframe>`;  
                         document.getElementById("spotify-container").innerHTML = spotifyEmbed;  
-                    }  
+                    }
+                    
+                    // Set profile title and metadata after profile is loaded
+                    updateProfileMetadata(profile.name);
                 } else {  
                     alert("Profile not found!");  
                     window.location.href = "/";  
                 }  
             }  
         }  
-  
+
         window.onload = loadProfile;  
-  
+
         document.getElementById("shareBtn").addEventListener("click", async () => {    
             const url = window.location.href;    
             const text = "Check Out My Web Developed By Samartha Gs 👨‍💻:";    
-  
+
             if (navigator.share) {    
                 try {    
-                    await navigator.share({ title: "Profile Card", text, url });    
+                    await navigator.share({ title: document.title, text, url });    
                 } catch (error) {    
                     console.error("Sharing failed:", error);    
                 }    
@@ -339,24 +349,27 @@ body {
                 alert("Sharing not supported!");    
             }    
         });  
-  </script>  
+  </script>
+
 <script>
-  // Function to set the dynamic profile title and update only the Twitter title
-  function setProfileTitle(username) {
-      if (username) {
-          document.title = `${username}'s Profile`;
-      } else {
-          document.title = "Profile";
-      }
-
-      // Update only the Twitter title meta tag
-      document.querySelector('meta[name="twitter:title"]').setAttribute("content", document.title);
+  // Function to update all metadata for the profile
+  function updateProfileMetadata(name) {
+      const profileTitle = name ? `${name}'s Profile` : "Profile";
+      const profileDescription = name ? `Check out ${name}'s profile` : "Check out my profile";
+      const currentUrl = window.location.href;
+      
+      // Update document title
+      document.title = profileTitle;
+      
+      // Update all meta tags
+      document.querySelector('meta[name="twitter:title"]').setAttribute("content", profileTitle);
+      document.querySelector('meta[property="og:title"]').setAttribute("content", profileTitle);
+      document.querySelector('meta[property="og:description"]').setAttribute("content", profileDescription);
+      document.querySelector('meta[property="og:url"]').setAttribute("content", currentUrl);
+      
+      // If profile has an image, update the og:image too (could be added in the future)
+      // This currently uses the default image
   }
-
-  // Extract username from the URL path and set the title/meta tags
-  const path = window.location.pathname.substring(1); 
-  const username = path ? decodeURIComponent(path) : null;
-  setProfileTitle(username);
 </script>
 </body>  
-</html>  
+</html>
