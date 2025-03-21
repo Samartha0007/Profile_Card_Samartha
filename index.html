@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">  
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">  
     <style>  
- * {
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -35,6 +35,7 @@ body {
     text-align: center;
     flex-direction: column;
     padding: 20px;
+    overflow: hidden;
 }
 
 /* Full-Screen Container */
@@ -44,45 +45,78 @@ body {
     left: 0;
     width: 100%;
     height: 100vh;
-    background: rgba(30, 30, 47, 0.9); /* Semi-transparent dark background */
-    backdrop-filter: blur(10px); /* Blur effect for depth */
+    background: rgba(30, 30, 47, 0.95); /* Semi-transparent dark background */
+    backdrop-filter: blur(20px); /* Stronger blur for depth */
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    z-index: 1;
 }
 
 /* Profile Creation Container */
 .create-container {
     background: rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    padding: 30px;
+    border-radius: 25px;
+    padding: 40px;
     width: 100%;
-    max-width: 400px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(10px); /* Glass morphism effect */
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    animation: fadeIn 0.5s ease-in-out;
+    max-width: 450px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(15px); /* Glass morphism effect */
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    animation: slideIn 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+    transform: translateY(-50px);
+    opacity: 0;
+}
+
+@keyframes slideIn {
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 /* Heading */
 .create-container h2 {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     color: #fff;
-    font-size: 24px;
+    font-size: 28px;
     font-weight: 700;
     font-family: 'Poppins', sans-serif;
+    position: relative;
+}
+
+.create-container h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, #6c5ce7, #4b4bff);
+    border-radius: 2px;
+    animation: underlineGrow 0.8s ease-in-out forwards;
+}
+
+@keyframes underlineGrow {
+    from {
+        width: 0;
+    }
+    to {
+        width: 60px;
+    }
 }
 
 /* Input and Textarea Styling */
 .create-container input,
 .create-container textarea {
     width: 100%;
-    padding: 12px;
-    margin-bottom: 15px;
+    padding: 14px;
+    margin-bottom: 20px;
     border: 2px solid rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
+    border-radius: 12px;
     font-family: 'Poppins', sans-serif;
     font-size: 16px;
     background: rgba(255, 255, 255, 0.1);
@@ -101,48 +135,52 @@ body {
 .create-container textarea:focus {
     outline: none;
     border-color: #6c5ce7;
-    box-shadow: 0 0 10px rgba(108, 92, 231, 0.5);
+    box-shadow: 0 0 15px rgba(108, 92, 231, 0.6);
     background: rgba(255, 255, 255, 0.2);
 }
 
 /* Textarea Settings */
 .create-container textarea {
     resize: vertical;
-    min-height: 120px;
+    min-height: 140px;
 }
 
 /* Submit Button */
 #createProfileBtn {
     width: 100%;
-    padding: 14px;
+    padding: 16px;
     background: linear-gradient(135deg, #6c5ce7, #4b4bff);
     color: white;
     border: none;
-    border-radius: 10px;
+    border-radius: 12px;
     cursor: pointer;
     font-family: 'Poppins', sans-serif;
     font-weight: 600;
-    font-size: 16px;
+    font-size: 18px;
     transition: all 0.3s ease-in-out;
+    position: relative;
+    overflow: hidden;
 }
 
-/* Hover Effect */
+#createProfileBtn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300%;
+    height: 300%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3), transparent);
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0.5s ease-in-out;
+}
+
+#createProfileBtn:hover::after {
+    transform: translate(-50%, -50%) scale(1);
+}
+
 #createProfileBtn:hover {
-    background: linear-gradient(135deg, #4b4bff, #6c5ce7);
     transform: scale(1.02);
-    box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
-}
-
-/* Fade-in Animation */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    box-shadow: 0 10px 20px rgba(108, 92, 231, 0.5);
 }
 
 /* Profile Card */
@@ -153,67 +191,97 @@ body {
     text-align: center;
     animation: fadeIn 1s ease-in-out;
     background: rgba(255, 255, 255, 0.1);
-    padding: 30px;
-    border-radius: 20px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 40px;
+    border-radius: 25px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    position: relative;
+    overflow: hidden;
+}
+
+.profile-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(108, 92, 231, 0.2), transparent);
+    animation: rotate 10s linear infinite;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 /* Profile Image */
 .profile-image {
-    width: 150px;
-    height: 150px;
+    width: 160px;
+    height: 160px;
     border-radius: 50%;
     object-fit: cover;
     object-position: center;
-    animation: glow 3s infinite alternate ease-in-out;
-    transition: box-shadow 0.5s ease-in-out, transform 0.3s ease-in-out;
-    border: 3px solid rgba(255, 255, 255, 0.2);
+    border: 4px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease-in-out;
+    animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
 }
 
 .profile-image:hover {
     transform: scale(1.05);
-    box-shadow: 0 0 20px rgba(108, 92, 231, 0.6);
-}
-
-@keyframes glow {
-    0% { box-shadow: 0 0 10px rgba(108, 92, 231, 0.5), 0 0 20px rgba(108, 92, 231, 0.5); }
-    100% { box-shadow: 0 0 20px rgba(0, 255, 255, 0.5), 0 0 30px rgba(0, 255, 255, 0.5); }
+    box-shadow: 0 15px 40px rgba(108, 92, 231, 0.6);
 }
 
 /* Profile Name */
 .profile-name {
-    font-size: 26px;
+    font-size: 28px;
     font-weight: bold;
-    margin-top: 15px;
+    margin-top: 20px;
     color: #fff;
+    animation: fadeIn 1s ease-in-out;
 }
 
 /* Profile Bio */
 .profile-bio {
     color: rgba(255, 255, 255, 0.8);
-    margin-top: 10px;
-    font-size: 16px;
+    margin-top: 15px;
+    font-size: 18px;
+    animation: fadeIn 1.5s ease-in-out;
 }
 
 /* Social Icons */
 .social-container {
     background: rgba(255, 255, 255, 0.1);
-    padding: 15px;
-    border-radius: 15px;
+    padding: 20px;
+    border-radius: 20px;
     backdrop-filter: blur(10px);
-    margin-top: 15px;
+    margin-top: 20px;
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 25px;
+    animation: fadeIn 2s ease-in-out;
 }
 
 .social-icons a {
-    font-size: 28px;
+    font-size: 32px;
     color: rgba(255, 255, 255, 0.7);
     text-decoration: none;
-    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
 }
 
 .social-icons a:hover {
@@ -224,17 +292,18 @@ body {
 /* Share Button */
 .sharebtn {
     position: fixed;
-    top: 20px;
-    right: 20px;
+    top: 30px;
+    right: 30px;
     background: rgba(255, 255, 255, 0.1);
     border: none;
     cursor: pointer;
-    font-size: 24px;
+    font-size: 28px;
     color: rgba(255, 255, 255, 0.7);
-    padding: 10px;
+    padding: 12px;
     border-radius: 50%;
     backdrop-filter: blur(10px);
     transition: all 0.3s ease-in-out;
+    z-index: 2;
 }
 
 .sharebtn:hover {
@@ -249,16 +318,17 @@ body {
     display: flex;
     justify-content: center;
     position: fixed;
-    bottom: 20px;
+    bottom: 30px;
     left: 0;
     padding: 10px;
+    z-index: 2;
 }
 
 #spotify-container iframe {
-    width: 300px;
-    height: 80px;
-    border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    width: 350px;
+    height: 100px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
 }
     </style>  
 </head>  
