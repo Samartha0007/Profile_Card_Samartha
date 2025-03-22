@@ -1,10 +1,10 @@
-
 <!DOCTYPE html>  
 <html lang="en">  
 <head>  
     <meta charset="UTF-8">  
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
     <title>Profile</title>  
+
     <!-- Meta tags for social sharing -->
     <meta name="twitter:title" content="Profile">
     <meta property="og:title" content="Profile">
@@ -12,12 +12,11 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="">
     <meta property="og:image" content="https://i.ibb.co/sKbrkyn/Yellow-and-Grey-Pastel-Grunge-Designer-Brand-Logo-20241009-185202-0000.png">
-    
-    <link rel="icon" type="image/png" href="https://i.ibb.co/sKbrkyn/Yellow-and-Grey-Pastel-Grunge-Designer-Brand-Logo-20241009-185202-0000.png">  
 
+    <link rel="icon" type="image/png" href="https://i.ibb.co/sKbrkyn/Yellow-and-Grey-Pastel-Grunge-Designer-Brand-Logo-20241009-185202-0000.png">  
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">  
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">  
-      <link rel="stylesheet" href="./style.css">  
+    <link rel="stylesheet" href="./style.css">  
 </head>  
 <body>  
 
@@ -85,19 +84,9 @@
                     if (profile.email) socialHTML += `<a href="mailto:${profile.email}" target="_blank"><i class="fas fa-envelope"></i></a>`;  
                     if (profile.telegram) socialHTML += `<a href="https://t.me/${profile.telegram}" target="_blank"><i class="fab fa-telegram"></i></a>`;  
                     if (profile.github) socialHTML += `<a href="https://github.com/${profile.github}" target="_blank"><i class="fab fa-github"></i></a>`;  
-                    if (profile.josh) socialHTML += `<a href="https://share.myjosh.in/profile/${profile.josh}" target="_blank"><i class="fas fa-play"></i></a>`;  
 
                     document.getElementById("social-icons").innerHTML = socialHTML;  
 
-                    if (profile.spotify) {  
-                        let spotifyID = profile.spotify.split('/').pop();  
-                        let embedType = profile.spotify.includes("playlist") ? "playlist" : "track";  
-
-                        const spotifyEmbed = `<iframe src="https://open.spotify.com/embed/${embedType}/${spotifyID}" width="300" height="80" frameborder="0" allow="encrypted-media"></iframe>`;  
-                        document.getElementById("spotify-container").innerHTML = spotifyEmbed;  
-                    }
-                    
-                    // Set profile title and metadata after profile is loaded
                     updateProfileMetadata(profile.name);
                 } else {  
                     alert("Profile not found!");  
@@ -110,7 +99,7 @@
 
         document.getElementById("shareBtn").addEventListener("click", async () => {    
             const url = window.location.href;    
-            const text = "Check Out My Web Developed By Samartha Gs 👨‍💻:";    
+            const text = `Check out ${document.getElementById("profile-name").innerText}'s Profile!`;    
 
             if (navigator.share) {    
                 try {    
@@ -122,27 +111,22 @@
                 alert("Sharing not supported!");    
             }    
         });  
-  </script>
+    </script>
 
-<script>
-  // Function to update all metadata for the profile
-  function updateProfileMetadata(name) {
-      const profileTitle = name ? `${name}'s Profile` : "Profile";
-      const profileDescription = name ? `Check out ${name}'s profile` : "Check out my profile";
-      const currentUrl = window.location.href;
-      
-      // Update document title
-      document.title = profileTitle;
-      
-      // Update all meta tags
-      document.querySelector('meta[name="twitter:title"]').setAttribute("content", profileTitle);
-      document.querySelector('meta[property="og:title"]').setAttribute("content", profileTitle);
-      document.querySelector('meta[property="og:description"]').setAttribute("content", profileDescription);
-      document.querySelector('meta[property="og:url"]').setAttribute("content", currentUrl);
-      
-      // If profile has an image, update the og:image too (could be added in the future)
-      // This currently uses the default image
-  }
-</script>
+    <script>
+        function updateProfileMetadata(name) {
+            const profileTitle = name ? `${name}'s Profile` : "Profile";
+            const profileDescription = `Check out ${name}'s profile`;
+            const currentUrl = window.location.href;
+
+            document.title = profileTitle;
+
+            document.querySelector('meta[name="twitter:title"]').setAttribute("content", profileTitle);
+            document.querySelector('meta[property="og:title"]').setAttribute("content", profileTitle);
+            document.querySelector('meta[property="og:description"]').setAttribute("content", profileDescription);
+            document.querySelector('meta[property="og:url"]').setAttribute("content", currentUrl);
+        }
+    </script>
+
 </body>  
 </html>
