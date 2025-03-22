@@ -1,227 +1,577 @@
-* {  
-    margin: 0;  
-    padding: 0;  
-    box-sizing: border-box;  
-}  
+/* Reset and Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
 
-body {    
-    font-family: 'Poppins', sans-serif;    
-    background: linear-gradient(120deg, #eceff1, #b0bec5);    
-    display: flex;    
-    align-items: center;    
-    justify-content: center;    
-    height: 100vh;    
-    text-align: center;    
-    flex-direction: column; /* Ensure content stacks properly */  
-    padding: 20px;  
-}  
+:root {
+  --primary: #6200ea;
+  --secondary: #03dac6;
+  --accent: #ff0266;
+  --dark: #121212;
+  --light: #ffffff;
+  --text-primary: #f5f5f5;
+  --text-secondary: #b0bec5;
+  --card-bg: rgba(18, 18, 24, 0.85);
+  --gradient-1: linear-gradient(135deg, #6200ea, #03dac6);
+  --gradient-2: linear-gradient(45deg, #ff0266, #ffb199);
+  --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  --neon-glow: 0 0 15px var(--secondary), 0 0 25px var(--secondary);
+}
 
-/* Full-Screen Container */  
-.fullscreen-container {  
-    position: fixed;  
-    top: 0;  
-    left: 0;  
-    width: 100%;  
-    height: 100vh;  
-    background: #f5f5f5; /* Solid background to cover everything */  
-    display: flex;  
-    align-items: center;  
-    justify-content: center;  
-    overflow: hidden;  
-}  
+body {
+  font-family: 'Montserrat', sans-serif;
+  background-color: var(--dark);
+  background-image: 
+    radial-gradient(circle at 20% 30%, rgba(98, 0, 234, 0.3) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(3, 218, 198, 0.3) 0%, transparent 40%);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
 
-/* Profile Creation Container */  
-.create-container {  
-    background: #ffffff;  
-    border-radius: 15px;  
-    padding: 30px;  
-    width: 100%;  
-    max-width: 400px;  
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);  
-    animation: fadeIn 0.5s ease-in-out;  
-}  
+body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect fill="none" width="100" height="100"/><rect fill="rgba(255,255,255,0.03)" width="50" height="50"/><rect fill="rgba(255,255,255,0.03)" x="50" y="50" width="50" height="50"/></svg>');
+  opacity: 0.3;
+  z-index: -1;
+}
 
-/* Heading */  
-.create-container h2 {  
-    text-align: center;  
-    margin-bottom: 20px;  
-    color: #222;  
-    font-size: 22px;  
-    font-weight: 700;  
-    font-family: 'Poppins', sans-serif;  
-}  
+/* Floating particles */
+@keyframes float {
+  0% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(5deg); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
 
-/* Input and Textarea Styling */  
-.create-container input,  
-.create-container textarea {  
-    width: 100%;  
-    padding: 12px;  
-    margin-bottom: 15px;  
-    border: 2px solid #ddd;  
-    border-radius: 8px;  
-    font-family: 'Poppins', sans-serif;  
-    font-size: 16px;  
-    background: #f9f9f9;  
-    transition: all 0.3s ease-in-out;  
-}  
+.floating-particle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: var(--secondary);
+  border-radius: 50%;
+  filter: blur(4px);
+  opacity: 0.5;
+  animation: float 15s infinite ease-in-out;
+}
 
-/* Focus Effects */  
-.create-container input:focus,  
-.create-container textarea:focus {  
-    outline: none;  
-    border-color: #4a90e2;  
-    box-shadow: 0 0 8px rgba(74, 144, 226, 0.4);  
-}  
+.particle-1 {
+  top: 15%;
+  left: 15%;
+  animation-delay: 0s;
+}
 
-/* Textarea Settings */  
-.create-container textarea {  
-    resize: vertical;  
-    min-height: 120px;  
-}  
+.particle-2 {
+  top: 25%;
+  right: 20%;
+  animation-delay: 2s;
+}
 
-/* Submit Button */  
-#createProfileBtn {  
-    width: 100%;  
-    padding: 14px;  
-    background: linear-gradient(135deg, #4a90e2, #357abd);  
-    color: white;  
-    border: none;  
-    border-radius: 8px;  
-    cursor: pointer;  
-    font-family: 'Poppins', sans-serif;  
-    font-weight: 600;  
-    font-size: 16px;  
-    transition: all 0.3s ease-in-out;  
-}  
+.particle-3 {
+  bottom: 20%;
+  left: 20%;
+  animation-delay: 4s;
+}
 
-/* Hover Effect */  
-#createProfileBtn:hover {  
-    background: linear-gradient(135deg, #357abd, #2a6db0);  
-    transform: scale(1.02);  
-}  
+.particle-4 {
+  bottom: 30%;
+  right: 15%;
+  animation-delay: 6s;
+}
 
-/* Fade-in Animation */  
-@keyframes fadeIn {  
-    from {  
-        opacity: 0;  
-    }  
-    to {  
-        opacity: 1;  
-    }  
-}  
+/* Full-Screen Container */
+.fullscreen-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  z-index: 10;
+}
 
-.profile-card {  
-    display: none; /* Hidden by default */  
-    flex-direction: column;  
-    align-items: center;  
-    text-align: center;  
-    animation: fadeIn 1s ease-in-out;  
-    background: white;  
-    padding: 20px;  
-    border-radius: 15px;  
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);  
-}  
+/* Profile Creation Container */
+.create-container {
+  background: var(--card-bg);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 30px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: var(--box-shadow);
+  animation: slideIn 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+  overflow: hidden;
+}
 
-/* Profile Image */  
-.profile-image {  
-    width: 130px;  
-    height: 130px;  
-    border-radius: 50%;  
-    object-fit: cover;  
-    object-position: center;  
-    animation: glow 3s infinite alternate ease-in-out;  
-    transition: box-shadow 0.5s ease-in-out, transform 0.3s ease-in-out;  
-}  
+.create-container::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: var(--gradient-1);
+  opacity: 0.1;
+  transform: rotate(-30deg);
+  z-index: -1;
+}
 
-.profile-image:hover {  
-    transform: scale(1.05);  
-}  
+/* Heading with neon effect */
+.create-container h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: var(--light);
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-shadow: 0 0 10px var(--secondary), 0 0 20px var(--secondary);
+  position: relative;
+}
 
-@keyframes glow {  
-    0% { box-shadow: 0 0 5px rgba(255, 0, 255, 0.5), 0 0 10px rgba(255, 0, 255, 0.5); }  
-    100% { box-shadow: 0 0 15px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.5); }  
-}  
+.create-container h2::after {
+  content: '';
+  position: absolute;
+  width: 60px;
+  height: 3px;
+  background: var(--gradient-2);
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 3px;
+}
 
-/* Profile Name */  
-.profile-name {  
-    font-size: 24px;  
-    font-weight: bold;  
-    margin-top: 10px;  
-}  
+/* Input and Textarea Styling */
+.create-container input,
+.create-container textarea {
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--text-primary);
+  transition: all 0.3s ease-in-out;
+}
 
-/* Social Icons */  
-.social-container {  
-    background: rgba(255, 255, 255, 0.2);  
-    padding: 10px;  
-    border-radius: 10px;  
-    backdrop-filter: blur(10px);  
-    margin-top: 10px;  
-    display: flex;  
-    justify-content: center; /* Centers the social icons */  
-    gap: 15px; /* Adds spacing between icons */  
-}  
+/* Focus Effects */
+.create-container input:focus,
+.create-container textarea:focus {
+  outline: none;
+  border-color: var(--secondary);
+  box-shadow: 0 0 8px rgba(3, 218, 198, 0.6);
+  transform: translateY(-2px);
+}
 
-.social-icons {  
-    display: flex;  
-    justify-content: center;  
-    align-items: center;  
-    gap: 15px; /* Adds space between icons */  
-}  
+/* Placeholder color */
+.create-container input::placeholder,
+.create-container textarea::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+  font-style: italic;
+}
 
-.social-icons a {  
-    font-size: 24px;  
-    color: gray;  
-    text-decoration: none;  
-    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;  
-}  
+/* Textarea Settings */
+.create-container textarea {
+  resize: vertical;
+  min-height: 120px;
+}
 
-.social-icons a:hover {  
-    transform: translateY(-5px);  
-    color: blue;  
-}  
+/* Submit Button */
+#createProfileBtn {
+  width: 100%;
+  padding: 16px;
+  background: var(--gradient-1);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 15px rgba(98, 0, 234, 0.4);
+  position: relative;
+  overflow: hidden;
+}
 
-/* Share Button */  
-.sharebtn {  
-    position: fixed;  
-    top: 10px;  
-    right: 10px;  
-    background: none;  
-    border: none;  
-    cursor: pointer;  
-    font-size: 22px;  
-    color: gray;  
-    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;  
-}  
+/* Button hover effect */
+#createProfileBtn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 7px 20px rgba(98, 0, 234, 0.6);
+}
 
-.sharebtn:hover {  
-    transform: scale(1.1);  
-    color: gray;  
-}  
-.profile-bio{  
- color:gray   
-}  
+#createProfileBtn:active {
+  transform: translateY(0);
+}
 
-/* Spotify Container */  
-#spotify-container {  
-    width: 100%;  
-    display: flex;  
-    justify-content: center;  
-    position: fixed;  
-    bottom: 10px;  
-    left: 0;  
-    padding: 10px;  
-}  
+/* Button ripple effect */
+#createProfileBtn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  border-radius: 100%;
+  transform: scale(1, 1) translate(-50%);
+  transform-origin: 50% 50%;
+}
 
-#spotify-container iframe {  
-    width: 300px;  
-    height: 80px;  
-    border-radius: 10px;  
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);  
-}  
+#createProfileBtn:focus:not(:active)::after {
+  animation: ripple 1s ease-out;
+}
 
-/* Fade In Animation */  
-@keyframes fadeIn {  
-    from { opacity: 0; }  
-    to { opacity: 1; }  
-}  
+@keyframes ripple {
+  0% {
+    transform: scale(0, 0);
+    opacity: 0.5;
+  }
+  20% {
+    transform: scale(25, 25);
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(40, 40);
+  }
+}
 
+/* Profile Card */
+.profile-card {
+  display: none; /* Hidden by default */
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  animation: fadeUp 1s cubic-bezier(0.19, 1, 0.22, 1);
+  background: var(--card-bg);
+  padding: 30px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: var(--box-shadow);
+  max-width: 350px;
+  width: 90%;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+
+/* Card background gradient */
+.profile-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: var(--gradient-2);
+  opacity: 0.08;
+  transform: rotate(30deg);
+  z-index: -1;
+}
+
+/* Profile Image */
+.profile-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+  border: 4px solid transparent;
+  background: padding-box var(--dark), var(--gradient-1) border-box;
+  position: relative;
+  z-index: 2;
+}
+
+.profile-image::after {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  right: -8px;
+  bottom: -8px;
+  background: var(--gradient-1);
+  border-radius: 50%;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.profile-image:hover {
+  transform: scale(1.05);
+}
+
+.profile-image:hover::after {
+  opacity: 1;
+}
+
+/* Animated image glow */
+@keyframes pulseGlow {
+  0% { box-shadow: 0 0 10px rgba(3, 218, 198, 0.5), 0 0 20px rgba(3, 218, 198, 0.3); }
+  50% { box-shadow: 0 0 20px rgba(3, 218, 198, 0.8), 0 0 30px rgba(3, 218, 198, 0.5); }
+  100% { box-shadow: 0 0 10px rgba(3, 218, 198, 0.5), 0 0 20px rgba(3, 218, 198, 0.3); }
+}
+
+.profile-image {
+  animation: pulseGlow 3s infinite;
+}
+
+/* Profile Name */
+.profile-name {
+  font-size: 26px;
+  font-weight: 800;
+  margin-top: 20px;
+  color: var(--light);
+  text-shadow: 0 0 10px var(--secondary), 0 0 15px var(--secondary);
+  letter-spacing: 1px;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.profile-name::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 3px;
+  background: var(--gradient-1);
+  border-radius: 3px;
+}
+
+.profile-bio {
+  margin: 15px 0;
+  color: var(--text-secondary);
+  font-size: 15px;
+  line-height: 1.6;
+  max-width: 280px;
+}
+
+/* Social Container with glass effect */
+.social-container {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 12px;
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  width: 100%;
+}
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Social Icons with neon effects */
+.social-icons a {
+  font-size: 22px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+}
+
+.social-icons a:hover {
+  transform: translateY(-5px);
+  color: var(--secondary);
+  box-shadow: 0 0 15px rgba(3, 218, 198, 0.7);
+  border-color: var(--secondary);
+}
+
+/* Share Button */
+.sharebtn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 20px;
+  color: var(--text-secondary);
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(5px);
+  z-index: 100;
+  transition: all 0.3s ease;
+}
+
+.sharebtn:hover {
+  transform: scale(1.1) rotate(10deg);
+  color: var(--secondary);
+  box-shadow: 0 0 15px rgba(3, 218, 198, 0.5);
+}
+
+/* Spotify Container */
+#spotify-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  bottom: 20px;
+  left: 0;
+  padding: 10px;
+  z-index: 100;
+  pointer-events: auto;
+}
+
+#spotify-container iframe {
+  width: 300px;
+  height: 80px;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(3, 218, 198, 0.4);
+  border: 1px solid var(--secondary);
+  transform: translateY(0);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  opacity: 0.95;
+  background: rgba(18, 18, 24, 0.9);
+}
+
+#spotify-container iframe:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 30px rgba(3, 218, 198, 0.6);
+  opacity: 1;
+}
+
+/* Animations */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .create-container, .profile-card {
+    width: 90%;
+    padding: 25px;
+  }
+  
+  .profile-image {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .profile-name {
+    font-size: 22px;
+  }
+  
+  .social-icons a {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+  
+  #spotify-container iframe {
+    width: 280px;
+  }
+}
+
+@media (max-width: 480px) {
+  .create-container, .profile-card {
+    width: 95%;
+    padding: 20px;
+  }
+  
+  .create-container h2 {
+    font-size: 22px;
+  }
+  
+  .profile-image {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .profile-name {
+    font-size: 20px;
+  }
+  
+  .profile-bio {
+    font-size: 14px;
+    margin: 10px 0;
+  }
+  
+  .social-icons {
+    gap: 15px;
+  }
+  
+  .social-icons a {
+    width: 35px;
+    height: 35px;
+    font-size: 16px;
+  }
+  
+  #spotify-container iframe {
+    width: 260px;
+    height: 75px;
+  }
+  
+  .sharebtn {
+    top: 15px;
+    right: 15px;
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/* HTML elements to add to your page */
+/* Add these elements to your HTML: 
+<div class="floating-particle particle-1"></div>
+<div class="floating-particle particle-2"></div>
+<div class="floating-particle particle-3"></div>
+<div class="floating-particle particle-4"></div>
+<div class="floating-particle particle-5"></div>
+*/
