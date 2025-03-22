@@ -340,25 +340,13 @@ body::before {
 /* Profile Name */
 .profile-name {
   font-size: 26px;
-  font-weight: 800;
+  font-weight: 700;
   margin-top: 20px;
-  color: var(--light);
-  text-shadow: 0 0 10px var(--secondary), 0 0 15px var(--secondary);
-  letter-spacing: 1px;
-  position: relative;
-  padding-bottom: 10px;
-}
-
-.profile-name::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 40px;
-  height: 3px;
   background: var(--gradient-1);
-  border-radius: 3px;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  position: relative;
 }
 
 .profile-bio {
@@ -448,26 +436,22 @@ body::before {
   bottom: 20px;
   left: 0;
   padding: 10px;
-  z-index: 100;
-  pointer-events: auto;
+  z-index: 5;
 }
 
 #spotify-container iframe {
   width: 300px;
   height: 80px;
   border-radius: 15px;
-  box-shadow: 0 0 20px rgba(3, 218, 198, 0.4);
-  border: 1px solid var(--secondary);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   transform: translateY(0);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  opacity: 0.95;
-  background: rgba(18, 18, 24, 0.9);
+  transition: transform 0.3s ease;
 }
 
 #spotify-container iframe:hover {
   transform: translateY(-5px);
-  box-shadow: 0 0 30px rgba(3, 218, 198, 0.6);
-  opacity: 1;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
 }
 
 /* Animations */
@@ -520,58 +504,8 @@ body::before {
   }
 }
 
-@media (max-width: 480px) {
-  .create-container, .profile-card {
-    width: 95%;
-    padding: 20px;
-  }
-  
-  .create-container h2 {
-    font-size: 22px;
-  }
-  
-  .profile-image {
-    width: 100px;
-    height: 100px;
-  }
-  
-  .profile-name {
-    font-size: 20px;
-  }
-  
-  .profile-bio {
-    font-size: 14px;
-    margin: 10px 0;
-  }
-  
-  .social-icons {
-    gap: 15px;
-  }
-  
-  .social-icons a {
-    width: 35px;
-    height: 35px;
-    font-size: 16px;
-  }
-  
-  #spotify-container iframe {
-    width: 260px;
-    height: 75px;
-  }
-  
-  .sharebtn {
-    top: 15px;
-    right: 15px;
-    width: 40px;
-    height: 40px;
-  }
-}
-
-/* HTML elements to add to your page */
-/* Add these elements to your HTML: 
-<div class="floating-particle particle-1"></div>
-<div class="floating-particle particle-2"></div>
-<div class="floating-particle particle-3"></div>
-<div class="floating-particle particle-4"></div>
-<div class="floating-particle particle-5"></div>
-*/
+/* Add these HTML elements to your page */
+.floating-particle particle-1 {}
+.floating-particle particle-2 {}
+.floating-particle particle-3 {}
+.floating-particle particle-4 {}
