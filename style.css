@@ -482,7 +482,7 @@ body::before {
     font-family: 'Black Ops One', cursive;
     font-size: 3.0rem;
     
-    color: #fff;
+    color: black;
     text-align: center;
     text-transform: uppercase;
     transition: all 0.8s ease-in-out;
