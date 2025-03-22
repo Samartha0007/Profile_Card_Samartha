@@ -1,142 +1,155 @@
-/* Global Styling */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
 }
 
-/* Background with Gradient */
 body {
-    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    font-family: 'Poppins', sans-serif;
+    background: url('https://i.ibb.co/SDK0mSM1/premium-vector-1724477408083-5b3456a876ed.png') no-repeat center center fixed;
+    background-size: cover;
+    color: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    min-height: 100vh;
     text-align: center;
-    flex-direction: column;
+    line-height: 1.6;
     padding: 20px;
 }
 
-/* Fullscreen Container */
-.fullscreen-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* Profile Section */
-.profile-container {
-    position: relative;
-    text-align: center;
+/* Header Text */
+.header-text {
+    font-family: 'Montserrat', sans-serif; /* Cool font */
+    font-size: 48px;
+    font-weight: 700;
     color: #fff;
-    max-width: 600px;
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    margin-bottom: 10px;
+    animation: fadeIn 1s ease-in-out;
 }
 
-/* Profile Picture */
-.profile-pic {
-    width: 120px;
-    height: 120px;
+/* Bio Text */
+.bio-text {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    margin-bottom: 30px;
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+/* Profile Image */
+.profile-image {
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
     object-fit: cover;
-    border: 3px solid rgba(255, 255, 255, 0.5);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    display: block;
-    margin: 0 auto 15px auto;
+    object-position: center;
+    border: 4px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    margin-bottom: 20px;
+    animation: float 3s infinite ease-in-out;
 }
 
-/* Header Name Styling */
-.profile-name {
-    font-size: 40px;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    line-height: 1.2;
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
 }
 
-/* Underline Effect */
-.profile-name::after {
-    content: "";
-    display: block;
-    width: 80px;
-    height: 2px;
-    background: #fff;
-    margin-top: 5px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-/* Social Icons Container */
+/* Social Icons */
 .social-container {
     position: absolute;
     top: 50%;
-    right: -120px;
+    right: 20px;
     transform: translateY(-50%);
     display: flex;
     flex-direction: column;
     gap: 15px;
+    animation: slideInRight 1s ease-in-out;
 }
 
-/* Social Icons */
 .social-icons a {
     font-size: 24px;
     color: rgba(255, 255, 255, 0.8);
     text-decoration: none;
-    transition: 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
 }
 
 .social-icons a:hover {
-    transform: translateY(-5px);
-    color: #ffcc00;
+    color: #fff;
+    transform: scale(1.2);
 }
 
-/* Spotify Container */
-#spotify-container {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    position: fixed;
-    bottom: 10px;
-    left: 0;
-    padding: 10px;
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
-#spotify-container iframe {
-    width: 300px;
-    height: 80px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
 }
 
-/* Responsive Adjustments */
+/* Responsive Design */
 @media (max-width: 768px) {
-    .profile-name {
-        font-size: 30px;
+    .header-text {
+        font-size: 36px;
     }
 
-    .profile-pic {
+    .bio-text {
+        font-size: 16px;
+    }
+
+    .profile-image {
+        width: 120px;
+        height: 120px;
+    }
+
+    .social-container {
+        right: 10px;
+        gap: 10px;
+    }
+
+    .social-icons a {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-text {
+        font-size: 28px;
+    }
+
+    .bio-text {
+        font-size: 14px;
+    }
+
+    .profile-image {
         width: 100px;
         height: 100px;
     }
 
     .social-container {
-        position: relative;
-        top: auto;
-        right: auto;
-        flex-direction: row;
-        justify-content: center;
-        margin-top: 20px;
+        right: 5px;
+        gap: 8px;
     }
 
-    #spotify-container iframe {
-        width: 260px;
-        height: 70px;
+    .social-icons a {
+        font-size: 18px;
     }
 }
