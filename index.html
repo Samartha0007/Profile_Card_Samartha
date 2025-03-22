@@ -131,6 +131,46 @@
             document.querySelector('meta[property="og:description"]').setAttribute("content", profileDescription);
             document.querySelector('meta[property="og:url"]').setAttribute("content", currentUrl);
         }
+
+
+
+
+const profileName = document.getElementById("profile-name");
+
+// Advanced fonts list
+const fonts = [
+    "Anton, sans-serif",
+    "Cinzel, serif",
+    "Pacifico, cursive",
+    "Press Start 2P, sans-serif",
+    "Raleway, sans-serif"
+];
+
+// Advanced animations list
+const animations = ["rotate-flip", "fade-blur", "scale-pop", "slide-glow"];
+
+let index = 0;
+
+function changeEffect() {
+    // Remove previous animation
+    profileName.classList.remove(...animations);
+
+    // Apply a new font
+    profileName.style.fontFamily = fonts[index % fonts.length];
+
+    // Apply a new animation
+    const animation = animations[index % animations.length];
+    profileName.classList.add(animation);
+
+    // Increment index for next cycle
+    index = (index + 1) % Math.max(fonts.length, animations.length);
+}
+
+// Run every 3 seconds
+setInterval(changeEffect, 3000);
+
+// Initial effect
+changeEffect();
     </script>
 
 </body>  
