@@ -1,14 +1,14 @@
-/* Global Styling */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap');
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
 }
 
-/* Background with Gradient */
 body {
-    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(120deg, #eceff1, #b0bec5);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -18,69 +18,179 @@ body {
     padding: 20px;
 }
 
-/* Fullscreen Container */
+/* Full-Screen Container */
 .fullscreen-container {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100vh;
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
+    background: #f5f5f5;
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
 }
 
-/* Profile Section */
-.profile-container {
-    position: relative;
-    text-align: left;
-    color: #fff;
-    max-width: 600px;
+/* Profile Creation Container */
+.create-container {
+    background: #ffffff;
+    border-radius: 15px;
+    padding: 30px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.5s ease-in-out;
 }
 
-/* Header Name Styling */
-.profile-name {
-    font-size: 40px;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    line-height: 1.2;
+/* Heading */
+.create-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #222;
+    font-size: 22px;
+    font-weight: 700;
 }
 
-/* Underline Effect */
-.profile-name::after {
-    content: "";
-    display: block;
-    width: 80px;
-    height: 2px;
-    background: #fff;
-    margin-top: 5px;
+/* Input and Textarea Styling */
+.create-container input,
+.create-container textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    background: #f9f9f9;
+    transition: all 0.3s ease-in-out;
 }
 
-/* Social Icons Container */
-.social-container {
-    position: absolute;
-    top: 50%;
-    right: -120px;
-    transform: translateY(-50%);
-    display: flex;
+/* Focus Effects */
+.create-container input:focus,
+.create-container textarea:focus {
+    outline: none;
+    border-color: #4a90e2;
+    box-shadow: 0 0 8px rgba(74, 144, 226, 0.4);
+}
+
+/* Textarea Settings */
+.create-container textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* Submit Button */
+#createProfileBtn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #4a90e2, #357abd);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Hover Effect */
+#createProfileBtn:hover {
+    background: linear-gradient(135deg, #357abd, #2a6db0);
+    transform: scale(1.02);
+}
+
+/* Profile Card */
+.profile-card {
+    display: none; /* Hidden by default */
     flex-direction: column;
-    gap: 15px;
+    align-items: center;
+    text-align: center;
+    animation: fadeIn 1s ease-in-out;
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Profile Image */
+.profile-image {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    object-fit: cover;
+    animation: glow 3s infinite alternate ease-in-out;
+    transition: box-shadow 0.5s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.profile-image:hover {
+    transform: scale(1.05);
+}
+
+/* Glow Effect */
+@keyframes glow {
+    0% { box-shadow: 0 0 5px rgba(255, 0, 255, 0.5), 0 0 10px rgba(255, 0, 255, 0.5); }
+    100% { box-shadow: 0 0 15px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.5); }
+}
+
+/* Profile Name */
+.profile-name {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 10px;
 }
 
 /* Social Icons */
+.social-container {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 10px;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.social-icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
 .social-icons a {
     font-size: 24px;
-    color: rgba(255, 255, 255, 0.8);
+    color: gray;
     text-decoration: none;
-    transition: 0.3s ease-in-out;
+    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
 .social-icons a:hover {
     transform: translateY(-5px);
-    color: #ffcc00;
+    color: blue;
+}
+
+/* Share Button */
+.sharebtn {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 22px;
+    color: gray;
+    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.sharebtn:hover {
+    transform: scale(1.1);
+    color: gray;
+}
+
+/* Profile Bio */
+.profile-bio {
+    color: gray;
 }
 
 /* Spotify Container */
@@ -98,26 +208,11 @@ body {
     width: 300px;
     height: 80px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-    .profile-name {
-        font-size: 30px;
-    }
-
-    .social-container {
-        position: relative;
-        top: auto;
-        right: auto;
-        flex-direction: row;
-        justify-content: center;
-        margin-top: 20px;
-    }
-
-    #spotify-container iframe {
-        width: 260px;
-        height: 70px;
-    }
+/* Fade In Animation */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
