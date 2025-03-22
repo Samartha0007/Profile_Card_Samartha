@@ -1,7 +1,4 @@
-/* Import Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap');
-
-/* Reset & Universal Styles */
+/* Global Styling */
 * {
     margin: 0;
     padding: 0;
@@ -9,218 +6,81 @@
     font-family: 'Poppins', sans-serif;
 }
 
-/* Gradient Background with Animated Waves */
+/* Background with Gradient */
 body {
     background: linear-gradient(135deg, #1e3c72, #2a5298);
-    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
+    height: 100vh;
     text-align: center;
     flex-direction: column;
     padding: 20px;
-    overflow: hidden;
-    position: relative;
 }
 
-/* Adding Floating Animated Background */
-body::before {
-    content: '';
-    position: absolute;
-    width: 400px;
-    height: 400px;
-    background: rgba(255, 255, 255, 0.08);
-    filter: blur(80px);
-    border-radius: 50%;
-    top: 10%;
-    left: 10%;
-    animation: floatAnimation 6s infinite alternate ease-in-out;
-}
-
-@keyframes floatAnimation {
-    0% { transform: translateY(-20px); }
-    100% { transform: translateY(20px); }
-}
-
-/* Glassmorphism Full-Screen Container */
+/* Fullscreen Container */
 .fullscreen-container {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100vh;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(15px);
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-/* Profile Creation Box */
-.create-container {
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(20px);
-    border-radius: 15px;
-    padding: 35px;
-    width: 100%;
-    max-width: 420px;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-    animation: fadeIn 0.5s ease-in-out;
+/* Profile Section */
+.profile-container {
+    position: relative;
+    text-align: left;
     color: #fff;
-    transform: translateY(10px);
-    transition: 0.3s ease-in-out;
+    max-width: 600px;
 }
 
-/* Hover Effect */
-.create-container:hover {
-    transform: translateY(0);
-}
-
-/* Heading */
-.create-container h2 {
-    text-align: center;
-    margin-bottom: 25px;
-    font-size: 24px;
-    font-weight: 700;
-}
-
-/* Inputs & Textarea */
-.create-container input,
-.create-container textarea {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 15px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-radius: 8px;
-    font-size: 16px;
-    background: rgba(255, 255, 255, 0.15);
-    color: #fff;
-    transition: 0.3s ease-in-out;
-}
-
-/* Input Focus Effects */
-.create-container input:focus,
-.create-container textarea:focus {
-    outline: none;
-    border-color: #ffcc00;
-    box-shadow: 0 0 10px rgba(255, 204, 0, 0.6);
-}
-
-/* Textarea Settings */
-.create-container textarea {
-    resize: vertical;
-    min-height: 100px;
-}
-
-/* Submit Button */
-#createProfileBtn {
-    width: 100%;
-    padding: 14px;
-    background: linear-gradient(135deg, #ffcc00, #ff8800);
-    color: white;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 16px;
-    transition: 0.3s ease-in-out;
-    transform: scale(1);
-}
-
-#createProfileBtn:hover {
-    background: linear-gradient(135deg, #ff8800, #ff5500);
-    transform: scale(1.05);
-}
-
-/* Profile Card */
-.profile-card {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    animation: fadeIn 1s ease-in-out;
-    background: rgba(255, 255, 255, 0.25);
-    backdrop-filter: blur(15px);
-    padding: 25px;
-    border-radius: 20px;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
-}
-
-/* Profile Image */
-.profile-image {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 5px solid rgba(255, 255, 255, 0.4);
-    transition: 0.3s ease-in-out;
-}
-
-.profile-image:hover {
-    transform: scale(1.1);
-}
-
-/* Profile Name */
+/* Header Name Styling */
 .profile-name {
-    font-size: 24px;
+    font-size: 40px;
     font-weight: bold;
-    margin-top: 10px;
-    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    line-height: 1.2;
+}
+
+/* Underline Effect */
+.profile-name::after {
+    content: "";
+    display: block;
+    width: 80px;
+    height: 2px;
+    background: #fff;
+    margin-top: 5px;
+}
+
+/* Social Icons Container */
+.social-container {
+    position: absolute;
+    top: 50%;
+    right: -120px;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
 /* Social Icons */
-.social-container {
-    padding: 10px;
-    border-radius: 12px;
-    backdrop-filter: blur(10px);
-    margin-top: 12px;
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-}
-
-.social-icons {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-}
-
 .social-icons a {
-    font-size: 22px;
-    color: rgba(255, 255, 255, 0.85);
+    font-size: 24px;
+    color: rgba(255, 255, 255, 0.8);
     text-decoration: none;
     transition: 0.3s ease-in-out;
 }
 
 .social-icons a:hover {
-    transform: translateY(-5px) scale(1.1);
+    transform: translateY(-5px);
     color: #ffcc00;
-}
-
-/* Share Button */
-.sharebtn {
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 24px;
-    color: rgba(255, 255, 255, 0.7);
-    transition: 0.3s ease-in-out;
-}
-
-.sharebtn:hover {
-    transform: scale(1.15);
-    color: #ffcc00;
-}
-
-/* Profile Bio */
-.profile-bio {
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 16px;
-    margin-top: 8px;
 }
 
 /* Spotify Container */
@@ -231,35 +91,33 @@ body::before {
     position: fixed;
     bottom: 10px;
     left: 0;
-    padding: 12px;
+    padding: 10px;
 }
 
 #spotify-container iframe {
-    width: 320px;
-    height: 85px;
-    border-radius: 12px;
-    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.3);
-}
-
-/* Fade In Animation */
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    width: 300px;
+    height: 80px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 /* Responsive Adjustments */
-@media (max-width: 480px) {
-    .create-container {
-        max-width: 90%;
-        padding: 22px;
+@media (max-width: 768px) {
+    .profile-name {
+        font-size: 30px;
     }
-    
-    .profile-card {
-        padding: 18px;
+
+    .social-container {
+        position: relative;
+        top: auto;
+        right: auto;
+        flex-direction: row;
+        justify-content: center;
+        margin-top: 20px;
     }
-    
+
     #spotify-container iframe {
         width: 260px;
-        height: 75px;
+        height: 70px;
     }
 }
