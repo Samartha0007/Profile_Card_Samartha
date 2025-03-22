@@ -480,7 +480,7 @@ body::before {
 
 .profile-name {
     font-family: 'Black Ops One', cursive;
-    font-size: 3rem;
+    font-size: 5rem;
     font-weight: bold;
     color: #fff;
     text-align: center;
@@ -489,24 +489,4 @@ body::before {
     position: relative;
     display: inline-block;
     padding: 10px 20px;
-    background: black; /* Optional background */
-}
-
-.wipe {
-    width: 473px;
-    overflow: hidden;
-    margin: 0 auto;
-    display: inline-flex;
-    animation: wipe 1.5s forwards, open 1.5s 1.5s forwards;
-    animation-iteration-count: infinite;
-}
-
-@keyframes wipe {
-    0% { width: 473px; }
-    100% { width: 0; }
-}
-
-@keyframes open {
-    0% { width: 0; }
-    100% { width: 473px; }
-}
+    
