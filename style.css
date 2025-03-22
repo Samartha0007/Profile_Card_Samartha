@@ -292,70 +292,32 @@ body::before {
 }
 
 /* Profile Image */
-.profile-image {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  object-fit: cover;
-  object-position: center;
-  border: 4px solid transparent;
-  background: padding-box var(--dark), var(--gradient-1) border-box;
-  position: relative;
-  z-index: 2;
-}
+/* Profile Image */  
+.profile-image {  
+    width: 130px;  
+    height: 130px;  
+    border-radius: 50%;  
+    object-fit: cover;  
+    object-position: center;  
+    animation: glow 3s infinite alternate ease-in-out;  
+    transition: box-shadow 0.5s ease-in-out, transform 0.3s ease-in-out;  
+}  
 
-.profile-image::after {
-  content: '';
-  position: absolute;
-  top: -8px;
-  left: -8px;
-  right: -8px;
-  bottom: -8px;
-  background: var(--gradient-1);
-  border-radius: 50%;
-  z-index: -1;
-  opacity: 0;
-  transition: opacity 0.5s ease-in-out;
-}
+.profile-image:hover {  
+    transform: scale(1.05);  
+}  
 
-.profile-image:hover {
-  transform: scale(1.05);
-}
+@keyframes glow {  
+    0% { box-shadow: 0 0 5px rgba(255, 0, 255, 0.5), 0 0 10px rgba(255, 0, 255, 0.5); }  
+    100% { box-shadow: 0 0 15px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.5); }  
+}  
 
-.profile-image:hover::after {
-  opacity: 1;
-}
-
-/* Animated image glow */
-@keyframes pulseGlow {
-  0% { box-shadow: 0 0 10px rgba(3, 218, 198, 0.5), 0 0 20px rgba(3, 218, 198, 0.3); }
-  50% { box-shadow: 0 0 20px rgba(3, 218, 198, 0.8), 0 0 30px rgba(3, 218, 198, 0.5); }
-  100% { box-shadow: 0 0 10px rgba(3, 218, 198, 0.5), 0 0 20px rgba(3, 218, 198, 0.3); }
-}
-
-.profile-image {
-  animation: pulseGlow 3s infinite;
-}
-
-/* Profile Name */
-.profile-name {
-  font-size: 26px;
-  font-weight: 700;
-  margin-top: 20px;
-  background: var(--gradient-1);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  position: relative;
-}
-
-.profile-bio {
-  margin: 15px 0;
-  color: var(--text-secondary);
-  font-size: 15px;
-  line-height: 1.6;
-  max-width: 280px;
-}
+/* Profile Name */  
+.profile-name {  
+    font-size: 24px;  
+    font-weight: bold;  
+    margin-top: 10px;  
+}  
 
 /* Social Container with glass effect */
 .social-container {
