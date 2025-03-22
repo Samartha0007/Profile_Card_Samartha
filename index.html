@@ -135,42 +135,26 @@
 
 
 
-const profileName = document.getElementById("profile-name");
+function convertFirstLetter(text) {
+    const mapping = {
+        'A': 'ᗩ', 'B': 'ᗷ', 'C': 'ᑕ', 'D': 'ᗪ', 'E': 'ᗴ', 'F': 'ᖴ', 'G': 'Ꮐ', 'H': 'ᕼ',
+        'I': '丨', 'J': 'ᒍ', 'K': 'Ꮶ', 'L': 'ᒪ', 'M': 'ᗰ', 'N': 'ᑎ', 'O': '〇', 'P': 'ᑭ',
+        'Q': 'Ǫ', 'R': 'ᖇ', 'S': '丂', 'T': '丅', 'U': 'ᑌ', 'V': 'ᐯ', 'W': 'ᗯ', 'X': '乂',
+        'Y': 'ㄚ', 'Z': '乙'
+    };
 
-// Advanced fonts list
-const fonts = [
-    "Anton, sans-serif",
-    "Cinzel, serif",
-    "Pacifico, cursive",
-    "Press Start 2P, sans-serif",
-    "Raleway, sans-serif"
-];
+    if (text.length === 0) return text; // Return empty if no text
 
-// Advanced animations list
-const animations = ["rotate-flip", "fade-blur", "scale-pop", "slide-glow"];
+    let firstChar = text[0].toUpperCase(); // Get the first letter (convert to uppercase)
+    let stylizedFirstChar = mapping[firstChar] || firstChar; // Convert if in mapping
+    let restOfText = text.slice(1); // Get the rest of the text
 
-let index = 0;
-
-function changeEffect() {
-    // Remove previous animation
-    profileName.classList.remove(...animations);
-
-    // Apply a new font
-    profileName.style.fontFamily = fonts[index % fonts.length];
-
-    // Apply a new animation
-    const animation = animations[index % animations.length];
-    profileName.classList.add(animation);
-
-    // Increment index for next cycle
-    index = (index + 1) % Math.max(fonts.length, animations.length);
+    return stylizedFirstChar + restOfText; // Combine and return
 }
 
-// Run every 3 seconds
-setInterval(changeEffect, 3000);
-
-// Initial effect
-changeEffect();
+// Apply to profile name
+const profileName = document.getElementById("profile-name");
+profileName.innerText = convertFirstLetter(profileName.innerText);
     </script>
 
 </body>  
