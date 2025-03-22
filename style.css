@@ -1,3 +1,7 @@
+
+
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Cinzel:wght@700&family=Pacifico&family=Press+Start+2P&family=Raleway:wght@300;900&display=swap');
+
 /* Reset and Base Styles */
 * {
   margin: 0;
@@ -451,9 +455,7 @@ body::before {
     height: 120px;
   }
   
-  .profile-name {
-    font-size: 52px;
-  }
+  
   
   .social-icons a {
     width: 40px;
@@ -471,3 +473,54 @@ body::before {
 .floating-particle particle-2 {}
 .floating-particle particle-3 {}
 .floating-particle particle-4 {}
+
+
+
+.profile-name {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #fff;
+    text-align: center;
+    text-transform: uppercase;
+    transition: all 0.8s ease-in-out;
+    position: relative;
+    display: inline-block;
+    padding: 10px 20px;
+}
+
+/* Advanced Animations */
+.rotate-flip {
+    animation: rotateFlip 1.2s ease-in-out;
+}
+@keyframes rotateFlip {
+    0% { transform: rotateY(0deg) scale(1); opacity: 0; }
+    50% { transform: rotateY(180deg) scale(1.2); opacity: 1; }
+    100% { transform: rotateY(360deg) scale(1); }
+}
+
+.fade-blur {
+    animation: fadeBlur 1.5s ease-in-out;
+}
+@keyframes fadeBlur {
+    0% { filter: blur(10px); opacity: 0; transform: translateY(20px); }
+    50% { filter: blur(3px); opacity: 0.5; }
+    100% { filter: blur(0px); opacity: 1; transform: translateY(0); }
+}
+
+.scale-pop {
+    animation: scalePop 1s ease-in-out;
+}
+@keyframes scalePop {
+    0% { transform: scale(0.5); opacity: 0; }
+    50% { transform: scale(1.4); opacity: 1; }
+    100% { transform: scale(1); }
+}
+
+.slide-glow {
+    animation: slideGlow 1.5s ease-in-out;
+}
+@keyframes slideGlow {
+    0% { transform: translateX(-50px); opacity: 0; text-shadow: 0px 0px 0px rgba(255, 255, 255, 0); }
+    50% { transform: translateX(0px); opacity: 1; text-shadow: 4px 4px 20px rgba(255, 255, 255, 0.8); }
+    100% { text-shadow: 2px 2px 10px rgba(255, 255, 255, 0.5); }
+}
