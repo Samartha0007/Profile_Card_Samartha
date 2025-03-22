@@ -489,3 +489,22 @@ body::before {
     display: inline-block;
     padding: 10px 20px;
 }
+
+.wipe {
+    width: 473px;
+    overflow: hidden;
+    margin: 0 auto;
+    display: inline-flex;
+    animation: wipe 1.5s forwards, open 1.5s 1.5s forwards;
+    animation-iteration-count: infinite;
+}
+
+@keyframes wipe {
+    0% { width: 473px; }
+    100% { width: 0; }
+}
+
+@keyframes open {
+    0% { width: 0; }
+    100% { width: 473px; }
+}
