@@ -132,29 +132,6 @@
             document.querySelector('meta[property="og:url"]').setAttribute("content", currentUrl);
         }
 
-
-
-
-function convertFirstLetter(text) {
-    const mapping = {
-        'A': 'ᗩ', 'B': 'ᗷ', 'C': 'ᑕ', 'D': 'ᗪ', 'E': 'ᗴ', 'F': 'ᖴ', 'G': 'Ꮐ', 'H': 'ᕼ',
-        'I': '丨', 'J': 'ᒍ', 'K': 'Ꮶ', 'L': 'ᒪ', 'M': 'ᗰ', 'N': 'ᑎ', 'O': '〇', 'P': 'ᑭ',
-        'Q': 'Ǫ', 'R': 'ᖇ', 'S': '丂', 'T': '丅', 'U': 'ᑌ', 'V': 'ᐯ', 'W': 'ᗯ', 'X': '乂',
-        'Y': 'ㄚ', 'Z': '乙'
-    };
-
-    if (text.length === 0) return text; // Return empty if no text
-
-    let firstChar = text[0].toUpperCase(); // Get the first letter (convert to uppercase)
-    let stylizedFirstChar = mapping[firstChar] || firstChar; // Convert if in mapping
-    let restOfText = text.slice(1); // Get the rest of the text
-
-    return stylizedFirstChar + restOfText; // Combine and return
-}
-
-// Apply to profile name
-const profileName = document.getElementById("profile-name");
-profileName.innerText = convertFirstLetter(profileName.innerText);
     </script>
 
 </body>  
