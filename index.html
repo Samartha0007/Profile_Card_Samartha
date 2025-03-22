@@ -87,14 +87,17 @@
 
                     document.getElementById("social-icons").innerHTML = socialHTML;  
 
-                    // ✅ Restore Spotify Embed Functionality
+                    // ✅ Fixed Spotify Embed Functionality
                     if (profile.spotify) {  
-                        document.getElementById("spotify-container").innerHTML =  
-                            `<iframe style="border-radius:12px"  
-                            src="https://open.spotify.com/embed/track/${profile.spotify}?utm_source=generator"  
-                            width="100%" height="152" frameBorder="0"  
-                            allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"  
-                            loading="lazy"></iframe>`;  
+                        let trackID = profile.spotify.split("/track/")[1]?.split("?")[0];  
+                        if (trackID) {
+                            document.getElementById("spotify-container").innerHTML =  
+                                `<iframe style="border-radius:12px"  
+                                src="https://open.spotify.com/embed/track/${trackID}?utm_source=generator"  
+                                width="100%" height="152" frameBorder="0"  
+                                allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"  
+                                loading="lazy"></iframe>`;  
+                        }
                     }
 
                     updateProfileMetadata(profile.name);
