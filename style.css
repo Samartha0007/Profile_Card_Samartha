@@ -476,10 +476,11 @@ body::before {
 
 
 
+
+
 .profile-name {
     font-family: 'Black Ops One', cursive;
-}
-    font-size: 5rem;
+    font-size: 3rem;
     font-weight: bold;
     color: #fff;
     text-align: center;
@@ -488,6 +489,7 @@ body::before {
     position: relative;
     display: inline-block;
     padding: 10px 20px;
+    background: black; /* Optional background */
 }
 
 .wipe {
