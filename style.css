@@ -1,0 +1,324 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #4a90e2;
+    --secondary-color: #357abd;
+    --background-light: #f5f5f5;
+    --background-dark: #1e1e1e;
+    --text-light: #222;
+    --text-dark: #f5f5f5;
+    --card-background-light: #ffffff;
+    --card-background-dark: #2a2a2a;
+    --border-light: #ddd;
+    --border-dark: #444;
+    --shadow-light: rgba(0, 0, 0, 0.2);
+    --shadow-dark: rgba(255, 255, 255, 0.1);
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(120deg, var(--background-light), var(--background-dark));
+    color: var(--text-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    text-align: center;
+    flex-direction: column;
+    padding: 20px;
+    transition: background 0.5s ease, color 0.5s ease;
+}
+
+body.dark-theme {
+    --background-light: var(--background-dark);
+    --text-light: var(--text-dark);
+    --card-background-light: var(--card-background-dark);
+    --border-light: var(--border-dark);
+    --shadow-light: var(--shadow-dark);
+}
+
+/* Full-Screen Container */
+.fullscreen-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: var(--background-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* Profile Creation Container */
+.create-container {
+    background: var(--card-background-light);
+    border-radius: 15px;
+    padding: 30px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 10px 30px var(--shadow-light);
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Heading */
+.create-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--text-light);
+    font-size: 22px;
+    font-weight: 700;
+}
+
+/* Input and Textarea Styling */
+.create-container input,
+.create-container textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 2px solid var(--border-light);
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    background: var(--background-light);
+    color: var(--text-light);
+    transition: all 0.3s ease-in-out;
+}
+
+/* Focus Effects */
+.create-container input:focus,
+.create-container textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 8px rgba(74, 144, 226, 0.4);
+}
+
+/* Textarea Settings */
+.create-container textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* Submit Button */
+#createProfileBtn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Hover Effect */
+#createProfileBtn:hover {
+    background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+    transform: scale(1.02);
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.profile-card {
+    display: none; /* Hidden by default */
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    animation: fadeIn 1s ease-in-out;
+    background: var(--card-background-light);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px var(--shadow-light);
+}
+
+/* Profile Image */
+.profile-image {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+    animation: glow 3s infinite alternate ease-in-out;
+    transition: box-shadow 0.5s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.profile-image:hover {
+    transform: scale(1.05);
+}
+
+@keyframes glow {
+    0% { box-shadow: 0 0 5px rgba(255, 0, 255, 0.5), 0 0 10px rgba(255, 0, 255, 0.5); }
+    100% { box-shadow: 0 0 15px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.5); }
+}
+
+/* Profile Name */
+.profile-name {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 10px;
+    color: var(--text-light);
+}
+
+/* Social Icons */
+.social-container {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 10px;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.social-icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+.social-icons a {
+    font-size: 24px;
+    color: gray;
+    text-decoration: none;
+    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.social-icons a:hover {
+    transform: translateY(-5px);
+    color: var(--primary-color);
+}
+
+/* Share Button */
+.sharebtn {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 22px;
+    color: gray;
+    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.sharebtn:hover {
+    transform: scale(1.1);
+    color: var(--primary-color);
+}
+
+.profile-bio {
+    color: gray;
+}
+
+/* Spotify Container */
+#spotify-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    bottom: 10px;
+    left: 0;
+    padding: 10px;
+}
+
+#spotify-container iframe {
+    width: 300px;
+    height: 80px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px var(--shadow-light);
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 22px;
+    color: gray;
+    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1);
+    color: var(--primary-color);
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 768px) {
+    .create-container {
+        padding: 20px;
+        max-width: 90%;
+    }
+
+    .profile-card {
+        padding: 15px;
+    }
+
+    .profile-image {
+        width: 100px;
+        height: 100px;
+    }
+
+    .profile-name {
+        font-size: 20px;
+    }
+
+    .social-icons a {
+        font-size: 20px;
+    }
+
+    #spotify-container iframe {
+        width: 250px;
+        height: 70px;
+    }
+}
+
+@media (max-width: 480px) {
+    .create-container {
+        padding: 15px;
+        max-width: 100%;
+    }
+
+    .profile-card {
+        padding: 10px;
+    }
+
+    .profile-image {
+        width: 80px;
+        height: 80px;
+    }
+
+    .profile-name {
+        font-size: 18px;
+    }
+
+    .social-icons a {
+        font-size: 18px;
+    }
+
+    #spotify-container iframe {
+        width: 200px;
+        height: 60px;
+    }
+}
