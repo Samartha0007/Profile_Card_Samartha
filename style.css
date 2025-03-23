@@ -299,47 +299,7 @@ body::before {
 
 
 /* Social Container with glass effect */
-.social-container {
-  background: rgba(255, 255, 255, 0.05);
-  padding: 12px;
-  border-radius: 15px;
-  backdrop-filter: blur(10px);
-  margin-top: 15px;
-  display: flex;
-  justify-content: center;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  width: 100%;
-}
 
-.social-icons {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-}
-
-/* Social Icons with neon effects */
-.social-icons a {
-  font-size: 22px;
-  color: var(--text-secondary);
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  transition: all 0.3s ease;
-}
-
-.social-icons a:hover {
-  transform: translateY(-5px);
-  color: var(--secondary);
-  box-shadow: 0 0 15px rgba(3, 218, 198, 0.7);
-  border-color: var(--secondary);
-}
 
 /* Share Button */
 .sharebtn {
@@ -453,31 +413,36 @@ body::before {
 
 
 .profile-container {
-    text-align: center; /* Center everything */
     display: flex;
-    flex-direction: column;
     align-items: center;
-    margin-top: 20px; /* Adjust spacing */
+    justify-content: space-between; /* Align image and social icons opposite */
+    width: 100%;
+    max-width: 500px; /* Adjust based on design */
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
 }
 
-.profile-image {  
-    width: 140px;  
-    height: 140px;  
-    border-radius: 20px;  /* Rounded square shape */
-    object-fit: cover;  
-    object-position: center;  
-    animation: glow 3s infinite alternate ease-in-out;  
-    transition: box-shadow 0.5s ease-in-out, transform 0.3s ease-in-out;  
+.profile-image {
+    width: 140px;
+    height: 140px;
+    border-radius: 20px; /* Rounded square */
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.3s ease-in-out;
+    position: absolute;
+    right: 5px; /* Push slightly to the right */
+    top: -20px; /* Moves slightly above */
 }
 
-.profile-image:hover {  
-    transform: scale(1.05);  
+.profile-image:hover {
+    transform: scale(1.05);
 }
 
-@keyframes glow {  
-    0% { box-shadow: 0 0 5px rgba(255, 0, 255, 0.5), 0 0 10px rgba(255, 0, 255, 0.5); }  
-    100% { box-shadow: 0 0 15px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.5); }  
-}  
+.profile-details {
+    flex-grow: 1; /* Ensures text stays centered */
+    text-align: center;
+}
 
 .profile-name {
     font-family: 'Black Ops One', cursive;
@@ -488,7 +453,6 @@ body::before {
     display: inline-block;
     padding: 5px 15px;
     position: relative;
-    margin-top: 10px; /* Space below image */
 }
 
 .profile-bio {
@@ -497,8 +461,52 @@ body::before {
     font-weight: 500;
     color: #aaa;
     text-align: center;
-    margin-top: -2px; /* Closer to name */
     opacity: 0.85;
     letter-spacing: 0.4px;
-    max-width: 300px; /* Prevents long bios from stretching */
+    max-width: 300px;
+    margin-top: -5px; /* Adjusts position */
+}
+
+/* Social Container (Now positioned to the left) */
+.social-container {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 12px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    width: fit-content;
+    position: absolute;
+    left: 5px; /* Push slightly to the left */
+    top: -10px; /* Align near the image */
+}
+
+/* Social Icons */
+.social-icons {
+    display: flex;
+    gap: 15px;
+}
+
+.social-icons a {
+    font-size: 22px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+}
+
+.social-icons a:hover {
+    transform: translateY(-5px);
+    color: var(--secondary);
+    box-shadow: 0 0 15px rgba(3, 218, 198, 0.7);
+    border-color: var(--secondary);
 }
