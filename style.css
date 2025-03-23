@@ -478,26 +478,29 @@ body::before {
 
 
 
+.profile-container {
+    text-align: center; /* Center everything */
+}
+
 .profile-name {
     font-family: 'Black Ops One', cursive;
     font-size: 3rem;
-    
     color: white;
-    text-align: center;
     text-transform: uppercase;
     transition: all 0.8s ease-in-out;
-    position: relative;
     display: inline-block;
     padding: 10px 20px;
-
+    position: relative;
+}
 
 .profile-bio {
+    font-family: 'Fira Code', monospace;
     font-size: 14px;
     font-weight: 500;
+    color: #bbb; /* Softer gray for better readability */
     text-align: center;
-    font-family: 'Fira Code', monospace;
-    color: #666; /* Subtle gray color */
     margin-top: 4px;
-    opacity: 0.8; /* Slight transparency for a soft look */
+    opacity: 0.8; /* Slight transparency */
     letter-spacing: 0.5px;
+    display: block; /* Ensures it appears below the name */
 }
