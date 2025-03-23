@@ -212,13 +212,23 @@ body::before {
     border-radius: 45px; /* Smooth rounded corners */
     object-fit: cover;
     transition: transform 0.3s ease-in-out;
-    box-shadow: 0 0 30px rgba(128, 0, 128, 0.7); /* Initial Purple Glow */
-    animation: neonGlow 3s infinite alternate ease-in-out; /* Smooth Color Change */
+    animation: dualNeonGlow 3s infinite alternate ease-in-out;
 }
 
-/* Always Glowing Effect */
-@keyframes neonGlow {
-    0% { box-shadow: 0 0 30px rgba(128, 0, 128, 0.7); } /* Purple */
-    50% { box-shadow: 0 0 40px rgba(75, 0, 130, 0.8); } /* Indigo */
-    100% { box-shadow: 0 0 30px rgba(0, 0, 255, 0.7); } /* Blue */
+/* Dual Neon Glow Effect */
+@keyframes dualNeonGlow {
+    0% { 
+        box-shadow: -20px -20px 40px rgba(128, 0, 128, 0.8),  
+                    20px 20px 40px rgba(0, 255, 0, 0.8);  
+    } /* Purple Top-Left, Green Bottom-Right */
+    
+    50% { 
+        box-shadow: -25px -25px 45px rgba(139, 0, 139, 0.9),  
+                    25px 25px 45px rgba(0, 205, 0, 0.9);  
+    } /* More Intense Glow */
+    
+    100% { 
+        box-shadow: -20px -20px 40px rgba(128, 0, 128, 0.8),  
+                    20px 20px 40px rgba(0, 255, 0, 0.8);  
+    } /* Back to Original Glow */
 }
