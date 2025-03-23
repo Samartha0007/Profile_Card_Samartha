@@ -196,7 +196,7 @@ body::before {
 /* Profile Image Container (Centered at the Top) */
 .profile-image-container {
     position: absolute;
-    top: 20px;
+    top: 50px;
     left: 50%;
     transform: translateX(-50%);
     width: 150px;
