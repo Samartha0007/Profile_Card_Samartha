@@ -400,52 +400,58 @@ body::before {
 
 
 /* Profile Container */
+/* Profile Container */
 .profile-container {
+    position: relative;
+    text-align: center;
     width: 100%;
-    max-width: 400px;
+    max-width: 500px;
     margin: 50px auto;
     padding: 20px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 15px;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    position: relative;
-}
-
-/* Top Section (Image & Social Icons) */
-.top-section {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 }
 
 /* Profile Image (Top Right) */
 .profile-image {
-    width: 130px;
-    height: 130px;
+    width: 140px;
+    height: 140px;
     border-radius: 20px; /* Rounded square */
     object-fit: cover;
     object-position: center;
-    border: 3px solid rgba(255, 255, 255, 0.1);
-    order: 2; /* Push image to the right */
+    transition: transform 0.3s ease-in-out;
+    position: absolute;
+    right: 0; /* Moves image to the right */
+    top: 0; /* Aligns it to the top */
 }
 
-/* Social Icons (Top Left, in Horizontal Row) */
+.profile-image:hover {
+    transform: scale(1.05);
+}
+
+/* Social Container (Top Left) */
 .social-container {
+    position: absolute;
+    left: 0; /* Moves to the left */
+    top: 0; /* Aligns to the top */
+    background: rgba(255, 255, 255, 0.05);
+    padding: 10px 15px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
     display: flex;
-    gap: 10px; /* Space between icons */
-    order: 1; /* Push social icons to the left */
+    gap: 15px; /* Spaces the icons horizontally */
+    align-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Social Icons */
+.social-icons {
+    display: flex;
+    gap: 10px; /* Spaces icons horizontally */
 }
 
 /* Social Icons Style */
-.social-icons {
-    display: flex;
-    gap: 10px; /* Icons in horizontal row */
-}
-
 .social-icons a {
     font-size: 22px;
-    color: var(--text-secondary, white);
+    color: var(--text-secondary);
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -459,31 +465,46 @@ body::before {
 }
 
 .social-icons a:hover {
-    transform: translateY(-5px);
-    color: var(--secondary, cyan);
-    box-shadow: 0 0 15px rgba(3, 218, 198, 0.7);
-    border-color: var(--secondary, cyan);
+    transform: translateY(-3px);
+    background: var(--secondary);
+    color: white;
+    box-shadow: 0 0 10px var(--secondary);
+}
+
+/* Profile Header (Wraps Name & Bio) */
+.profile-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 100px; /* Push down to avoid overlapping */
 }
 
 /* Profile Name */
 .profile-name {
     font-family: 'Black Ops One', cursive;
-    font-size: 2.5rem;
+    font-size: 3rem;
     color: white;
     text-transform: uppercase;
-    text-align: center;
-    margin-top: 15px;
+    transition: all 0.8s ease-in-out;
+    padding: 10px 20px;
+    position: relative;
+}
+
+.profile-name:hover {
+    letter-spacing: 2px;
+    color: var(--secondary);
+    transform: scale(1.1);
 }
 
 /* Profile Bio */
 .profile-bio {
     font-family: 'Fira Code', monospace;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 500;
-    color: #aaa;
+    color: #ddd;
     text-align: center;
+    margin-top: -5px;
     opacity: 0.85;
     letter-spacing: 0.4px;
-    max-width: 300px;
-    margin: 5px auto;
 }
