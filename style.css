@@ -436,70 +436,19 @@ body::before {
     margin-top: 120px; /* Adjusted to avoid overlap with image */  
 }  
 
-/* Profile Name */  
-.profile-name {  
-    font-family: 'Black Ops One', cursive;  
-    font-size: 3rem;  
-    color: white;  
-    text-transform: uppercase;  
-    transition: all 0.8s ease-in-out;  
-    padding: 10px 20px;  
-    position: relative;  
-}  
-
-/* Profile Bio */  
-.profile-bio {  
-    font-family: 'Fira Code', monospace;  
-    font-size: 13px;  
-    font-weight: 500;  
-    color: #aaa;  
-    text-align: center;  
-    margin-top: -5px;  
-    opacity: 0.85;  
-    letter-spacing: 0.4px;  
-}  
-
 /* Social Container (Bottom Center) */  
 .social-container {  
     position: absolute;  
-    bottom: -40px; /* Adjusts positioning below the profile */  
+    bottom: -40px; /* Adjust positioning below the profile */  
     left: 50%;  
     transform: translateX(-50%); /* Centers it horizontally */  
-    background: rgba(255, 255, 255, 0.05);  
-    padding: 12px;  
-    border-radius: 15px;  
-    backdrop-filter: blur(10px);  
     display: flex;  
     justify-content: center;  
     align-items: center;  
-    border: 1px solid rgba(255, 255, 255, 0.05);  
 }  
 
 /* Social Icons (Horizontal Layout) */  
 .social-icons {  
     display: flex;  
     gap: 10px;  
-}  
-
-/* Social Icons Style */  
-.social-icons a {  
-    font-size: 22px;  
-    color: var(--text-secondary);  
-    text-decoration: none;  
-    display: flex;  
-    align-items: center;  
-    justify-content: center;  
-    width: 45px;  
-    height: 45px;  
-    border-radius: 50%;  
-    background: rgba(0, 0, 0, 0.2);  
-    border: 1px solid rgba(255, 255, 255, 0.05);  
-    transition: all 0.3s ease;  
-}  
-
-.social-icons a:hover {  
-    transform: translateY(-5px);  
-    color: var(--secondary);  
-    box-shadow: 0 0 15px rgba(3, 218, 198, 0.7);  
-    border-color: var(--secondary);  
 }
