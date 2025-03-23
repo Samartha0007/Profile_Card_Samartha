@@ -295,33 +295,8 @@ body::before {
   z-index: -1;
 }
 
-/* Profile Image */
-/* Profile Image */  
-.profile-image {  
-    width: 130px;  
-    height: 130px;  
-    border-radius: 50%;  
-    object-fit: cover;  
-    object-position: center;  
-    animation: glow 3s infinite alternate ease-in-out;  
-    transition: box-shadow 0.5s ease-in-out, transform 0.3s ease-in-out;  
-}  
 
-.profile-image:hover {  
-    transform: scale(1.05);  
-}  
 
-@keyframes glow {  
-    0% { box-shadow: 0 0 5px rgba(255, 0, 255, 0.5), 0 0 10px rgba(255, 0, 255, 0.5); }  
-    100% { box-shadow: 0 0 15px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.5); }  
-}  
-
-/* Profile Name */  
-.profile-name {  
-    font-size: 24px;  
-    font-weight: bold;  
-    margin-top: 10px;  
-}  
 
 /* Social Container with glass effect */
 .social-container {
@@ -477,32 +452,53 @@ body::before {
 
 
 
-
 .profile-container {
     text-align: center; /* Center everything */
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 20px; /* Adjust spacing */
 }
+
+.profile-image {  
+    width: 140px;  
+    height: 140px;  
+    border-radius: 20px;  /* Rounded square shape */
+    object-fit: cover;  
+    object-position: center;  
+    animation: glow 3s infinite alternate ease-in-out;  
+    transition: box-shadow 0.5s ease-in-out, transform 0.3s ease-in-out;  
+}
+
+.profile-image:hover {  
+    transform: scale(1.05);  
+}
+
+@keyframes glow {  
+    0% { box-shadow: 0 0 5px rgba(255, 0, 255, 0.5), 0 0 10px rgba(255, 0, 255, 0.5); }  
+    100% { box-shadow: 0 0 15px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.5); }  
+}  
 
 .profile-name {
     font-family: 'Black Ops One', cursive;
-    font-size: 3rem;
+    font-size: 2.8rem;
     color: white;
     text-transform: uppercase;
     transition: all 0.8s ease-in-out;
     display: inline-block;
-    padding: 10px 20px;
+    padding: 5px 15px;
     position: relative;
+    margin-top: 10px; /* Space below image */
 }
 
 .profile-bio {
     font-family: 'Fira Code', monospace;
-    font-size: 13px; /* Slightly smaller for a cleaner look */
+    font-size: 13px;
     font-weight: 500;
-    color: #aaa; /* Softer gray for better readability */
+    color: #aaa;
     text-align: center;
-    margin-top: -5px; /* Moves the bio slightly up */
-    opacity: 0.85; /* Balanced transparency */
+    margin-top: -2px; /* Closer to name */
+    opacity: 0.85;
     letter-spacing: 0.4px;
+    max-width: 300px; /* Prevents long bios from stretching */
 }
