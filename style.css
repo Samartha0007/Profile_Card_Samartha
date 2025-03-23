@@ -480,6 +480,9 @@ body::before {
 
 .profile-container {
     text-align: center; /* Center everything */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .profile-name {
@@ -495,12 +498,11 @@ body::before {
 
 .profile-bio {
     font-family: 'Fira Code', monospace;
-    font-size: 14px;
+    font-size: 13px; /* Slightly smaller for a cleaner look */
     font-weight: 500;
-    color: #bbb; /* Softer gray for better readability */
+    color: #aaa; /* Softer gray for better readability */
     text-align: center;
-    margin-top: 4px;
-    opacity: 0.8; /* Slight transparency */
-    letter-spacing: 0.5px;
-    display: block; /* Ensures it appears below the name */
+    margin-top: -5px; /* Moves the bio slightly up */
+    opacity: 0.85; /* Balanced transparency */
+    letter-spacing: 0.4px;
 }
