@@ -409,30 +409,31 @@ body::before {
     padding: 20px;  
 }  
 
-/* Profile Image (Top Right) */  
+/* Profile Image (Top Center, Bigger) */  
 .profile-image {  
-    width: 140px;  
-    height: 140px;  
+    width: 160px; /* Bigger size */  
+    height: 160px;  
     border-radius: 20px; /* Rounded square */  
     object-fit: cover;  
     object-position: center;  
     transition: transform 0.3s ease-in-out;  
     position: absolute;  
-    right: 0; /* Moves image to the right */  
+    left: 50%;  
+    transform: translateX(-50%); /* Centers the image horizontally */  
     top: 0; /* Moves image slightly up */  
 }  
 
 .profile-image:hover {  
-    transform: scale(1.05);  
+    transform: translateX(-50%) scale(1.05);  
 }  
 
-/* Profile Header (Wraps Name & Bio) */  
+/* Profile Header (Push Down Below Image) */  
 .profile-header {  
     display: flex;  
     flex-direction: column;  
     align-items: center;  
     justify-content: center;  
-    margin-top: 80px; /* Push down to avoid image overlap */  
+    margin-top: 120px; /* Adjusted to avoid overlap with image */  
 }  
 
 /* Profile Name */  
@@ -458,16 +459,18 @@ body::before {
     letter-spacing: 0.4px;  
 }  
 
-/* Social Container (Top Left) */  
+/* Social Container (Bottom Center) */  
 .social-container {  
     position: absolute;  
-    left: 0; /* Push to the left */  
-    top: 0; /* Align near the image */  
+    bottom: -40px; /* Adjusts positioning below the profile */  
+    left: 50%;  
+    transform: translateX(-50%); /* Centers it horizontally */  
     background: rgba(255, 255, 255, 0.05);  
     padding: 12px;  
     border-radius: 15px;  
     backdrop-filter: blur(10px);  
     display: flex;  
+    justify-content: center;  
     align-items: center;  
     border: 1px solid rgba(255, 255, 255, 0.05);  
 }  
