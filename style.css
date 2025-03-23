@@ -480,9 +480,9 @@ body::before {
 
 .profile-name {
     font-family: 'Black Ops One', cursive;
-    font-size: 3.0rem;
+    font-size: 3rem;
     
-    color: black;
+    color: white;
     text-align: center;
     text-transform: uppercase;
     transition: all 0.8s ease-in-out;
