@@ -411,13 +411,37 @@ body::before {
 
 
 
+/* Profile Container */
 .profile-container {
-    text-align: center; /* Center everything */
+    text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 20px;
 }
 
+/* Profile Image (Top Left) */
+.profile-image {
+    width: 140px;
+    height: 140px;
+    border-radius: 20px; /* Rounded square */
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.3s ease-in-out;
+    position: absolute;
+    left: 10px; /* Push to the left */
+    top: -20px; /* Move slightly above */
+}
+
+.profile-image:hover {
+    transform: scale(1.05);
+}
+
+/* Profile Name */
 .profile-name {
     font-family: 'Black Ops One', cursive;
     font-size: 3rem;
@@ -427,15 +451,61 @@ body::before {
     display: inline-block;
     padding: 10px 20px;
     position: relative;
+    margin-top: 60px; /* Adjust to make space for image */
 }
 
+/* Profile Bio */
 .profile-bio {
     font-family: 'Fira Code', monospace;
-    font-size: 13px; /* Slightly smaller for a cleaner look */
+    font-size: 13px;
     font-weight: 500;
-    color: #aaa; /* Softer gray for better readability */
+    color: #aaa;
     text-align: center;
-    margin-top: -5px; /* Moves the bio slightly up */
-    opacity: 0.85; /* Balanced transparency */
+    margin-top: -5px;
+    opacity: 0.85;
     letter-spacing: 0.4px;
+}
+
+/* Social Container (Top Right) */
+.social-container {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 12px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    width: fit-content;
+    position: absolute;
+    right: 10px; /* Push to the right */
+    top: -10px; /* Align near the image */
+}
+
+/* Social Icons */
+.social-icons {
+    display: flex;
+    gap: 15px;
+}
+
+.social-icons a {
+    font-size: 22px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+}
+
+.social-icons a:hover {
+    transform: translateY(-5px);
+    color: var(--secondary);
+    box-shadow: 0 0 15px rgba(3, 218, 198, 0.7);
+    border-color: var(--secondary);
 }
