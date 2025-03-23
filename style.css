@@ -212,23 +212,23 @@ body::before {
     border-radius: 45px; /* Smooth rounded corners */
     object-fit: cover;
     transition: transform 0.3s ease-in-out;
-    animation: dualNeonGlow 3s infinite alternate ease-in-out;
+    animation: softNeonGlow 4s infinite alternate ease-in-out;
 }
 
-/* Dual Neon Glow Effect */
-@keyframes dualNeonGlow {
+/* Subtle Dual Neon Glow Effect */
+@keyframes softNeonGlow {
     0% { 
-        box-shadow: -20px -20px 40px rgba(128, 0, 128, 0.8),  
-                    20px 20px 40px rgba(0, 255, 0, 0.8);  
-    } /* Purple Top-Left, Green Bottom-Right */
+        box-shadow: -10px -10px 20px rgba(128, 0, 128, 0.5),  
+                    10px 10px 20px rgba(0, 255, 0, 0.5);  
+    } /* Soft Purple & Green */
     
     50% { 
-        box-shadow: -25px -25px 45px rgba(139, 0, 139, 0.9),  
-                    25px 25px 45px rgba(0, 205, 0, 0.9);  
-    } /* More Intense Glow */
+        box-shadow: -12px -12px 25px rgba(139, 0, 139, 0.6),  
+                    12px 12px 25px rgba(0, 205, 0, 0.6);  
+    } /* Slightly Brighter */
     
     100% { 
-        box-shadow: -20px -20px 40px rgba(128, 0, 128, 0.8),  
-                    20px 20px 40px rgba(0, 255, 0, 0.8);  
-    } /* Back to Original Glow */
+        box-shadow: -10px -10px 20px rgba(128, 0, 128, 0.5),  
+                    10px 10px 20px rgba(0, 255, 0, 0.5);  
+    } /* Back to Soft Glow */
 }
