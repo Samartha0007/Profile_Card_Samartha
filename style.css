@@ -193,14 +193,14 @@ body::before {
 }
 
 
-/* Profile Image Container (Positioned Slightly to the Right) */
+/* Profile Image Container (Centered & Slightly Higher) */
 .profile-image-container {
     position: absolute;
-    top: 30px; /* Adjust this value to move it lower or higher */
-    left: 60%; /* Move image slightly to the right */
+    top: 20px; /* Adjust this value to move it up/down */
+    left: 50%;
     transform: translateX(-50%);
-    width: 180px; /* Increased size */
-    height: 180px; /* Increased size */
+    width: 200px; /* Increased size */
+    height: 200px; /* Increased size */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -210,7 +210,7 @@ body::before {
 .profile-image {
     width: 100%;
     height: 100%;
-    border-radius: 25px; /* Slightly rounded */
+    border-radius: 30px; /* Slightly rounded */
     object-fit: cover;
     transition: transform 0.3s ease-in-out;
 }
