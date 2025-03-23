@@ -192,18 +192,17 @@ body::before {
     border-color: var(--secondary);
 }
 
-/* /* Profile Image Container (Centered & Slightly Lower) */
+/* Profile Image Container (Centered & Slightly Lower) */
 .profile-image-container {
     position: absolute;
-    top: 70px; /* Adjust as needed */
+    top: 90px; /* Adjust as needed */
     left: 50%;
     transform: translateX(-50%);
-    width: 260px; /* Bigger */
-    height: 260px; /* Bigger */
+    width: 270px; /* Bigger */
+    height: 270px; /* Bigger */
     display: flex;
     justify-content: center;
     align-items: center;
-    animation: floatImage 4s infinite ease-in-out; /* Floating Animation */
 }
 
 /* Profile Image Styling */
@@ -212,18 +211,14 @@ body::before {
     height: 100%;
     border-radius: 45px; /* Smooth rounded corners */
     object-fit: cover;
-    transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+    transition: transform 0.3s ease-in-out;
+    box-shadow: 0 0 30px rgba(128, 0, 128, 0.7); /* Initial Purple Glow */
+    animation: neonGlow 3s infinite alternate ease-in-out; /* Smooth Color Change */
 }
 
-/* Hover Effect */
-.profile-image:hover {
-    transform: scale(1.12) rotate(2deg); /* Slight rotation effect */
-    box-shadow: 0 0 25px rgba(3, 218, 198, 0.8); /* Neon Glow */
-}
-
-/* Floating Animation */
-@keyframes floatImage {
-    0% { transform: translateX(-50%) translateY(0px); }
-    50% { transform: translateX(-50%) translateY(10px); } /* Moves slightly up */
-    100% { transform: translateX(-50%) translateY(0px); }
+/* Always Glowing Effect */
+@keyframes neonGlow {
+    0% { box-shadow: 0 0 30px rgba(128, 0, 128, 0.7); } /* Purple */
+    50% { box-shadow: 0 0 40px rgba(75, 0, 130, 0.8); } /* Indigo */
+    100% { box-shadow: 0 0 30px rgba(0, 0, 255, 0.7); } /* Blue */
 }
