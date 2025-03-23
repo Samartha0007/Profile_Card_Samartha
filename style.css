@@ -122,30 +122,6 @@ body::before {
 }
 
 /* Profile Image (Centered at Top) */
-/* Profile Image */  
-.profile-image {  
-    width: 130px;  
-    height: 130px;  
-    border-radius: 50%;  
-    object-fit: cover;  
-    object-position: center;  
-    animation: glow 3s infinite alternate ease-in-out;  
-    transition: box-shadow 0.5s ease-in-out, transform 0.3s ease-in-out;  
-}  
-
-.profile-image:hover {  
-    transform: scale(1.05);  
-}  
-
-@keyframes glow {  
-    0% { box-shadow: 0 0 5px rgba(255, 0, 255, 0.5), 0 0 10px rgba(255, 0, 255, 0.5); }  
-    100% { box-shadow: 0 0 15px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.5); }  
-}  
-
-/* Hover Effect */
-.profile-image:hover {
-    transform: translateX(-50%) scale(1.05);
-}
 
 /* Profile Header (Centers Name & Bio Below Image) */
 .profile-header {
@@ -214,4 +190,32 @@ body::before {
     color: var(--secondary);
     box-shadow: 0 0 15px rgba(3, 218, 198, 0.7);
     border-color: var(--secondary);
+}
+
+
+/* Profile Image Container (Centered at the Top) */
+.profile-image-container {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Profile Image Styling */
+.profile-image {
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    object-fit: cover;
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Hover Effect */
+.profile-image:hover {
+    transform: scale(1.05);
 }
