@@ -414,16 +414,16 @@ body::before {
 /* Profile Container */
 .profile-container {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between; /* Align image and social icons opposite */
-    width: 100%;
-    max-width: 500px; /* Adjust based on design */
-    margin: 0 auto;
-    padding: 20px;
     position: relative;
+    width: 100%;
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 20px;
 }
 
-/* Profile Image (Now at top right) */
+/* Profile Image (Top Right) */
 .profile-image {
     width: 140px;
     height: 140px;
@@ -432,18 +432,18 @@ body::before {
     object-position: center;
     transition: transform 0.3s ease-in-out;
     position: absolute;
-    right: 5px; /* Push to the right */
-    top: -20px; /* Move slightly above */
+    right: 10px; /* Adjust positioning */
+    top: -20px; /* Slightly above */
 }
 
 .profile-image:hover {
     transform: scale(1.05);
 }
 
-/* Profile Details (Centered text) */
+/* Profile Details */
 .profile-details {
-    flex-grow: 1; /* Ensures text stays centered */
     text-align: center;
+    margin-top: 50px; /* Push down to make space for image */
 }
 
 /* Profile Name */
@@ -458,7 +458,7 @@ body::before {
     position: relative;
 }
 
-/* Profile Bio (Slightly raised and centered) */
+/* Profile Bio */
 .profile-bio {
     font-family: 'Fira Code', monospace;
     font-size: 13px;
@@ -468,10 +468,10 @@ body::before {
     opacity: 0.85;
     letter-spacing: 0.4px;
     max-width: 300px;
-    margin-top: -5px; /* Adjusts position */
+    margin-top: -5px; /* Adjust positioning */
 }
 
-/* Social Container (Now at top left) */
+/* Social Container (Top Left) */
 .social-container {
     background: rgba(255, 255, 255, 0.05);
     padding: 12px;
@@ -483,7 +483,7 @@ body::before {
     border: 1px solid rgba(255, 255, 255, 0.05);
     width: fit-content;
     position: absolute;
-    left: 5px; /* Push to the left */
+    left: 10px; /* Adjust positioning */
     top: -10px; /* Align near the image */
 }
 
