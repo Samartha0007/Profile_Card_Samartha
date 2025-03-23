@@ -212,23 +212,26 @@ body::before {
     border-radius: 45px; /* Smooth rounded corners */
     object-fit: cover;
     transition: transform 0.3s ease-in-out;
-    animation: softNeonGlow 4s infinite alternate ease-in-out;
+    animation: gradientNeonGlow 4s infinite alternate ease-in-out;
 }
 
-/* Subtle Dual Neon Glow Effect */
-@keyframes softNeonGlow {
+/* Gradient Neon Glow Effect */
+@keyframes gradientNeonGlow {
     0% { 
-        box-shadow: -10px -10px 20px rgba(128, 0, 128, 0.5),  
-                    10px 10px 20px rgba(0, 255, 0, 0.5);  
-    } /* Soft Purple & Green */
+        box-shadow: 0 0 15px rgba(98, 0, 234, 0.4),  
+                    0 0 30px rgba(3, 218, 198, 0.4);  
+        background: linear-gradient(135deg, #6200ea, #03dac6);
+    }  
     
     50% { 
-        box-shadow: -12px -12px 25px rgba(139, 0, 139, 0.6),  
-                    12px 12px 25px rgba(0, 205, 0, 0.6);  
-    } /* Slightly Brighter */
+        box-shadow: 0 0 20px rgba(255, 2, 102, 0.4),  
+                    0 0 35px rgba(255, 177, 153, 0.4);  
+        background: linear-gradient(45deg, #ff0266, #ffb199);
+    }  
     
     100% { 
-        box-shadow: -10px -10px 20px rgba(128, 0, 128, 0.5),  
-                    10px 10px 20px rgba(0, 255, 0, 0.5);  
-    } /* Back to Soft Glow */
+        box-shadow: 0 0 15px rgba(98, 0, 234, 0.4),  
+                    0 0 30px rgba(3, 218, 198, 0.4);  
+        background: linear-gradient(135deg, #6200ea, #03dac6);
+    }  
 }
