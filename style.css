@@ -400,7 +400,6 @@ body::before {
   
   
 /* Profile Container */  
-/* Profile Container */  
 .profile-container {  
     position: relative;  
     text-align: center;  
@@ -409,8 +408,8 @@ body::before {
     margin: 50px auto;  
     padding: 20px;  
 }  
-  
-/* Profile Image (Top Left) */  
+
+/* Profile Image (Top Right) */  
 .profile-image {  
     width: 140px;  
     height: 140px;  
@@ -419,14 +418,14 @@ body::before {
     object-position: center;  
     transition: transform 0.3s ease-in-out;  
     position: absolute;  
-    left: 0; /* Moves image to the left */  
+    right: 0; /* Moves image to the right */  
     top: 0; /* Moves image slightly up */  
 }  
-  
+
 .profile-image:hover {  
     transform: scale(1.05);  
 }  
-  
+
 /* Profile Header (Wraps Name & Bio) */  
 .profile-header {  
     display: flex;  
@@ -435,7 +434,7 @@ body::before {
     justify-content: center;  
     margin-top: 80px; /* Push down to avoid image overlap */  
 }  
-  
+
 /* Profile Name */  
 .profile-name {  
     font-family: 'Black Ops One', cursive;  
@@ -446,7 +445,7 @@ body::before {
     padding: 10px 20px;  
     position: relative;  
 }  
-  
+
 /* Profile Bio */  
 .profile-bio {  
     font-family: 'Fira Code', monospace;  
@@ -458,28 +457,27 @@ body::before {
     opacity: 0.85;  
     letter-spacing: 0.4px;  
 }  
-  
-/* Social Container (Top Right) */  
+
+/* Social Container (Top Left) */  
 .social-container {  
     position: absolute;  
-    right: 0; /* Push to the right */  
+    left: 0; /* Push to the left */  
     top: 0; /* Align near the image */  
     background: rgba(255, 255, 255, 0.05);  
     padding: 12px;  
     border-radius: 15px;  
     backdrop-filter: blur(10px);  
     display: flex;  
-    justify-content: center;  
     align-items: center;  
     border: 1px solid rgba(255, 255, 255, 0.05);  
 }  
-  
-/* Social Icons */  
+
+/* Social Icons (Horizontal Layout) */  
 .social-icons {  
     display: flex;  
-    gap: 15px;  
+    gap: 10px;  
 }  
-  
+
 /* Social Icons Style */  
 .social-icons a {  
     font-size: 22px;  
@@ -495,7 +493,7 @@ body::before {
     border: 1px solid rgba(255, 255, 255, 0.05);  
     transition: all 0.3s ease;  
 }  
-  
+
 .social-icons a:hover {  
     transform: translateY(-5px);  
     color: var(--secondary);  
