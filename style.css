@@ -411,7 +411,7 @@ body::before {
 
 
 
-
+/* Profile Container */
 .profile-container {
     display: flex;
     align-items: center;
@@ -423,6 +423,7 @@ body::before {
     position: relative;
 }
 
+/* Profile Image (Now at top right) */
 .profile-image {
     width: 140px;
     height: 140px;
@@ -431,19 +432,21 @@ body::before {
     object-position: center;
     transition: transform 0.3s ease-in-out;
     position: absolute;
-    right: 5px; /* Push slightly to the right */
-    top: -20px; /* Moves slightly above */
+    right: 5px; /* Push to the right */
+    top: -20px; /* Move slightly above */
 }
 
 .profile-image:hover {
     transform: scale(1.05);
 }
 
+/* Profile Details (Centered text) */
 .profile-details {
     flex-grow: 1; /* Ensures text stays centered */
     text-align: center;
 }
 
+/* Profile Name */
 .profile-name {
     font-family: 'Black Ops One', cursive;
     font-size: 2.8rem;
@@ -455,6 +458,7 @@ body::before {
     position: relative;
 }
 
+/* Profile Bio (Slightly raised and centered) */
 .profile-bio {
     font-family: 'Fira Code', monospace;
     font-size: 13px;
@@ -467,7 +471,7 @@ body::before {
     margin-top: -5px; /* Adjusts position */
 }
 
-/* Social Container (Now positioned to the left) */
+/* Social Container (Now at top left) */
 .social-container {
     background: rgba(255, 255, 255, 0.05);
     padding: 12px;
@@ -479,7 +483,7 @@ body::before {
     border: 1px solid rgba(255, 255, 255, 0.05);
     width: fit-content;
     position: absolute;
-    left: 5px; /* Push slightly to the left */
+    left: 5px; /* Push to the left */
     top: -10px; /* Align near the image */
 }
 
