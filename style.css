@@ -398,112 +398,501 @@ body::before {
 .floating-particle particle-4 {}
 
 
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Cinzel:wght@700&family=Pacifico&family=Press+Start+2P&family=Raleway:wght@300;900&display=swap');
 
-/* Profile Container */
-.profile-container {
-    position: relative;
-    text-align: center;
-    width: 100%;
-    max-width: 500px;
-    margin: 50px auto;
-    padding: 20px;
+/* Reset and Base Styles */
+
+{
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-/* Profile Image (Top Right) */
+
+:root {
+--primary: #6200ea;
+--secondary: #03dac6;
+--accent: #ff0266;
+--dark: #121212;
+--light: #ffffff;
+--text-primary: #f5f5f5;
+--text-secondary: #b0bec5;
+--card-bg: rgba(18, 18, 24, 0.85);
+--gradient-1: linear-gradient(135deg, #6200ea, #03dac6);
+--gradient-2: linear-gradient(45deg, #ff0266, #ffb199);
+--box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+--neon-glow: 0 0 15px var(--secondary), 0 0 25px var(--secondary);
+}
+
+body {
+font-family: 'Montserrat', sans-serif;
+background-color: var(--dark);
+background-image:
+radial-gradient(circle at 20% 30%, rgba(98, 0, 234, 0.3) 0%, transparent 40%),
+radial-gradient(circle at 80% 70%, rgba(3, 218, 198, 0.3) 0%, transparent 40%);
+background-attachment: fixed;
+color: var(--text-primary);
+min-height: 100vh;
+overflow-x: hidden;
+display: flex;
+justify-content: center;
+align-items: center;
+position: relative;
+}
+
+body::before {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect fill="none" width="100" height="100"/><rect fill="rgba(255,255,255,0.03)" width="50" height="50"/><rect fill="rgba(255,255,255,0.03)" x="50" y="50" width="50" height="50"/></svg>');
+opacity: 0.3;
+z-index: -1;
+}
+
+/* Floating particles */
+@keyframes float {
+0% { transform: translateY(0) rotate(0deg); }
+50% { transform: translateY(-20px) rotate(5deg); }
+100% { transform: translateY(0) rotate(0deg); }
+}
+
+.floating-particle {
+position: absolute;
+width: 10px;
+height: 10px;
+background: var(--secondary);
+border-radius: 50%;
+filter: blur(4px);
+opacity: 0.5;
+animation: float 15s infinite ease-in-out;
+}
+
+.particle-1 {
+top: 15%;
+left: 15%;
+animation-delay: 0s;
+}
+
+.particle-2 {
+top: 25%;
+right: 20%;
+animation-delay: 2s;
+}
+
+.particle-3 {
+bottom: 20%;
+left: 20%;
+animation-delay: 4s;
+}
+
+.particle-4 {
+bottom: 30%;
+right: 15%;
+animation-delay: 6s;
+}
+
+/* Full-Screen Container */
+.fullscreen-container {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100vh;
+backdrop-filter: blur(5px);
+display: flex;
+align-items: center;
+justify-content: center;
+overflow: hidden;
+z-index: 10;
+}
+
+/* Profile Creation Container */
+.create-container {
+background: var(--card-bg);
+border: 1px solid rgba(255, 255, 255, 0.1);
+border-radius: 15px;
+padding: 30px;
+width: 100%;
+max-width: 400px;
+box-shadow: var(--box-shadow);
+animation: slideIn 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+position: relative;
+overflow: hidden;
+}
+
+.create-container::before {
+content: '';
+position: absolute;
+top: -50%;
+left: -50%;
+width: 200%;
+height: 200%;
+background: var(--gradient-1);
+opacity: 0.1;
+transform: rotate(-30deg);
+z-index: -1;
+}
+
+/* Heading with neon effect */
+.create-container h2 {
+text-align: center;
+margin-bottom: 30px;
+color: var(--light);
+font-size: 26px;
+font-weight: 800;
+letter-spacing: 1px;
+text-transform: uppercase;
+text-shadow: 0 0 10px var(--secondary), 0 0 20px var(--secondary);
+position: relative;
+}
+
+.create-container h2::after {
+content: '';
+position: absolute;
+width: 60px;
+height: 3px;
+background: var(--gradient-2);
+bottom: -10px;
+left: 50%;
+transform: translateX(-50%);
+border-radius: 3px;
+}
+
+/* Input and Textarea Styling */
+.create-container input,
+.create-container textarea {
+width: 100%;
+padding: 15px;
+margin-bottom: 20px;
+border: 1px solid rgba(255, 255, 255, 0.1);
+border-radius: 8px;
+font-family: 'Montserrat', sans-serif;
+font-size: 16px;
+background: rgba(0, 0, 0, 0.3);
+color: var(--text-primary);
+transition: all 0.3s ease-in-out;
+}
+
+/* Focus Effects */
+.create-container input:focus,
+.create-container textarea:focus {
+outline: none;
+border-color: var(--secondary);
+box-shadow: 0 0 8px rgba(3, 218, 198, 0.6);
+transform: translateY(-2px);
+}
+
+/* Placeholder color */
+.create-container input::placeholder,
+.create-container textarea::placeholder {
+color: rgba(255, 255, 255, 0.4);
+font-style: italic;
+}
+
+/* Textarea Settings */
+.create-container textarea {
+resize: vertical;
+min-height: 120px;
+}
+
+/* Submit Button */
+#createProfileBtn {
+width: 100%;
+padding: 16px;
+background: var(--gradient-1);
+color: white;
+border: none;
+border-radius: 8px;
+cursor: pointer;
+font-family: 'Montserrat', sans-serif;
+font-weight: 600;
+font-size: 16px;
+text-transform: uppercase;
+letter-spacing: 1px;
+box-shadow: 0 4px 15px rgba(98, 0, 234, 0.4);
+position: relative;
+overflow: hidden;
+}
+
+/* Button hover effect */
+#createProfileBtn:hover {
+transform: translateY(-3px);
+box-shadow: 0 7px 20px rgba(98, 0, 234, 0.6);
+}
+
+#createProfileBtn:active {
+transform: translateY(0);
+}
+
+/* Button ripple effect */
+#createProfileBtn::after {
+content: '';
+position: absolute;
+top: 50%;
+left: 50%;
+width: 5px;
+height: 5px;
+background: rgba(255, 255, 255, 0.5);
+opacity: 0;
+border-radius: 100%;
+transform: scale(1, 1) translate(-50%);
+transform-origin: 50% 50%;
+}
+
+#createProfileBtn:focus:not(:active)::after {
+animation: ripple 1s ease-out;
+}
+
+@keyframes ripple {
+0% {
+transform: scale(0, 0);
+opacity: 0.5;
+}
+20% {
+transform: scale(25, 25);
+opacity: 0.3;
+}
+100% {
+opacity: 0;
+transform: scale(40, 40);
+}
+}
+
+/* Profile Card /
+.profile-card {
+display: none; / Hidden by default */
+flex-direction: column;
+align-items: center;
+text-align: center;
+animation: fadeUp 1s cubic-bezier(0.19, 1, 0.22, 1);
+background: var(--card-bg);
+padding: 30px;
+border-radius: 20px;
+border: 1px solid rgba(255, 255, 255, 0.1);
+box-shadow: var(--box-shadow);
+max-width: 350px;
+width: 90%;
+position: relative;
+overflow: hidden;
+backdrop-filter: blur(10px);
+}
+
+/* Card background gradient */
+.profile-card::before {
+content: '';
+position: absolute;
+top: -50%;
+left: -50%;
+width: 200%;
+height: 200%;
+background: var(--gradient-2);
+opacity: 0.08;
+transform: rotate(30deg);
+z-index: -1;
+}
+
+/* Social Container with glass effect */
+
+/* Share Button */
+.sharebtn {
+position: fixed;
+top: 20px;
+right: 20px;
+background: rgba(0, 0, 0, 0.2);
+border: 1px solid rgba(255, 255, 255, 0.1);
+border-radius: 50%;
+cursor: pointer;
+font-size: 20px;
+color: var(--text-secondary);
+width: 45px;
+height: 45px;
+display: flex;
+align-items: center;
+justify-content: center;
+backdrop-filter: blur(5px);
+z-index: 100;
+transition: all 0.3s ease;
+}
+
+.sharebtn:hover {
+transform: scale(1.1) rotate(10deg);
+color: var(--secondary);
+box-shadow: 0 0 15px rgba(3, 218, 198, 0.5);
+}
+
+/* Spotify Container */
+#spotify-container {
+width: 100%;
+display: flex;
+justify-content: center;
+position: fixed;
+bottom: 20px;
+left: 0;
+padding: 10px;
+z-index: 5;
+}
+
+#spotify-container iframe {
+width: 300px;
+height: 80px;
+border-radius: 15px;
+box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+border: 1px solid rgba(255, 255, 255, 0.1);
+transform: translateY(0);
+transition: transform 0.3s ease;
+}
+
+#spotify-container iframe:hover {
+transform: translateY(-5px);
+box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+}
+
+/* Animations */
+@keyframes slideIn {
+from {
+opacity: 0;
+transform: translateY(50px);
+}
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
+
+@keyframes fadeUp {
+from {
+opacity: 0;
+transform: translateY(30px);
+}
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+.create-container, .profile-card {
+width: 90%;
+padding: 25px;
+}
+
+#spotify-container iframe {
+width: 280px;
+}
+}
+
+/* Add these HTML elements to your page */
+.floating-particle particle-1 {}
+.floating-particle particle-2 {}
+.floating-particle particle-3 {}
+.floating-particle particle-4 {}
+
+/* Profile Container /
+/ Profile Container */
+.profile-container {
+position: relative;
+text-align: center;
+width: 100%;
+max-width: 500px;
+margin: 50px auto;
+padding: 20px;
+}
+
+/* Profile Image (Top Left) /
 .profile-image {
-    width: 140px;
-    height: 140px;
-    border-radius: 20px; /* Rounded square */
-    object-fit: cover;
-    object-position: center;
-    transition: transform 0.3s ease-in-out;
-    position: absolute;
-    right: 0; /* Moves image to the right */
-    top: 0; /* Aligns it to the top */
+width: 140px;
+height: 140px;
+border-radius: 20px; / Rounded square /
+object-fit: cover;
+object-position: center;
+transition: transform 0.3s ease-in-out;
+position: absolute;
+left: 0; / Moves image to the left /
+top: 0; / Moves image slightly up */
 }
 
 .profile-image:hover {
-    transform: scale(1.05);
+transform: scale(1.05);
 }
 
-/* Social Container (Top Left) */
-.social-container {
-    position: absolute;
-    left: 0; /* Moves to the left */
-    top: 0; /* Aligns to the top */
-    background: rgba(255, 255, 255, 0.05);
-    padding: 10px 15px;
-    border-radius: 15px;
-    backdrop-filter: blur(10px);
-    display: flex;
-    gap: 15px; /* Spaces the icons horizontally */
-    align-items: center;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* Social Icons */
-.social-icons {
-    display: flex;
-    gap: 10px; /* Spaces icons horizontally */
-}
-
-/* Social Icons Style */
-.social-icons a {
-    font-size: 22px;
-    color: var(--text-secondary);
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    background: rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    transition: all 0.3s ease;
-}
-
-.social-icons a:hover {
-    transform: translateY(-3px);
-    background: var(--secondary);
-    color: white;
-    box-shadow: 0 0 10px var(--secondary);
-}
-
-/* Profile Header (Wraps Name & Bio) */
+/* Profile Header (Wraps Name & Bio) /
 .profile-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-top: 100px; /* Push down to avoid overlapping */
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+margin-top: 80px; / Push down to avoid image overlap */
 }
 
 /* Profile Name */
 .profile-name {
-    font-family: 'Black Ops One', cursive;
-    font-size: 3rem;
-    color: white;
-    text-transform: uppercase;
-    transition: all 0.8s ease-in-out;
-    padding: 10px 20px;
-    position: relative;
-}
-
-.profile-name:hover {
-    letter-spacing: 2px;
-    color: var(--secondary);
-    transform: scale(1.1);
+font-family: 'Black Ops One', cursive;
+font-size: 3rem;
+color: white;
+text-transform: uppercase;
+transition: all 0.8s ease-in-out;
+padding: 10px 20px;
+position: relative;
 }
 
 /* Profile Bio */
 .profile-bio {
-    font-family: 'Fira Code', monospace;
-    font-size: 13px;
-    font-weight: 500;
-    color: #ddd;
-    text-align: center;
-    margin-top: -5px;
-    opacity: 0.85;
-    letter-spacing: 0.4px;
+font-family: 'Fira Code', monospace;
+font-size: 13px;
+font-weight: 500;
+color: #aaa;
+text-align: center;
+margin-top: -5px;
+opacity: 0.85;
+letter-spacing: 0.4px;
 }
+
+/* Social Container (Top Right) /
+.social-container {
+position: absolute;
+right: 0; / Push to the right /
+top: 0; / Align near the image */
+background: rgba(255, 255, 255, 0.05);
+padding: 12px;
+border-radius: 15px;
+backdrop-filter: blur(10px);
+display: flex;
+justify-content: center;
+align-items: center;
+border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Social Icons */
+.social-icons {
+display: flex;
+gap: 15px;
+}
+
+/* Social Icons Style */
+.social-icons a {
+font-size: 22px;
+color: var(--text-secondary);
+text-decoration: none;
+display: flex;
+align-items: center;
+justify-content: center;
+width: 45px;
+height: 45px;
+border-radius: 50%;
+background: rgba(0, 0, 0, 0.2);
+border: 1px solid rgba(255, 255, 255, 0.05);
+transition: all 0.3s ease;
+}
+
+.social-icons a:hover {
+transform: translateY(-5px);
+color: var(--secondary);
+box-shadow: 0 0 15px rgba(3, 218, 198, 0.7);
+border-color: var(--secondary);
+}
+
