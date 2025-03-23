@@ -192,29 +192,38 @@ body::before {
     border-color: var(--secondary);
 }
 
-/* Profile Image Container (Centered & Slightly Lower) */
+/* /* Profile Image Container (Centered & Slightly Lower) */
 .profile-image-container {
     position: absolute;
-    top: 50px; /* Adjusted lower */
+    top: 70px; /* Adjust as needed */
     left: 50%;
     transform: translateX(-50%);
-    width: 250px; /* Bigger size */
-    height: 250px; /* Bigger size */
+    width: 260px; /* Bigger */
+    height: 260px; /* Bigger */
     display: flex;
     justify-content: center;
     align-items: center;
+    animation: floatImage 4s infinite ease-in-out; /* Floating Animation */
 }
 
 /* Profile Image Styling */
 .profile-image {
     width: 100%;
     height: 100%;
-    border-radius: 40px; /* Smooth rounded edges */
+    border-radius: 45px; /* Smooth rounded corners */
     object-fit: cover;
-    transition: transform 0.3s ease-in-out;
+    transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
 }
 
 /* Hover Effect */
 .profile-image:hover {
-    transform: scale(1.07);
+    transform: scale(1.12) rotate(2deg); /* Slight rotation effect */
+    box-shadow: 0 0 25px rgba(3, 218, 198, 0.8); /* Neon Glow */
+}
+
+/* Floating Animation */
+@keyframes floatImage {
+    0% { transform: translateX(-50%) translateY(0px); }
+    50% { transform: translateX(-50%) translateY(10px); } /* Moves slightly up */
+    100% { transform: translateX(-50%) translateY(0px); }
 }
