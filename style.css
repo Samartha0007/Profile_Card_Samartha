@@ -1,635 +1,226 @@
-:root {
-  --primary-color: #00f3ff;
-  --secondary-color: #fe53bb;
-  --tertiary-color: #7800f0;
-  --text-color: #f8f8f8;
-  --dark-bg: #0a0a14;
-  --card-bg: rgba(20, 20, 35, 0.8);
-  --neon-shadow: 0 0 10px var(--primary-color), 0 0 20px var(--primary-color);
-  --glow-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
-  --card-blur: blur(10px);
-  --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Poppins', sans-serif;
-  background-color: var(--dark-bg);
-  color: var(--text-color);
-  min-height: 100vh;
-  background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
-  overflow-x: hidden;
-}
-
-/* Star animation background */
-.stars {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-}
-
-.star {
-  position: absolute;
-  width: 2px;
-  height: 2px;
-  background: white;
-  border-radius: 50%;
-  animation: twinkle var(--duration) infinite;
-}
-
-@keyframes twinkle {
-  0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; }
-}
-
-/* Glass morphism card design */
-.profile-container {
-  width: 90%;
-  max-width: 400px;
-  background: var(--card-bg);
-  border-radius: 24px;
-  overflow: hidden;
-  backdrop-filter: var(--card-blur);
-  -webkit-backdrop-filter: var(--card-blur);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  position: relative;
-  transform: translateY(0);
-  transition: var(--transition);
-  margin: 20px auto;
-  animation: floatCard 6s ease-in-out infinite;
-}
-
-@keyframes floatCard {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
-.profile-container::before {
-  content: '';
-  position: absolute;
-  top: -5px;
-  left: -5px;
-  right: -5px;
-  bottom: -5px;
-  background: linear-gradient(45deg, var(--secondary-color), var(--primary-color), var(--tertiary-color));
-  z-index: -1;
-  border-radius: 28px;
-  filter: blur(16px);
-  opacity: 0.6;
-  animation: borderGlow 8s linear infinite;
-}
-
-@keyframes borderGlow {
-  0% { filter: blur(16px) hue-rotate(0deg); }
-  100% { filter: blur(16px) hue-rotate(360deg); }
-}
-
-.profile-header {
-  padding: 40px 30px 20px;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.profile-header::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(225deg, var(--tertiary-color), transparent);
-  opacity: 0.3;
-  z-index: 0;
-}
-
-.profile-image {
-  width: 130px;
-  height: 130px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-bottom: 25px;
-  position: relative;
-  z-index: 2;
-  transition: var(--transition);
-  border: 3px solid transparent;
-  background: linear-gradient(var(--card-bg), var(--card-bg)) padding-box,
-              linear-gradient(to right, var(--primary-color), var(--secondary-color)) border-box;
-  animation: profilePulse 3s infinite;
-}
-
-@keyframes profilePulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(254, 83, 187, 0.7); }
-  50% { box-shadow: 0 0 20px 5px rgba(0, 243, 255, 0.7); }
-}
-
-.profile-image:hover {
-  transform: scale(1.05) rotate(3deg);
-  animation: neonBorderRotate 1.5s infinite;
-}
-
-@keyframes neonBorderRotate {
-  0% { 
-    box-shadow: 0 0 15px var(--primary-color);
-    border: 3px solid transparent;
-    background: linear-gradient(var(--card-bg), var(--card-bg)) padding-box,
-                linear-gradient(45deg, var(--primary-color), var(--secondary-color)) border-box;
-  }
-  50% { 
-    box-shadow: 0 0 25px var(--secondary-color);
-    border: 3px solid transparent;
-    background: linear-gradient(var(--card-bg), var(--card-bg)) padding-box,
-                linear-gradient(225deg, var(--primary-color), var(--tertiary-color)) border-box;
-  }
-  100% { 
-    box-shadow: 0 0 15px var(--primary-color);
-    border: 3px solid transparent;
-    background: linear-gradient(var(--card-bg), var(--card-bg)) padding-box,
-                linear-gradient(45deg, var(--primary-color), var(--secondary-color)) border-box;
-  }
-}
-
-.profile-name {
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 10px;
-  position: relative;
-  z-index: 2;
-  background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 5px rgba(0, 243, 255, 0.5);
-  animation: textGlow 5s ease-in-out infinite;
-}
-
-@keyframes textGlow {
-  0%, 100% { filter: brightness(1); }
-  50% { filter: brightness(1.3); }
-}
-
-.profile-bio {
-  font-size: 1rem;
-  line-height: 1.6;
-  opacity: 0.9;
-  margin-bottom: 10px;
-  position: relative;
-  z-index: 2;
-  padding: 0 20px;
-  text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-}
-
-/* Cyberpunk-inspired social icons */
-.social-container {
-  padding: 20px 20px 10px;
-  position: relative;
-  z-index: 3;
-}
-
-.social-icons {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 18px;
-}
-
-.social-icons a {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 50px;
-  height: 50px;
-  border-radius: 15px;
-  background: rgba(30, 30, 50, 0.6);
-  color: var(--text-color);
-  font-size: 1.3rem;
-  transition: var(--transition);
-  position: relative;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.social-icons a::before {
-  content: '';
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-  z-index: -1;
-  border-radius: 18px;
-  opacity: 0;
-  transition: var(--transition);
-}
-
-.social-icons a:hover {
-  transform: translateY(-5px) scale(1.1);
-  color: white;
-  background: rgba(40, 40, 70, 0.8);
-  box-shadow: 0 0 15px var(--primary-color);
-}
-
-.social-icons a:hover::before {
-  opacity: 1;
-  animation: borderRotate 2s linear infinite;
-}
-
-.social-icons a i {
-  transition: var(--transition);
-  position: relative;
-  z-index: 2;
-}
-
-.social-icons a:hover i {
-  animation: iconPulse 1s infinite alternate;
-}
-
-@keyframes iconPulse {
-  0% { transform: scale(1); }
-  100% { transform: scale(1.2); }
-}
-
-@keyframes borderRotate {
-  0% { filter: hue-rotate(0deg); }
-  100% { filter: hue-rotate(360deg); }
-}
-
-/* Interactive Spotify container */
-.spotify-container {
-  padding: 20px;
-  display: flex;
-  justify-content: center;
-  position: relative;
-  z-index: 2;
-}
-
-.spotify-container iframe {
-  border-radius: 18px;
-  width: 100%;
-  max-width: 340px;
-  transition: var(--transition);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  filter: drop-shadow(0 0 5px rgba(0, 243, 255, 0.3));
-}
-
-.spotify-container iframe:hover {
-  transform: scale(1.03);
-  box-shadow: 0 0 20px var(--primary-color);
-}
-
-/* Futuristic Share Button */
-.sharebtn {
-  position: fixed;
-  bottom: 25px;
-  right: 25px;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: linear-gradient(45deg, var(--tertiary-color), var(--secondary-color));
-  color: white;
-  border: none;
-  font-size: 1.3rem;
-  cursor: pointer;
-  box-shadow: 0 0 15px rgba(254, 83, 187, 0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 100;
-  transition: var(--transition);
-  overflow: hidden;
-}
-
-.sharebtn::before {
-  content: '';
-  position: absolute;
-  width: 150%;
-  height: 150%;
-  background: linear-gradient(45deg, var(--primary-color), var(--tertiary-color), var(--secondary-color));
-  animation: rotateGradient 3s linear infinite;
-  top: -25%;
-  left: -25%;
-  z-index: -1;
-}
-
-@keyframes rotateGradient {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.sharebtn i {
-  position: relative;
-  z-index: 2;
-  text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-}
-
-.sharebtn:hover {
-  transform: scale(1.15);
-  box-shadow: 0 0 25px var(--secondary-color);
-}
-
-.sharebtn:hover i {
-  animation: pulse 1s infinite alternate;
-}
-
-/* Advanced animations for page load */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes glitchText {
-  0% {
-    text-shadow: 0.05em 0 0 var(--primary-color), -0.05em -0.025em 0 var(--secondary-color);
-    transform: translateX(0);
-  }
-  10% {
-    text-shadow: 0.05em 0 0 var(--primary-color), -0.05em -0.025em 0 var(--secondary-color);
-    transform: translateX(1px);
-  }
-  20% {
-    text-shadow: -0.05em 0 0 var(--primary-color), 0.025em 0.025em 0 var(--secondary-color);
-    transform: translateX(-1px);
-  }
-  49% {
-    text-shadow: -0.05em 0 0 var(--primary-color), 0.025em 0.025em 0 var(--secondary-color);
-  }
-  50% {
-    text-shadow: 0.025em 0.05em 0 var(--primary-color), 0.05em 0 0 var(--secondary-color);
-    transform: translateX(0);
-  }
-  100% {
-    text-shadow: 0.05em 0 0 var(--primary-color), -0.05em -0.025em 0 var(--secondary-color);
-    transform: translateX(0);
-  }
-}
-
-.profile-container {
-  opacity: 0;
-  animation: fadeInUp 0.8s ease-out forwards, floatCard 6s ease-in-out 0.8s infinite;
-}
-
-.profile-image {
-  opacity: 0;
-  animation: fadeInUp 0.8s ease-out 0.2s forwards, profilePulse 3s 0.8s infinite;
-}
-
-.profile-name {
-  opacity: 0;
-  animation: fadeInUp 0.8s ease-out 0.4s forwards, textGlow 5s ease-in-out 0.8s infinite;
-}
-
-.profile-name:hover {
-  animation: glitchText 0.5s infinite;
-}
-
-.profile-bio {
-  opacity: 0;
-  animation: fadeInUp 0.8s ease-out 0.6s forwards;
-}
-
-.social-icons a {
-  opacity: 0;
-  animation: fadeInUp 0.5s ease-out forwards;
-}
-
-.social-icons a:nth-child(1) { animation-delay: 0.7s; }
-.social-icons a:nth-child(2) { animation-delay: 0.75s; }
-.social-icons a:nth-child(3) { animation-delay: 0.8s; }
-.social-icons a:nth-child(4) { animation-delay: 0.85s; }
-.social-icons a:nth-child(5) { animation-delay: 0.9s; }
-.social-icons a:nth-child(6) { animation-delay: 0.95s; }
-.social-icons a:nth-child(7) { animation-delay: 1s; }
-.social-icons a:nth-child(8) { animation-delay: 1.05s; }
-.social-icons a:nth-child(9) { animation-delay: 1.1s; }
-.social-icons a:nth-child(10) { animation-delay: 1.15s; }
-
-.spotify-container {
-  opacity: 0;
-  animation: fadeInUp 0.8s ease-out 1.2s forwards;
-}
-
-.sharebtn {
-  opacity: 0;
-  animation: fadeInUp 0.8s ease-out 1.4s forwards;
-}
-
-/* Mobile optimization */
-@media (max-width: 480px) {
-  .profile-container {
-    width: 95%;
-    margin: 10px auto;
-  }
+* {    
+    margin: 0;    
+    padding: 0;    
+    box-sizing: border-box;    
+}    
   
-  .profile-header {
-    padding: 30px 20px 15px;
-  }
+body {      
+    font-family: 'Poppins', sans-serif;      
+    background: linear-gradient(120deg, #eceff1, #b0bec5);      
+    display: flex;      
+    align-items: center;      
+    justify-content: center;      
+    height: 100vh;      
+    text-align: center;      
+    flex-direction: column; /* Ensure content stacks properly */    
+    padding: 20px;    
+}    
   
-  .profile-image {
-    width: 110px;
-    height: 110px;
-  }
+/* Full-Screen Container */    
+.fullscreen-container {    
+    position: fixed;    
+    top: 0;    
+    left: 0;    
+    width: 100%;    
+    height: 100vh;    
+    background: #f5f5f5; /* Solid background to cover everything */    
+    display: flex;    
+    align-items: center;    
+    justify-content: center;    
+    overflow: hidden;    
+}    
   
-  .profile-name {
-    font-size: 1.7rem;
-  }
+/* Profile Creation Container */    
+.create-container {    
+    background: #ffffff;    
+    border-radius: 15px;    
+    padding: 30px;    
+    width: 100%;    
+    max-width: 400px;    
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);    
+    animation: fadeIn 0.5s ease-in-out;    
+}    
   
-  .profile-bio {
-    font-size: 0.9rem;
-    padding: 0 10px;
-  }
+/* Heading */    
+.create-container h2 {    
+    text-align: center;    
+    margin-bottom: 20px;    
+    color: #222;    
+    font-size: 22px;    
+    font-weight: 700;    
+    font-family: 'Poppins', sans-serif;    
+}    
   
-  .social-icons {
-    gap: 12px;
-  }
+/* Input and Textarea Styling */    
+.create-container input,    
+.create-container textarea {    
+    width: 100%;    
+    padding: 12px;    
+    margin-bottom: 15px;    
+    border: 2px solid #ddd;    
+    border-radius: 8px;    
+    font-family: 'Poppins', sans-serif;    
+    font-size: 16px;    
+    background: #f9f9f9;    
+    transition: all 0.3s ease-in-out;    
+}    
   
-  .social-icons a {
-    width: 45px;
-    height: 45px;
-    font-size: 1.1rem;
-  }
+/* Focus Effects */    
+.create-container input:focus,    
+.create-container textarea:focus {    
+    outline: none;    
+    border-color: #4a90e2;    
+    box-shadow: 0 0 8px rgba(74, 144, 226, 0.4);    
+}    
   
-  .spotify-container {
-    padding: 15px;
-  }
+/* Textarea Settings */    
+.create-container textarea {    
+    resize: vertical;    
+    min-height: 120px;    
+}    
   
-  .sharebtn {
-    width: 55px;
-    height: 55px;
-    bottom: 20px;
-    right: 20px;
-  }
-
-  /* Improve mobile performance by reducing some animations */
-  @keyframes floatCard {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-5px); }
-  }
-}
-
-/* Background stars generation */
-body::after {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  background-image: 
-    radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 3px),
-    radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 2px),
-    radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 3px);
-  background-size: 550px 550px, 350px 350px, 250px 250px;
-  background-position: 0 0, 40px 60px, 130px 270px;
-  z-index: -1;
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-  background: rgba(20, 20, 35, 0.4);
-}
-
-::-webkit-scrollbar-track {
-  background: rgba(20, 20, 35, 0.4);
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(var(--primary-color), var(--tertiary-color));
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(var(--secondary-color), var(--tertiary-color));
-}
-
-/* Styling for no profile image case */
-.profile-image:not([src]) {
-  background: linear-gradient(-45deg, var(--tertiary-color), var(--primary-color));
-  display: block;
-  position: relative;
-  overflow: hidden;
-}
-
-.profile-image:not([src])::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 50%;
-  height: 100%;
-  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent);
-  transform: skewX(-25deg);
-  animation: shine 3s infinite;
-}
-
-@keyframes shine {
-  0% { left: -100%; }
-  20% { left: 100%; }
-  100% { left: 100%; }
-}
-
-/* Loading animation */
-body::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: var(--dark-bg);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  animation: fadeOut 1s 0.5s forwards;
-}
-
-body::after {
-  content: 'Loading...';
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: var(--primary-color);
-  font-size: 1.5rem;
-  font-weight: 600;
-  letter-spacing: 3px;
-  z-index: 1001;
-  text-shadow: 0 0 10px var(--primary-color);
-  animation: pulseText 1s infinite alternate, fadeOut 0.5s 0.5s forwards;
-}
-
-@keyframes fadeOut {
-  to {
-    opacity: 0;
-    visibility: hidden;
-  }
-}
-
-@keyframes pulseText {
-  0% { opacity: 0.5; filter: blur(0px); }
-  100% { opacity: 1; filter: blur(1px); }
-}
-
-/* Add interactive hover effects on mobile */
-@media (hover: hover) {
-  /* Apply hover effects only for devices that support hover */
-  /* Your hover styles are already defined above */
-}
-
-/* Add the script to generate stars dynamically */
-/* This will be added via JavaScript after page load */
-document.addEventListener('DOMContentLoaded', function() {
-  const script = document.createElement('script');
-  script.textContent = `
-    const starsContainer = document.createElement('div');
-    starsContainer.className = 'stars';
-    document.body.appendChild(starsContainer);
-    
-    // Create 100 stars with random properties
-    for (let i = 0; i < 100; i++) {
-      const star = document.createElement('div');
-      star.className = 'star';
-      
-      // Random position
-      star.style.left = \`\${Math.random() * 100}%\`;
-      star.style.top = \`\${Math.random() * 100}%\`;
-      
-      // Random size
-      const size = Math.random() * 3;
-      star.style.width = \`\${size}px\`;
-      star.style.height = \`\${size}px\`;
-      
-      // Random duration
-      const duration = 2 + Math.random() * 4;
-      star.style.setProperty('--duration', \`\${duration}s\`);
-      
-      // Random delay
-      star.style.animationDelay = \`\${Math.random() * 5}s\`;
-      
-      starsContainer.appendChild(star);
-    }
-  `;
-  document.body.appendChild(script);
-});
+/* Submit Button */    
+#createProfileBtn {    
+    width: 100%;    
+    padding: 14px;    
+    background: linear-gradient(135deg, #4a90e2, #357abd);    
+    color: white;    
+    border: none;    
+    border-radius: 8px;    
+    cursor: pointer;    
+    font-family: 'Poppins', sans-serif;    
+    font-weight: 600;    
+    font-size: 16px;    
+    transition: all 0.3s ease-in-out;    
+}    
+  
+/* Hover Effect */    
+#createProfileBtn:hover {    
+    background: linear-gradient(135deg, #357abd, #2a6db0);    
+    transform: scale(1.02);    
+}    
+  
+/* Fade-in Animation */    
+@keyframes fadeIn {    
+    from {    
+        opacity: 0;    
+    }    
+    to {    
+        opacity: 1;    
+    }    
+}    
+  
+.profile-card {    
+    display: none; /* Hidden by default */    
+    flex-direction: column;    
+    align-items: center;    
+    text-align: center;    
+    animation: fadeIn 1s ease-in-out;    
+    background: white;    
+    padding: 20px;    
+    border-radius: 15px;    
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);    
+}    
+  
+/* Profile Image */    
+.profile-image {    
+    width: 130px;    
+    height: 130px;    
+    border-radius: 50%;    
+    object-fit: cover;    
+    object-position: center;    
+    animation: glow 3s infinite alternate ease-in-out;    
+    transition: box-shadow 0.5s ease-in-out, transform 0.3s ease-in-out;    
+}    
+  
+.profile-image:hover {    
+    transform: scale(1.05);    
+}    
+  
+@keyframes glow {    
+    0% { box-shadow: 0 0 5px rgba(255, 0, 255, 0.5), 0 0 10px rgba(255, 0, 255, 0.5); }    
+    100% { box-shadow: 0 0 15px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.5); }    
+}    
+  
+/* Profile Name */    
+.profile-name {    
+    font-size: 24px;    
+    font-weight: bold;    
+    margin-top: 10px;    
+}    
+  
+/* Social Icons */    
+.social-container {    
+    background: rgba(255, 255, 255, 0.2);    
+    padding: 10px;    
+    border-radius: 10px;    
+    backdrop-filter: blur(10px);    
+    margin-top: 10px;    
+    display: flex;    
+    justify-content: center; /* Centers the social icons */    
+    gap: 15px; /* Adds spacing between icons */    
+}    
+  
+.social-icons {    
+    display: flex;    
+    justify-content: center;    
+    align-items: center;    
+    gap: 15px; /* Adds space between icons */    
+}    
+  
+.social-icons a {    
+    font-size: 24px;    
+    color: gray;    
+    text-decoration: none;    
+    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;    
+}    
+  
+.social-icons a:hover {    
+    transform: translateY(-5px);    
+    color: blue;    
+}    
+  
+/* Share Button */    
+.sharebtn {    
+    position: fixed;    
+    top: 10px;    
+    right: 10px;    
+    background: none;    
+    border: none;    
+    cursor: pointer;    
+    font-size: 22px;    
+    color: gray;    
+    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;    
+}    
+  
+.sharebtn:hover {    
+    transform: scale(1.1);    
+    color: gray;    
+}    
+.profile-bio{    
+ color:gray     
+}    
+  
+/* Spotify Container */    
+#spotify-container {    
+    width: 100%;    
+    display: flex;    
+    justify-content: center;    
+    position: fixed;    
+    bottom: 10px;    
+    left: 0;    
+    padding: 10px;    
+}    
+  
+#spotify-container iframe {    
+    width: 300px;    
+    height: 80px;    
+    border-radius: 10px;    
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);    
+}    
+  
+/* Fade In Animation */    
+@keyframes fadeIn {    
+    from { opacity: 0; }    
+    to { opacity: 1; }    
+}    
