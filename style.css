@@ -1,142 +1,166 @@
-{
-margin: 0;
-padding: 0;
-box-sizing: border-box;
+* {    
+    margin: 0;    
+    padding: 0;    
+    box-sizing: border-box;    
+}    
+  
+:root {
+  --primary: #6200ea;
+  --secondary: #03dac6;
+  --accent: #ff0266;
+  --dark: white;
+  --light: #ffffff;
+  --text-primary: #f5f5f5;
+  --text-secondary: #b0bec5;
+  --card-bg: rgba(18, 18, 24, 0.85);
+  --gradient-1: linear-gradient(135deg, #6200ea, #03dac6);
+  --gradient-2: linear-gradient(45deg, #ff0266, #ffb199);
+  --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  --neon-glow: 0 0 15px var(--secondary), 0 0 25px var(--secondary);
 }
 
-
-:root { --primary: #6200ea; --secondary: #03dac6; --accent: #ff0266; --dark: white; --light: #ffffff; --text-primary: #f5f5f5; --text-secondary: #b0bec5; --card-bg: rgba(18, 18, 24, 0.85); --gradient-1: linear-gradient(135deg, #6200ea, #03dac6); --gradient-2: linear-gradient(45deg, #ff0266, #ffb199); --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); --neon-glow: 0 0 15px var(--secondary), 0 0 25px var(--secondary); }
-
-body { font-family: 'Poppins', sans-serif; background-color: var(--dark); background-attachment: fixed; display: flex; align-items: center; justify-content: center; height: 100vh; text-align: center; flex-direction: column; padding: 20px; }
-
-.fullscreen-container {
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 100vh;
-background: #f5f5f5;
-display: flex;
-align-items: center;
-justify-content: center;
-overflow: hidden;
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--dark);
+  background-attachment: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+  flex-direction: column;
+  padding: 20px;
 }
 
-@keyframes fadeIn {
-from { opacity: 0; }
-to { opacity: 1; }
+.fullscreen-container {    
+    position: fixed;    
+    top: 0;    
+    left: 0;    
+    width: 100%;    
+    height: 100vh;    
+    background: #f5f5f5;    
+    display: flex;    
+    align-items: center;    
+    justify-content: center;    
+    overflow: hidden;    
+}    
+  
+@keyframes fadeIn {    
+    from { opacity: 0; }    
+    to { opacity: 1; }    
+}    
+  
+.profile-card {    
+    display: none;    
+    flex-direction: column;    
+    align-items: center;    
+    text-align: center;    
+    animation: fadeIn 1s ease-in-out;    
+    background: white;    
+    padding: 20px;    
+    border-radius: 15px;    
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);    
+}    
+  
+/* Profile Image */    
+.profile-image {    
+    width: 130px;    
+    height: 180px; /* Making it more rectangular */    
+    border-radius: 15px; /* Slightly rounded edges for a modern look */    
+    object-fit: cover;    
+    object-position: center;    
+    animation: glow 3s infinite alternate ease-in-out;    
+    transition: box-shadow 0.5s ease-in-out, transform 0.3s ease-in-out;    
+}    
+  
+.profile-image:hover {    
+    transform: scale(1.05);    
+}    
+  
+@keyframes glow {    
+    0% { box-shadow: 0 0 10px rgba(255, 0, 255, 0.7), 0 0 20px rgba(255, 0, 255, 0.7); }    
+    100% { box-shadow: 0 0 20px rgba(0, 255, 255, 0.7), 0 0 30px rgba(0, 255, 255, 0.7); }    
+}    
+  
+.profile-name {    
+    font-size: 24px;    
+    font-weight: bold;    
+    margin-top: 10px;    
+}    
+  
+/* Social Icons */    
+.social-container {    
+    background: rgba(255, 255, 255, 0.1);    
+    padding: 15px;    
+    border-radius: 15px;    
+    backdrop-filter: blur(10px);    
+    margin-top: 15px;    
+    display: flex;    
+    justify-content: center;    
+    gap: 20px;    
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.3), 0 0 20px rgba(0, 255, 255, 0.4);    
+    transition: all 0.3s ease-in-out;
+}    
+  
+.social-container:hover {    
+    box-shadow: 0 0 20px rgba(255, 0, 255, 0.5), 0 0 30px rgba(0, 255, 255, 0.5);    
+}    
+  
+.social-icons {    
+    display: flex;    
+    justify-content: center;    
+    align-items: center;    
+    gap: 20px; /* Increased space between icons */    
+}    
+  
+.social-icons a {    
+    font-size: 26px;    
+    color: gray;    
+    text-decoration: none;    
+    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;    
+}    
+  
+.social-icons a:hover {    
+    transform: translateY(-5px) scale(1.1);    
+    color: var(--primary);    
+    text-shadow: 0 0 10px var(--primary), 0 0 20px var(--primary);    
+}    
+  
+/* Share Button */    
+.sharebtn {    
+    position: fixed;    
+    top: 10px;    
+    right: 10px;    
+    background: none;    
+    border: none;    
+    cursor: pointer;    
+    font-size: 22px;    
+    color: gray;    
+    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;    
+}    
+  
+.sharebtn:hover {    
+    transform: scale(1.1);    
+    color: gray;    
+}    
+.profile-bio {    
+    color: gray;    
+}    
+  
+/* Spotify Container */    
+#spotify-container {    
+    width: 100%;    
+    display: flex;    
+    justify-content: center;    
+    position: fixed;    
+    bottom: 10px;    
+    left: 0;    
+    padding: 10px;    
+}    
+  
+#spotify-container iframe {    
+    width: 300px;    
+    height: 80px;    
+    border-radius: 10px;    
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);    
 }
-
-.profile-card {
-display: none;
-flex-direction: column;
-align-items: center;
-text-align: center;
-animation: fadeIn 1s ease-in-out;
-background: white;
-padding: 20px;
-border-radius: 15px;
-box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-}
-
-.profile-image {
-width: 130px;
-height: 180px; / Making it more rectangular /
-border-radius: 15px; / Slightly rounded edges for a modern look */
-object-fit: cover;
-object-position: center;
-animation: glow 3s infinite alternate ease-in-out;
-transition: box-shadow 0.5s ease-in-out, transform 0.3s ease-in-out;
-}
-
-.profile-image:hover {
-transform: scale(1.05);
-}
-
-@keyframes glow {
-0% { box-shadow: 0 0 10px rgba(255, 0, 255, 0.7), 0 0 20px rgba(255, 0, 255, 0.7); }
-100% { box-shadow: 0 0 20px rgba(0, 255, 255, 0.7), 0 0 30px rgba(0, 255, 255, 0.7); }
-}
-
-.profile-name {
-font-size: 24px;
-font-weight: bold;
-margin-top: 10px;
-}
-
-/* Social Icons */
-.social-container {
-background: rgba(255, 255, 255, 0.1);
-padding: 15px;
-border-radius: 15px;
-backdrop-filter: blur(10px);
-margin-top: 15px;
-display: flex;
-justify-content: center;
-gap: 20px;
-box-shadow: 0 0 10px rgba(0, 255, 255, 0.3), 0 0 20px rgba(0, 255, 255, 0.4);
-transition: all 0.3s ease-in-out; }
-
-.social-container:hover {
-box-shadow: 0 0 20px rgba(255, 0, 255, 0.5), 0 0 30px rgba(0, 255, 255, 0.5);
-}
-
-.social-icons {
-display: flex;
-justify-content: center;
-align-items: center;
-gap: 20px; /* Increased space between icons */
-}
-
-.social-icons a {
-font-size: 26px;
-color: gray;
-text-decoration: none;
-transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
-}
-
-.social-icons a:hover {
-transform: translateY(-5px) scale(1.1);
-color: var(--primary);
-text-shadow: 0 0 10px var(--primary), 0 0 20px var(--primary);
-}
-
-/* Share Button */
-.sharebtn {
-position: fixed;
-top: 10px;
-right: 10px;
-background: none;
-border: none;
-cursor: pointer;
-font-size: 22px;
-color: gray;
-transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
-}
-
-.sharebtn:hover {
-transform: scale(1.1);
-color: gray;
-}
-.profile-bio {
-color: gray;
-}
-
-/* Spotify Container */
-#spotify-container {
-width: 100%;
-display: flex;
-justify-content: center;
-position: fixed;
-bottom: 10px;
-left: 0;
-padding: 10px;
-}
-
-#spotify-container iframe {
-width: 300px;
-height: 80px;
-border-radius: 10px;
-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
