@@ -3,42 +3,34 @@
 <head>  
     <meta charset="UTF-8">  
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-    <title>Profile | Sam</title>  
+    <title>Profile</title>  
+<meta name="twitter:title" content="Profile">
+ <link rel="icon" type="image/png" href="https://i.ibb.co/sKbrkyn/Yellow-and-Grey-Pastel-Grunge-Designer-Brand-Logo-20241009-185202-0000.png">  
 
-    <!-- Meta tags for social sharing -->
-    <meta name="twitter:title" content="Profile">
-    <meta property="og:title" content="Profile">
-    <meta property="og:description" content="Check out my profile">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="">
-    <meta property="og:image" content="https://i.ibb.co/sKbrkyn/Yellow-and-Grey-Pastel-Grunge-Designer-Brand-Logo-20241009-185202-0000.png">
-
-    <link rel="icon" type="image/png" href="https://i.ibb.co/sKbrkyn/Yellow-and-Grey-Pastel-Grunge-Designer-Brand-Logo-20241009-185202-0000.png">  
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">  
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">  
-    <link rel="stylesheet" href="./style.css">  
-<link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&display=swap" rel="stylesheet">
+   <link rel="stylesheet" href="./style.css">  
+<link
 </head>  
 <body>  
 
-<div class="profile-image-container">
-    <img class="profile-image" id="profile-image" src="" alt="">
-</div>
+    <button id="shareBtn" class="sharebtn">  
+        <i class="fas fa-share-alt"></i>  
+    </button>  
 
-<div class="profile-container" id="profile-container">  
-    
+    <div class="profile-container" id="profile-container">  
+        <div class="profile-header">  
+            <img class="profile-image" id="profile-image" src="" alt="">  
+            <div class="profile-name" id="profile-name"></div>  
+            <div class="profile-bio" id="profile-bio"></div>  
+        </div>  
 
-    <div class="profile-header">  
-        <div class="profile-name" id="profile-name"></div>  
-        <div class="profile-bio" id="profile-bio"></div>  
+        <div class="social-container">  
+            <div class="social-icons" id="social-icons"></div>  
+        </div>  
+
+        <div class="spotify-container" id="spotify-container"></div>  
     </div>  
-
-    
-</div>
-
-        
-      
-        
 
     <script type="module">  
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";  
@@ -86,23 +78,17 @@
                     if (profile.email) socialHTML += `<a href="mailto:${profile.email}" target="_blank"><i class="fas fa-envelope"></i></a>`;  
                     if (profile.telegram) socialHTML += `<a href="https://t.me/${profile.telegram}" target="_blank"><i class="fab fa-telegram"></i></a>`;  
                     if (profile.github) socialHTML += `<a href="https://github.com/${profile.github}" target="_blank"><i class="fab fa-github"></i></a>`;  
+                    if (profile.josh) socialHTML += `<a href="https://share.myjosh.in/profile/${profile.josh}" target="_blank"><i class="fas fa-play"></i></a>`;  
 
                     document.getElementById("social-icons").innerHTML = socialHTML;  
 
-                    // ✅ Fixed Spotify Embed Functionality
                     if (profile.spotify) {  
-                        let trackID = profile.spotify.split("/track/")[1]?.split("?")[0];  
-                        if (trackID) {
-                            document.getElementById("spotify-container").innerHTML =  
-                                `<iframe style="border-radius:12px"  
-                                src="https://open.spotify.com/embed/track/${trackID}?utm_source=generator"  
-                                width="100%" height="152" frameBorder="0"  
-                                allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"  
-                                loading="lazy"></iframe>`;  
-                        }
-                    }
+                        let spotifyID = profile.spotify.split('/').pop();  
+                        let embedType = profile.spotify.includes("playlist") ? "playlist" : "track";  
 
-                    updateProfileMetadata(profile.name);
+                        const spotifyEmbed = `<iframe src="https://open.spotify.com/embed/${embedType}/${spotifyID}" width="300" height="80" frameborder="0" allow="encrypted-media"></iframe>`;  
+                        document.getElementById("spotify-container").innerHTML = spotifyEmbed;  
+                    }  
                 } else {  
                     alert("Profile not found!");  
                     window.location.href = "/";  
@@ -114,11 +100,11 @@
 
         document.getElementById("shareBtn").addEventListener("click", async () => {    
             const url = window.location.href;    
-            const text = `Check out ${document.getElementById("profile-name").innerText}'s Profile!`;    
+            const text = "Check Out My Web Developed By Samartha Gs 👨‍💻:";    
 
             if (navigator.share) {    
                 try {    
-                    await navigator.share({ title: document.title, text, url });    
+                    await navigator.share({ title: "Profile Card", text, url });    
                 } catch (error) {    
                     console.error("Sharing failed:", error);    
                 }    
@@ -126,23 +112,24 @@
                 alert("Sharing not supported!");    
             }    
         });  
-    </script>
+  </script>  
+<script>
+  // Function to set the dynamic profile title and update only the Twitter title
+  function setProfileTitle(username) {
+      if (username) {
+          document.title = `${username}'s Profile`;
+      } else {
+          document.title = "Profile";
+      }
 
-    <script>
-        function updateProfileMetadata(name) {
-            const profileTitle = name ? `${name}'s Profile` : "Profile";
-            const profileDescription = `Check out ${name}'s profile`;
-            const currentUrl = window.location.href;
+      // Update only the Twitter title meta tag
+      document.querySelector('meta[name="twitter:title"]').setAttribute("content", document.title);
+  }
 
-            document.title = profileTitle;
-
-            document.querySelector('meta[name="twitter:title"]').setAttribute("content", profileTitle);
-            document.querySelector('meta[property="og:title"]').setAttribute("content", profileTitle);
-            document.querySelector('meta[property="og:description"]').setAttribute("content", profileDescription);
-            document.querySelector('meta[property="og:url"]').setAttribute("content", currentUrl);
-        }
-
-    </script>
-
+  // Extract username from the URL path and set the title/meta tags
+  const path = window.location.pathname.substring(1); 
+  const username = path ? decodeURIComponent(path) : null;
+  setProfileTitle(username);
+</script>
 </body>  
-</html>
+</html>  
