@@ -20,20 +20,21 @@
 }
 
 body {
-  font-family: 'Montserrat', sans-serif;
-  background-color: var(--dark);
+font-family: 'Poppins', sans-serif;
+background-color: var(--dark);
   background-image: 
     radial-gradient(circle at 20% 30%, rgba(98, 0, 234, 0.3) 0%, transparent 40%),
     radial-gradient(circle at 80% 70%, rgba(3, 218, 198, 0.3) 0%, transparent 40%);
   background-attachment: fixed;
-  color: var(--text-primary);
-  min-height: 100vh;
-  overflow-x: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
+display: flex;
+align-items: center;
+justify-content: center;
+height: 100vh;
+text-align: center;
+flex-direction: column; /* Ensure content stacks properly */
+padding: 20px;
 }
+
 
 
 
