@@ -17,7 +17,7 @@ flex-direction: column; /* Ensure content stacks properly */
 padding: 20px;
 }
 
-/* Full-Screen Container /
+
 .fullscreen-container {
 position: fixed;
 top: 0;
