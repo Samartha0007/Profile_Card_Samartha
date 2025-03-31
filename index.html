@@ -28,7 +28,7 @@
 
     <div class="profile-container" id="profile-container">
         <div class="profile-header">
-            <img class="profile-image" id="profile-image" src="" alt="Profile Picture">
+            <img class="profile-image" id="profile-image" src="" alt="">
             <div class="profile-name" id="profile-name"></div>
             <div class="profile-bio" id="profile-bio"></div>
         </div>
@@ -105,7 +105,7 @@
 
         function updateMetaTags(name, bio, image, url) {
             document.title = `${name}'s Profile`;
-            document.getElementById("og-title").content = `${name}'s Profile`;
+            document.getElementById("og-title").content = `${name}`;
             document.getElementById("twitter-title").content = `${name}'s Profile`;
             document.getElementById("og-description").content = bio;
             document.getElementById("twitter-description").content = bio;
@@ -165,7 +165,7 @@
             const profileName = document.getElementById("profile-name").innerText;
             const shareData = {
                 title: `${profileName}'s Profile`,
-                text: `Check out ${profileName}'s awesome profile!`,
+                text: `Check out ${profileName}'s awesome profile! ✨`,
                 url: url
             };
 
