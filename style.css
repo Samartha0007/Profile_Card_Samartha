@@ -229,7 +229,7 @@ body {
 
 /* Modern Introduction Page Styles */ .intro-container { display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; background: linear-gradient(135deg, #eceff1, #ffffff); text-align: center; }
 
-.intro-content { max-width: 850px; background: white; padding: 50px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); margin: 20px; transition: all 0.3s ease-in-out; }
+.intro-content { max-width: 850px; background: white; padding: 50px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); margin: 20px; transition: all 0.3s ease-in-out; display: flex; flex-direction: column; align-items: center; }
 
 .intro-logo { width: 140px; height: 140px; border-radius: 50%; object-fit: cover; margin-bottom: 20px; border: 4px solid #007bff; }
 
@@ -239,7 +239,11 @@ body {
 
 .intro-content code { background: #eef2f7; padding: 5px 10px; border-radius: 5px; font-family: monospace; font-weight: bold; color: #007bff; }
 
-.intro-features { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; margin: 50px 0; }
+.cta-button { display: inline-block; padding: 14px 35px; background: #007bff; color: white; text-decoration: none; border-radius: 30px; font-weight: 600; font-size: 1.2rem; border: none; cursor: pointer; transition: all 0.3s ease-in-out; margin-top: 20px; }
+
+.cta-button:hover { background: #0056b3; transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0, 123, 255, 0.3); }
+
+.intro-features { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; margin: 50px 0; width: 100%; max-width: 850px; }
 
 .feature { padding: 25px; background: #f8f9fa; border-radius: 10px; text-align: center; transition: transform 0.3s ease, box-shadow 0.3s ease; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05); }
 
@@ -251,10 +255,6 @@ body {
 
 .feature p { font-size: 1rem; color: #666; margin-bottom: 0; }
 
-.cta-button { display: inline-block; padding: 14px 35px; background: #007bff; color: white; text-decoration: none; border-radius: 30px; font-weight: 600; font-size: 1.2rem; border: none; cursor: pointer; transition: all 0.3s ease-in-out; }
-
-.cta-button:hover { background: #0056b3; transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0, 123, 255, 0.3); }
-
 /* Responsive Design */ @media (max-width: 768px) { .intro-content { padding: 35px; }
 
 .intro-content h1 {
@@ -262,7 +262,7 @@ body {
 }
 
 .intro-features {
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
 
 }
@@ -274,6 +274,9 @@ body {
     height: 110px;
 }
 
+.intro-features {
+    grid-template-columns: 1fr;
 }
 
-   
+}
+
