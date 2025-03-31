@@ -2,9 +2,7 @@
   "rewrites": [
     { "source": "/:username", "destination": "/username?username=:username" },
     { "source": "/(.*)", "destination": "/index.html" }
-  ]
-}
-{
+  ],
   "headers": [
     {
       "source": "/(.*)",
