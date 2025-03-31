@@ -1,20 +1,15 @@
+
 {
-  "version": 2,
-  "builds": [
-    { "src": "profile.js", "use": "@vercel/node" }
+  "rewrites": [
+    { "source": "/:username", "destination": "/username?username=:username" },
+    { "source": "/(.*)", "destination": "/index.html" }
   ],
-  "routes": [
+  "headers": [
     {
-      "src": "/([a-zA-Z0-9_-]+)",
-      "dest": "/profile.js",
-      "headers": {
-        "Cache-Control": "no-store, max-age=0",
-        "Content-Type": "text/html"
-      }
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "source": "/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-store, no-cache, must-revalidate" }
+      ]
     }
   ]
 }
