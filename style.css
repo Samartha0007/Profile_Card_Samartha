@@ -226,16 +226,20 @@ body {
     to { opacity: 1; }    
 } 
 
-.cta-button {
-    display: inline-block;
-    padding: 12px 30px;
-    background: #4a6bff;
+.cta-button { 
+    width: 100%;
+    padding: 16px;
+    background: #007bff;
     color: white;
-    text-decoration: none;
-    border-radius: 50px;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    font-size: 1.1rem;
     border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
     cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    margin-bottom: 10px; /* Adds space below the button */
+    box-shadow: 0 4px 15px rgba(230, 74, 25, 0.4);
+    text-decoration: none; /* Ensures no underline */
+    display: inline-block; /* Helps in keeping proper spacing */
 }
