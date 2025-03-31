@@ -160,29 +160,30 @@
         }
 
         // Initialize share button
-        document.getElementById("shareBtn").addEventListener("click", async () => {
-            const url = window.location.href;
-            const profileName = document.getElementById("profile-name").innerText;
-            const shareData = {
-                title: `${profileName}'s Profile`,
-                text: `Check out ${profileName}'s awesome profile! ✨`,
-                url: url
-            };
+        // Initialize share button
+document.getElementById("shareBtn").addEventListener("click", async () => {
+    // Get the clean profile URL (without query parameters)
+    const url = window.location.origin + window.location.pathname;
+    const profileName = document.getElementById("profile-name").innerText;
+    
+    const shareData = {
+        title: `${profileName}'s Profile`,
+        text: `Check out ${profileName}'s awesome profile! ✨`,
+        url: url
+    };
 
-            try {
-                if (navigator.share) {
-                    await navigator.share(shareData);
-                } else {
-                    // Fallback for non-supporting browsers
-                    await navigator.clipboard.writeText(`${shareData.text}\n${url}`);
-                    alert("Link copied to clipboard!");
-                }
-            } catch (error) {
-                console.log("Sharing failed:", error);
-            }
-        });
-
-        // Load profile when DOM is ready
+    try {
+        if (navigator.share) {
+            await navigator.share(shareData);
+        } else {
+            // Fallback: Copy to clipboard if Web Share API is not supported
+            await navigator.clipboard.writeText(`${shareData.text}\n${url}`);
+            alert("Profile link copied to clipboard!");
+        }
+    } catch (error) {
+        console.error("Sharing failed:", error);
+    }
+});
         document.addEventListener('DOMContentLoaded', loadProfile);
     </script>
 
