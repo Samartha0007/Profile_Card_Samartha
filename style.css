@@ -7,7 +7,12 @@ box-sizing: border-box;
 
 body {
 font-family: 'Poppins', sans-serif;
-background: linear-gradient(120deg, #eceff1, #b0bec5);
+background-color: var(--dark);
+  background-image: 
+    radial-gradient(circle at 20% 30%, rgba(98, 0, 234, 0.3) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(3, 218, 198, 0.3) 0%, transparent 40%);
+  background-attachment: fixed;
+  color: var(--text-primary);
 display: flex;
 align-items: center;
 justify-content: center;
