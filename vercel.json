@@ -5,8 +5,19 @@
   ],
   "rewrites": [
     { 
-      "source": "/:username", 
-      "destination": "/profile.js?username=:username" 
+      "source": "/:username([a-zA-Z0-9_-]+)", 
+      "destination": "/profile.js?username=:username",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": "(facebookexternalhit|Twitterbot|WhatsApp|Snapchat|Discordbot|TelegramBot)"
+        }
+      ]
+    },
+    { 
+      "source": "/:username([a-zA-Z0-9_-]+)", 
+      "destination": "/index.html" 
     },
     { 
       "source": "/(.*)", 
@@ -15,10 +26,11 @@
   ],
   "headers": [
     {
-      "source": "/:username",
+      "source": "/:username([a-zA-Z0-9_-]+)",
       "headers": [
-        { "key": "Cache-Control", "value": "no-store, no-cache, must-revalidate" },
-        { "key": "Content-Type", "value": "text/html" }
+        { "key": "Cache-Control", "value": "s-maxage=3600, stale-while-revalidate=60" },
+        { "key": "Content-Type", "value": "text/html; charset=utf-8" },
+        { "key": "X-Robots-Tag", "value": "noindex" }
       ]
     }
   ]
