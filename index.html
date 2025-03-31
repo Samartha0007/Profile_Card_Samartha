@@ -4,7 +4,7 @@
     <meta charset="UTF-8">  
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
     <!-- Default title (will be updated dynamically) -->
-    <title>Loading Profile...</title>  
+    <title></title>  
     
     <!-- Open Graph / Facebook Meta Tags (for sharing) -->
     <meta property="og:type" content="website">
@@ -84,7 +84,7 @@
                     document.title = `${profileName}'s Profile`;
 
                     // Update Meta Tags for Social Sharing
-                    document.getElementById("og-title").content = `${profileName}'s Profile`;
+                    document.getElementById("og-title").content = `${profileName}'`;
                     document.getElementById("twitter-title").content = `${profileName}'s Profile`;
                     document.getElementById("og-description").content = profileBio;
                     document.getElementById("twitter-description").content = profileBio;
@@ -135,12 +135,12 @@
         document.getElementById("shareBtn").addEventListener("click", async () => {    
             const url = window.location.href;    
             const profileName = document.getElementById("profile-name").innerText;    
-            const text = `Check out ${profileName}'s profile! 🌟 ${url}`;
+            const text = `Check out ${profileName}'s profile! ✨`;
 
             if (navigator.share) {    
                 try {    
                     await navigator.share({ 
-                        title: `${profileName}'s Profile`, 
+                        title: `${profileName}'`, 
                         text: text, 
                         url: url 
                     });    
