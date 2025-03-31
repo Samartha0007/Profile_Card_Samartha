@@ -1,142 +1,3 @@
-/* Introduction Page Styles */
-.intro-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 20px;
-    text-align: center;
-    background-color: #f5f5f5;
-}
-
-.intro-content {
-    max-width: 800px;
-    background: white;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    margin: 20px;
-}
-
-.intro-logo {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 20px;
-    border: 3px solid #4a6bff;
-}
-
-.intro-content h1 {
-    font-size: 2.2rem;
-    color: #333;
-    margin-bottom: 15px;
-}
-
-.intro-content p {
-    font-size: 1.1rem;
-    color: #666;
-    margin-bottom: 25px;
-    line-height: 1.6;
-}
-
-.intro-content code {
-    background: #f0f0f0;
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-family: monospace;
-}
-
-.intro-features {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    margin: 40px 0;
-    gap: 20px;
-}
-
-.feature {
-    flex: 1;
-    min-width: 200px;
-    padding: 20px;
-    background: #f9f9f9;
-    border-radius: 8px;
-    transition: transform 0.3s ease;
-}
-
-.feature:hover {
-    transform: translateY(-5px);
-}
-
-.feature i {
-    font-size: 2.5rem;
-    color: #4a6bff;
-    margin-bottom: 15px;
-}
-
-.feature h3 {
-    font-size: 1.3rem;
-    margin-bottom: 10px;
-    color: #444;
-}
-
-.feature p {
-    font-size: 0.95rem;
-    color: #777;
-    margin-bottom: 0;
-}
-
-.cta-button {
-    display: inline-block;
-    padding: 12px 30px;
-    background: #4a6bff;
-    color: white;
-    text-decoration: none;
-    border-radius: 50px;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    font-size: 1.1rem;
-    border: none;
-    cursor: pointer;
-}
-
-.cta-button:hover {
-    background: #3a5bef;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(74, 107, 255, 0.3);
-}
-
-/* Responsive adjustments for intro page */
-@media (max-width: 768px) {
-    .intro-content {
-        padding: 25px;
-    }
-    
-    .intro-features {
-        flex-direction: column;
-        gap: 15px;
-    }
-    
-    .feature {
-        min-width: 100%;
-    }
-    
-    .intro-content h1 {
-        font-size: 1.8rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .intro-content {
-        padding: 20px 15px;
-        margin: 10px;
-    }
-    
-    .intro-logo {
-        width: 120px;
-        height: 120px;
-    }
-}
 
 
 * {    
@@ -364,4 +225,55 @@ body {
 @keyframes fadeIn {    
     from { opacity: 0; }    
     to { opacity: 1; }    
-}    
+} 
+
+/* Modern Introduction Page Styles */ .intro-container { display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; background: linear-gradient(135deg, #eceff1, #ffffff); text-align: center; }
+
+.intro-content { max-width: 850px; background: white; padding: 50px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); margin: 20px; transition: all 0.3s ease-in-out; }
+
+.intro-logo { width: 140px; height: 140px; border-radius: 50%; object-fit: cover; margin-bottom: 20px; border: 4px solid #007bff; }
+
+.intro-content h1 { font-size: 2.5rem; color: #222; margin-bottom: 15px; font-weight: bold; letter-spacing: 1px; }
+
+.intro-content p { font-size: 1.2rem; color: #555; margin-bottom: 30px; line-height: 1.7; }
+
+.intro-content code { background: #eef2f7; padding: 5px 10px; border-radius: 5px; font-family: monospace; font-weight: bold; color: #007bff; }
+
+.intro-features { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; margin: 50px 0; }
+
+.feature { padding: 25px; background: #f8f9fa; border-radius: 10px; text-align: center; transition: transform 0.3s ease, box-shadow 0.3s ease; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05); }
+
+.feature:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0, 123, 255, 0.2); }
+
+.feature i { font-size: 3rem; color: #007bff; margin-bottom: 15px; }
+
+.feature h3 { font-size: 1.4rem; margin-bottom: 10px; color: #333; font-weight: 600; }
+
+.feature p { font-size: 1rem; color: #666; margin-bottom: 0; }
+
+.cta-button { display: inline-block; padding: 14px 35px; background: #007bff; color: white; text-decoration: none; border-radius: 30px; font-weight: 600; font-size: 1.2rem; border: none; cursor: pointer; transition: all 0.3s ease-in-out; }
+
+.cta-button:hover { background: #0056b3; transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0, 123, 255, 0.3); }
+
+/* Responsive Design */ @media (max-width: 768px) { .intro-content { padding: 35px; }
+
+.intro-content h1 {
+    font-size: 2rem;
+}
+
+.intro-features {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+}
+
+@media (max-width: 480px) { .intro-content { padding: 25px; }
+
+.intro-logo {
+    width: 110px;
+    height: 110px;
+}
+
+}
+
+   
