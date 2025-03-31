@@ -238,20 +238,22 @@ h1 { font-size: 2.5rem; color: #222; font-weight: 700; margin-bottom: 10px; }
 p { font-size: 1.0rem; color: #555; margin-bottom: 20px; max-width: 600px; line-height: 1.6; }
 
 .cta-button { 
-
-            width: 100%;
-            padding: 16px;
-            background: #007bff;
-            color:white;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 10px;
-            box-shadow: 0 4px 15px rgba(230, 74, 25, 0.4);
-        }
+    width: 100%;
+    padding: 16px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    margin-bottom: 10px; /* Adds space below the button */
+    box-shadow: 0 4px 15px rgba(230, 74, 25, 0.4);
+    text-decoration: none; /* Ensures no underline */
+    display: inline-block; /* Helps in keeping proper spacing */
+}
 
 
 /* Footer Styles */ footer { position: absolute; bottom: 20px; font-size: 0.9rem; color: #777; }
