@@ -3,13 +3,26 @@
 <head>  
     <meta charset="UTF-8">  
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-    <title>Your Profile</title>  
-    <meta name="twitter:title" content="Profile">
-    <meta property="og:title" content="Profile">
+    <!-- Default title (will be updated dynamically) -->
+    <title>Loading Profile...</title>  
+    
+    <!-- Open Graph / Facebook Meta Tags (for sharing) -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" id="og-title" content="Profile">
     <meta property="og:image" id="og-image" content="">
-    <meta name="twitter:image" id="twitter-image" content="">
-    <link rel="icon" type="image/png" href="https://i.ibb.co/sKbrkyn/Yellow-and-Grey-Pastel-Grunge-Designer-Brand-Logo-20241009-185202-0000.png">  
+    <meta property="og:url" id="og-url" content="">
+    <meta property="og:description" id="og-description" content="Check out my profile!">
 
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" id="twitter-title" content="Profile">
+    <meta name="twitter:image" id="twitter-image" content="">
+    <meta name="twitter:description" id="twitter-description" content="Check out my profile!">
+
+    <!-- Favicon (will update dynamically) -->
+    <link rel="icon" id="favicon" type="image/png" href="https://i.ibb.co/sKbrkyn/Yellow-and-Grey-Pastel-Grunge-Designer-Brand-Logo-20241009-185202-0000.png">  
+
+    <!-- Fonts & Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">  
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">  
     <link rel="stylesheet" href="./style.css">  
@@ -22,7 +35,7 @@
 
     <div class="profile-container" id="profile-container">  
         <div class="profile-header">  
-            <img class="profile-image" id="profile-image" src="" alt="">  
+            <img class="profile-image" id="profile-image" src="" alt="Profile Picture">  
             <div class="profile-name" id="profile-name"></div>  
             <div class="profile-bio" id="profile-bio"></div>  
         </div>  
@@ -62,15 +75,35 @@
 
                 if (!querySnapshot.empty) {  
                     const profile = querySnapshot.docs[0].data();  
-                    document.getElementById("profile-name").innerText = profile.name;  
-                    document.getElementById("profile-bio").innerText = profile.bio;  
+                    const profileName = profile.name;
+                    const profileBio = profile.bio || "Check out my profile!";
+                    const profileImage = profile.imageUrl || "https://i.ibb.co/sKbrkyn/Yellow-and-Grey-Pastel-Grunge-Designer-Brand-Logo-20241009-185202-0000.png";
+                    const currentUrl = window.location.href;
 
-                    if (profile.imageUrl) {  
-                        document.getElementById("profile-image").src = profile.imageUrl;  
-                        document.getElementById("og-image").setAttribute("content", profile.imageUrl);
-                        document.getElementById("twitter-image").setAttribute("content", profile.imageUrl);
-                    }  
+                    // Update Browser Tab Title
+                    document.title = `${profileName}'s Profile`;
 
+                    // Update Meta Tags for Social Sharing
+                    document.getElementById("og-title").content = `${profileName}'s Profile`;
+                    document.getElementById("twitter-title").content = `${profileName}'s Profile`;
+                    document.getElementById("og-description").content = profileBio;
+                    document.getElementById("twitter-description").content = profileBio;
+                    document.getElementById("og-url").content = currentUrl;
+
+                    // Update Favicon Dynamically
+                    const favicon = document.getElementById("favicon");
+                    favicon.href = profileImage;
+
+                    // Update Profile Display
+                    document.getElementById("profile-name").innerText = profileName;  
+                    document.getElementById("profile-bio").innerText = profileBio;  
+                    document.getElementById("profile-image").src = profileImage;
+
+                    // Update Open Graph & Twitter Images
+                    document.getElementById("og-image").content = profileImage;
+                    document.getElementById("twitter-image").content = profileImage;
+
+                    // Social Links
                     let socialHTML = "";  
                     if (profile.instagram) socialHTML += `<a href="https://instagram.com/${profile.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>`;  
                     if (profile.snapchat) socialHTML += `<a href="https://snapchat.com/add/${profile.snapchat}" target="_blank"><i class="fab fa-snapchat"></i></a>`;  
@@ -83,10 +116,10 @@
                     if (profile.github) socialHTML += `<a href="https://github.com/${profile.github}" target="_blank"><i class="fab fa-github"></i></a>`;  
                     document.getElementById("social-icons").innerHTML = socialHTML;  
 
+                    // Spotify Embed (if available)
                     if (profile.spotify) {  
                         let spotifyID = profile.spotify.split('/').pop();  
                         let embedType = profile.spotify.includes("playlist") ? "playlist" : "track";  
-
                         const spotifyEmbed = `<iframe src="https://open.spotify.com/embed/${embedType}/${spotifyID}" width="300" height="80" frameborder="0" allow="encrypted-media"></iframe>`;  
                         document.getElementById("spotify-container").innerHTML = spotifyEmbed;  
                     }  
@@ -100,20 +133,26 @@
         window.onload = loadProfile;  
 
         document.getElementById("shareBtn").addEventListener("click", async () => {    
-    const url = window.location.href;    
-    const profileName = document.getElementById("profile-name").innerText;    
-    const text = `Check Out ${profileName}'s Website!`; // Bold formatting for WhatsApp, Snapchat, Telegram
+            const url = window.location.href;    
+            const profileName = document.getElementById("profile-name").innerText;    
+            const text = `Check out ${profileName}'s profile! 🌟 ${url}`;
 
-    if (navigator.share) {    
-        try {    
-            await navigator.share({ title: "Profile Card", text, url });    
-        } catch (error) {    
-            console.error("Sharing failed:", error);    
-        }    
-    } else {    
-        alert("Sharing not supported!");    
-    }    
-});
-  </script>  
+            if (navigator.share) {    
+                try {    
+                    await navigator.share({ 
+                        title: `${profileName}'s Profile`, 
+                        text: text, 
+                        url: url 
+                    });    
+                } catch (error) {    
+                    console.error("Sharing failed:", error);    
+                }    
+            } else {    
+                // Fallback for browsers that don't support Web Share API
+                const shareText = `${text}\n\nShare via:`;
+                alert(shareText);
+            }    
+        });
+    </script>  
 </body>  
 </html>
