@@ -102,7 +102,7 @@
         document.getElementById("shareBtn").addEventListener("click", async () => {    
     const url = window.location.href;    
     const profileName = document.getElementById("profile-name").innerText;    
-    const text = `Check Out *${profileName}*'s Website!`; // Bold formatting for WhatsApp, Snapchat, Telegram
+    const text = `Check Out ${profileName}s Website!`; // Bold formatting for WhatsApp, Snapchat, Telegram
 
     if (navigator.share) {    
         try {    
