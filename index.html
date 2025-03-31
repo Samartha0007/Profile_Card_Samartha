@@ -3,10 +3,9 @@
 <head>  
     <meta charset="UTF-8">  
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-    <!-- Default title (will be updated dynamically) -->
     <title></title>  
     
-    <!-- Open Graph / Facebook Meta Tags (for sharing) -->
+    <!-- Open Graph / Facebook Meta Tags -->
     <meta property="og:type" content="website">
     <meta property="og:title" id="og-title" content="Profile">
     <meta property="og:image" id="og-image" content="">
@@ -19,7 +18,7 @@
     <meta name="twitter:image" id="twitter-image" content="">
     <meta name="twitter:description" id="twitter-description" content="Check out my profile!">
 
-    <!-- Favicon (will update dynamically) -->
+    <!-- Favicon (dynamic) -->
     <link rel="icon" id="favicon" type="image/png" href="https://i.ibb.co/sKbrkyn/Yellow-and-Grey-Pastel-Grunge-Designer-Brand-Logo-20241009-185202-0000.png">  
 
     <!-- Fonts & Icons -->
@@ -83,23 +82,22 @@
                     // Update Browser Tab Title
                     document.title = `${profileName}'s Profile`;
 
-                    // Update Meta Tags for Social Sharing
-                    document.getElementById("og-title").content = `${profileName}'`;
+                    // Update Meta Tags
+                    document.getElementById("og-title").content = `${profileName}'s Profile`;
                     document.getElementById("twitter-title").content = `${profileName}'s Profile`;
                     document.getElementById("og-description").content = profileBio;
                     document.getElementById("twitter-description").content = profileBio;
                     document.getElementById("og-url").content = currentUrl;
 
-                    // Update Favicon Dynamically
-                    const favicon = document.getElementById("favicon");
-                    favicon.href = profileImage;
+                    // Update Favicon
+                    document.getElementById("favicon").href = profileImage;
 
                     // Update Profile Display
                     document.getElementById("profile-name").innerText = profileName;  
                     document.getElementById("profile-bio").innerText = profileBio;  
                     document.getElementById("profile-image").src = profileImage;
 
-                    // Update Open Graph & Twitter Images
+                    // Update Social Sharing Images
                     document.getElementById("og-image").content = profileImage;
                     document.getElementById("twitter-image").content = profileImage;
 
@@ -135,22 +133,27 @@
         document.getElementById("shareBtn").addEventListener("click", async () => {    
             const url = window.location.href;    
             const profileName = document.getElementById("profile-name").innerText;    
-            const text = `Check out ${profileName}'s profile! ✨`;
+            const text = `Check out ${profileName}'s profile! ✨`; // No URL here
 
             if (navigator.share) {    
                 try {    
                     await navigator.share({ 
-                        title: `${profileName}'`, 
-                        text: text, 
-                        url: url 
+                        title: `${profileName}', 
+                        text: text, // Text without URL
+                        url: url     // URL passed separately
                     });    
                 } catch (error) {    
                     console.error("Sharing failed:", error);    
                 }    
             } else {    
-                // Fallback for browsers that don't support Web Share API
-                const shareText = `${text}\n\nShare via:`;
-                alert(shareText);
+                // Fallback: Copy to clipboard
+                const shareText = `${text}\n${url}`;
+                try {
+                    await navigator.clipboard.writeText(shareText);
+                    alert("Link copied to clipboard! 🚀");
+                } catch (err) {
+                    alert(`Share this link:\n${url}`);
+                }
             }    
         });
     </script>  
