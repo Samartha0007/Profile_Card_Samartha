@@ -1,115 +1,118 @@
-<!DOCTYPE html><html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title><meta property="og:title" content="Profile">
-<meta property="og:image" content="">
-<meta property="og:description" content="Check out this profile!">
-<meta property="og:url" content="">
-<meta name="twitter:card" content="summary_large_image">
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Your Profile</title>  
+    <meta name="twitter:title" content="Profile">
+    <meta property="og:title" content="Profile">
+    <meta property="og:image" id="og-image" content="">
+    <meta name="twitter:image" id="twitter-image" content="">
+    <link rel="icon" type="image/png" href="https://i.ibb.co/sKbrkyn/Yellow-and-Grey-Pastel-Grunge-Designer-Brand-Logo-20241009-185202-0000.png">  
 
-<link rel="icon" type="image/png" href="https://i.ibb.co/sKbrkyn/Yellow-and-Grey-Pastel-Grunge-Designer-Brand-Logo-20241009-185202-0000.png">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">  
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">  
+    <link rel="stylesheet" href="./style.css">  
+</head>  
+<body>  
 
-</head>
-<body>
-    <button id="shareBtn" class="sharebtn">
-        <i class="fas fa-share-alt"></i>
-    </button><div class="profile-container" id="profile-container">
-    <div class="profile-header">
-        <img class="profile-image" id="profile-image" src="" alt="">
-        <div class="profile-name" id="profile-name"></div>
-        <div class="profile-bio" id="profile-bio"></div>
-    </div>
+    <button id="shareBtn" class="sharebtn">  
+        <i class="fas fa-share-alt"></i>  
+    </button>  
 
-    <div class="social-container">
-        <div class="social-icons" id="social-icons"></div>
-    </div>
+    <div class="profile-container" id="profile-container">  
+        <div class="profile-header">  
+            <img class="profile-image" id="profile-image" src="" alt="">  
+            <div class="profile-name" id="profile-name"></div>  
+            <div class="profile-bio" id="profile-bio"></div>  
+        </div>  
 
-    <div class="spotify-container" id="spotify-container"></div>
-</div>
+        <div class="social-container">  
+            <div class="social-icons" id="social-icons"></div>  
+        </div>  
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
-    import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
+        <div class="spotify-container" id="spotify-container"></div>  
+    </div>  
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyBb3x_zD9JaFwL9PhmngCNZlS2fOh6MBa4",
-        authDomain: "newai-52371.firebaseapp.com",
-        projectId: "newai-52371",
-        storageBucket: "newai-52371.appspot.com",
-        messagingSenderId: "480586908639",
-        appId: "1:480586908639:web:f4645a852c4df724c6fa6a"
-    };
+    <script type="module">  
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";  
+        import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";  
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+        const firebaseConfig = {  
+            apiKey: "AIzaSyBb3x_zD9JaFwL9PhmngCNZlS2fOh6MBa4",  
+            authDomain: "newai-52371.firebaseapp.com",  
+            projectId: "newai-52371",  
+            storageBucket: "newai-52371.appspot.com",  
+            messagingSenderId: "480586908639",  
+            appId: "1:480586908639:web:f4645a852c4df724c6fa6a"  
+        };  
 
-    async function loadProfile() {
-        const path = window.location.pathname.substring(1);
-        const username = path ? decodeURIComponent(path) : null;
+        const app = initializeApp(firebaseConfig);  
+        const db = getFirestore(app);  
 
-        if (username) {
-            document.getElementById("profile-container").style.display = "block";
+        async function loadProfile() {  
+            const path = window.location.pathname.substring(1);   
+            const username = path ? decodeURIComponent(path) : null;  
 
-            const q = query(collection(db, "profiles"), where("username", "==", username));
-            const querySnapshot = await getDocs(q);
+            if (username) {  
+                document.getElementById("profile-container").style.display = "block";  
 
-            if (!querySnapshot.empty) {
-                const profile = querySnapshot.docs[0].data();
-                document.getElementById("profile-name").innerText = profile.name;
-                document.getElementById("profile-bio").innerText = profile.bio;
+                const q = query(collection(db, "profiles"), where("username", "==", username));  
+                const querySnapshot = await getDocs(q);  
 
-                if (profile.imageUrl) {
-                    document.getElementById("profile-image").src = profile.imageUrl;
-                    document.querySelector('meta[property="og:image"]').setAttribute("content", profile.imageUrl);
-                }
+                if (!querySnapshot.empty) {  
+                    const profile = querySnapshot.docs[0].data();  
+                    document.getElementById("profile-name").innerText = profile.name;  
+                    document.getElementById("profile-bio").innerText = profile.bio;  
 
-                document.querySelector('meta[property="og:title"]').setAttribute("content", `${profile.name}'s Profile`);
-                document.querySelector('meta[property="og:url"]').setAttribute("content", window.location.href);
+                    if (profile.imageUrl) {  
+                        document.getElementById("profile-image").src = profile.imageUrl;  
+                        document.getElementById("og-image").setAttribute("content", profile.imageUrl);
+                        document.getElementById("twitter-image").setAttribute("content", profile.imageUrl);
+                    }  
 
-                let socialHTML = "";
-                if (profile.instagram) socialHTML += `<a href="https://instagram.com/${profile.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>`;
-                if (profile.snapchat) socialHTML += `<a href="https://snapchat.com/add/${profile.snapchat}" target="_blank">${profile.snapchat}</a>`;
-                if (profile.whatsapp) socialHTML += `<a href="https://wa.me/${profile.whatsapp}" target="_blank"><i class="fab fa-whatsapp"></i></a>`;
-                if (profile.facebook) socialHTML += `<a href="https://facebook.com/${profile.facebook}" target="_blank"><i class="fab fa-facebook"></i></a>`;
-                if (profile.twitter) socialHTML += `<a href="https://twitter.com/${profile.twitter}" target="_blank"><i class="fab fa-twitter"></i></a>`;
-                if (profile.linkedin) socialHTML += `<a href="https://linkedin.com/in/${profile.linkedin}" target="_blank"><i class="fab fa-linkedin"></i></a>`;
-                if (profile.youtube) socialHTML += `<a href="https://m.youtube.com/${profile.youtube}" target="_blank"><i class="fab fa-youtube"></i></a>`;
-                if (profile.email) socialHTML += `<a href="mailto:${profile.email}" target="_blank"><i class="fas fa-envelope"></i></a>`;
-                if (profile.telegram) socialHTML += `<a href="https://t.me/${profile.telegram}" target="_blank"><i class="fab fa-telegram"></i></a>`;
-                if (profile.github) socialHTML += `<a href="https://github.com/${profile.github}" target="_blank"><i class="fab fa-github"></i></a>`;
-                document.getElementById("social-icons").innerHTML = socialHTML;
+                    let socialHTML = "";  
+                    if (profile.instagram) socialHTML += `<a href="https://instagram.com/${profile.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>`;  
+                    if (profile.snapchat) socialHTML += `<a href="https://snapchat.com/add/${profile.snapchat}" target="_blank"><i class="fab fa-snapchat"></i></a>`;  
+                    if (profile.whatsapp) socialHTML += `<a href="https://wa.me/${profile.whatsapp}" target="_blank"><i class="fab fa-whatsapp"></i></a>`;  
+                    if (profile.facebook) socialHTML += `<a href="https://facebook.com/${profile.facebook}" target="_blank"><i class="fab fa-facebook"></i></a>`;  
+                    if (profile.twitter) socialHTML += `<a href="https://twitter.com/${profile.twitter}" target="_blank"><i class="fab fa-twitter"></i></a>`;  
+                    if (profile.linkedin) socialHTML += `<a href="https://linkedin.com/in/${profile.linkedin}" target="_blank"><i class="fab fa-linkedin"></i></a>`;  
+                    if (profile.youtube) socialHTML += `<a href="https://m.youtube.com/${profile.youtube}" target="_blank"><i class="fab fa-youtube"></i></a>`;  
+                    if (profile.telegram) socialHTML += `<a href="https://t.me/${profile.telegram}" target="_blank"><i class="fab fa-telegram"></i></a>`;  
+                    if (profile.github) socialHTML += `<a href="https://github.com/${profile.github}" target="_blank"><i class="fab fa-github"></i></a>`;  
+                    document.getElementById("social-icons").innerHTML = socialHTML;  
 
-                if (profile.spotify) {
-                    let spotifyID = profile.spotify.split('/').pop();
-                    let embedType = profile.spotify.includes("playlist") ? "playlist" : "track";
-                    document.getElementById("spotify-container").innerHTML = `<iframe src="https://open.spotify.com/embed/${embedType}/${spotifyID}" width="300" height="80" frameborder="0" allow="encrypted-media"></iframe>`;
-                }
-            } else {
-                alert("Profile not found!");
-                window.location.href = "/";
-            }
-        }
-    }
+                    if (profile.spotify) {  
+                        let spotifyID = profile.spotify.split('/').pop();  
+                        let embedType = profile.spotify.includes("playlist") ? "playlist" : "track";  
 
-    window.onload = loadProfile;
+                        const spotifyEmbed = `<iframe src="https://open.spotify.com/embed/${embedType}/${spotifyID}" width="300" height="80" frameborder="0" allow="encrypted-media"></iframe>`;  
+                        document.getElementById("spotify-container").innerHTML = spotifyEmbed;  
+                    }  
+                } else {  
+                    alert("Profile not found!");  
+                    window.location.href = "/";  
+                }  
+            }  
+        }  
 
-    document.getElementById("shareBtn").addEventListener("click", async () => {
-        const url = window.location.href;
-        if (navigator.share) {
-            try {
-                await navigator.share({ title: document.title, text: "Hello ,Check out this profile!", url });
-            } catch (error) {
-                console.error("Sharing failed:", error);
-            }
-        } else {
-            alert("Sharing not supported!");
-        }
-    });
-</script>
+        window.onload = loadProfile;  
 
-</body>
+        document.getElementById("shareBtn").addEventListener("click", async () => {    
+            const url = window.location.href;    
+            const text = `Check Out ${document.getElementById("profile-name").innerText}'s Website!`;    
+
+            if (navigator.share) {    
+                try {    
+                    await navigator.share({ title: "Profile Card", text, url });    
+                } catch (error) {    
+                    console.error("Sharing failed:", error);    
+                }    
+            } else {    
+                alert("Sharing not supported!");    
+            }    
+        });  
+  </script>  
+</body>  
 </html>
