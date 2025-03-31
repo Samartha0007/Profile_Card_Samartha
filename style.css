@@ -1,5 +1,4 @@
 
-
 * {    
     margin: 0;    
     padding: 0;    
@@ -227,5 +226,16 @@ body {
     to { opacity: 1; }    
 } 
 
-/* Fullscreen Introduction Page Styles */
-
+.cta-button {
+    display: inline-block;
+    padding: 12px 30px;
+    background: #4a6bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    font-size: 1.1rem;
+    border: none;
+    cursor: pointer;
+}
