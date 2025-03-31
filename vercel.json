@@ -3,35 +3,18 @@
   "builds": [
     { "src": "profile.js", "use": "@vercel/node" }
   ],
-  "rewrites": [
-    { 
-      "source": "/:username([a-zA-Z0-9_-]+)", 
-      "destination": "/profile.js?username=:username",
-      "has": [
-        {
-          "type": "header",
-          "key": "user-agent",
-          "value": "(facebookexternalhit|Twitterbot|WhatsApp|Snapchat|Discordbot|TelegramBot)"
-        }
-      ]
-    },
-    { 
-      "source": "/:username([a-zA-Z0-9_-]+)", 
-      "destination": "/index.html" 
-    },
-    { 
-      "source": "/(.*)", 
-      "destination": "/index.html" 
-    }
-  ],
-  "headers": [
+  "routes": [
     {
-      "source": "/:username([a-zA-Z0-9_-]+)",
-      "headers": [
-        { "key": "Cache-Control", "value": "s-maxage=3600, stale-while-revalidate=60" },
-        { "key": "Content-Type", "value": "text/html; charset=utf-8" },
-        { "key": "X-Robots-Tag", "value": "noindex" }
-      ]
+      "src": "/([a-zA-Z0-9_-]+)",
+      "dest": "/profile.js",
+      "headers": {
+        "Cache-Control": "no-store, max-age=0",
+        "Content-Type": "text/html"
+      }
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
   ]
 }
