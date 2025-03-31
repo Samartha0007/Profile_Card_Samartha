@@ -238,7 +238,7 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     margin-top: 10px;
-    margin-bottom: 10px; /* Adds space below the button */
+    margin-bottom: 20px; /* Adds space below the button */
     box-shadow: 0 4px 15px rgba(230, 74, 25, 0.4);
     text-decoration: none; /* Ensures no underline */
     display: inline-block; /* Helps in keeping proper spacing */
