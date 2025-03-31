@@ -177,7 +177,7 @@ document.getElementById("shareBtn").addEventListener("click", async () => {
             await navigator.share(shareData);
         } else {
             // Fallback: Copy to clipboard if Web Share API is not supported
-            await navigator.clipboard.writeText(`${shareData.text}\n${url}`);
+            await navigator.clipboard.writeText(`$\n${url}`);
             alert("Profile link copied to clipboard!");
         }
     } catch (error) {
