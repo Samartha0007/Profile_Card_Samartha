@@ -1,213 +1,222 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Dynamic meta tags (will be updated by both backend and frontend) -->
-    <title id="dynamic-title">Loading Profile...</title>
-    <meta property="og:type" content="website">
-    <meta property="og:title" id="og-title" content="Profile">
-    <meta property="og:image" id="og-image" content="">
-    <meta property="og:url" id="og-url" content="">
-    <meta property="og:description" id="og-description" content="Check out my profile!">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" id="twitter-title" content="Profile">
-    <meta name="twitter:image" id="twitter-image" content="">
-    <meta name="twitter:description" id="twitter-description" content="Check out my profile!">
-    <link rel="icon" id="favicon" type="image/png" href="https://i.ibb.co/sKbrkyn/Yellow-and-Grey-Pastel-Grunge-Designer-Brand-Logo-20241009-185202-0000.png">
-
-    <!-- Fonts & Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <!-- Dynamic meta tags (will be updated by both backend and frontend) -->  
+    <title id="dynamic-title">Profile Links</title>  
+    <meta property="og:type" content="website">  
+    <meta property="og:title" id="og-title" content="Profile Links">  
+    <meta property="og:image" id="og-image" content="https://i.ibb.co/sKbrkyn/Yellow-and-Grey-Pastel-Grunge-Designer-Brand-Logo-20241009-185202-0000.png">  
+    <meta property="og:url" id="og-url" content="">  
+    <meta property="og:description" id="og-description" content="Create and share your profile links">  
+    <meta name="twitter:card" content="summary_large_image">  
+    <meta name="twitter:title" id="twitter-title" content="Profile Links">  
+    <meta name="twitter:image" id="twitter-image" content="https://i.ibb.co/sKbrkyn/Yellow-and-Grey-Pastel-Grunge-Designer-Brand-Logo-20241009-185202-0000.png">  
+    <meta name="twitter:description" id="twitter-description" content="Create and share your profile links">  
+    <link rel="icon" id="favicon" type="image/png" href="https://i.ibb.co/sKbrkyn/Yellow-and-Grey-Pastel-Grunge-Designer-Brand-Logo-20241009-185202-0000.png">  
+    <!-- Fonts & Icons -->  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">  
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">  
     <link rel="stylesheet" href="./style.css">
-</head>
-<body>
-    <button id="shareBtn" class="sharebtn">
-        <i class="fas fa-share-alt"></i>
-    </button>
-
-    <div class="profile-container" id="profile-container">
-        <div class="profile-header">
-            <img class="profile-image" id="profile-image" src="" alt="">
-            <div class="profile-name" id="profile-name"></div>
-            <div class="profile-bio" id="profile-bio"></div>
+</head>  
+<body>  
+    <!-- Introduction Page (shown by default) -->
+    <div class="intro-container" id="intro-container">
+        <div class="intro-content">
+            <img src="https://i.ibb.co/sKbrkyn/Yellow-and-Grey-Pastel-Grunge-Designer-Brand-Logo-20241009-185202-0000.png" alt="Logo" class="intro-logo">
+            <h1>Welcome to Profile Links</h1>
+            <p>Create and share your personalized profile page with all your social links in one place.</p>
+            <p>Visit <code>mywebsam.site/username</code> to view someone's profile.</p>
+            <div class="intro-features">
+                <div class="feature">
+                    <i class="fas fa-user-circle"></i>
+                    <h3>Personal Profile</h3>
+                    <p>Showcase your information and bio</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-share-alt"></i>
+                    <h3>Social Links</h3>
+                    <p>All your social media in one place</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-music"></i>
+                    <h3>Spotify Integration</h3>
+                    <p>Share your favorite music</p>
+                </div>
+            </div>
+            <a href="/create.html" class="cta-button">Create Your Profile</a>
         </div>
-
-        <div class="social-container">
-            <div class="social-icons" id="social-icons"></div>
-        </div>
-
-        <div class="spotify-container" id="spotify-container"></div>
     </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
-        import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
+    <!-- Profile Page (hidden by default) -->
+    <div class="profile-container" id="profile-container" style="display:none">  
+        <button id="shareBtn" class="sharebtn">  
+            <i class="fas fa-share-alt"></i>  
+        </button>
+        <div class="profile-header">  
+            <img class="profile-image" id="profile-image" src="" alt="">  
+            <div class="profile-name" id="profile-name"></div>  
+            <div class="profile-bio" id="profile-bio"></div>  
+        </div>  
 
-        // Check if coming from backend redirect
-        const urlParams = new URLSearchParams(window.location.search);
-        const fromShare = urlParams.has('from_share');
-        
-        // Your Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyBb3x_zD9JaFwL9PhmngCNZlS2fOh6MBa4",
-            authDomain: "newai-52371.firebaseapp.com",
-            projectId: "newai-52371",
-            storageBucket: "newai-52371.appspot.com",
-            messagingSenderId: "480586908639",
-            appId: "1:480586908639:web:f4645a852c4df724c6fa6a"
-        };
+        <div class="social-container">  
+            <div class="social-icons" id="social-icons"></div>  
+        </div>  
 
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+        <div class="spotify-container" id="spotify-container"></div>  
+    </div>  
 
-        async function loadProfile() {
-            const path = window.location.pathname.substring(1);
-            const username = path ? decodeURIComponent(path) : null;
+    <script type="module">  
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";  
+        import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";  
 
-            if (username) {
-                document.getElementById("profile-container").style.display = "block";
+        // Check if coming from backend redirect  
+        const urlParams = new URLSearchParams(window.location.search);  
+        const fromShare = urlParams.has('from_share');  
+          
+        // Your Firebase configuration  
+        const firebaseConfig = {  
+            apiKey: "AIzaSyBb3x_zD9JaFwL9PhmngCNZlS2fOh6MBa4",  
+            authDomain: "newai-52371.firebaseapp.com",  
+            projectId: "newai-52371",  
+            storageBucket: "newai-52371.appspot.com",  
+            messagingSenderId: "480586908639",  
+            appId: "1:480586908639:web:f4645a852c4df724c6fa6a"  
+        };  
 
-                const q = query(collection(db, "profiles"), where("username", "==", username));
-                const querySnapshot = await getDocs(q);
+        const app = initializeApp(firebaseConfig);  
+        const db = getFirestore(app);  
 
-                if (!querySnapshot.empty) {
-                    const profile = querySnapshot.docs[0].data();
-                    const profileName = profile.name || username;
-                    const profileBio = profile.bio || "Check out my profile!";
-                    const profileImage = profile.imageUrl || "https://i.ibb.co/sKbrkyn/Yellow-and-Grey-Pastel-Grunge-Designer-Brand-Logo-20241009-185202-0000.png";
-                    const currentUrl = window.location.href;
+        async function loadProfile() {  
+            const path = window.location.pathname.substring(1);  
+            const username = path ? decodeURIComponent(path) : null;  
 
-                    // Update all meta tags
-                    updateMetaTags(profileName, profileBio, profileImage, currentUrl);
+            if (username) {  
+                // Show profile container, hide intro
+                document.getElementById("profile-container").style.display = "block";  
+                document.getElementById("intro-container").style.display = "none";
 
-                    // Update profile display
-                    document.getElementById("profile-name").innerText = profileName;
-                    document.getElementById("profile-bio").innerText = profileBio;
-                    document.getElementById("profile-image").src = profileImage;
+                const q = query(collection(db, "profiles"), where("username", "==", username));  
+                const querySnapshot = await getDocs(q);  
 
-                    // Update social links
-                    updateSocialLinks(profile);
+                if (!querySnapshot.empty) {  
+                    const profile = querySnapshot.docs[0].data();  
+                    const profileName = profile.name || username;  
+                    const profileBio = profile.bio || "Check out my profile!";  
+                    const profileImage = profile.imageUrl || "https://i.ibb.co/sKbrkyn/Yellow-and-Grey-Pastel-Grunge-Designer-Brand-Logo-20241009-185202-0000.png";  
+                    const currentUrl = window.location.href;  
 
-                    // Update Spotify embed if available
-                    updateSpotifyEmbed(profile.spotify);
-                    
-                    // Visual feedback for shared links
-                    if (fromShare) {
-                        showShareNotification(profileName);
-                    }
-                } else {
-                    alert("Profile not found!");
-                    window.location.href = "/";
-                }
+                    // Update all meta tags  
+                    updateMetaTags(profileName, profileBio, profileImage, currentUrl);  
+
+                    // Update profile display  
+                    document.getElementById("profile-name").innerText = profileName;  
+                    document.getElementById("profile-bio").innerText = profileBio;  
+                    document.getElementById("profile-image").src = profileImage;  
+
+                    // Update social links  
+                    updateSocialLinks(profile);  
+
+                    // Update Spotify embed if available  
+                    updateSpotifyEmbed(profile.spotify);  
+                      
+                    // Visual feedback for shared links  
+                    if (fromShare) {  
+                        showShareNotification(profileName);  
+                    }  
+                } else {  
+                    alert("Profile not found!");  
+                    window.location.href = "/";  
+                }  
+            } else {
+                // No username in URL, show intro page
+                document.getElementById("intro-container").style.display = "block";
+                document.getElementById("profile-container").style.display = "none";
+            }  
+        }  
+
+        function updateMetaTags(name, bio, image, url) {  
+            document.title = `${name}'s Profile`;  
+            document.getElementById("og-title").content = `${name}`;  
+            document.getElementById("twitter-title").content = `${name}'s Profile`;  
+            document.getElementById("og-description").content = bio;  
+            document.getElementById("twitter-description").content = bio;  
+            document.getElementById("og-image").content = image;  
+            document.getElementById("twitter-image").content = image;  
+            document.getElementById("og-url").content = url;  
+            document.getElementById("favicon").href = image;  
+        }  
+
+        function updateSocialLinks(profile) {  
+            const socialPlatforms = {  
+                instagram: `https://instagram.com/${profile.instagram}`,  
+                snapchat: `https://snapchat.com/add/${profile.snapchat}`,  
+                whatsapp: `https://wa.me/${profile.whatsapp}`,  
+                facebook: `https://facebook.com/${profile.facebook}`,  
+                twitter: `https://twitter.com/${profile.twitter}`,  
+                linkedin: `https://linkedin.com/in/${profile.linkedin}`,  
+                youtube: `https://m.youtube.com/${profile.youtube}`,  
+                telegram: `https://t.me/${profile.telegram}`,  
+                github: `https://github.com/${profile.github}`  
+            };  
+
+            let socialHTML = "";  
+            Object.entries(socialPlatforms).forEach(([platform, url]) => {  
+                if (profile[platform]) {  
+                    socialHTML += `<a href="${url}" target="_blank"><i class="fab fa-${platform}"></i></a>`;  
+                }  
+            });  
+            document.getElementById("social-icons").innerHTML = socialHTML;  
+        }  
+
+        function updateSpotifyEmbed(spotifyUrl) {  
+            if (!spotifyUrl) return;  
+              
+            const spotifyContainer = document.getElementById("spotify-container");  
+            const spotifyID = spotifyUrl.split('/').pop();  
+            const embedType = spotifyUrl.includes("playlist") ? "playlist" : "track";  
+              
+            spotifyContainer.innerHTML = `  
+                <iframe src="https://open.spotify.com/embed/${embedType}/${spotifyID}"   
+                        width="300" height="80" frameborder="0"   
+                        allow="encrypted-media"></iframe>`;  
+        }  
+
+        function showShareNotification(name) {  
+            const notification = document.createElement('div');  
+            notification.className = 'share-notification';  
+            notification.innerHTML = `Thanks for sharing ${name}'s profile!`;  
+            document.body.prepend(notification);  
+            setTimeout(() => notification.remove(), 3000);  
+        }  
+
+        // Initialize share button
+        document.getElementById("shareBtn").addEventListener("click", async () => {
+            // Get the clean profile URL (without query parameters)
+            const url = window.location.origin + window.location.pathname;
+            const profileName = document.getElementById("profile-name").innerText;
+
+            const shareData = {  
+                title: `${profileName}'s Profile`,  
+                text: `Check out ${profileName}'s awesome profile! ✨`,  
+                url: url  
+            };  
+
+            try {  
+                if (navigator.share) {  
+                    await navigator.share(shareData);  
+                } else {  
+                    // Fallback: Copy to clipboard if Web Share API is not supported  
+                    await navigator.clipboard.writeText(`\n${url}`);  
+                    alert("Profile link copied to clipboard!");  
+                }  
+            } catch (error) {  
+                console.error("Sharing failed:", error);  
             }
-        }
+        });
 
-        function updateMetaTags(name, bio, image, url) {
-            document.title = `${name}'s Profile`;
-            document.getElementById("og-title").content = `${name}`;
-            document.getElementById("twitter-title").content = `${name}'s Profile`;
-            document.getElementById("og-description").content = bio;
-            document.getElementById("twitter-description").content = bio;
-            document.getElementById("og-image").content = image;
-            document.getElementById("twitter-image").content = image;
-            document.getElementById("og-url").content = url;
-            document.getElementById("favicon").href = image;
-        }
-
-        function updateSocialLinks(profile) {
-            const socialPlatforms = {
-                instagram: `https://instagram.com/${profile.instagram}`,
-                snapchat: `https://snapchat.com/add/${profile.snapchat}`,
-                whatsapp: `https://wa.me/${profile.whatsapp}`,
-                facebook: `https://facebook.com/${profile.facebook}`,
-                twitter: `https://twitter.com/${profile.twitter}`,
-                linkedin: `https://linkedin.com/in/${profile.linkedin}`,
-                youtube: `https://m.youtube.com/${profile.youtube}`,
-                telegram: `https://t.me/${profile.telegram}`,
-                github: `https://github.com/${profile.github}`
-            };
-
-            let socialHTML = "";
-            Object.entries(socialPlatforms).forEach(([platform, url]) => {
-                if (profile[platform]) {
-                    socialHTML += `<a href="${url}" target="_blank"><i class="fab fa-${platform}"></i></a>`;
-                }
-            });
-            document.getElementById("social-icons").innerHTML = socialHTML;
-        }
-
-        function updateSpotifyEmbed(spotifyUrl) {
-            if (!spotifyUrl) return;
-            
-            const spotifyContainer = document.getElementById("spotify-container");
-            const spotifyID = spotifyUrl.split('/').pop();
-            const embedType = spotifyUrl.includes("playlist") ? "playlist" : "track";
-            
-            spotifyContainer.innerHTML = `
-                <iframe src="https://open.spotify.com/embed/${embedType}/${spotifyID}" 
-                        width="300" height="80" frameborder="0" 
-                        allow="encrypted-media"></iframe>`;
-        }
-
-        function showShareNotification(name) {
-            // Optional: Add visual feedback when coming from shared link
-            const notification = document.createElement('div');
-            notification.className = 'share-notification';
-            notification.innerHTML = `Thanks for sharing ${name}'s profile!`;
-            document.body.prepend(notification);
-            setTimeout(() => notification.remove(), 3000);
-        }
-
-        // Initialize share button
-        // Initialize share button
-document.getElementById("shareBtn").addEventListener("click", async () => {
-    // Get the clean profile URL (without query parameters)
-    const url = window.location.origin + window.location.pathname;
-    const profileName = document.getElementById("profile-name").innerText;
-    
-    const shareData = {
-        title: `${profileName}'s Profile`,
-        text: `Check out ${profileName}'s awesome profile! ✨`,
-        url: url
-    };
-
-    try {
-        if (navigator.share) {
-            await navigator.share(shareData);
-        } else {
-            // Fallback: Copy to clipboard if Web Share API is not supported
-            await navigator.clipboard.writeText(`\n${url}`);
-            alert("Profile link copied to clipboard!");
-        }
-    } catch (error) {
-        console.error("Sharing failed:", error);
-    }
-});
         document.addEventListener('DOMContentLoaded', loadProfile);
     </script>
-
-    <style>
-        /* Optional: Style for share notification */
-        .share-notification {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0,0,0,0.8);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            z-index: 1000;
-            animation: fadeInOut 3s ease-in-out;
-        }
-        
-        @keyframes fadeInOut {
-            0% { opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { opacity: 0; }
-        }
-    </style>
-</body>
+</body>  
 </html>
