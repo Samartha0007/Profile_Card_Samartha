@@ -1,13 +1,24 @@
 {
+  "version": 2,
+  "builds": [
+    { "src": "profile.js", "use": "@vercel/node" }
+  ],
   "rewrites": [
-    { "source": "/:username", "destination": "/username?username=:username" },
-    { "source": "/(.*)", "destination": "/index.html" }
+    { 
+      "source": "/:username", 
+      "destination": "/profile.js?username=:username" 
+    },
+    { 
+      "source": "/(.*)", 
+      "destination": "/index.html" 
+    }
   ],
   "headers": [
     {
-      "source": "/(.*)",
+      "source": "/:username",
       "headers": [
-        { "key": "Cache-Control", "value": "no-store, no-cache, must-revalidate" }
+        { "key": "Cache-Control", "value": "no-store, no-cache, must-revalidate" },
+        { "key": "Content-Type", "value": "text/html" }
       ]
     }
   ]
