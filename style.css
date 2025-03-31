@@ -232,8 +232,7 @@ body {
 { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
 
 
-
-
+body { background: white; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; text-align: center; padding: 20px; }
 h1 { font-size: 2.5rem; color: #222; font-weight: 700; margin-bottom: 10px; }
 
 p { font-size: 1.0rem; color: #555; margin-bottom: 20px; max-width: 600px; line-height: 1.6; }
