@@ -106,3 +106,119 @@ body::before {
   z-index: 10;
 }
 
+.profile-card {
+display: none; /* Hidden by default */
+flex-direction: column;
+align-items: center;
+text-align: center;
+animation: fadeIn 1s ease-in-out;
+background: white;
+padding: 20px;
+border-radius: 15px;
+box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Profile Image */
+.profile-image {
+width: 130px;
+height: 130px;
+border-radius: 50%;
+object-fit: cover;
+object-position: center;
+animation: glow 3s infinite alternate ease-in-out;
+transition: box-shadow 0.5s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.profile-image:hover {
+transform: scale(1.05);
+}
+
+@keyframes glow {
+0% { box-shadow: 0 0 5px rgba(255, 0, 255, 0.5), 0 0 10px rgba(255, 0, 255, 0.5); }
+100% { box-shadow: 0 0 15px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.5); }
+}
+
+/* Profile Name */
+.profile-name {
+font-size: 24px;
+font-weight: bold;
+margin-top: 10px;
+}
+
+
+.social-container {
+background: rgba(255, 255, 255, 0.2);
+padding: 10px;
+border-radius: 10px;
+backdrop-filter: blur(10px);
+margin-top: 10px;
+display: flex;
+justify-content: center; / Centers the social icons /
+gap: 15px; / Adds spacing between icons */
+}
+
+.social-icons {
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 15px; /* Adds space between icons */
+}
+
+.social-icons a {
+font-size: 24px;
+color: gray;
+text-decoration: none;
+transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.social-icons a:hover {
+transform: translateY(-5px);
+color: blue;
+}
+
+/* Share Button */
+.sharebtn {
+position: fixed;
+top: 10px;
+right: 10px;
+background: none;
+border: none;
+cursor: pointer;
+font-size: 22px;
+color: gray;
+transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.sharebtn:hover {
+transform: scale(1.1);
+color: gray;
+}
+.profile-bio{
+color:gray
+}
+
+/* Spotify Container */
+#spotify-container {
+width: 100%;
+display: flex;
+justify-content: center;
+position: fixed;
+bottom: 10px;
+left: 0;
+padding: 10px;
+}
+
+#spotify-container iframe {
+width: 300px;
+height: 80px;
+border-radius: 10px;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Fade In Animation */
+@keyframes fadeIn {
+from { opacity: 0; }
+to { opacity: 1; }
+}
+
+
