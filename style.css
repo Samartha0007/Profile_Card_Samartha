@@ -35,6 +35,60 @@ text-align: center;
 flex-direction: column; /* Ensure content stacks properly */
 padding: 20px;
 }
+body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect fill="none" width="100" height="100"/><rect fill="rgba(255,255,255,0.03)" width="50" height="50"/><rect fill="rgba(255,255,255,0.03)" x="50" y="50" width="50" height="50"/></svg>');
+  opacity: 0.3;
+  z-index: -1;
+}
+
+/* Floating particles */
+@keyframes float {
+  0% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(5deg); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
+
+.floating-particle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: var(--secondary);
+  border-radius: 50%;
+  filter: blur(4px);
+  opacity: 0.5;
+  animation: float 15s infinite ease-in-out;
+}
+
+.particle-1 {
+  top: 15%;
+  left: 15%;
+  animation-delay: 0s;
+}
+
+.particle-2 {
+  top: 25%;
+  right: 20%;
+  animation-delay: 2s;
+}
+
+.particle-3 {
+  bottom: 20%;
+  left: 20%;
+  animation-delay: 4s;
+}
+
+.particle-4 {
+  bottom: 30%;
+  right: 15%;
+  animation-delay: 6s;
+}
+
 
 
 .fullscreen-container {
