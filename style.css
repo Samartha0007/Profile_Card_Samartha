@@ -1,8 +1,8 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Poppins', sans-serif;
   background-color: #0f0f1a;
+  font-family: 'Poppins', sans-serif;
   color: white;
 }
 
@@ -10,8 +10,8 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 30px 20px;
   position: relative;
+  padding-top: 80px;
   min-height: 100vh;
 }
 
@@ -23,6 +23,24 @@ body {
   border: none;
   color: white;
   font-size: 20px;
+  z-index: 2;
+}
+
+.social-container {
+  position: absolute;
+  top: 150px;
+  left: 20px;
+}
+
+.social-icons {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  font-size: 20px;
+  color: #a78bfa;
+}
+
+.social-icons i {
   cursor: pointer;
 }
 
@@ -30,52 +48,48 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 80px;
+  margin-top: 30px;
+  text-align: center;
 }
 
 .profile-image {
   width: 160px;
   height: 160px;
-  border-radius: 50%;
   background-color: #6d42f7;
-  padding: 20px;
-  object-fit: cover;
-}
-
-.social-container {
-  position: absolute;
-  left: 20px;
-  top: 160px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  color: #a78bfa;
-  font-size: 20px;
-}
-
-.social-icons i {
-  cursor: pointer;
+  border-radius: 50%;
+  padding: 10px;
+  object-fit: contain;
 }
 
 .profile-name {
-  font-size: 26px;
-  font-weight: 600;
+  font-size: 28px;
+  font-weight: 700;
   margin-top: 20px;
 }
 
 .profile-bio {
-  color: #a0a0a0;
   font-size: 16px;
-  text-align: center;
-  max-width: 260px;
-  margin-top: 10px;
+  color: #bcbcbc;
+  margin-top: 8px;
+  max-width: 280px;
 }
 
-.spotify-container {
-  margin-top: 30px;
+#spotify-container {
+  margin-top: 20px;
 }
 
-/* Optional: Add transition hover effect for social icons */
-.social-icons i:hover {
+.likes-box {
+  margin-top: 20px;
+  background: #6d42f7;
   color: white;
+  padding: 10px 20px;
+  border-radius: 16px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.likes-box i {
+  font-size: 18px;
 }
