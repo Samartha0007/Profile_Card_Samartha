@@ -1,258 +1,72 @@
-/* Global styles */
-:root {
-  --primary-color: #724ee9;
-  --dark-bg: #1a1625;
-  --text-color: #ffffff;
-  --secondary-bg: #2d2b3a;
-}
-
 body {
+  background-color: #121212;
+  font-family: 'Poppins', sans-serif;
   margin: 0;
   padding: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: var(--dark-bg);
-  color: var(--text-color);
-  overflow-x: hidden;
+  color: white;
 }
 
-/* Profile container */
 .profile-container {
-  max-width: 100%;
-  margin: 0 auto;
-  padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 100vh;
-  position: relative;
-  padding-top: 60px;
+  padding: 20px;
 }
 
-/* Share button */
 .sharebtn {
   position: absolute;
   top: 20px;
   right: 20px;
-  background: transparent;
+  background: none;
   border: none;
-  color: var(--text-color);
-  font-size: 24px;
+  color: white;
+  font-size: 20px;
   cursor: pointer;
-  z-index: 10;
 }
 
-/* Profile header */
 .profile-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  padding: 2rem 0;
+  text-align: center;
+  margin-top: 60px;
 }
 
 .profile-image {
-  width: 170px;
-  height: 170px;
+  background-color: #6d42f7;
   border-radius: 50%;
-  background-color: var(--primary-color);
+  padding: 20px;
+  width: 150px;
+  height: 150px;
   object-fit: cover;
-  border: none;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .profile-name {
-  font-size: 3.2rem;
-  font-weight: 700;
-  margin: 3rem 0 0.5rem;
-  text-align: center;
-  font-family: 'Arial', sans-serif;
+  font-size: 28px;
+  font-weight: bold;
+  margin-top: 20px;
+  color: white;
 }
 
 .profile-bio {
-  font-size: 1.2rem;
-  max-width: 80%;
-  text-align: center;
-  color: #a9a9b6;
-  margin-bottom: 2rem;
-  line-height: 1.4;
+  font-size: 16px;
+  color: #c0c0c0;
+  margin-top: 10px;
 }
 
-/* Social container */
 .social-container {
-  margin: 0;
-  width: 100%;
-  display: flex;
-  justify-content: center;
+  margin-top: 20px;
 }
 
 .social-icons {
   display: flex;
   flex-direction: column;
-  gap: 2.5rem;
-  position: fixed;
-  left: 3rem;
-  top: 43%;
-  transform: translateY(-50%);
+  gap: 15px;
+  color: #a78bfa;
+  font-size: 20px;
 }
 
-.social-icons a {
-  color: var(--primary-color);
-  font-size: 1.6rem;
-  transition: transform 0.3s ease;
-  display: block;
-  text-decoration: none;
-}
-
-.social-icons a:hover {
-  transform: scale(1.2);
-}
-
-/* Likes section */
-.likes-container {
-  background-color: var(--primary-color);
-  padding: 15px 40px;
-  border-radius: 15px;
-  margin: 1.5rem 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.likes-icon {
-  font-size: 1.8rem;
-  margin-bottom: 5px;
-}
-
-.likes-count {
-  font-size: 1.6rem;
-  font-weight: bold;
-  margin-bottom: 3px;
-}
-
-.likes-text {
-  font-size: 0.85rem;
-  letter-spacing: 8px;
-  text-transform: uppercase;
-  margin-top: 5px;
-}
-
-/* About Me section */
-.about-me {
-  margin-top: 10rem;
-  width: 100%;
-  text-align: center;
-}
-
-.about-me h2 {
-  font-size: 3rem;
-  margin-bottom: 0.3rem;
-  font-weight: 600;
-}
-
-.about-me p {
-  font-size: 1.1rem;
-  color: #a0a0a0;
-  margin-top: 0;
-}
-
-/* Navigation */
-.nav-container {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  padding: 1.2rem 3rem;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: rgba(26, 22, 37, 0.9);
-  backdrop-filter: blur(10px);
-}
-
-.nav-btn {
-  background: transparent;
-  border: none;
-  color: var(--text-color);
-  font-size: 1.5rem;
-  padding: 12px;
+.social-icons i {
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-.nav-btn.active {
-  color: var(--primary-color);
-}
-
-/* Spotify container */
 .spotify-container {
-  margin-top: 2rem;
-  width: 100%;
-  max-width: 400px;
-}
-
-/* Media queries */
-@media (max-width: 768px) {
-  .social-icons {
-    position: static;
-    flex-direction: row;
-    gap: 2rem;
-    transform: none;
-    justify-content: center;
-    margin-bottom: 2rem;
-  }
-  
-  .profile-name {
-    font-size: 2.2rem;
-  }
-  
-  .profile-bio {
-    font-size: 1rem;
-  }
-}
-
-/* Additional styles to match the image */
-.theme-toggle {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  color: var(--text-color);
-  font-size: 1.5rem;
-}
-
-/* Custom classes for the likes section to match image */
-.likes-wrapper {
-  background-color: var(--primary-color);
-  padding: 15px 40px;
-  border-radius: 15px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 20px;
-  width: 140px;
-}
-
-.likes-count {
-  font-size: 1.8rem;
-  font-weight: bold;
-}
-
-.likes-label {
-  font-size: 0.8rem;
-  letter-spacing: 8px;
-  margin-top: 5px;
-}
-
-/* Theme toggle in top left corner */
-.theme-toggle {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  color: var(--text-color);
-  font-size: 1.5rem;
-  background: none;
-  border: none;
-  cursor: pointer;
+  margin-top: 30px;
 }
