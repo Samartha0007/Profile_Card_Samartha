@@ -1,6 +1,6 @@
 /* Global styles */
 :root {
-  --primary-color: #6c5ce7;
+  --primary-color: #724ee9;
   --dark-bg: #1a1625;
   --text-color: #ffffff;
   --secondary-bg: #2d2b3a;
@@ -12,6 +12,7 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: var(--dark-bg);
   color: var(--text-color);
+  overflow-x: hidden;
 }
 
 /* Profile container */
@@ -24,6 +25,7 @@ body {
   align-items: center;
   min-height: 100vh;
   position: relative;
+  padding-top: 60px;
 }
 
 /* Share button */
@@ -49,33 +51,35 @@ body {
 }
 
 .profile-image {
-  width: 180px;
-  height: 180px;
+  width: 170px;
+  height: 170px;
   border-radius: 50%;
   background-color: var(--primary-color);
   object-fit: cover;
-  border: 3px solid var(--primary-color);
+  border: none;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .profile-name {
-  font-size: 2.8rem;
-  font-weight: bold;
-  margin: 1.5rem 0 0.5rem;
+  font-size: 3.2rem;
+  font-weight: 700;
+  margin: 3rem 0 0.5rem;
   text-align: center;
+  font-family: 'Arial', sans-serif;
 }
 
 .profile-bio {
   font-size: 1.2rem;
   max-width: 80%;
   text-align: center;
-  color: #e0e0e0;
-  margin-bottom: 1.5rem;
+  color: #a9a9b6;
+  margin-bottom: 2rem;
+  line-height: 1.4;
 }
 
 /* Social container */
 .social-container {
-  margin: 1rem 0;
+  margin: 0;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -84,17 +88,19 @@ body {
 .social-icons {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 2.5rem;
   position: fixed;
   left: 3rem;
-  top: 40%;
+  top: 43%;
   transform: translateY(-50%);
 }
 
 .social-icons a {
   color: var(--primary-color);
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   transition: transform 0.3s ease;
+  display: block;
+  text-decoration: none;
 }
 
 .social-icons a:hover {
@@ -104,45 +110,50 @@ body {
 /* Likes section */
 .likes-container {
   background-color: var(--primary-color);
-  padding: 10px 30px;
-  border-radius: 50px;
+  padding: 15px 40px;
+  border-radius: 15px;
   margin: 1.5rem 0;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .likes-icon {
-  font-size: 2rem;
+  font-size: 1.8rem;
+  margin-bottom: 5px;
 }
 
 .likes-count {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   font-weight: bold;
+  margin-bottom: 3px;
 }
 
 .likes-text {
-  font-size: 1rem;
-  letter-spacing: 5px;
+  font-size: 0.85rem;
+  letter-spacing: 8px;
   text-transform: uppercase;
+  margin-top: 5px;
 }
 
 /* About Me section */
 .about-me {
-  margin-top: 3rem;
+  margin-top: 10rem;
   width: 100%;
   text-align: center;
 }
 
 .about-me h2 {
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
+  font-size: 3rem;
+  margin-bottom: 0.3rem;
+  font-weight: 600;
 }
 
 .about-me p {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: #a0a0a0;
+  margin-top: 0;
 }
 
 /* Navigation */
@@ -150,12 +161,12 @@ body {
   width: 100%;
   display: flex;
   justify-content: space-between;
-  padding: 1rem 2rem;
+  padding: 1.2rem 3rem;
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: rgba(26, 22, 37, 0.8);
+  background-color: rgba(26, 22, 37, 0.9);
   backdrop-filter: blur(10px);
 }
 
@@ -164,8 +175,11 @@ body {
   border: none;
   color: var(--text-color);
   font-size: 1.5rem;
-  padding: 10px;
+  padding: 12px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .nav-btn.active {
@@ -217,6 +231,7 @@ body {
   flex-direction: column;
   align-items: center;
   margin-top: 20px;
+  width: 140px;
 }
 
 .likes-count {
@@ -225,7 +240,19 @@ body {
 }
 
 .likes-label {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   letter-spacing: 8px;
   margin-top: 5px;
+}
+
+/* Theme toggle in top left corner */
+.theme-toggle {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  color: var(--text-color);
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
