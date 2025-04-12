@@ -1,47 +1,38 @@
-/* === Real Profile Style Adjustments === */
-
-.profile-wrapper {
+#profile-container {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  position: relative;
-  min-height: 100vh;
   padding-top: 6rem;
+  min-height: 100vh;
   background-color: var(--body-color);
 }
 
-/* Share Button (Top Right) */
+/* Share Button - Top Right */
 .sharebtn {
   position: absolute;
   top: 1rem;
   right: 1rem;
-  font-size: 1.25rem;
   background: none;
   border: none;
   color: var(--title-color);
+  font-size: 1.25rem;
   cursor: pointer;
   z-index: var(--z-fixed);
 }
 
-/* Social Icons (Left Side) */
-.social-icons {
-  position: absolute;
-  top: 8rem;
-  left: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  font-size: 1.25rem;
+.sharebtn:hover {
   color: var(--first-color);
 }
 
-.social-icons i:hover {
-  color: var(--first-color-alt);
+/* Profile Header */
+.profile-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-/* Profile Image */
-.profile-pic {
+.profile-image {
   width: 150px;
   height: 150px;
   border-radius: 50%;
@@ -50,7 +41,7 @@
   box-shadow: 0 0 15px rgba(110, 87, 224, 0.4);
 }
 
-/* Name & Bio Centered */
+/* Name & Bio */
 .profile-name {
   font-size: var(--h1-font-size);
   font-weight: var(--font-semi-bold);
@@ -68,16 +59,28 @@
   line-height: 1.5;
 }
 
-/* Likes Box (Below Bio) */
-.likes-box {
-  margin-top: var(--mb-1-5);
-  background-color: var(--first-color);
-  color: #fff;
-  padding: 0.75rem 1.5rem;
-  border-radius: 1.25rem;
+/* Social Icons - Left Side */
+.social-container {
+  position: absolute;
+  top: 8rem;
+  left: 1.5rem;
+}
+
+.social-icons {
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-weight: var(--font-medium);
-  font-size: var(--small-font-size);
+  flex-direction: column;
+  gap: 1.5rem;
+  font-size: 1.25rem;
+  color: var(--first-color);
+}
+
+.social-icons i:hover {
+  color: var(--first-color-alt);
+}
+
+/* Optional: Spotify container spacing */
+.spotify-container {
+  margin-top: 2rem;
+  width: 100%;
+  text-align: center;
 }
