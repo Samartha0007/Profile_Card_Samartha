@@ -18,7 +18,7 @@
     <!-- Fonts & Icons -->  
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">  
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">  
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./me.css">
 </head>  
 <body>  
     <!-- Introduction Page (shown by default) -->
@@ -70,6 +70,33 @@
 
         <div class="spotify-container" id="spotify-container"></div>  
     </div>  
+<!-- Add this right after opening the body tag -->
+<div class="preload">
+  <div class="preload-spinner"></div>
+</div>
+
+<!-- Add this script at the end of the body, right before the closing body tag -->
+<script>
+  // Hide preloader once page is fully loaded
+  window.addEventListener('load', function() {
+    setTimeout(function() {
+      document.querySelector('.preload').style.display = 'none';
+    }, 2000);
+  });
+  
+  // Add subtle parallax effect on mouse move
+  document.addEventListener('mousemove', function(e) {
+    const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
+    const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
+    
+    const elements = document.querySelectorAll('.profile-header, .social-container, .spotify-container, .feature');
+    
+    elements.forEach(function(element, index) {
+      const factor = (index + 1) * 0.5;
+      element.style.transform = `translate(${moveX * factor}px, ${moveY * factor}px)`;
+    });
+  });
+</script>
 
     <script type="module">  
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";  
