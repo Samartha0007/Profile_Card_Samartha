@@ -21,16 +21,12 @@
     <link rel="stylesheet" href="./style.css">
 </head>  
 <body>  
-    <!-- Theme Toggle -->
-    <button class="theme-toggle" id="themeToggle">
-        <i class="fas fa-moon"></i>
-    </button>
-
     <!-- Introduction Page (shown by default) -->
     <div class="intro-container" id="intro-container">
         <div class="intro-content">
+
             <h1>Mywebsam</h1>
-            <p>Create and share your personalized profile page with all your social links in one place</p>
+            <p>Create and share your personalized profile page with all your social links in 
             <div class="intro-features">
                 <div class="feature">
                     <i class="fas fa-user-circle"></i>
@@ -49,11 +45,11 @@
                 </div>
             </div>
             <a href="/create.html" class="cta-button">Create Your Profile</a>
-            <footer class="main-footer">
-                Made with 🖤 By 
-                <b><a href="https://samarthags.in" target="_blank">Samartha GS</a></b>
-                <p class="footer-note">Click on <b>Samartha GS</b></p>
-            </footer>
+<footer class="main-footer">
+    Made with 🖤 By 
+    <b><a href="https://samarthags.in" target="_blank">Samartha GS</a></b>
+    <p class="footer-note">Click on <b>Samartha GS</b></p>
+</footer>
         </div>
     </div>
 
@@ -71,9 +67,6 @@
         <div class="social-container">  
             <div class="social-icons" id="social-icons"></div>  
         </div>  
-
-        <!-- Linktree-style links will be added here -->
-        <div class="social-links" id="social-links"></div>
 
         <div class="spotify-container" id="spotify-container"></div>  
     </div>  
@@ -98,20 +91,6 @@
 
         const app = initializeApp(firebaseConfig);  
         const db = getFirestore(app);  
-
-        // Theme toggle functionality
-        const themeToggle = document.getElementById('themeToggle');
-        themeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('light-theme');
-            const icon = themeToggle.querySelector('i');
-            if (document.body.classList.contains('light-theme')) {
-                icon.classList.remove('fa-moon');
-                icon.classList.add('fa-sun');
-            } else {
-                icon.classList.remove('fa-sun');
-                icon.classList.add('fa-moon');
-            }
-        });
 
         async function loadProfile() {  
             const path = window.location.pathname.substring(1);  
@@ -141,10 +120,7 @@
                     document.getElementById("profile-image").src = profileImage;  
 
                     // Update social links  
-                    updateSocialLinks(profile);
-                    
-                    // Create Linktree-style links
-                    createLinktreeLinks(profile);
+                    updateSocialLinks(profile);  
 
                     // Update Spotify embed if available  
                     updateSpotifyEmbed(profile.spotify);  
@@ -196,61 +172,7 @@
                 }  
             });  
             document.getElementById("social-icons").innerHTML = socialHTML;  
-        }
-        
-        function createLinktreeLinks(profile) {
-            const socialLinks = document.getElementById("social-links");
-            socialLinks.innerHTML = "";
-            
-            const platformLabels = {
-                instagram: "Instagram",
-                snapchat: "Snapchat",
-                whatsapp: "WhatsApp",
-                facebook: "Facebook",
-                twitter: "Twitter",
-                linkedin: "LinkedIn",
-                youtube: "YouTube",
-                telegram: "Telegram",
-                github: "GitHub"
-            };
-            
-            const socialPlatforms = {  
-                instagram: `https://instagram.com/${profile.instagram}`,  
-                snapchat: `https://snapchat.com/add/${profile.snapchat}`,  
-                whatsapp: `https://wa.me/${profile.whatsapp}`,  
-                facebook: `https://facebook.com/${profile.facebook}`,  
-                twitter: `https://twitter.com/${profile.twitter}`,  
-                linkedin: `https://linkedin.com/in/${profile.linkedin}`,  
-                youtube: `https://m.youtube.com/${profile.youtube}`,  
-                telegram: `https://t.me/${profile.telegram}`,  
-                github: `https://github.com/${profile.github}`  
-            };
-            
-            Object.entries(socialPlatforms).forEach(([platform, url]) => {
-                if (profile[platform]) {
-                    const link = document.createElement("a");
-                    link.href = url;
-                    link.className = "social-link";
-                    link.target = "_blank";
-                    link.innerHTML = `<i class="fab fa-${platform}"></i>${platformLabels[platform]}`;
-                    socialLinks.appendChild(link);
-                }
-            });
-            
-            // Add custom links if you have them in your profile data
-            if (profile.customLinks && Array.isArray(profile.customLinks)) {
-                profile.customLinks.forEach(link => {
-                    if (link.url && link.title) {
-                        const customLink = document.createElement("a");
-                        customLink.href = link.url;
-                        customLink.className = "social-link";
-                        customLink.target = "_blank";
-                        customLink.innerHTML = `<i class="fas fa-link"></i>${link.title}`;
-                        socialLinks.appendChild(customLink);
-                    }
-                });
-            }
-        }
+        }  
 
         function updateSpotifyEmbed(spotifyUrl) {  
             if (!spotifyUrl) return;  
@@ -261,7 +183,7 @@
 
             spotifyContainer.innerHTML = `  
                 <iframe src="https://open.spotify.com/embed/${embedType}/${spotifyID}"   
-                        width="100%" height="80" frameborder="0"   
+                        width="300" height="80" frameborder="0"   
                         allow="encrypted-media"></iframe>`;  
         }  
 
@@ -302,3 +224,5 @@
     </script>
 </body>  
 </html>
+
+
