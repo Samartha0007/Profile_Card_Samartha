@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Samarth | Duo Voice Assistant</title>
+  <!-- Linking Google Fonts For Icons -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <link rel="shortcut icon" href="https://i.ibb.co/2ZrGMjH/icon.jpg" type="image/webp">
+  <link rel="icon" href="https://i.ibb.co/JkJPs03/images-2.jpg" type="image/webp">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+    
+    body {
+      background: #f0f2f5;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    
+    .header {
+      padding: 20px;
+      text-align: center;
+      background: linear-gradient(145deg, #3454d1, #34d1bf);
+      color: #fff;
+      border-radius: 0 0 20px 20px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+    
+    .title {
+      font-size: 2rem;
+      margin-bottom: 8px;
+    }
+    
+    .subtitle {
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+    
+    .call-interface {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 20px;
+      overflow-y: auto;
+    }
+    
+    .call-status {
+      text-align: center;
+      padding: 15px;
+      margin: 20px auto;
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      width: 80%;
+      max-width: 400px;
+      transition: all 0.3s ease;
+    }
+    
+    .status-text {
+      font-size: 1.2rem;
+      color: #333;
+      margin-bottom: 10px;
+    }
+    
+    .transcript {
+      background: #fff;
+      border-radius: 15px;
+      padding: 15px;
+      margin-top: 20px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      flex: 1;
+      overflow-y: auto;
+      margin-bottom: 20px;
+    }
+    
+    .speech-bubble {
+      padding: 12px 15px;
+      margin: 10px 0;
+      border-radius: 18px;
+      max-width: 80%;
+      animation: fadeIn 0.3s ease;
+    }
+    
+    .user-speech {
+      background: #e1f5fe;
+      margin-left: auto;
+      color: #01579b;
+      border-top-right-radius: 4px;
+    }
+    
+    .assistant-speech {
+      background: #e8f5e9;
+      margin-right: auto;
+      color: #2e7d32;
+      border-top-left-radius: 4px;
+    }
+    
+    .controls {
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+      background: #fff;
+      border-radius: 20px 20px 0 0;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .mic-button {
+      width: 70px;
+      height: 70px;
+      background: linear-gradient(145deg, #3454d1, #34d1bf);
+      border: none;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      transition: all 0.2s ease;
+    }
+    
+    .mic-button:hover {
+      transform: scale(1.05);
+    }
+    
+    .mic-button:active {
+      transform: scale(0.95);
+    }
+    
+    .mic-icon {
+      font-size: 32px;
+      color: #fff;
+    }
+    
+    .pulsating {
+      animation: pulse 1.5s infinite;
+    }
+    
+    .typing-indicator {
+      display: inline-block;
+      margin-left: 5px;
+    }
+    
+    .typing-indicator span {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background-color: #2e7d32;
+      border-radius: 50%;
+      margin: 0 2px;
+      animation: typing 1.5s infinite;
+    }
+    
+    .typing-indicator span:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+    
+    .typing-indicator span:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+    
+    .disclaimer-text {
+      text-align: center;
+      font-size: 0.8rem;
+      color: #777;
+      margin-top: 10px;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(52, 84, 209, 0.7); }
+      70% { box-shadow: 0 0 0 15px rgba(52, 84, 209, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(52, 84, 209, 0); }
+    }
+    
+    @keyframes typing {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+    
+    .hide {
+      display: none;
+    }
+    
+    .listening-animation {
+      width: 100%;
+      height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .listening-bar {
+      width: 6px;
+      background: linear-gradient(145deg, #3454d1, #34d1bf);
+      height: 15px;
+      border-radius: 3px;
+    }
+    
+    .listening .listening-bar {
+      animation: soundBars 1.2s infinite;
+    }
+    
+    .listening-bar:nth-child(2) { animation-delay: 0.2s; }
+    .listening-bar:nth-child(3) { animation-delay: 0.4s; }
+    .listening-bar:nth-child(4) { animation-delay: 0.6s; }
+    .listening-bar:nth-child(5) { animation-delay: 0.8s; }
+    
+    @keyframes soundBars {
+      0% { height: 15px; }
+      50% { height: 45px; }
+      100% { height: 15px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <!-- Header Greetings -->
+    <h1 class="title">Duo Voice Assistant</h1>
+    <p class="subtitle">Tap the mic and start speaking</p>
+  </header>
+
+  <div class="call-interface">
+    <div class="call-status">
+      <p class="status-text">Ready to listen</p>
+      <div class="listening-animation">
+        <div class="listening-bar"></div>
+        <div class="listening-bar"></div>
+        <div class="listening-bar"></div>
+        <div class="listening-bar"></div>
+        <div class="listening-bar"></div>
+      </div>
+    </div>
+
+    <div class="transcript"></div>
+  </div>
+
+  <div class="controls">
+    <button class="mic-button">
+      <span class="mic-icon material-symbols-rounded">mic</span>
+    </button>
+    <p class="disclaimer-text">
+      Made with ❤️‍🔥 by Samartha Gs
+    </p>
+  </div>
+
+  <script>
+    const micButton = document.querySelector(".mic-button");
+    const statusText = document.querySelector(".status-text");
+    const listeningAnimation = document.querySelector(".listening-animation");
+    const transcript = document.querySelector(".transcript");
+
+    let recognition;
+    let isSpeaking = false;
+    let speechSynthesis = window.speechSynthesis;
+
+    const API_KEY = "AIzaSyAGt-0uYeWcj1olFe-yzbmbmW3R9k8Jmb8";
+    const API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent?key=${API_KEY}`;
+
+    const predefinedResponses = {
+      "who are you": "I am Duo, your personal voice assistant created by Samartha Gs. I'm here to help you with information and conversation.",
+      "who developed you": "I was developed by Samartha Gs, a 17-year-old tech enthusiast who loves web development, IoT, and AI. He has completed over 50 amazing projects!",
+      "where are you from": "I am from Golagodu, a beautiful village near Sagara in Karnataka, India.",
+      "what can you do": "I can answer your questions, provide information, and chat about various topics through voice. Just speak, and I'll respond.",
+      "who is samartha gs": "Samartha Gs is a talented 17-year-old passionate about web development, IoT, and AI. He has completed over 50 projects, including websites and apps.",
+      "do you know samartha gs": "Yes, Samartha Gs is my creator! A skilled individual passionate about technology and innovation.",
+      "samartha gs": "Samartha Gs - I am here because of him!",
+      "hi": "Hi, I'm Duo-Developed by Samartha, How can I help you today?",
+      "hello": "Hello, I'm Duo-Developed by Samartha, How can I help you today?",
+    };
+
+    // Initialize speech recognition
+    if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
+      recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+      recognition.continuous = false;
+      recognition.interimResults = true;
+      recognition.lang = 'en-US';
+
+      recognition.onstart = () => {
+        statusText.textContent = "Listening...";
+        listeningAnimation.classList.add("listening");
+        micButton.classList.add("pulsating");
+      };
+
+      recognition.onresult = (event) => {
+        const transcript_text = Array.from(event.results)
+          .map(result => result[0].transcript)
+          .join("");
+        
+        if (event.results[0].isFinal) {
+          addUserSpeechBubble(transcript_text);
+          processUserSpeech(transcript_text);
+        }
+      };
+
+      recognition.onend = () => {
+        if (!isSpeaking) {
+          statusText.textContent = "Ready to listen";
+          listeningAnimation.classList.remove("listening");
+          micButton.classList.remove("pulsating");
+        }
+      };
+
+      recognition.onerror = (event) => {
+        console.error("Speech recognition error", event.error);
+        statusText.textContent = "Error: " + event.error;
+        listeningAnimation.classList.remove("listening");
+        micButton.classList.remove("pulsating");
+      };
+    } else {
+      alert("Speech recognition is not supported in your browser.");
+      statusText.textContent = "Speech recognition not supported";
+    }
+
+    // Find predefined response based on similarity
+    const findPredefinedResponse = (message) => {
+      // Normalize the message
+      message = message.toLowerCase();
+
+      // Common prefixes to ignore
+      const commonPrefixes = [
+        "tell me about",
+        "can you explain",
+        "what do you know about",
+        "do you know about",
+        "i want to know about",
+      ];
+
+      // Remove common prefixes from the user message
+      for (const prefix of commonPrefixes) {
+        if (message.startsWith(prefix)) {
+          message = message.replace(prefix, "").trim();
+          break;
+        }
+      }
+
+      const calculateSimilarity = (a, b) => {
+        const wordsA = new Set(a.split(" "));
+        const wordsB = new Set(b.split(" "));
+        const intersection = new Set([...wordsA].filter((word) => wordsB.has(word)));
+        return intersection.size / Math.max(wordsA.size, wordsB.size);
+      };
+
+      const threshold = 0.5; // Minimum similarity threshold (0 to 1)
+      let bestMatch = null;
+      let highestSimilarity = 0;
+
+      // Check each predefined response for similarity
+      for (const key in predefinedResponses) {
+        const similarity = calculateSimilarity(message, key);
+        if (similarity > highestSimilarity && similarity >= threshold) {
+          highestSimilarity = similarity;
+          bestMatch = predefinedResponses[key];
+        }
+      }
+
+      return bestMatch;
+    };
+
+    // Process user speech
+    const processUserSpeech = async (userSpeech) => {
+      if (!userSpeech) return;
+
+      showAssistantTyping();
+
+      // Check for predefined response
+      const predefinedResponse = findPredefinedResponse(userSpeech);
+      
+      if (predefinedResponse) {
+        setTimeout(() => {
+          speakResponse(predefinedResponse);
+        }, 1000);
+      } else {
+        try {
+          const response = await fetch(API_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              contents: [
+                {
+                  role: "user",
+                  parts: [{ text: userSpeech }],
+                },
+              ],
+            }),
+          });
+
+          const data = await response.json();
+          if (!response.ok) throw new Error(data.error.message);
+
+          const apiResponse = data.candidates[0].content.parts[0].text.replace(
+            /\*\*(.*?)\*\*/g,
+            "$1"
+          );
+          
+          speakResponse(apiResponse);
+        } catch (error) {
+          console.error("API error:", error);
+          speakResponse("Sorry, I encountered an error. Please try again.");
+        }
+      }
+    };
+
+    // Show typing indicator
+    const showAssistantTyping = () => {
+      const typingBubble = document.createElement("div");
+      typingBubble.classList.add("speech-bubble", "assistant-speech", "typing");
+      typingBubble.innerHTML = "Duo is thinking<div class='typing-indicator'><span></span><span></span><span></span></div>";
+      transcript.appendChild(typingBubble);
+      transcript.scrollTop = transcript.scrollHeight;
+      return typingBubble;
+    };
+
+    // Add user speech bubble to transcript
+    const addUserSpeechBubble = (text) => {
+      const userBubble = document.createElement("div");
+      userBubble.classList.add("speech-bubble", "user-speech");
+      userBubble.textContent = text;
+      transcript.appendChild(userBubble);
+      transcript.scrollTop = transcript.scrollHeight;
+    };
+
+    // Add assistant speech bubble to transcript
+    const addAssistantSpeechBubble = (text) => {
+      // Remove any typing indicators
+      const typingIndicators = transcript.querySelectorAll(".typing");
+      typingIndicators.forEach(indicator => indicator.remove());
+      
+      const assistantBubble = document.createElement("div");
+      assistantBubble.classList.add("speech-bubble", "assistant-speech");
+      assistantBubble.textContent = text;
+      transcript.appendChild(assistantBubble);
+      transcript.scrollTop = transcript.scrollHeight;
+    };
+
+    // Speak response using speech synthesis
+    const speakResponse = (text) => {
+      addAssistantSpeechBubble(text);
+      
+      isSpeaking = true;
+      statusText.textContent = "Duo is speaking...";
+      
+      // Create a speech synthesis utterance
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = 1.0;
+      utterance.pitch = 1.0;
+      utterance.volume = 1.0;
+      
+      // Select a voice (optional)
+      const voices = speechSynthesis.getVoices();
+      const preferredVoice = voices.find(voice => voice.name.includes('Female') && voice.lang.includes('en-US'));
+      if (preferredVoice) {
+        utterance.voice = preferredVoice;
+      }
+      
+      // When speech ends
+      utterance.onend = () => {
+        isSpeaking = false;
+        statusText.textContent = "Ready to listen";
+      };
+      
+      // Speak
+      speechSynthesis.speak(utterance);
+    };
+
+    // Handle microphone button click
+    micButton.addEventListener("click", () => {
+      if (speechSynthesis.speaking) {
+        speechSynthesis.cancel();
+        isSpeaking = false;
+        statusText.textContent = "Ready to listen";
+      } else if (recognition) {
+        recognition.start();
+      }
+    });
+
+    // Initialize voices when they are loaded
+    speechSynthesis.onvoiceschanged = () => {
+      speechSynthesis.getVoices();
+    };
+
+    // Initial greeting
+    window.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        speakResponse("Hello, I'm Duo Voice Assistant developed by Samartha. Tap the microphone and start speaking to interact with me.");
+      }, 1000);
+    });
+  </script>
+</body>
+</html>
