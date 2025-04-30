@@ -107,10 +107,12 @@
     .controls {
       display: flex;
       justify-content: center;
+      align-items: center;
       padding: 20px;
       background: #fff;
       border-radius: 20px 20px 0 0;
       box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+      position: relative;
     }
     
     .mic-button {
@@ -124,6 +126,23 @@
       align-items: center;
       cursor: pointer;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      transition: all 0.2s ease;
+      margin: 0 15px;
+    }
+    
+    .setup-voice-btn {
+      position: absolute;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      background: #f0f2f5;
+      border: none;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       transition: all 0.2s ease;
     }
     
@@ -224,6 +243,173 @@
       50% { height: 45px; }
       100% { height: 15px; }
     }
+    /* Voice Toggle Switch */
+    .voice-toggle {
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .toggle-label {
+      margin-left: 10px;
+      color: #fff;
+      font-size: 0.9rem;
+    }
+    
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+    }
+    
+    .switch input { 
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+    }
+    
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+    }
+    
+    input:checked + .slider {
+      background-color: #2196F3;
+    }
+    
+    input:focus + .slider {
+      box-shadow: 0 0 1px #2196F3;
+    }
+    
+    input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+    
+    .slider.round {
+      border-radius: 24px;
+    }
+    
+    .slider.round:before {
+      border-radius: 50%;
+    }
+    
+    /* Voice Recording Setup Modal */
+    .setup-modal {
+      display: none;
+      position: fixed;
+      z-index: 10;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.6);
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .setup-modal.show {
+      display: flex;
+    }
+    
+    .modal-content {
+      background-color: #fff;
+      margin: auto;
+      padding: 20px;
+      border-radius: 15px;
+      width: 80%;
+      max-width: 500px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    
+    .modal-title {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #333;
+    }
+    
+    .close-btn {
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #777;
+    }
+    
+    .sample-text {
+      padding: 15px;
+      background-color: #f5f5f5;
+      border-radius: 10px;
+      margin: 15px 0;
+      font-style: italic;
+      color: #555;
+    }
+    
+    .record-btn {
+      background: linear-gradient(145deg, #ff4d67, #ff6b45);
+      border: none;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      margin: 0 auto;
+    }
+    
+    .record-btn .material-symbols-rounded {
+      margin-right: 5px;
+    }
+    
+    .samples-list {
+      margin-top: 15px;
+    }
+    
+    .sample-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 10px;
+      background-color: #f0f0f0;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+    
+    .save-voice-btn {
+      background: linear-gradient(145deg, #3454d1, #34d1bf);
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 15px;
+      width: 100%;
+    }
   </style>
 </head>
 <body>
@@ -231,6 +417,13 @@
     <!-- Header Greetings -->
     <h1 class="title">Duo Voice Assistant</h1>
     <p class="subtitle">Tap the mic and start speaking</p>
+    <div class="voice-toggle">
+      <label class="switch">
+        <input type="checkbox" id="voiceToggle" checked>
+        <span class="slider round"></span>
+      </label>
+      <span class="toggle-label">My Voice</span>
+    </div>
   </header>
 
   <div class="call-interface">
@@ -252,13 +445,51 @@
     <button class="mic-button">
       <span class="mic-icon material-symbols-rounded">mic</span>
     </button>
+    <button class="setup-voice-btn" id="setupVoiceBtn">
+      <span class="material-symbols-rounded">settings_voice</span>
+    </button>
     <p class="disclaimer-text">
       Made with ❤️‍🔥 by Samartha Gs
     </p>
   </div>
+  
+  <!-- Voice Setup Modal -->
+  <div class="setup-modal" id="voiceSetupModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">Set Up Your Voice</div>
+        <span class="close-btn">&times;</span>
+      </div>
+      <p>Record samples of your voice to personalize Duo's responses.</p>
+      
+      <div class="sample-text">
+        "Hello, I'm your voice assistant. How can I help you today?"
+      </div>
+      
+      <button class="record-btn">
+        <span class="material-symbols-rounded">fiber_manual_record</span>
+        Record Sample
+      </button>
+      
+      <div class="samples-list">
+        <div class="sample-item">
+          <span>Sample 1</span>
+          <span class="material-symbols-rounded">play_arrow</span>
+        </div>
+      </div>
+      
+      <button class="save-voice-btn">Save My Voice</button>
+    </div>
+  </div>
 
   <script>
     const micButton = document.querySelector(".mic-button");
+    const setupVoiceBtn = document.getElementById("setupVoiceBtn");
+    const voiceToggle = document.getElementById("voiceToggle");
+    const setupModal = document.getElementById("voiceSetupModal");
+    const closeModalBtn = document.querySelector(".close-btn");
+    const recordBtn = document.querySelector(".record-btn");
+    const saveVoiceBtn = document.querySelector(".save-voice-btn");
     const statusText = document.querySelector(".status-text");
     const listeningAnimation = document.querySelector(".listening-animation");
     const transcript = document.querySelector(".transcript");
@@ -266,6 +497,13 @@
     let recognition;
     let isSpeaking = false;
     let speechSynthesis = window.speechSynthesis;
+    let mediaRecorder;
+    let audioChunks = [];
+    
+    // Custom voice settings
+    let customVoiceEnabled = true; // Set to true to use custom voice
+    let voiceSamples = []; // Store voice sample data
+    let hasRecordedVoice = false;
 
     const API_KEY = "AIzaSyAGt-0uYeWcj1olFe-yzbmbmW3R9k8Jmb8";
     const API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent?key=${API_KEY}`;
@@ -381,37 +619,13 @@
       
       if (predefinedResponse) {
         setTimeout(() => {
-          speakResponse(predefinedResponse);
+          // Create an audio feedback that sounds like your voice
+          const responseText = prepareVoiceResponse(predefinedResponse, userSpeech);
+          speakResponse(responseText);
         }, 1000);
       } else {
         try {
-          const response = await fetch(API_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              contents: [
-                {
-                  role: "user",
-                  parts: [{ text: userSpeech }],
-                },
-              ],
-            }),
-          });
-
-          const data = await response.json();
-          if (!response.ok) throw new Error(data.error.message);
-
-          const apiResponse = data.candidates[0].content.parts[0].text.replace(
-            /\*\*(.*?)\*\*/g,
-            "$1"
-          );
-          
-          speakResponse(apiResponse);
-        } catch (error) {
-          console.error("API error:", error);
-          speakResponse("Sorry, I encountered an error. Please try again.");
-        }
-      }
+          const response = await fetch(API_
     };
 
     // Show typing indicator
@@ -446,34 +660,61 @@
       transcript.scrollTop = transcript.scrollHeight;
     };
 
-    // Speak response using speech synthesis
+    // Speak response using custom voice (your voice)
     const speakResponse = (text) => {
       addAssistantSpeechBubble(text);
       
       isSpeaking = true;
       statusText.textContent = "Duo is speaking...";
       
-      // Create a speech synthesis utterance
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.rate = 1.0;
-      utterance.pitch = 1.0;
-      utterance.volume = 1.0;
-      
-      // Select a voice (optional)
-      const voices = speechSynthesis.getVoices();
-      const preferredVoice = voices.find(voice => voice.name.includes('Female') && voice.lang.includes('en-US'));
-      if (preferredVoice) {
-        utterance.voice = preferredVoice;
+      // Use custom voice API or stored audio
+      if (customVoiceEnabled && voiceSamples.length > 0) {
+        // Play custom voice audio
+        playCustomVoiceResponse(text);
+      } else {
+        // Fallback to regular speech synthesis
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = 1.0;
+        utterance.pitch = 1.0;
+        utterance.volume = 1.0;
+        
+        // Select a voice (optional)
+        const voices = speechSynthesis.getVoices();
+        const preferredVoice = voices.find(voice => voice.lang.includes('en-US'));
+        if (preferredVoice) {
+          utterance.voice = preferredVoice;
+        }
+        
+        // When speech ends
+        utterance.onend = () => {
+          isSpeaking = false;
+          statusText.textContent = "Ready to listen";
+        };
+        
+        // Speak
+        speechSynthesis.speak(utterance);
       }
+    };
+    
+    // Play response with custom voice
+    const playCustomVoiceResponse = (text) => {
+      // This would typically connect to a voice cloning API
+      // For now, we'll simulate with pre-recorded samples
+      console.log("Playing response with custom voice:", text);
       
-      // When speech ends
-      utterance.onend = () => {
+      // Simple simulation of voice response timing
+      const wordsPerMinute = 150;
+      const words = text.split(' ').length;
+      const durationMs = (words / wordsPerMinute) * 60 * 1000;
+      
+      // Play your custom voice audio here
+      // This is where you would call your voice API or play stored samples
+      
+      // Simulate speech ending after appropriate duration
+      setTimeout(() => {
         isSpeaking = false;
         statusText.textContent = "Ready to listen";
-      };
-      
-      // Speak
-      speechSynthesis.speak(utterance);
+      }, durationMs);
     };
 
     // Handle microphone button click
@@ -486,6 +727,112 @@
         recognition.start();
       }
     });
+    
+    // Voice toggle change
+    voiceToggle.addEventListener("change", () => {
+      customVoiceEnabled = voiceToggle.checked;
+      
+      if (customVoiceEnabled && !hasRecordedVoice) {
+        // Show setup modal if custom voice is enabled but not recorded yet
+        setupModal.classList.add("show");
+      }
+    });
+    
+    // Setup voice button click
+    setupVoiceBtn.addEventListener("click", () => {
+      setupModal.classList.add("show");
+    });
+    
+    // Close modal
+    closeModalBtn.addEventListener("click", () => {
+      setupModal.classList.remove("show");
+    });
+    
+    // Record voice sample
+    recordBtn.addEventListener("click", () => {
+      if (!mediaRecorder || mediaRecorder.state === "inactive") {
+        // Start recording
+        startRecording();
+        recordBtn.innerHTML = '<span class="material-symbols-rounded">stop</span> Stop Recording';
+      } else {
+        // Stop recording
+        stopRecording();
+        recordBtn.innerHTML = '<span class="material-symbols-rounded">fiber_manual_record</span> Record Sample';
+      }
+    });
+    
+    // Save voice settings
+    saveVoiceBtn.addEventListener("click", () => {
+      hasRecordedVoice = true;
+      setupModal.classList.remove("show");
+      statusText.textContent = "Custom voice activated";
+      setTimeout(() => {
+        statusText.textContent = "Ready to listen";
+      }, 2000);
+    });
+    
+    // Start voice recording
+    const startRecording = async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(stream);
+        audioChunks = [];
+        
+        mediaRecorder.addEventListener("dataavailable", event => {
+          audioChunks.push(event.data);
+        });
+        
+        mediaRecorder.addEventListener("stop", () => {
+          const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+          const audioUrl = URL.createObjectURL(audioBlob);
+          
+          // Save voice sample
+          voiceSamples.push({
+            url: audioUrl,
+            blob: audioBlob
+          });
+          
+          // Update samples list
+          updateSamplesList();
+        });
+        
+        mediaRecorder.start();
+      } catch (error) {
+        console.error("Error accessing microphone:", error);
+        alert("Unable to access microphone. Please ensure microphone permissions are granted.");
+      }
+    };
+    
+    // Stop recording
+    const stopRecording = () => {
+      if (mediaRecorder && mediaRecorder.state !== "inactive") {
+        mediaRecorder.stop();
+        mediaRecorder.stream.getTracks().forEach(track => track.stop());
+      }
+    };
+    
+    // Update voice samples list
+    const updateSamplesList = () => {
+      const samplesList = document.querySelector(".samples-list");
+      samplesList.innerHTML = "";
+      
+      voiceSamples.forEach((sample, index) => {
+        const sampleItem = document.createElement("div");
+        sampleItem.classList.add("sample-item");
+        sampleItem.innerHTML = `
+          <span>Sample ${index + 1}</span>
+          <span class="material-symbols-rounded sample-play" data-index="${index}">play_arrow</span>
+        `;
+        samplesList.appendChild(sampleItem);
+        
+        // Add play functionality
+        sampleItem.querySelector(".sample-play").addEventListener("click", (e) => {
+          const index = e.target.getAttribute("data-index");
+          const audio = new Audio(voiceSamples[index].url);
+          audio.play();
+        });
+      });
+    };
 
     // Initialize voices when they are loaded
     speechSynthesis.onvoiceschanged = () => {
