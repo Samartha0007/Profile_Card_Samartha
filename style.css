@@ -193,6 +193,27 @@ body {
     color: gray;    
     transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;    
 }    
+.profile-info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 15px;
+    color: #666;
+    font-size: 14px;
+}
+
+.profile-location,
+.profile-birthday,
+.profile-age {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.profile-info i {
+    color: #4a90e2;
+}
 
 .sharebtn:hover {    
     transform: scale(1.1);    
