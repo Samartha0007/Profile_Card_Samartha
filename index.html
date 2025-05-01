@@ -54,15 +54,32 @@
     </div>
 
     <!-- Profile Page (hidden by default) -->
-    <div class="profile-container" id="profile-container" style="display:none">  
-        <button id="shareBtn" class="sharebtn">  
-            <i class="fas fa-share-alt"></i>  
-        </button>
-        <div class="profile-header">  
-            <img class="profile-image" id="profile-image" src="" alt="">  
-            <div class="profile-name" id="profile-name"></div>  
-            <div class="profile-bio" id="profile-bio"></div>  
-        </div>  
+ <div class="profile-container" id="profile-container" style="display:none">  
+    <button id="shareBtn" class="sharebtn">  
+        <i class="fas fa-share-alt"></i>  
+    </button>
+    <div class="profile-header">  
+        <img class="profile-image" id="profile-image" src="" alt="">  
+        <div class="profile-name" id="profile-name"></div>  
+        <div class="profile-bio" id="profile-bio"></div>  
+        <!-- Add these new elements -->
+        <div class="profile-info">
+            <div class="profile-location" id="profile-location">
+                <i class="fas fa-map-marker-alt"></i>
+                <span id="location-text"></span>
+            </div>
+            <div class="profile-birthday" id="profile-birthday">
+                <i class="fas fa-birthday-cake"></i>
+                <span id="birthday-text"></span>
+            </div>
+            <div class="profile-age" id="profile-age">
+                <i class="fas fa-user"></i>
+                <span id="age-text"></span>
+            </div>
+        </div>
+    </div>
+    <!-- Rest of your existing code... -->
+</div>
 
         <div class="social-container">  
             <div class="social-icons" id="social-icons"></div>  
@@ -93,52 +110,78 @@
         const db = getFirestore(app);  
 
         async function loadProfile() {  
-            const path = window.location.pathname.substring(1);  
-            const username = path ? decodeURIComponent(path) : null;  
+    const path = window.location.pathname.substring(1);  
+    const username = path ? decodeURIComponent(path) : null;  
 
-            if (username) {  
-                // Show profile container, hide intro
-                document.getElementById("profile-container").style.display = "block";  
-                document.getElementById("intro-container").style.display = "none";
+    if (username) {  
+        document.getElementById("profile-container").style.display = "block";  
+        document.getElementById("intro-container").style.display = "none";
 
-                const q = query(collection(db, "profiles"), where("username", "==", username));  
-                const querySnapshot = await getDocs(q);  
+        const q = query(collection(db, "profiles"), where("username", "==", username));  
+        const querySnapshot = await getDocs(q);  
 
-                if (!querySnapshot.empty) {  
-                    const profile = querySnapshot.docs[0].data();  
-                    const profileName = profile.name || username;  
-                    const profileBio = profile.bio || "Check out my profile!";  
-                    const profileImage = profile.imageUrl || "https://i.ibb.co/sKbrkyn/Yellow-and-Grey-Pastel-Grunge-Designer-Brand-Logo-20241009-185202-0000.png";  
-                    const currentUrl = window.location.href;  
+        if (!querySnapshot.empty) {  
+            const profile = querySnapshot.docs[0].data();  
+            const profileName = profile.name || username;  
+            const profileBio = profile.bio || "Check out my profile!";  
+            const profileImage = profile.imageUrl || "https://i.ibb.co/sKbrkyn/Yellow-and-Grey-Pastel-Grunge-Designer-Brand-Logo-20241009-185202-0000.png";  
+            const currentUrl = window.location.href;  
 
-                    // Update all meta tags  
-                    updateMetaTags(profileName, profileBio, profileImage, currentUrl);  
+            // Update all meta tags  
+            updateMetaTags(profileName, profileBio, profileImage, currentUrl);  
 
-                    // Update profile display  
-                    document.getElementById("profile-name").innerText = profileName;  
-                    document.getElementById("profile-bio").innerText = profileBio;  
-                    document.getElementById("profile-image").src = profileImage;  
+            // Update profile display  
+            document.getElementById("profile-name").innerText = profileName;  
+            document.getElementById("profile-bio").innerText = profileBio;  
+            document.getElementById("profile-image").src = profileImage;  
 
-                    // Update social links  
-                    updateSocialLinks(profile);  
-
-                    // Update Spotify embed if available  
-                    updateSpotifyEmbed(profile.spotify);  
-
-                    // Visual feedback for shared links  
-                    if (fromShare) {  
-                        showShareNotification(profileName);  
-                    }  
-                } else {  
-                    alert("Profile not found!");  
-                    window.location.href = "/";  
-                }  
+            // Update location and birthday if available
+            if (profile.location) {
+                document.getElementById("location-text").innerText = profile.location;
             } else {
-                // No username in URL, show intro page
-                document.getElementById("intro-container").style.display = "block";
-                document.getElementById("profile-container").style.display = "none";
+                document.getElementById("profile-location").style.display = "none";
+            }
+            
+            if (profile.birthday) {
+                const birthday = new Date(profile.birthday);
+                const formattedBirthday = birthday.toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                });
+                document.getElementById("birthday-text").innerText = formattedBirthday;
+                
+                // Calculate and display age
+                if (profile.age) {
+                    document.getElementById("age-text").innerText = `${profile.age} years old`;
+                } else {
+                    document.getElementById("profile-age").style.display = "none";
+                }
+            } else {
+                document.getElementById("profile-birthday").style.display = "none";
+                document.getElementById("profile-age").style.display = "none";
+            }
+
+            // Update social links  
+            updateSocialLinks(profile);  
+
+            // Update Spotify embed if available  
+            updateSpotifyEmbed(profile.spotify);  
+
+            // Visual feedback for shared links  
+            if (fromShare) {  
+                showShareNotification(profileName);  
             }  
+        } else {  
+            alert("Profile not found!");  
+            window.location.href = "/";  
         }  
+    } else {
+        // No username in URL, show intro page
+        document.getElementById("intro-container").style.display = "block";
+        document.getElementById("profile-container").style.display = "none";
+    }  
+}
 
         function updateMetaTags(name, bio, image, url) {  
             document.title = `${name}'s Profile`;  
