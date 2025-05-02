@@ -108,7 +108,7 @@ body::before {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 18px;
+  font-size: 10px;
   font-weight: 500;
   color: rgba(255, 255, 255, 1);
   text-align: center;
