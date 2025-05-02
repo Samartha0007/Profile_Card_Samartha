@@ -202,7 +202,7 @@ body::before {
 /* Single Social Icon Animation - Bigger Version */
 .social-container {
   position: absolute;
-  top: 90px;
+  top: 60px;
   right: 40px;
   z-index: 10;
   width: 80px;  /* Increased from 50px */
