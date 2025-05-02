@@ -100,9 +100,11 @@ body::before {
 
 
 
-/* No Recent Activity Section */
 .no-activity {
-  flex: 1;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -110,7 +112,7 @@ body::before {
   font-weight: 500;
   color: rgba(255, 255, 255, 1);
   text-align: center;
-  margin-top: 80px;
+  padding-bottom: 20px; /* Optional: Add some space from the bottom */
 }
 
 /* Social Media Container */
