@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Dynamic meta tags (will be updated by both backend and frontend) -->
+  <!-- Dynamic meta tags -->
   <title id="dynamic-title">Profile Links</title>
   <meta property="og:type" content="website">
   <meta property="og:title" id="og-title" content="Profile Links">
@@ -34,20 +34,11 @@
       <h1 class="profile-name" id="profile-name"></h1>
       <div class="profile-bio" id="profile-bio"></div>
       
-      <!-- Reverted to original structure for profile info -->
-      <div class="profile-info">
-        <div class="profile-location" id="profile-location">
-          <i class="fas fa-map-marker-alt"></i>
-          <span id="location-text"></span>
-        </div>
-        <div class="profile-birthday" id="profile-birthday">
-          <i class="fas fa-birthday-cake"></i>
-          <span id="birthday-text"></span>
-        </div>
-        <div class="profile-age" id="profile-age">
-          <i class="fas fa-user"></i>
-          <span id="age-text"></span>
-        </div>
+      <!-- Updated to match your exact structure -->
+      <div class="profile-stats">
+        <span id="profile-location"><i class="fas fa-map-marker-alt"></i> <span id="location-text"></span></span>
+        <span class="dot">•</span>
+        <span id="profile-birthday"><i class="fas fa-birthday-cake"></i> <span id="birthday-text"></span></span>
       </div>
     </div>
 
@@ -59,13 +50,13 @@
     <!-- Spotify Widget -->
     <div class="spotify-container" id="spotify-container"></div>
 
-    <!-- No Activity Section (optional) -->
-    <div class="no-activity" style="display:none">
+    <!-- No Activity Section -->
+    <div class="no-activity">
       No Recent Activity
     </div>
   </div>
 
-  <!-- Introduction Page (shown by default) -->
+  <!-- Introduction Page -->
   <div class="intro-container" id="intro-container">
     <div class="intro-content">
       <h1>Mywebsam</h1>
@@ -97,7 +88,7 @@
     </footer>
   </div>
 
-  <!-- Share Notification (hidden by default) -->
+  <!-- Share Notification -->
   <div class="share-notification" style="display: none;">
     Link copied to clipboard!
   </div>
@@ -106,11 +97,9 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
     import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
 
-    // Check if coming from backend redirect
     const urlParams = new URLSearchParams(window.location.search);
     const fromShare = urlParams.has('from_share');
 
-    // Your Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyBb3x_zD9JaFwL9PhmngCNZlS2fOh6MBa4",
       authDomain: "newai-52371.firebaseapp.com",
@@ -141,51 +130,45 @@
           const profileImage = profile.imageUrl || "https://i.ibb.co/sKbrkyn/Yellow-and-Grey-Pastel-Grunge-Designer-Brand-Logo-20241009-185202-0000.png";
           const currentUrl = window.location.href;
 
-          // Update all meta tags
           updateMetaTags(profileName, profileBio, profileImage, currentUrl);
 
-          // Update profile display
           document.getElementById("profile-name").innerText = profileName;
           document.getElementById("profile-bio").innerText = profileBio;
           document.getElementById("profile-image").src = profileImage;
 
-          // Update location and birthday if available
+          // Update location
           if (profile.location) {
             document.getElementById("location-text").innerText = profile.location;
-            document.getElementById("profile-location").style.display = "block";
+            document.getElementById("profile-location").style.display = "inline";
           } else {
             document.getElementById("profile-location").style.display = "none";
+            document.querySelector('.dot').style.display = "none";
           }
 
+          // Update birthday
           if (profile.birthday) {
             const birthday = new Date(profile.birthday);
             const formattedBirthday = birthday.toLocaleDateString('en-US', { 
-              year: 'numeric', 
               month: 'long', 
-              day: 'numeric' 
+              year: 'numeric'
             });
             document.getElementById("birthday-text").innerText = formattedBirthday;
-            document.getElementById("profile-birthday").style.display = "block";
-
-            // Calculate and display age
-            if (profile.age) {
-              document.getElementById("age-text").innerText = `${profile.age} years old`;
-              document.getElementById("profile-age").style.display = "block";
+            document.getElementById("profile-birthday").style.display = "inline";
+            
+            // Only show dot if both location and birthday exist
+            if (profile.location) {
+              document.querySelector('.dot').style.display = "inline";
             } else {
-              document.getElementById("profile-age").style.display = "none";
+              document.querySelector('.dot').style.display = "none";
             }
           } else {
             document.getElementById("profile-birthday").style.display = "none";
-            document.getElementById("profile-age").style.display = "none";
+            document.querySelector('.dot').style.display = "none";
           }
 
-          // Update social links
           updateSocialLinks(profile);
-
-          // Update Spotify embed if available
           updateSpotifyEmbed(profile.spotify);
 
-          // Visual feedback for shared links
           if (fromShare) {
             showShareNotification(profileName);
           }
@@ -194,7 +177,6 @@
           window.location.href = "/";
         }
       } else {
-        // No username in URL, show intro page
         document.getElementById("intro-container").style.display = "block";
         document.getElementById("profile-container").style.display = "none";
       }
@@ -235,7 +217,10 @@
     }
 
     function updateSpotifyEmbed(spotifyUrl) {
-      if (!spotifyUrl) return;
+      if (!spotifyUrl) {
+        document.getElementById("spotify-container").style.display = "none";
+        return;
+      }
 
       const spotifyContainer = document.getElementById("spotify-container");
       const spotifyID = spotifyUrl.split('/').pop();
@@ -245,19 +230,19 @@
         <iframe src="https://open.spotify.com/embed/${embedType}/${spotifyID}" 
                 width="300" height="80" frameborder="0" 
                 allow="encrypted-media"></iframe>`;
+      spotifyContainer.style.display = "block";
     }
 
     function showShareNotification(name) {
-      const notification = document.createElement('div');
-      notification.className = 'share-notification';
+      const notification = document.querySelector('.share-notification');
       notification.innerHTML = `Thanks for sharing ${name}'s profile!`;
-      document.body.prepend(notification);
-      setTimeout(() => notification.remove(), 3000);
+      notification.style.display = 'block';
+      setTimeout(() => {
+        notification.style.display = 'none';
+      }, 3000);
     }
 
-    // Initialize share button
     document.getElementById("shareBtn").addEventListener("click", async () => {
-      // Get the clean profile URL (without query parameters)
       const url = window.location.origin + window.location.pathname;
       const profileName = document.getElementById("profile-name").innerText;
 
@@ -271,9 +256,8 @@
         if (navigator.share) {
           await navigator.share(shareData);
         } else {
-          // Fallback: Copy to clipboard if Web Share API is not supported
-          await navigator.clipboard.writeText(`\n${url}`);
-          alert("Profile link copied to clipboard!");
+          await navigator.clipboard.writeText(url);
+          showShareNotification(profileName);
         }
       } catch (error) {
         console.error("Sharing failed:", error);
