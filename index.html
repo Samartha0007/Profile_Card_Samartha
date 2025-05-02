@@ -25,9 +25,7 @@
   <!-- Main Container -->
   <div class="profile-container" id="profile-container" style="display:none">
     <!-- Profile Header -->
-    <button id="shareBtn" class="sharebtn">
-      <i class="fas fa-share-alt"></i>
-    </button>
+    
 
     <div class="profile-header">
       <img class="profile-image" id="profile-image" src="" alt="">
@@ -47,9 +45,7 @@
       <div class="social-icons" id="social-icons"></div>
     </div>
 
-    <!-- Spotify Widget -->
-    <div class="spotify-container" id="spotify-container"></div>
-
+    
     <!-- No Activity Section -->
     <div class="no-activity">
       No Recent Activity
@@ -251,27 +247,7 @@
       }, 3000);
     }
 
-    document.getElementById("shareBtn").addEventListener("click", async () => {
-      const url = window.location.origin + window.location.pathname;
-      const profileName = document.getElementById("profile-name").innerText;
-
-      const shareData = {
-        title: `${profileName}'s Profile`,
-        text: `Check out ${profileName}'s awesome profile! ✨`,
-        url: url
-      };
-
-      try {
-        if (navigator.share) {
-          await navigator.share(shareData);
-        } else {
-          await navigator.clipboard.writeText(url);
-          showShareNotification(profileName);
-        }
-      } catch (error) {
-        console.error("Sharing failed:", error);
-      }
-    });
+    
     
     function createParticles(icon) {
       const particles = [...Array(8)].map(() => {
