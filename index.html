@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Dynamic meta tags -->
-  <title id="dynamic-title">Profile Links</title>
+  <title id="dynamic-title">Samarth</title>
   <meta property="og:type" content="website">
   <meta property="og:title" id="og-title" content="Profile Links">
   <meta property="og:image" id="og-image" content="https://i.ibb.co/sKbrkyn/Yellow-and-Grey-Pastel-Grunge-Designer-Brand-Logo-20241009-185202-0000.png">
@@ -182,7 +182,7 @@
     function updateMetaTags(name, bio, image, url) {
       document.title = `${name}'s Profile`;
       document.getElementById("og-title").content = `${name}`;
-      document.getElementById("twitter-title").content = `${name}'s Profile`;
+      document.getElementById("twitter-title").content = `${name}`;
       document.getElementById("og-description").content = bio;
       document.getElementById("twitter-description").content = bio;
       document.getElementById("og-image").content = image;
@@ -213,30 +213,7 @@
       document.getElementById("social-icons").innerHTML = socialHTML;
     }
 
-    function updateSpotifyEmbed(spotifyUrl) {
-      if (!spotifyUrl) {
-        document.getElementById("spotify-container") && 
-        (document.getElementById("spotify-container").style.display = "none");
-        return;
-      }
-
-      // Check if spotify container exists
-      let spotifyContainer = document.getElementById("spotify-container");
-      if (!spotifyContainer) {
-        spotifyContainer = document.createElement('div');
-        spotifyContainer.id = "spotify-container";
-        document.querySelector(".profile-container").appendChild(spotifyContainer);
-      }
-
-      const spotifyID = spotifyUrl.split('/').pop();
-      const embedType = spotifyUrl.includes("playlist") ? "playlist" : "track";
-
-      spotifyContainer.innerHTML = `
-        <iframe src="https://open.spotify.com/embed/${embedType}/${spotifyID}" 
-                width="300" height="80" frameborder="0" 
-                allow="encrypted-media"></iframe>`;
-      spotifyContainer.style.display = "block";
-    }
+    
 
     // Removed showShareNotification function
 
