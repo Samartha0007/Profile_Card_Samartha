@@ -1,3 +1,4 @@
+
 /* Global Styles */
 * {
   margin: 0;
@@ -7,12 +8,31 @@
 }
 
 body {
-  background: linear-gradient(180deg, #CF5D8F 0%, #472027 50%, #0D0D0D 100%);
-  min-height: 100vh;
-  color: white;
-  overflow-x: hidden;
+  background: #0a0e12; /* Fallback color */
+  background-attachment: fixed;
+  transition: background 15s ease !important;
 }
 
+/* Optional: Add subtle vignette */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0) 60%, rgba(0,0,0,0.5) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Content Container (to keep your content visible) */
+.content-wrapper {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  backdrop-filter: blur(2px);
+}
 
 
 /* Main Container */
@@ -94,31 +114,7 @@ body {
 }
 
 /* Social Media Container */
-.social-container {
-  margin-top: 30px;
-}
 
-.social-icons {
-  display: flux;
-  justify-content: center;
-  flex-wrap:;
-  
-}
-
-.social-icons a {
-  color: white;
-  background: rgba(255, 255, 255, 0.1);
-  width: px;
-  height: px;
-  gap: 20px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  transition: all 0.3s ease;
-}
-8
 /* Spotify Widget */
 .spotify-container {
   margin-top: 30px;
@@ -200,5 +196,60 @@ body {
   .profile-bio {
     font-size: 14px;
     max-width: 90%;
+  }
+}
+
+/* Single Social Icon Animation - Bigger Version */
+.social-container {
+  position: absolute;
+  top: 20px;
+  right: 40px;
+  z-index: 10;
+  width: 80px;  /* Increased from 50px */
+  height: 80px; /* Increased from 50px */
+}
+
+.social-icons {
+  position: relative;
+  height: 100%;
+}
+
+.social-icons a {
+  position: absolute;
+  color: white;
+  background: rgba(255, 255, 255, 0.2);
+  width: 60px;  /* Increased from 40px */
+  height: 60px; /* Increased from 40px */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px; /* Increased from 8px */
+  transition: all 0.5s ease;
+  backdrop-filter: blur(2px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  opacity: 0;
+  transform: translateY(20px);
+  text-decoration: none; /* Added to remove underline */
+}
+
+.social-icons a.active {
+  opacity: 1;
+  transform: translateY(0);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+/* Mobile adjustments */
+@media (max-width: 480px) {
+  .social-container {
+    right: 30px;
+    width: 70px;  /* Increased from 40px */
+    height: 70px; /* Increased from 40px */
+  }
+  
+  .social-icons a {
+    width: 50px;  /* Increased from 35px */
+    height: 50px; /* Increased from 35px */
+    font-size: 20px; /* Increased from 46px (fixed typo) */
   }
 }
