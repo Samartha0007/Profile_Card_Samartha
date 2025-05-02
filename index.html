@@ -21,19 +21,19 @@
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-  
+
   <!-- Main Container -->
   <div class="profile-container" id="profile-container" style="display:none">
     <!-- Profile Header -->
     <button id="shareBtn" class="sharebtn">
       <i class="fas fa-share-alt"></i>
     </button>
-    
+
     <div class="profile-header">
       <img class="profile-image" id="profile-image" src="" alt="">
       <h1 class="profile-name" id="profile-name"></h1>
       <div class="profile-bio" id="profile-bio"></div>
-      
+
       <!-- Month and Date format (no year) -->
       <div class="profile-stats">
         <span id="profile-location"><i class="fas fa-map-marker-alt"></i> <span id="location-text"></span></span>
@@ -80,7 +80,7 @@
       </div>
       <a href="/create.html" class="cta-button">Create Your Profile</a>
     </div>
-    
+
     <footer class="main-footer">
       Made with 🖤 By 
       <b><a href="https://samarthags.in" target="_blank">Samartha GS</a></b>
@@ -154,7 +154,7 @@
             });
             document.getElementById("birthday-text").innerText = formattedBirthday;
             document.getElementById("profile-birthday").style.display = "inline";
-            
+
             // Only show dot if both location and birthday exist
             if (profile.location) {
               document.querySelector('.dot').style.display = "inline";
@@ -172,6 +172,12 @@
           if (fromShare) {
             showShareNotification(profileName);
           }
+          
+          // Start the background animation
+          initializeVintageBackground();
+          
+          // Start social icon animation
+          initializeSocialIconsAnimation();
         } else {
           alert("Profile not found!");
           window.location.href = "/";
@@ -179,6 +185,9 @@
       } else {
         document.getElementById("intro-container").style.display = "block";
         document.getElementById("profile-container").style.display = "none";
+        
+        // Start the background animation for intro page too
+        initializeVintageBackground();
       }
     }
 
@@ -263,6 +272,110 @@
         console.error("Sharing failed:", error);
       }
     });
+    
+    function createParticles(icon) {
+      const particles = [...Array(8)].map(() => {
+        const p = document.createElement('span');
+        p.className = 'particle';
+        icon.appendChild(p);
+        return p;
+      });
+
+      particles.forEach((p,i) => {
+        const angle = (i * 45) * Math.PI/180;
+        p.animate([
+          { transform: 'translate(0,0)', opacity: 1 },
+          { transform: `translate(${Math.cos(angle)*20}px,${Math.sin(angle)*20}px)`, opacity: 0 }
+        ], { duration: 800, easing: 'ease-out' });
+        
+        setTimeout(() => p.remove(), 800);
+      });
+    }
+    
+    function initializeSocialIconsAnimation() {
+      const socialIcons = document.querySelectorAll('.social-icons a');
+      let currentActive = 0;
+      
+      // Start with first icon active
+      if (socialIcons.length > 0) {
+        socialIcons[0].classList.add('active');
+        createParticles(socialIcons[0]);
+      }
+      
+      // Cycle through icons every 3 seconds if there are multiple icons
+      if (socialIcons.length > 1) {
+        setInterval(() => {
+          // Fade out current icon
+          socialIcons[currentActive].classList.remove('active');
+          
+          // Move to next icon (loop back to first if at end)
+          currentActive = (currentActive + 1) % socialIcons.length;
+          
+          // Fade in new icon
+          setTimeout(() => {
+            socialIcons[currentActive].classList.add('active');
+            createParticles(socialIcons[currentActive]);
+          }, 500); // Start fade in after fade out completes
+        }, 3000);
+      }
+    }
+    
+    function initializeVintageBackground() {
+      // Extended vintage color palette (16 muted, old-style colors)
+      const vintagePalette = [
+        'linear-gradient(to bottom, #16213e)', // Dark navy
+        'linear-gradient(to bottom, #1e2a3a, #0f3460)', // Steel blue
+        'linear-gradient(to bottom, #1a2a1a, #1e3d36)', // Forest green
+        'linear-gradient(to bottom, #2a1a2e, #3a1a3a)', // Royal purple
+        'linear-gradient(to bottom, #1a2a2a, #1e4a4a)', // Dark teal
+        'linear-gradient(to bottom, #2e1a1a, #4a1e1e)', // Burgundy
+        'linear-gradient(to bottom, #1a2e2a, #1e4a3a)', // Jade
+        'linear-gradient(to bottom, #2a1a1e, #3a1a2a)', // Wine
+        'linear-gradient(to bottom, #1a1e2e, #1a2a4a)', // Midnight blue
+        'linear-gradient(to bottom, #2e2a1a, #4a3a1e)', // Aged gold
+        'linear-gradient(to bottom, #1a2e1e, #1e4a2a)', // Moss
+        'linear-gradient(to bottom, #2a1a3a, #3a1e4a)', // Amethyst
+        'linear-gradient(to bottom, #1e1a2a, #2a1e3a)', // Twilight
+        'linear-gradient(to bottom, #2a2a1a, #3a3a1e)', // Olive
+        'linear-gradient(to bottom, #1a2a3a, #1e3a4a)', // Storm blue
+        'linear-gradient(to bottom, #2a1a2a, #3a1e3a)'  // Elderberry
+      ];
+
+      // Previous color index tracker
+      let prevColorIndex = 0;
+
+      function getRandomVintageColor() {
+        let newIndex;
+        // Ensure we don't repeat the same color twice
+        do {
+          newIndex = Math.floor(Math.random() * vintagePalette.length);
+        } while (newIndex === prevColorIndex && vintagePalette.length > 1);
+        
+        prevColorIndex = newIndex;
+        return vintagePalette[newIndex];
+      }
+
+      function animateVintageBackground() {
+        const newColor = getRandomVintageColor();
+        
+        // Apply with smooth transition
+        document.body.style.background = newColor;
+        
+        // Random interval between 20-40 seconds for organic feel
+        const nextChange = 2500 + Math.random() * 3000;
+        setTimeout(animateVintageBackground, nextChange);
+      }
+
+      // Initialize with first random color
+      document.body.style.background = getRandomVintageColor();
+
+      // Add subtle texture (optional)
+      document.body.style.backgroundImage += 
+        ', url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%\' height=\'100%\' filter=\'url(%23noiseFilter)\' opacity=\'0.04\'/%3E%3C/svg%3E")';
+
+      // Start animation after initial load
+      setTimeout(animateVintageBackground, 3000);
+    }
 
     document.addEventListener('DOMContentLoaded', loadProfile);
   </script>
