@@ -202,7 +202,7 @@ body::before {
 /* Single Social Icon Animation - Bigger Version */
 .social-container {
   position: absolute;
-  top: 20px;
+  top: 90px;
   right: 40px;
   z-index: 10;
   width: 80px;  /* Increased from 50px */
@@ -218,9 +218,9 @@ body::before {
   position: absolute;
   color: white;
   background: rgba(255, 255, 255, 0.2);
-  width: 60px;  /* Increased from 40px */
-  height: 60px; /* Increased from 40px */
-  border-radius: 50%;
+  width: 20px;  /* Increased from 40px */
+  height: 20px; /* Increased from 40px */
+  border-radius: 20%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -243,10 +243,12 @@ body::before {
 @media (max-width: 480px) {
   .social-container {
     right: 30px;
-    width: 70px;  /* Increased from 40px */
+    width: 70px; 
+    right: 70px; 
+    bottom: 70px; /* Increased from 40px */
     height: 70px; /* Increased from 40px */
   }
-  
+
   .social-icons a {
     width: 50px;  /* Increased from 35px */
     height: 50px; /* Increased from 35px */
