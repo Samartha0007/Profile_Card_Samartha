@@ -34,7 +34,7 @@
       <h1 class="profile-name" id="profile-name"></h1>
       <div class="profile-bio" id="profile-bio"></div>
       
-      <!-- Updated to match your exact structure -->
+      <!-- Month and Date format (no year) -->
       <div class="profile-stats">
         <span id="profile-location"><i class="fas fa-map-marker-alt"></i> <span id="location-text"></span></span>
         <span class="dot">•</span>
@@ -145,12 +145,12 @@
             document.querySelector('.dot').style.display = "none";
           }
 
-          // Update birthday
+          // Update birthday (month and date only)
           if (profile.birthday) {
             const birthday = new Date(profile.birthday);
             const formattedBirthday = birthday.toLocaleDateString('en-US', { 
               month: 'long', 
-              year: 'numeric'
+              day: 'numeric' 
             });
             document.getElementById("birthday-text").innerText = formattedBirthday;
             document.getElementById("profile-birthday").style.display = "inline";
