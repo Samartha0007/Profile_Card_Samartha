@@ -33,12 +33,21 @@
       <img class="profile-image" id="profile-image" src="" alt="">
       <h1 class="profile-name" id="profile-name"></h1>
       <div class="profile-bio" id="profile-bio"></div>
-      <div class="profile-stats">
-        <span id="profile-location"><i class="fas fa-map-marker-alt"></i> <span id="location-text"></span></span>
-        <span class="dot">•</span>
-        <span id="profile-birthday"><i class="fas fa-birthday-cake"></i> <span id="birthday-text"></span></span>
-        <span class="dot">•</span>
-        <span id="profile-age"><i class="fas fa-user"></i> <span id="age-text"></span></span>
+      
+      <!-- Reverted to original structure for profile info -->
+      <div class="profile-info">
+        <div class="profile-location" id="profile-location">
+          <i class="fas fa-map-marker-alt"></i>
+          <span id="location-text"></span>
+        </div>
+        <div class="profile-birthday" id="profile-birthday">
+          <i class="fas fa-birthday-cake"></i>
+          <span id="birthday-text"></span>
+        </div>
+        <div class="profile-age" id="profile-age">
+          <i class="fas fa-user"></i>
+          <span id="age-text"></span>
+        </div>
       </div>
     </div>
 
@@ -143,6 +152,7 @@
           // Update location and birthday if available
           if (profile.location) {
             document.getElementById("location-text").innerText = profile.location;
+            document.getElementById("profile-location").style.display = "block";
           } else {
             document.getElementById("profile-location").style.display = "none";
           }
@@ -155,10 +165,12 @@
               day: 'numeric' 
             });
             document.getElementById("birthday-text").innerText = formattedBirthday;
+            document.getElementById("profile-birthday").style.display = "block";
 
             // Calculate and display age
             if (profile.age) {
               document.getElementById("age-text").innerText = `${profile.age} years old`;
+              document.getElementById("profile-age").style.display = "block";
             } else {
               document.getElementById("profile-age").style.display = "none";
             }
