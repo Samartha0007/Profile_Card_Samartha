@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Profile - Mywebsam</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #16213e;
+      --secondary-color: #0f3460;
+      --accent-color: #e94560;
+      --light-color: #f8f9fa;
+      --dark-color: #212529;
+      --success-color: #28a745;
+      --error-color: #dc3545;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+      color: var(--light-color);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem;
+      transition: background 1.5s ease;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 600px;
+      background-color: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      margin-bottom: 2rem;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: var(--light-color);
+    }
+
+    .form-description {
+      text-align: center;
+      margin-bottom: 2rem;
+      opacity: 0.8;
+      font-size: 0.9rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background-color: rgba(255, 255, 255, 0.1);
+      color: var(--light-color);
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--accent-color);
+      background-color: rgba(255, 255, 255, 0.15);
+    }
+
+    input::placeholder, textarea::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .section-title {
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      font-weight: 600;
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      padding: 0.75rem;
+      border: none;
+      border-radius: 8px;
+      background-color: var(--accent-color);
+      color: white;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 1rem;
+    }
+
+    button:hover {
+      background-color: #d63252;
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background-color: rgba(255, 255, 255, 0.2);
+      margin-top: 1rem;
+    }
+
+    .btn-secondary:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .image-preview {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto 1rem;
+      display: block;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .profile-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .loader {
+      display: none;
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    .loader i {
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .message {
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      text-align: center;
+      display: none;
+    }
+
+    .message.success {
+      background-color: rgba(40, 167, 69, 0.2);
+      border: 1px solid var(--success-color);
+    }
+
+    .message.error {
+      background-color: rgba(220, 53, 69, 0.2);
+      border: 1px solid var(--error-color);
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .form-actions button {
+      flex: 1;
+    }
+
+    footer {
+      margin-top: auto;
+      text-align: center;
+      padding: 1rem;
+      opacity: 0.7;
+      font-size: 0.85rem;
+    }
+
+    footer a {
+      color: var(--light-color);
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    #username-group {
+      position: relative;
+    }
+
+    #username-status {
+      position: absolute;
+      right: 10px;
+      top: 45px;
+      font-size: 0.8rem;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Edit Your Profile</h1>
+    <p class="form-description">Update your profile information and social media links</p>
+    
+    <div id="message" class="message"></div>
+    
+    <form id="edit-profile-form">
+      <div class="profile-header">
+        <img id="image-preview" class="image-preview" src="https://i.ibb.co/sKbrkyn/Yellow-and-Grey-Pastel-Grunge-Designer-Brand-Logo-20241009-185202-0000.png" alt="Profile Image">
+      </div>
+      
+      <div class="form-group">
+        <label for="username">Username:</label>
+        <div id="username-group">
+          <input type="text" id="username" placeholder="Enter username" readonly>
+          <span id="username-status"></span>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="imageUrl">Profile Image URL:</label>
+        <input type="text" id="imageUrl" placeholder="Enter image URL">
+      </div>
+      
+      <div class="form-group">
+        <label for="name">Full Name:</label>
+        <input type="text" id="name" placeholder="Enter your full name">
+      </div>
+      
+      <div class="form-group">
+        <label for="bio">Bio:</label>
+        <textarea id="bio" rows="3" placeholder="Tell us about yourself"></textarea>
+      </div>
+      
+      <div class="form-group">
+        <label for="location">Location:</label>
+        <input type="text" id="location" placeholder="e.g. New York, USA">
+      </div>
+      
+      <div class="form-group">
+        <label for="birthday">Birthday:</label>
+        <input type="date" id="birthday">
+      </div>
+      
+      <h3 class="section-title">Social Media Links</h3>
+      
+      <div class="form-group">
+        <label for="instagram">Instagram Username:</label>
+        <input type="text" id="instagram" placeholder="Your Instagram username (without @)">
+      </div>
+      
+      <div class="form-group">
+        <label for="snapchat">Snapchat Username:</label>
+        <input type="text" id="snapchat" placeholder="Your Snapchat username">
+      </div>
+      
+      <div class="form-group">
+        <label for="whatsapp">WhatsApp Number:</label>
+        <input type="text" id="whatsapp" placeholder="Your WhatsApp number with country code">
+      </div>
+      
+      <div class="form-group">
+        <label for="facebook">Facebook Username:</label>
+        <input type="text" id="facebook" placeholder="Your Facebook username">
+      </div>
+      
+      <div class="form-group">
+        <label for="twitter">Twitter Username:</label>
+        <input type="text" id="twitter" placeholder="Your Twitter username (without @)">
+      </div>
+      
+      <div class="form-group">
+        <label for="linkedin">LinkedIn Username:</label>
+        <input type="text" id="linkedin" placeholder="Your LinkedIn username">
+      </div>
+      
+      <div class="form-group">
+        <label for="youtube">YouTube Channel ID:</label>
+        <input type="text" id="youtube" placeholder="Your YouTube channel ID">
+      </div>
+      
+      <div class="form-group">
+        <label for="telegram">Telegram Username:</label>
+        <input type="text" id="telegram" placeholder="Your Telegram username">
+      </div>
+      
+      <div class="form-group">
+        <label for="github">GitHub Username:</label>
+        <input type="text" id="github" placeholder="Your GitHub username">
+      </div>
+      
+      <div class="form-actions">
+        <button type="button" id="back-btn" class="btn-secondary">Back to Profile</button>
+        <button type="submit" id="save-btn">Save Changes</button>
+      </div>
+    </form>
+    
+    <div id="loader" class="loader">
+      <i class="fas fa-spinner fa-2x"></i>
+    </div>
+  </div>
+  
+  <footer>
+    Made with 🖤 By 
+    <a href="https://samarthags.in" target="_blank">Samartha GS</a>
+  </footer>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+    import { getFirestore, collection, getDocs, query, where, doc, updateDoc } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBb3x_zD9JaFwL9PhmngCNZlS2fOh6MBa4",
+      authDomain: "newai-52371.firebaseapp.com",
+      projectId: "newai-52371",
+      storageBucket: "newai-52371.appspot.com",
+      messagingSenderId: "480586908639",
+      appId: "1:480586908639:web:f4645a852c4df724c6fa6a"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+    
+    let profileData = null;
+    let profileDocId = null;
+    
+    // Elements
+    const form = document.getElementById('edit-profile-form');
+    const messageEl = document.getElementById('message');
+    const loaderEl = document.getElementById('loader');
+    const imagePreview = document.getElementById('image-preview');
+    const imageUrlInput = document.getElementById('imageUrl');
+    
+    // Event listeners
+    document.getElementById('back-btn').addEventListener('click', () => {
+      const username = document.getElementById('username').value;
+      window.location.href = `/${username}`;
+    });
+    
+    imageUrlInput.addEventListener('blur', () => {
+      if (imageUrlInput.value) {
+        imagePreview.src = imageUrlInput.value;
+      } else {
+        imagePreview.src = "https://i.ibb.co/sKbrkyn/Yellow-and-Grey-Pastel-Grunge-Designer-Brand-Logo-20241009-185202-0000.png";
+      }
+    });
+    
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      await saveProfile();
+    });
+    
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', async () => {
+      initializeVintageBackground();
+      await checkAuth();
+    });
+    
+    // Check authentication state
+    async function checkAuth() {
+      showLoader(true);
+      
+      const urlParams = new URLSearchParams(window.location.search);
+      const username = urlParams.get('username');
+      
+      if (!username) {
+        showMessage('Username parameter is missing. Please check the URL.', 'error');
+        showLoader(false);
+        return;
+      }
+      
+      // Load profile data
+      try {
+        await loadProfile(username);
+      } catch (error) {
+        console.error('Error loading profile:', error);
+        showMessage('Failed to load profile. Please try again later.', 'error');
+      }
+      
+      showLoader(false);
+    }
+    
+    // Load profile data
+    async function loadProfile(username) {
+      const q = query(collection(db, "profiles"), where("username", "==", username));
+      const querySnapshot = await getDocs(q);
+      
+      if (querySnapshot.empty) {
+        showMessage('Profile not found', 'error');
+        return;
+      }
+      
+      // Get profile data and document ID
+      const docSnap = querySnapshot.docs[0];
+      profileData = docSnap.data();
+      profileDocId = docSnap.id;
+      
+      // Populate form fields
+      document.getElementById('username').value = profileData.username || '';
+      document.getElementById('name').value = profileData.name || '';
+      document.getElementById('bio').value = profileData.bio || '';
+      document.getElementById('location').value = profileData.location || '';
+      
+      // Handle birthday (convert from timestamp if needed)
+      if (profileData.birthday) {
+        let birthdayDate;
+        if (profileData.birthday.seconds) { // If it's a Firestore timestamp
+          birthdayDate = new Date(profileData.birthday.seconds * 1000);
+        } else if (profileData.birthday instanceof Date) {
+          birthdayDate = profileData.birthday;
+        } else {
+          try {
+            birthdayDate = new Date(profileData.birthday);
+          } catch (e) {
+            birthdayDate = null;
+          }
+        }
+        
+        if (birthdayDate && !isNaN(birthdayDate.getTime())) {
+          const year = birthdayDate.getFullYear();
+          const month = String(birthdayDate.getMonth() + 1).padStart(2, '0');
+          const day = String(birthdayDate.getDate()).padStart(2, '0');
+          document.getElementById('birthday').value = `${year}-${month}-${day}`;
+        }
+      }
+      
+      document.getElementById('imageUrl').value = profileData.imageUrl || '';
+      if (profileData.imageUrl) {
+        imagePreview.src = profileData.imageUrl;
+      }
+      
+      // Social media
+      document.getElementById('instagram').value = profileData.instagram || '';
+      document.getElementById('snapchat').value = profileData.snapchat || '';
+      document.getElementById('whatsapp').value = profileData.whatsapp || '';
+      document.getElementById('facebook').value = profileData.facebook || '';
+      document.getElementById('twitter').value = profileData.twitter || '';
+      document.getElementById('linkedin').value = profileData.linkedin || '';
+      document.getElementById('youtube').value = profileData.youtube || '';
+      document.getElementById('telegram').value = profileData.telegram || '';
+      document.getElementById('github').value = profileData.github || '';
+    }
+    
+    // Save profile changes
+    async function saveProfile() {
+      if (!profileDocId) {
+        showMessage('Profile data is missing', 'error');
+        return;
+      }
+      
+      showLoader(true);
+      
+      try {
+        const updatedData = {
+          name: document.getElementById('name').value.trim(),
+          bio: document.getElementById('bio').value.trim(),
+          imageUrl: document.getElementById('imageUrl').value.trim(),
+          location: document.getElementById('location').value.trim(),
+          instagram: document.getElementById('instagram').value.trim(),
+          snapchat: document.getElementById('snapchat').value.trim(),
+          whatsapp: document.getElementById('whatsapp').value.trim(),
+          facebook: document.getElementById('facebook').value.trim(),
+          twitter: document.getElementById('twitter').value.trim(),
+          linkedin: document.getElementById('linkedin').value.trim(),
+          youtube: document.getElementById('youtube').value.trim(),
+          telegram: document.getElementById('telegram').value.trim(),
+          github: document.getElementById('github').value.trim()
+        };
+        
+        // Handle birthday
+        const birthdayInput = document.getElementById('birthday').value;
+        if (birthdayInput) {
+          updatedData.birthday = new Date(birthdayInput);
+        } else {
+          // If birthday is cleared, set to null or delete the field
+          updatedData.birthday = null;
+        }
+        
+        // Update profile document
+        await updateDoc(doc(db, "profiles", profileDocId), updatedData);
+        
+        showMessage('Profile updated successfully!', 'success');
+        
+        // Redirect after short delay
+        setTimeout(() => {
+          window.location.href = `/${profileData.username}`;
+        }, 2000);
+        
+      } catch (error) {
+        console.error('Error updating profile:', error);
+        showMessage('Failed to update profile. Please try again.', 'error');
+        showLoader(false);
+      }
+    }
+    
+    // Utility functions
+    function showMessage(text, type) {
+      messageEl.textContent = text;
+      messageEl.className = `message ${type}`;
+      messageEl.style.display = 'block';
+      
+      // Auto-hide success messages after 3 seconds
+      if (type === 'success') {
+        setTimeout(() => {
+          messageEl.style.display = 'none';
+        }, 3000);
+      }
+    }
+    
+    function showLoader(show) {
+      loaderEl.style.display = show ? 'block' : 'none';
+      form.style.opacity = show ? '0.6' : '1';
+      form.style.pointerEvents = show ? 'none' : 'auto';
+    }
+    
+    function initializeVintageBackground() {
+      // Extended vintage color palette (16 muted, old-style colors)
+      const vintagePalette = [
+        'linear-gradient(to bottom, #16213e, #0f3460)', // Steel blue
+        'linear-gradient(to bottom, #1a2a1a, #1e3d36)', // Forest green
+        'linear-gradient(to bottom, #2a1a2e, #3a1a3a)', // Royal purple
+        'linear-gradient(to bottom, #1a2a2a, #1e4a4a)', // Dark teal
+        'linear-gradient(to bottom, #2e1a1a, #4a1e1e)', // Burgundy
+        'linear-gradient(to bottom, #1a2e2a, #1e4a3a)', // Jade
+        'linear-gradient(to bottom, #2a1a1e, #3a1a2a)', // Wine
+        'linear-gradient(to bottom, #1a1e2e, #1a2a4a)', // Midnight blue
+        'linear-gradient(to bottom, #2e2a1a, #4a3a1e)', // Aged gold
+        'linear-gradient(to bottom, #1a2e1e, #1e4a2a)', // Moss
+        'linear-gradient(to bottom, #2a1a3a, #3a1e4a)', // Amethyst
+        'linear-gradient(to bottom, #1e1a2a, #2a1e3a)', // Twilight
+        'linear-gradient(to bottom, #2a2a1a, #3a3a1e)', // Olive
+        'linear-gradient(to bottom, #1a2a3a, #1e3a4a)', // Storm blue
+        'linear-gradient(to bottom, #2a1a2a, #3a1e3a)'  // Elderberry
+      ];
+
+      // Previous color index tracker
+      let prevColorIndex = 0;
+
+      function getRandomVintageColor() {
+        let newIndex;
+        // Ensure we don't repeat the same color twice
+        do {
+          newIndex = Math.floor(Math.random() * vintagePalette.length);
+        } while (newIndex === prevColorIndex && vintagePalette.length > 1);
+
+        prevColorIndex = newIndex;
+        return vintagePalette[newIndex];
+      }
+
+      function animateVintageBackground() {
+        const newColor = getRandomVintageColor();
+
+        // Apply with smooth transition
+        document.body.style.background = newColor;
+
+        // Random interval between 20-40 seconds for organic feel
+        const nextChange = 20000 + Math.random() * 20000;
+        setTimeout(animateVintageBackground, nextChange);
+      }
+
+      // Initialize with first random color
+      document.body.style.background = getRandomVintageColor();
+
+      // Add subtle texture
+      document.body.style.backgroundImage += 
+        ', url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%\' height=\'100%\' filter=\'url(%23noiseFilter)\' opacity=\'0.04\'/%3E%3C/svg%3E")';
+
+      // Start animation after initial load
+      setTimeout(animateVintageBackground, 10000);
+    }
+  </script>
+</body>
+</html>
