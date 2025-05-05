@@ -245,16 +245,16 @@
         flex-direction: column;
         gap: 0;
       }
-      
+
       th, td {
         padding: 10px;
       }
-      
+
       .action-buttons {
         flex-direction: column;
         gap: 5px;
       }
-      
+
       .action-buttons .btn {
         width: 100%;
         text-align: center;
@@ -311,7 +311,7 @@
       <div class="user-edit" id="user-edit">
         <h2 style="margin-bottom: 20px;">Edit User Profile</h2>
         <div id="edit-alert" style="display: none;" class="alert"></div>
-        
+
         <form id="edit-form">
           <div class="form-section">
             <h3>Profile Information</h3>
@@ -325,18 +325,18 @@
                 <input type="text" id="edit-name" class="form-control">
               </div>
             </div>
-            
+
             <div class="form-group">
               <label for="edit-imageUrl">Profile Image URL</label>
               <input type="text" id="edit-imageUrl" class="form-control">
               <img id="profile-image-preview" class="profile-image-preview" src="" alt="Profile Preview">
             </div>
-            
+
             <div class="form-group">
               <label for="edit-bio">Bio</label>
               <textarea id="edit-bio" class="form-control" rows="3"></textarea>
             </div>
-            
+
             <div class="form-row">
               <div class="form-group">
                 <label for="edit-location">Location</label>
@@ -348,7 +348,7 @@
               </div>
             </div>
           </div>
-          
+
           <div class="form-section">
             <h3>Social Media Links</h3>
             <div class="form-row">
@@ -361,7 +361,7 @@
                 <input type="text" id="edit-twitter" class="form-control" placeholder="Username without @">
               </div>
             </div>
-            
+
             <div class="form-row">
               <div class="form-group">
                 <label for="edit-facebook">Facebook</label>
@@ -372,7 +372,7 @@
                 <input type="text" id="edit-linkedin" class="form-control" placeholder="Username">
               </div>
             </div>
-            
+
             <div class="form-row">
               <div class="form-group">
                 <label for="edit-snapchat">Snapchat</label>
@@ -383,7 +383,7 @@
                 <input type="text" id="edit-whatsapp" class="form-control" placeholder="Number with country code">
               </div>
             </div>
-            
+
             <div class="form-row">
               <div class="form-group">
                 <label for="edit-youtube">YouTube</label>
@@ -394,13 +394,13 @@
                 <input type="text" id="edit-telegram" class="form-control" placeholder="Username">
               </div>
             </div>
-            
+
             <div class="form-group">
               <label for="edit-github">GitHub</label>
               <input type="text" id="edit-github" class="form-control" placeholder="Username">
             </div>
           </div>
-          
+
           <div style="display: flex; gap: 15px;">
             <button type="button" id="cancel-edit-btn" class="btn btn-secondary">Cancel</button>
             <button type="submit" class="btn btn-success">Save Changes</button>
@@ -450,11 +450,11 @@
     const searchInput = document.getElementById('search-input');
     const searchBtn = document.getElementById('search-btn');
     const profileImagePreview = document.getElementById('profile-image-preview');
-    
+
     // Current edit state
     let currentEditUserId = null;
     let allUsers = [];
-    
+
     // Check session storage for login state
     function checkLoginState() {
       const isLoggedIn = sessionStorage.getItem('mywebsam_admin_logged_in');
@@ -464,26 +464,26 @@
         showLoginForm();
       }
     }
-    
+
     // Show admin login form
     function showLoginForm() {
       adminLogin.style.display = 'block';
       adminDashboard.style.display = 'none';
     }
-    
+
     // Show admin dashboard
     function showAdminDashboard() {
       adminLogin.style.display = 'none';
       adminDashboard.style.display = 'block';
       loadUsers();
     }
-    
+
     // Show alert message
     function showAlert(element, message, type) {
       element.textContent = message;
       element.className = `alert alert-${type}`;
       element.style.display = 'block';
-      
+
       // Auto hide success messages after 3 seconds
       if (type === 'success') {
         setTimeout(() => {
@@ -491,49 +491,67 @@
         }, 3000);
       }
     }
-    
+
+    // Format birthday date
+    function formatBirthday(birthday) {
+      if (!birthday) return '';
+      
+      try {
+        let birthdayDate;
+        
+        // Handle Firestore timestamp object
+        if (birthday.seconds) {
+          birthdayDate = new Date(birthday.seconds * 1000);
+        } 
+        // Handle JavaScript Date object or timestamp number
+        else if (birthday instanceof Date || typeof birthday === 'number') {
+          birthdayDate = new Date(birthday);
+        }
+        // Handle ISO string date format
+        else if (typeof birthday === 'string') {
+          birthdayDate = new Date(birthday);
+        }
+        
+        // Check if date is valid before formatting
+        if (!isNaN(birthdayDate.getTime())) {
+          return birthdayDate.toLocaleDateString('en-US', { 
+            month: 'long', 
+            day: 'numeric' 
+          });
+        }
+      } catch (e) {
+        console.error("Error formatting birthday:", e);
+      }
+      
+      return '';
+    }
+
     // Load all users from Firestore
     async function loadUsers() {
       try {
         const querySnapshot = await getDocs(collection(db, "profiles"));
         allUsers = [];
         usersTbody.innerHTML = '';
-        
+
         querySnapshot.forEach((doc) => {
           const userData = doc.data();
           userData.id = doc.id;
           allUsers.push(userData);
-          
+
           addUserToTable(userData);
         });
       } catch (error) {
         console.error("Error loading users:", error);
       }
     }
-    
+
     // Add a user to the table
     function addUserToTable(user) {
       const row = document.createElement('tr');
-      
-      // Format birthday if it exists
-      let birthdayFormatted = '';
-      if (user.birthday) {
-        try {
-          let birthdayDate;
-          if (user.birthday.seconds) {
-            birthdayDate = new Date(user.birthday.seconds * 1000);
-          } else {
-            birthdayDate = new Date(user.birthday);
-          }
-          birthdayFormatted = birthdayDate.toLocaleDateString('en-US', { 
-            month: 'long', 
-            day: 'numeric' 
-          });
-        } catch (e) {
-          birthdayFormatted = '';
-        }
-      }
-      
+
+      // Format birthday using the helper function
+      const birthdayFormatted = formatBirthday(user.birthday);
+
       row.innerHTML = `
         <td>
           <img src="${user.imageUrl || 'https://i.ibb.co/sKbrkyn/Yellow-and-Grey-Pastel-Grunge-Designer-Brand-Logo-20241009-185202-0000.png'}" 
@@ -551,51 +569,65 @@
           </div>
         </td>
       `;
-      
+
       // Add edit button click event
       const editBtn = row.querySelector('.edit-user-btn');
       editBtn.addEventListener('click', () => {
         openEditForm(user.id);
       });
-      
+
       usersTbody.appendChild(row);
     }
-    
+
     // Open edit form for a user
     function openEditForm(userId) {
       currentEditUserId = userId;
       const user = allUsers.find(u => u.id === userId);
-      
+
       if (!user) return;
-      
+
       // Populate form with user data
       document.getElementById('edit-username').value = user.username || '';
       document.getElementById('edit-name').value = user.name || '';
       document.getElementById('edit-imageUrl').value = user.imageUrl || '';
       document.getElementById('edit-bio').value = user.bio || '';
       document.getElementById('edit-location').value = user.location || '';
-      
-      // Handle birthday
-      if (user.birthday) {
-        let birthdayDate;
-        if (user.birthday.seconds) {
-          birthdayDate = new Date(user.birthday.seconds * 1000);
-        } else {
-          birthdayDate = new Date(user.birthday);
-        }
-        
-        if (!isNaN(birthdayDate.getTime())) {
-          const year = birthdayDate.getFullYear();
-          const month = String(birthdayDate.getMonth() + 1).padStart(2, '0');
-          const day = String(birthdayDate.getDate()).padStart(2, '0');
-          document.getElementById('edit-birthday').value = `${year}-${month}-${day}`;
+
+      // Handle birthday with improved error handling
+      try {
+        if (user.birthday) {
+          let birthdayDate;
+          
+          // Handle Firestore timestamp
+          if (user.birthday.seconds) {
+            birthdayDate = new Date(user.birthday.seconds * 1000);
+          } 
+          // Handle Date object or timestamp
+          else if (user.birthday instanceof Date || typeof user.birthday === 'number') {
+            birthdayDate = new Date(user.birthday);
+          }
+          // Handle string date
+          else if (typeof user.birthday === 'string') {
+            birthdayDate = new Date(user.birthday);
+          }
+          
+          // Format for input date value: YYYY-MM-DD
+          if (!isNaN(birthdayDate.getTime())) {
+            const year = birthdayDate.getFullYear();
+            const month = String(birthdayDate.getMonth() + 1).padStart(2, '0');
+            const day = String(birthdayDate.getDate()).padStart(2, '0');
+            document.getElementById('edit-birthday').value = `${year}-${month}-${day}`;
+          } else {
+            document.getElementById('edit-birthday').value = '';
+          }
         } else {
           document.getElementById('edit-birthday').value = '';
         }
-      } else {
+      } catch (error) {
+        console.error("Error parsing birthday date:", error);
         document.getElementById('edit-birthday').value = '';
       }
-      
+
       // Social media
       document.getElementById('edit-instagram').value = user.instagram || '';
       document.getElementById('edit-twitter').value = user.twitter || '';
@@ -606,40 +638,40 @@
       document.getElementById('edit-youtube').value = user.youtube || '';
       document.getElementById('edit-telegram').value = user.telegram || '';
       document.getElementById('edit-github').value = user.github || '';
-      
+
       // Update image preview
       profileImagePreview.src = user.imageUrl || 'https://i.ibb.co/sKbrkyn/Yellow-and-Grey-Pastel-Grunge-Designer-Brand-Logo-20241009-185202-0000.png';
-      
+
       // Show edit form
       userEdit.style.display = 'block';
       // Scroll to edit form
       userEdit.scrollIntoView({ behavior: 'smooth' });
     }
-    
+
     // Close edit form
     function closeEditForm() {
       userEdit.style.display = 'none';
       currentEditUserId = null;
       editAlert.style.display = 'none';
     }
-    
+
     // Filter users based on search
     function filterUsers() {
       const searchTerm = searchInput.value.toLowerCase().trim();
-      
+
       if (!searchTerm) {
         usersTbody.innerHTML = '';
         allUsers.forEach(user => addUserToTable(user));
         return;
       }
-      
+
       const filteredUsers = allUsers.filter(user => 
         (user.username && user.username.toLowerCase().includes(searchTerm)) || 
         (user.name && user.name.toLowerCase().includes(searchTerm))
       );
-      
+
       usersTbody.innerHTML = '';
-      
+
       if (filteredUsers.length === 0) {
         const row = document.createElement('tr');
         row.innerHTML = `
@@ -648,10 +680,10 @@
         usersTbody.appendChild(row);
         return;
       }
-      
+
       filteredUsers.forEach(user => addUserToTable(user));
     }
-    
+
     // Event Listeners
     loginBtn.addEventListener('click', () => {
       if (adminPassword.value === ADMIN_PASSWORD) {
@@ -661,24 +693,24 @@
         showAlert(loginAlert, 'Incorrect password. Please try again.', 'error');
       }
     });
-    
+
     logoutBtn.addEventListener('click', () => {
       sessionStorage.removeItem('mywebsam_admin_logged_in');
       showLoginForm();
     });
-    
+
     cancelEditBtn.addEventListener('click', closeEditForm);
-    
+
     document.getElementById('edit-imageUrl').addEventListener('blur', () => {
       const imageUrl = document.getElementById('edit-imageUrl').value;
       profileImagePreview.src = imageUrl || 'https://i.ibb.co/sKbrkyn/Yellow-and-Grey-Pastel-Grunge-Designer-Brand-Logo-20241009-185202-0000.png';
     });
-    
+
     editForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      
+
       if (!currentEditUserId) return;
-      
+
       try {
         const updatedData = {
           name: document.getElementById('edit-name').value.trim(),
@@ -695,36 +727,51 @@
           telegram: document.getElementById('edit-telegram').value.trim(),
           github: document.getElementById('edit-github').value.trim()
         };
-        
+
         // Handle birthday
         const birthdayInput = document.getElementById('edit-birthday').value;
         if (birthdayInput) {
+          // Store as a JavaScript Date object to ensure consistent format in Firestore
           updatedData.birthday = new Date(birthdayInput);
         } else {
+          // Use null to clear the birthday field
           updatedData.birthday = null;
         }
-        
+
         // Update in Firestore
         await updateDoc(doc(db, "profiles", currentEditUserId), updatedData);
-        
+
         showAlert(editAlert, 'Profile updated successfully!', 'success');
-        
+
+        // Update the user in the local array
+        const userIndex = allUsers.findIndex(u => u.id === currentEditUserId);
+        if (userIndex !== -1) {
+          allUsers[userIndex] = { ...allUsers[userIndex], ...updatedData };
+        }
+
         // Refresh user list
         await loadUsers();
-        
+
       } catch (error) {
         console.error("Error updating profile:", error);
         showAlert(editAlert, 'Error updating profile. Please try again.', 'error');
       }
     });
-    
+
     searchBtn.addEventListener('click', filterUsers);
     searchInput.addEventListener('keyup', (e) => {
       if (e.key === 'Enter') {
         filterUsers();
       }
     });
-    
+
+    // Add Enter key support for login
+    adminPassword.addEventListener('keyup', (e) => {
+      if (e.key === 'Enter') {
+        loginBtn.click();
+      }
+    });
+
     // Initialize
     document.addEventListener('DOMContentLoaded', checkLoginState);
   </script>
