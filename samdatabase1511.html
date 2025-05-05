@@ -415,7 +415,7 @@
     <a href="https://samarthags.in" target="_blank">Samartha GS</a>
   </footer>
 
-  <script type="module">
+ <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
     import { getFirestore, collection, getDocs, doc, updateDoc } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
 
@@ -492,26 +492,34 @@
       }
     }
 
-    // Format birthday date
+    // Format birthday date - UPDATED TO HANDLE ALL DATE FORMATS
     function formatBirthday(birthday) {
       if (!birthday) return '';
-      
+
       try {
         let birthdayDate;
-        
+
         // Handle Firestore timestamp object
         if (birthday.seconds) {
           birthdayDate = new Date(birthday.seconds * 1000);
         } 
-        // Handle JavaScript Date object or timestamp number
-        else if (birthday instanceof Date || typeof birthday === 'number') {
+        // Handle JavaScript Date object
+        else if (birthday instanceof Date) {
+          birthdayDate = birthday;
+        }
+        // Handle timestamp number
+        else if (typeof birthday === 'number') {
           birthdayDate = new Date(birthday);
         }
         // Handle ISO string date format
         else if (typeof birthday === 'string') {
           birthdayDate = new Date(birthday);
         }
-        
+        // If none of the above, return empty string
+        else {
+          return '';
+        }
+
         // Check if date is valid before formatting
         if (!isNaN(birthdayDate.getTime())) {
           return birthdayDate.toLocaleDateString('en-US', { 
@@ -522,7 +530,7 @@
       } catch (e) {
         console.error("Error formatting birthday:", e);
       }
-      
+
       return '';
     }
 
@@ -579,7 +587,7 @@
       usersTbody.appendChild(row);
     }
 
-    // Open edit form for a user
+    // Open edit form for a user - UPDATED BIRTHDAY HANDLING
     function openEditForm(userId) {
       currentEditUserId = userId;
       const user = allUsers.find(u => u.id === userId);
@@ -594,38 +602,30 @@
       document.getElementById('edit-location').value = user.location || '';
 
       // Handle birthday with improved error handling
-      try {
-        if (user.birthday) {
-          let birthdayDate;
-          
-          // Handle Firestore timestamp
-          if (user.birthday.seconds) {
-            birthdayDate = new Date(user.birthday.seconds * 1000);
-          } 
-          // Handle Date object or timestamp
-          else if (user.birthday instanceof Date || typeof user.birthday === 'number') {
-            birthdayDate = new Date(user.birthday);
-          }
-          // Handle string date
-          else if (typeof user.birthday === 'string') {
-            birthdayDate = new Date(user.birthday);
-          }
-          
-          // Format for input date value: YYYY-MM-DD
-          if (!isNaN(birthdayDate.getTime())) {
-            const year = birthdayDate.getFullYear();
-            const month = String(birthdayDate.getMonth() + 1).padStart(2, '0');
-            const day = String(birthdayDate.getDate()).padStart(2, '0');
-            document.getElementById('edit-birthday').value = `${year}-${month}-${day}`;
-          } else {
-            document.getElementById('edit-birthday').value = '';
-          }
-        } else {
-          document.getElementById('edit-birthday').value = '';
+      const birthdayInput = document.getElementById('edit-birthday');
+      if (user.birthday) {
+        let birthdayDate;
+        
+        if (user.birthday.seconds) {
+          birthdayDate = new Date(user.birthday.seconds * 1000);
+        } else if (user.birthday instanceof Date) {
+          birthdayDate = user.birthday;
+        } else if (typeof user.birthday === 'string') {
+          birthdayDate = new Date(user.birthday);
+        } else if (typeof user.birthday === 'number') {
+          birthdayDate = new Date(user.birthday);
         }
-      } catch (error) {
-        console.error("Error parsing birthday date:", error);
-        document.getElementById('edit-birthday').value = '';
+        
+        if (birthdayDate && !isNaN(birthdayDate.getTime())) {
+          const year = birthdayDate.getFullYear();
+          const month = String(birthdayDate.getMonth() + 1).padStart(2, '0');
+          const day = String(birthdayDate.getDate()).padStart(2, '0');
+          birthdayInput.value = `${year}-${month}-${day}`;
+        } else {
+          birthdayInput.value = '';
+        }
+      } else {
+        birthdayInput.value = '';
       }
 
       // Social media
@@ -728,13 +728,11 @@
           github: document.getElementById('edit-github').value.trim()
         };
 
-        // Handle birthday
+        // Handle birthday - UPDATED TO STORE AS DATE OBJECT
         const birthdayInput = document.getElementById('edit-birthday').value;
         if (birthdayInput) {
-          // Store as a JavaScript Date object to ensure consistent format in Firestore
           updatedData.birthday = new Date(birthdayInput);
         } else {
-          // Use null to clear the birthday field
           updatedData.birthday = null;
         }
 
