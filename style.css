@@ -257,65 +257,82 @@ body::before {
     font-size: 20px; /* Increased from 46px (fixed typo) */
   }
 }
-/* Interaction Container Styles */
+/* Interaction Container */
 .interaction-container {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  bottom: 60px; /* Positioned higher than bottom */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 500px;
+  padding: 20px;
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(10px);
-  padding: 15px 20px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px 20px 0 0;
   z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .buttons-row {
   display: flex;
-  justify-content: space-around;
-  align-items: center;
-  max-width: 400px;
-  margin: 0 auto;
+  justify-content: center;
+  gap: 40px;
+  width: 100%;
 }
 
-/* Like Button Wrapper */
+/* Like Button Wrapper - Your exact styles preserved */
 .like-button-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-right: 20px;
 }
 
 .like-button {
   background: rgba(255, 255, 255, 0.1);
   border: none;
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
 }
 
 .like-button:hover {
-  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.like-button:active {
+  transform: scale(0.95);
 }
 
 .like-button i {
-  font-size: 20px;
-  color: white;
+  font-size: 28px;
+  color: #ffffff;
+  transition: all 0.3s ease;
+}
+
+.liked .like-button i {
+  color: #ff3366;
 }
 
 .like-count {
-  margin-top: 5px;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.8);
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-/* Share Button Wrapper */
+/* Share Button Wrapper - Matching like button styles */
 .share-button-wrapper {
   display: flex;
   flex-direction: column;
@@ -326,48 +343,104 @@ body::before {
   background: rgba(255, 255, 255, 0.1);
   border: none;
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
 }
 
 .share-button:hover {
-  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.share-button:active {
+  transform: scale(0.95);
 }
 
 .share-button i {
-  font-size: 20px;
-  color: white;
+  font-size: 28px;
+  color: #ffffff;
+  transition: all 0.3s ease;
 }
 
 .share-text {
-  margin-top: 5px;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.8);
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-/* Share Menu Styles */
+/* Like Message */
+.like-message {
+  margin-top: 15px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+  transition: opacity 0.5s ease;
+  opacity: 0;
+}
+
+.like-message.show {
+  opacity: 1;
+}
+
+/* Heart animation - Your exact animation preserved */
+@keyframes heartbeat {
+  0% { transform: scale(1); }
+  25% { transform: scale(1.2); }
+  50% { transform: scale(1); }
+  75% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+.heartbeat {
+  animation: heartbeat 0.5s ease-in-out;
+}
+
+/* Confetti animation - Your exact animation preserved */
+.heart-confetti {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+@keyframes confetti-fall {
+  0% { 
+    transform: translateY(0) rotate(0deg); 
+    opacity: 1;
+  }
+  100% { 
+    transform: translateY(40px) rotate(360deg); 
+    opacity: 0;
+  }
+}
+
+/* Share Menu */
 .share-menu {
-  position: fixed;
-  bottom: 80px;
+  position: absolute;
+  bottom: 100%;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(10px);
   border-radius: 15px;
   padding: 15px;
+  margin-bottom: 15px;
   display: none;
   flex-wrap: wrap;
   justify-content: center;
   width: 90%;
   max-width: 300px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  z-index: 20;
 }
 
 .share-menu.active {
@@ -375,45 +448,6 @@ body::before {
   animation: fadeInUp 0.3s ease;
 }
 
-.share-option {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 10px;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-  width: 60px;
-}
-
-.share-option:hover {
-  transform: scale(1.1);
-}
-
-.share-option i {
-  font-size: 24px;
-  margin-bottom: 5px;
-}
-
-.share-option span {
-  font-size: 12px;
-  color: white;
-}
-
-/* Like Message */
-.like-message {
-  text-align: center;
-  margin-top: 10px;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.7);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.like-message.show {
-  opacity: 1;
-}
-
-/* Animations */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -423,20 +457,4 @@ body::before {
     opacity: 1;
     transform: translate(-50%, 0);
   }
-}
-
-/* Adjust no-activity position */
-.no-activity {
-  position: absolute;
-  bottom: 80px; /* Adjusted to account for interaction container */
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 10px;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 1);
-  text-align: center;
-  padding-bottom: 10px;
 }
