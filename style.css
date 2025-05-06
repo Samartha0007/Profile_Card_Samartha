@@ -257,32 +257,29 @@ body::before {
     font-size: 20px; /* Increased from 46px (fixed typo) */
   }
 }
-/* Interaction Container */
+/* Interaction Container Styles */
 .interaction-container {
   position: fixed;
-  bottom: 60px; /* Positioned higher than bottom */
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 500px;
-  padding: 20px;
+  bottom: 0;
+  left: 0;
+  right: 0;
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(10px);
-  border-radius: 20px 20px 0 0;
+  padding: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
   z-index: 10;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 .buttons-row {
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 40px;
-  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
 }
 
-/* Like Button Wrapper - Your exact styles preserved */
+/* Like Button Wrapper - Updated to match your desired style */
 .like-button-wrapper {
   display: flex;
   flex-direction: column;
@@ -332,7 +329,7 @@ body::before {
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-/* Share Button Wrapper - Matching like button styles */
+/* Share Button Wrapper - Updated to match like button style */
 .share-button-wrapper {
   display: flex;
   flex-direction: column;
@@ -378,8 +375,57 @@ body::before {
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
+/* Share Menu Styles */
+.share-menu {
+  position: fixed;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 15px;
+  display: none;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 90%;
+  max-width: 300px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  z-index: 20;
+}
+
+.share-menu.active {
+  display: flex;
+  animation: fadeInUp 0.3s ease;
+}
+
+.share-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  width: 60px;
+}
+
+.share-option:hover {
+  transform: scale(1.1);
+}
+
+.share-option i {
+  font-size: 24px;
+  margin-bottom: 5px;
+}
+
+.share-option span {
+  font-size: 12px;
+  color: white;
+}
+
 /* Like Message */
 .like-message {
+  text-align: center;
   margin-top: 15px;
   font-size: 14px;
   color: rgba(255, 255, 255, 0.8);
@@ -391,7 +437,7 @@ body::before {
   opacity: 1;
 }
 
-/* Heart animation - Your exact animation preserved */
+/* Heart animation */
 @keyframes heartbeat {
   0% { transform: scale(1); }
   25% { transform: scale(1.2); }
@@ -404,7 +450,7 @@ body::before {
   animation: heartbeat 0.5s ease-in-out;
 }
 
-/* Confetti animation - Your exact animation preserved */
+/* Confetti animation for heart */
 .heart-confetti {
   position: absolute;
   width: 6px;
@@ -424,30 +470,23 @@ body::before {
   }
 }
 
-/* Share Menu */
-.share-menu {
+/* Adjust no-activity position */
+.no-activity {
   position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(10px);
-  border-radius: 15px;
-  padding: 15px;
-  margin-bottom: 15px;
-  display: none;
-  flex-wrap: wrap;
-  justify-content: center;
-  width: 90%;
-  max-width: 300px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-}
-
-.share-menu.active {
+  bottom: 100px;
+  left: 0;
+  right: 0;
   display: flex;
-  animation: fadeInUp 0.3s ease;
+  justify-content: center;
+  align-items: center;
+  font-size: 10px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 1);
+  text-align: center;
+  padding-bottom: 10px;
 }
 
+/* Animations */
 @keyframes fadeInUp {
   from {
     opacity: 0;
