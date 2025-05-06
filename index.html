@@ -102,73 +102,7 @@
     </footer>
   </div>
 
-  <script>
-    // Your existing JavaScript code goes here
-    
-    // Share button functionality
-    document.addEventListener('DOMContentLoaded', function() {
-      const shareButton = document.getElementById('share-button');
-      const shareMenu = document.getElementById('share-menu');
-      
-      // Toggle share menu
-      shareButton.addEventListener('click', function(e) {
-        e.stopPropagation();
-        shareMenu.classList.toggle('show');
-        
-        // Position the menu
-        const buttonRect = shareButton.getBoundingClientRect();
-        shareMenu.style.top = (buttonRect.bottom + 10) + 'px';
-        shareMenu.style.left = (buttonRect.left - 75) + 'px'; // Center it under the button
-      });
-      
-      // Close share menu when clicking elsewhere
-      document.addEventListener('click', function(e) {
-        if (!shareMenu.contains(e.target) && e.target !== shareButton) {
-          shareMenu.classList.remove('show');
-        }
-      });
-      
-      // Share options functionality
-      document.getElementById('share-whatsapp').addEventListener('click', function() {
-        const url = encodeURIComponent(window.location.href);
-        const text = encodeURIComponent('Check out my profile!');
-        window.open(`https://wa.me/?text=${text}%20${url}`, '_blank');
-        shareMenu.classList.remove('show');
-      });
-      
-      document.getElementById('share-facebook').addEventListener('click', function() {
-        const url = encodeURIComponent(window.location.href);
-        window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
-        shareMenu.classList.remove('show');
-      });
-      
-      document.getElementById('share-twitter').addEventListener('click', function() {
-        const url = encodeURIComponent(window.location.href);
-        const text = encodeURIComponent('Check out my profile!');
-        window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
-        shareMenu.classList.remove('show');
-      });
-      
-      document.getElementById('share-linkedin').addEventListener('click', function() {
-        const url = encodeURIComponent(window.location.href);
-        window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, '_blank');
-        shareMenu.classList.remove('show');
-      });
-      
-      document.getElementById('copy-link').addEventListener('click', function() {
-        navigator.clipboard.writeText(window.location.href)
-          .then(() => {
-            alert('Link copied to clipboard!');
-            shareMenu.classList.remove('show');
-          })
-          .catch(err => {
-            console.error('Failed to copy link: ', err);
-            alert('Failed to copy link');
-          });
-      });
-    });
-  </script>
-
+  
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
