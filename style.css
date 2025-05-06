@@ -257,3 +257,101 @@ body::before {
     font-size: 20px; /* Increased from 46px (fixed typo) */
   }
 }
+
+/* Like button styles */
+    .like-container {
+      margin-top: 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 10px;
+    }
+    
+    .like-button {
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .like-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .like-button:active {
+      transform: scale(0.95);
+    }
+    
+    .like-button i {
+      font-size: 28px;
+      color: #ffffff;
+      transition: all 0.3s ease;
+    }
+    
+    .liked .like-button i {
+      color: #ff3366;
+    }
+    
+    .like-count {
+      margin-top: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      color: white;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+    
+    .like-message {
+      margin-top: 5px;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.8);
+      transition: opacity 0.5s ease;
+      opacity: 0;
+    }
+    
+    .show-message {
+      opacity: 1;
+    }
+    
+    /* Heart animation */
+    @keyframes heartbeat {
+      0% { transform: scale(1); }
+      25% { transform: scale(1.2); }
+      50% { transform: scale(1); }
+      75% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+    
+    .heartbeat {
+      animation: heartbeat 0.5s ease-in-out;
+    }
+    
+    /* Confetti animation for heart */
+    .heart-confetti {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    
+    @keyframes confetti-fall {
+      0% { 
+        transform: translateY(0) rotate(0deg); 
+        opacity: 1;
+      }
+      100% { 
+        transform: translateY(40px) rotate(360deg); 
+        opacity: 0;
+      }
+    }
