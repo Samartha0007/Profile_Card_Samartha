@@ -258,242 +258,101 @@ body::before {
     font-size: 20px; /* Increased from 46px (fixed typo) */
   }
 }
-/* Interaction Buttons - Floating at Bottom */
-.interaction-container {
-  position: fixed;
-  bottom: 30px;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: center;
-  z-index: 10;
-  padding: 0 20px;
-}
 
-.buttons-row {
-  display: flex;
-  gap: 40px;
-  align-items: center;
-}
+/* Like button styles */
+    .like-container {
+      margin-top: 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 10px;
+    }
 
-/* Like Button - Original Animations Preserved */
-.like-button-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+    .like-button {
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
 
-.like-button {
-  background: rgba(255, 255, 255, 0.1);
-  border: none;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  position: relative;
-  overflow: hidden;
-  backdrop-filter: blur(5px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
+    .like-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
 
-.like-button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-}
+    .like-button:active {
+      transform: scale(0.95);
+    }
 
-.like-button:active {
-  transform: scale(0.95);
-}
+    .like-button i {
+      font-size: 28px;
+      color: #ffffff;
+      transition: all 0.3s ease;
+    }
 
-.like-button i {
-  font-size: 28px;
-  color: #ffffff;
-  transition: all 0.3s ease;
-}
+    .liked .like-button i {
+      color: #ff3366;
+    }
 
-.liked .like-button i {
-  color: #ff3366;
-}
+    .like-count {
+      margin-top: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      color: white;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
 
-.like-count {
-  margin-top: 10px;
-  font-size: 16px;
-  font-weight: 600;
-  color: white;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-}
+    .like-message {
+      margin-top: 5px;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.8);
+      transition: opacity 0.5s ease;
+      opacity: 0;
+    }
 
-/* Share Button - Matching Style */
-.share-button-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+    .show-message {
+      opacity: 1;
+    }
 
-.share-button {
-  background: rgba(255, 255, 255, 0.1);
-  border: none;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  position: relative;
-  overflow: hidden;
-  backdrop-filter: blur(5px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
+    /* Heart animation */
+    @keyframes heartbeat {
+      0% { transform: scale(1); }
+      25% { transform: scale(1.2); }
+      50% { transform: scale(1); }
+      75% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
 
-.share-button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-}
+    .heartbeat {
+      animation: heartbeat 0.5s ease-in-out;
+    }
 
-.share-button:active {
-  transform: scale(0.95);
-}
+    /* Confetti animation for heart */
+    .heart-confetti {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      pointer-events: none;
+    }
 
-.share-button i {
-  font-size: 28px;
-  color: #ffffff;
-  transition: all 0.3s ease;
-}
-
-.share-text {
-  margin-top: 10px;
-  font-size: 16px;
-  font-weight: 600;
-  color: white;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-/* Share Menu */
-.share-menu {
-  position: fixed;
-  bottom: 120px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(10px);
-  border-radius: 15px;
-  padding: 15px;
-  display: none;
-  flex-wrap: wrap;
-  justify-content: center;
-  width: 90%;
-  max-width: 300px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  z-index: 20;
-}
-
-.share-menu.active {
-  display: flex;
-  animation: fadeInUp 0.3s ease;
-}
-
-.share-option {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 10px;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-  width: 60px;
-}
-
-.share-option:hover {
-  transform: scale(1.1);
-}
-
-.share-option i {
-  font-size: 24px;
-  margin-bottom: 5px;
-}
-
-.share-option span {
-  font-size: 12px;
-  color: white;
-}
-
-/* Like Message */
-.like-message {
-  position: fixed;
-  bottom: 100px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.8);
-  transition: opacity 0.5s ease;
-  opacity: 0;
-  padding: 8px 16px;
-  border-radius: 20px;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(5px);
-}
-
-.like-message.show {
-  opacity: 1;
-}
-
-/* Original Animations Preserved */
-@keyframes heartbeat {
-  0% { transform: scale(1); }
-  25% { transform: scale(1.2); }
-  50% { transform: scale(1); }
-  75% { transform: scale(1.2); }
-  100% { transform: scale(1); }
-}
-
-.heartbeat {
-  animation: heartbeat 0.5s ease-in-out;
-}
-
-.heart-confetti {
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  pointer-events: none;
-}
-
-@keyframes confetti-fall {
-  0% { 
-    transform: translateY(0) rotate(0deg); 
-    opacity: 1;
-  }
-  100% { 
-    transform: translateY(40px) rotate(360deg); 
-    opacity: 0;
-  }
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translate(-50%, 10px);
-  }
-  to {
-    opacity: 1;
-    transform: translate(-50%, 0);
-  }
-}
-
-/* No Activity Text */
-.no-activity {
-  position: fixed;
-  bottom: 120px;
-  left: 0;
-  right: 0;
-  text-align: center;
-  font-size: 10px;
-  color: rgba(255, 255, 255, 0.6);
-}
+    @keyframes confetti-fall {
+      0% { 
+        transform: translateY(0) rotate(0deg); 
+        opacity: 1;
+      }
+      100% { 
+        transform: translateY(40px) rotate(360deg); 
+        opacity: 0;
+      }
+    }
