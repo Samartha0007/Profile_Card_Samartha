@@ -100,20 +100,7 @@ body::before {
 
 
 
-.no-activity {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 10px;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 1);
-  text-align: center;
-  padding-bottom: 20px; /* Optional: Add some space from the bottom */
-}
+
 
 /* Social Media Container */
 
