@@ -19,8 +19,106 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./style.css">
-  
-  
+
+  <style>
+    /* Additional styles for the share button */
+    .interaction-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
+      width: 100%;
+      max-width: 500px;
+      margin: 20px auto;
+    }
+    
+    .buttons-row {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+    
+    .like-button, .share-button {
+      background-color: #f0f2f5;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .like-button:hover, .share-button:hover {
+      background-color: #e4e6e9;
+      transform: scale(1.05);
+    }
+    
+    .like-button i {
+      color: #ff4d4d;
+      font-size: 24px;
+    }
+    
+    .share-button i {
+      color: #4d79ff;
+      font-size: 24px;
+    }
+    
+    .like-count, .share-text {
+      font-size: 14px;
+      margin-top: 5px;
+    }
+    
+    .like-message {
+      font-size: 12px;
+      color: #666;
+      margin-top: 5px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .like-message.show {
+      opacity: 1;
+    }
+    
+    .share-menu {
+      display: none;
+      position: absolute;
+      background: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      border-radius: 8px;
+      padding: 10px;
+      z-index: 100;
+      width: 200px;
+    }
+    
+    .share-menu.show {
+      display: block;
+    }
+    
+    .share-option {
+      display: flex;
+      align-items: center;
+      padding: 8px 10px;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background-color 0.2s ease;
+    }
+    
+    .share-option:hover {
+      background-color: #f0f2f5;
+    }
+    
+    .share-option i {
+      margin-right: 10px;
+      font-size: 18px;
+    }
+  </style>
+
 </head>
 <body>
 
@@ -44,16 +142,50 @@
     <div class="social-container">
       <div class="social-icons" id="social-icons"></div>
     </div>
-    
-    <!-- Like Button -->
-    <div class="like-container" id="like-container">
-      <div class="like-button-wrapper" id="like-button-wrapper">
-        <button class="like-button" id="like-button">
-          <i class="fas fa-heart"></i>
-        </button>
+
+    <!-- Interaction Container (Like and Share) -->
+    <div class="interaction-container">
+      <div class="buttons-row">
+        <div class="like-button-wrapper" id="like-button-wrapper">
+          <button class="like-button" id="like-button">
+            <i class="fas fa-heart"></i>
+          </button>
+          <div class="like-count" id="like-count">Counting</div>
+        </div>
+        
+        <div class="share-button-wrapper" id="share-button-wrapper">
+          <button class="share-button" id="share-button">
+            <i class="fas fa-share-alt"></i>
+          </button>
+          <div class="share-text">Share</div>
+        </div>
       </div>
-      <div class="like-count" id="like-count">Counting</div>
+      
       <div class="like-message" id="like-message">Thanks for the love!</div>
+      
+      <!-- Share Menu -->
+      <div class="share-menu" id="share-menu">
+        <div class="share-option" id="share-whatsapp">
+          <i class="fab fa-whatsapp" style="color: #25D366;"></i>
+          <span>WhatsApp</span>
+        </div>
+        <div class="share-option" id="share-facebook">
+          <i class="fab fa-facebook" style="color: #1877F2;"></i>
+          <span>Facebook</span>
+        </div>
+        <div class="share-option" id="share-twitter">
+          <i class="fab fa-twitter" style="color: #1DA1F2;"></i>
+          <span>Twitter</span>
+        </div>
+        <div class="share-option" id="share-linkedin">
+          <i class="fab fa-linkedin" style="color: #0A66C2;"></i>
+          <span>LinkedIn</span>
+        </div>
+        <div class="share-option" id="copy-link">
+          <i class="fas fa-link" style="color: #555;"></i>
+          <span>Copy Link</span>
+        </div>
+      </div>
     </div>
 
     <!-- No Activity Section -->
@@ -95,6 +227,72 @@
     </footer>
   </div>
 
+  <script>
+    // Your existing JavaScript code goes here
+    
+    // Share button functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const shareButton = document.getElementById('share-button');
+      const shareMenu = document.getElementById('share-menu');
+      
+      // Toggle share menu
+      shareButton.addEventListener('click', function(e) {
+        e.stopPropagation();
+        shareMenu.classList.toggle('show');
+        
+        // Position the menu
+        const buttonRect = shareButton.getBoundingClientRect();
+        shareMenu.style.top = (buttonRect.bottom + 10) + 'px';
+        shareMenu.style.left = (buttonRect.left - 75) + 'px'; // Center it under the button
+      });
+      
+      // Close share menu when clicking elsewhere
+      document.addEventListener('click', function(e) {
+        if (!shareMenu.contains(e.target) && e.target !== shareButton) {
+          shareMenu.classList.remove('show');
+        }
+      });
+      
+      // Share options functionality
+      document.getElementById('share-whatsapp').addEventListener('click', function() {
+        const url = encodeURIComponent(window.location.href);
+        const text = encodeURIComponent('Check out my profile!');
+        window.open(`https://wa.me/?text=${text}%20${url}`, '_blank');
+        shareMenu.classList.remove('show');
+      });
+      
+      document.getElementById('share-facebook').addEventListener('click', function() {
+        const url = encodeURIComponent(window.location.href);
+        window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
+        shareMenu.classList.remove('show');
+      });
+      
+      document.getElementById('share-twitter').addEventListener('click', function() {
+        const url = encodeURIComponent(window.location.href);
+        const text = encodeURIComponent('Check out my profile!');
+        window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
+        shareMenu.classList.remove('show');
+      });
+      
+      document.getElementById('share-linkedin').addEventListener('click', function() {
+        const url = encodeURIComponent(window.location.href);
+        window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, '_blank');
+        shareMenu.classList.remove('show');
+      });
+      
+      document.getElementById('copy-link').addEventListener('click', function() {
+        navigator.clipboard.writeText(window.location.href)
+          .then(() => {
+            alert('Link copied to clipboard!');
+            shareMenu.classList.remove('show');
+          })
+          .catch(err => {
+            console.error('Failed to copy link: ', err);
+            alert('Failed to copy link');
+          });
+      });
+    });
+  </script>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
     import { getFirestore, collection, getDocs, query, where, doc, updateDoc, getDoc, setDoc, increment } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
