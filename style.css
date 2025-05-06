@@ -258,18 +258,7 @@ body::before {
     font-size: 20px; /* Increased from 46px (fixed typo) */
   }
 }
-/* Interaction Container Styles */
-.interaction-container {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(10px);
-  padding: 15px 20px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  
-}
+/* Interaction 
 
 .buttons-row {
   display: flex;
