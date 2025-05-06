@@ -265,71 +265,57 @@ body::before {
   right: 0;
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(10px);
-  padding: 20px;
+  padding: 15px 20px;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   z-index: 10;
 }
 
 .buttons-row {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
-  gap: 40px;
-  max-width: 500px;
+  max-width: 400px;
   margin: 0 auto;
 }
 
-/* Like Button Wrapper - Updated to match your desired style */
+/* Like Button Wrapper */
 .like-button-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-right: 20px;
 }
 
 .like-button {
   background: rgba(255, 255, 255, 0.1);
   border: none;
   border-radius: 50%;
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  position: relative;
-  overflow: hidden;
 }
 
 .like-button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-}
-
-.like-button:active {
-  transform: scale(0.95);
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .like-button i {
-  font-size: 28px;
-  color: #ffffff;
-  transition: all 0.3s ease;
-}
-
-.liked .like-button i {
-  color: #ff3366;
+  font-size: 20px;
+  color: white;
 }
 
 .like-count {
-  margin-top: 10px;
-  font-size: 16px;
-  font-weight: 600;
-  color: white;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  margin-top: 5px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.8);
 }
 
-/* Share Button Wrapper - Updated to match like button style */
+/* Share Button Wrapper */
 .share-button-wrapper {
   display: flex;
   flex-direction: column;
@@ -340,45 +326,35 @@ body::before {
   background: rgba(255, 255, 255, 0.1);
   border: none;
   border-radius: 50%;
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  position: relative;
-  overflow: hidden;
 }
 
 .share-button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-}
-
-.share-button:active {
-  transform: scale(0.95);
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .share-button i {
-  font-size: 28px;
-  color: #ffffff;
-  transition: all 0.3s ease;
+  font-size: 20px;
+  color: white;
 }
 
 .share-text {
-  margin-top: 10px;
-  font-size: 16px;
-  font-weight: 600;
-  color: white;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  margin-top: 5px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.8);
 }
 
 /* Share Menu Styles */
 .share-menu {
   position: fixed;
-  bottom: 100px;
+  bottom: 80px;
   left: 50%;
   transform: translateX(-50%);
   background: rgba(0, 0, 0, 0.8);
@@ -426,64 +402,15 @@ body::before {
 /* Like Message */
 .like-message {
   text-align: center;
-  margin-top: 15px;
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.8);
-  transition: opacity 0.5s ease;
+  margin-top: 10px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
   opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .like-message.show {
   opacity: 1;
-}
-
-/* Heart animation */
-@keyframes heartbeat {
-  0% { transform: scale(1); }
-  25% { transform: scale(1.2); }
-  50% { transform: scale(1); }
-  75% { transform: scale(1.2); }
-  100% { transform: scale(1); }
-}
-
-.heartbeat {
-  animation: heartbeat 0.5s ease-in-out;
-}
-
-/* Confetti animation for heart */
-.heart-confetti {
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  pointer-events: none;
-}
-
-@keyframes confetti-fall {
-  0% { 
-    transform: translateY(0) rotate(0deg); 
-    opacity: 1;
-  }
-  100% { 
-    transform: translateY(40px) rotate(360deg); 
-    opacity: 0;
-  }
-}
-
-/* Adjust no-activity position */
-.no-activity {
-  position: absolute;
-  bottom: 100px;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 10px;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 1);
-  text-align: center;
-  padding-bottom: 10px;
 }
 
 /* Animations */
@@ -496,4 +423,20 @@ body::before {
     opacity: 1;
     transform: translate(-50%, 0);
   }
+}
+
+/* Adjust no-activity position */
+.no-activity {
+  position: absolute;
+  bottom: 80px; /* Adjusted to account for interaction container */
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 10px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 1);
+  text-align: center;
+  padding-bottom: 10px;
 }
