@@ -19,8 +19,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./style.css">
-
-
 </head>
 <body>
 
@@ -53,24 +51,18 @@
             <i class="fas fa-heart"></i>
           </button>
           <div class="like-count" id="like-count">Counting</div>
- <div class="like-message" id="like-message">Thanks for the love!</div>
+          <div class="like-message" id="like-message">Thanks for the love!</div>
         </div>
-        
-        
       </div>
-      
-      <div class="like-message" id="like-message">Thanks for the love!</div>
-      
-      
 
-    <!-- No Activity Section -->
-    <div class="no-activity">
-      Thanks to Samarth 
+      <!-- No Activity Section -->
+      <div class="no-activity">
+        Thanks to Samarth 
+      </div>
     </div>
-   </div>
+  </div>
 
-
- <!-- Introduction Page -->
+  <!-- Introduction Page -->
   <div class="intro-container" id="intro-container">
     <div class="intro-content">
       <h1>Mywebsam</h1>
@@ -102,8 +94,6 @@
     </footer>
   </div>
 
-  
-
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
     import { getFirestore, collection, getDocs, query, where, doc, updateDoc, getDoc, setDoc, increment } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
@@ -122,7 +112,7 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-    
+
     // Variables to track profile and likes
     let currentProfileId = null;
     let currentUsername = null;
@@ -144,7 +134,7 @@
           const profileDoc = querySnapshot.docs[0];
           const profile = profileDoc.data();
           currentProfileId = profileDoc.id;
-          
+
           const profileName = profile.name || username;
           const profileBio = profile.bio || "Check out my profile!";
           const profileImage = profile.imageUrl || "https://i.ibb.co/sKbrkyn/Yellow-and-Grey-Pastel-Grunge-Designer-Brand-Logo-20241009-185202-0000.png";
@@ -187,7 +177,7 @@
           }
 
           updateSocialLinks(profile);
-          
+
           // Initialize like button functionality
           initializeLikeSystem(currentProfileId);
 
@@ -248,57 +238,57 @@
       const likeButton = document.getElementById("like-button");
       const likeCount = document.getElementById("like-count");
       const likeMessage = document.getElementById("like-message");
-      
+
       // Check if profile has likes collection
       await checkAndInitializeLikes(profileId);
-      
+
       // Load current like count
       const likesRef = doc(db, "profileLikes", profileId);
       const likesDoc = await getDoc(likesRef);
-      
+
       if (likesDoc.exists()) {
         const likesData = likesDoc.data();
         updateLikeCountDisplay(likesData.count || 0);
-        
+
         // Check if user has already liked
         const userLikeKey = getUserLikeKey();
         hasLiked = localStorage.getItem(userLikeKey) === 'true';
-        
+
         if (hasLiked) {
           likeButton.parentElement.classList.add("liked");
         }
       }
-      
+
       // Add click event listener
       likeButton.addEventListener("click", async () => {
         const likeButtonWrapper = document.getElementById("like-button-wrapper");
         const heartIcon = likeButton.querySelector("i");
-        
+
         // Toggle like state
         hasLiked = !hasLiked;
-        
+
         if (hasLiked) {
           // Save that user has liked
           localStorage.setItem(getUserLikeKey(), 'true');
-          
+
           // Animate heart
           heartIcon.classList.add("heartbeat");
           likeButtonWrapper.classList.add("liked");
-          
+
           // Create confetti effect
           createHeartConfetti(likeButton);
-          
+
           // Show thank you message
           likeMessage.classList.add("show-message");
           setTimeout(() => {
             likeMessage.classList.remove("show-message");
           }, 2000);
-          
+
           // Increment like in database
           await updateDoc(likesRef, {
             count: increment(1)
           });
-          
+
           // Get updated count
           const updatedDoc = await getDoc(likesRef);
           if (updatedDoc.exists()) {
@@ -309,30 +299,30 @@
           localStorage.removeItem(getUserLikeKey());
           likeButtonWrapper.classList.remove("liked");
           heartIcon.classList.remove("heartbeat");
-          
+
           // Decrement like in database
           await updateDoc(likesRef, {
             count: increment(-1)
           });
-          
+
           // Get updated count
           const updatedDoc = await getDoc(likesRef);
           if (updatedDoc.exists()) {
             updateLikeCountDisplay(updatedDoc.data().count || 0);
           }
         }
-        
+
         // Remove heartbeat class after animation
         setTimeout(() => {
           heartIcon.classList.remove("heartbeat");
         }, 500);
       });
     }
-    
+
     async function checkAndInitializeLikes(profileId) {
       const likesRef = doc(db, "profileLikes", profileId);
       const likesDoc = await getDoc(likesRef);
-      
+
       if (!likesDoc.exists()) {
         // Initialize likes document if it doesn't exist
         await setDoc(likesRef, {
@@ -342,41 +332,41 @@
         });
       }
     }
-    
+
     function getUserLikeKey() {
       // Create a unique key for this user+profile combination
       return `liked_${currentUsername}_${currentProfileId}`;
     }
-    
+
     function updateLikeCountDisplay(count) {
       const likeCount = document.getElementById("like-count");
       likeCount.textContent = count === 1 ? "1 like" : `${count} likes`;
     }
-    
+
     function createHeartConfetti(button) {
       const colors = ['#ff3366', '#ff6b6b', '#ffaa77', '#ff77aa'];
       const confettiCount = 20;
-      
+
       for (let i = 0; i < confettiCount; i++) {
         const confetti = document.createElement('div');
         confetti.className = 'heart-confetti';
         confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-        
+
         // Random position within the button
         const left = Math.random() * 60;
         const top = Math.random() * 60;
-        
+
         confetti.style.left = `${left}px`;
         confetti.style.top = `${top}px`;
-        
+
         // Random animation duration and delay
         const duration = 500 + Math.random() * 500;
         const delay = Math.random() * 200;
-        
+
         confetti.style.animation = `confetti-fall ${duration}ms ease-out ${delay}ms forwards`;
-        
+
         button.appendChild(confetti);
-        
+
         // Clean up after animation
         setTimeout(() => {
           confetti.remove();
