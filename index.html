@@ -21,183 +21,100 @@
   <link rel="stylesheet" href="./style.css">
 
   <style>
-    /* Additional styles for the interaction box */
+    /* Additional styles for the share button */
     .interaction-container {
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin: 30px auto;
+      margin-top: 20px;
       width: 100%;
       max-width: 500px;
-    }
-    
-    .interaction-box {
-      background: rgba(255, 255, 255, 0.9);
-      box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-      border-radius: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      padding: 20px;
-      width: 80%;
-      max-width: 400px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    
-    .interaction-box:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 12px 36px rgba(31, 38, 135, 0.25);
+      margin: 20px auto;
     }
     
     .buttons-row {
       display: flex;
       justify-content: center;
-      gap: 40px;
+      gap: 20px;
       width: 100%;
-      margin-bottom: 15px;
-    }
-    
-    .like-button-wrapper, .share-button-wrapper {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: relative;
+      margin-bottom: 10px;
     }
     
     .like-button, .share-button {
-      background: linear-gradient(145deg, #f0f0f0, #ffffff);
+      background-color: #f0f2f5;
       border: none;
       border-radius: 50%;
-      width: 60px;
-      height: 60px;
+      width: 50px;
+      height: 50px;
       display: flex;
       justify-content: center;
       align-items: center;
       cursor: pointer;
-      box-shadow: 4px 4px 10px rgba(0,0,0,0.1), 
-                 -4px -4px 10px rgba(255,255,255,0.8);
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .like-button:before, .share-button:before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: rgba(255, 255, 255, 0.3);
-      transition: all 0.4s ease;
-    }
-    
-    .like-button:hover:before, .share-button:hover:before {
-      left: 100%;
+      transition: all 0.3s ease;
     }
     
     .like-button:hover, .share-button:hover {
-      transform: scale(1.1);
-      box-shadow: 6px 6px 12px rgba(0,0,0,0.15), 
-                 -6px -6px 12px rgba(255,255,255,0.9);
-    }
-    
-    .like-button:active, .share-button:active {
-      transform: scale(0.95);
-      box-shadow: inset 4px 4px 8px rgba(0,0,0,0.1), 
-                  inset -4px -4px 8px rgba(255,255,255,0.8);
+      background-color: #e4e6e9;
+      transform: scale(1.05);
     }
     
     .like-button i {
       color: #ff4d4d;
-      font-size: 26px;
-      transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      font-size: 24px;
     }
     
     .share-button i {
       color: #4d79ff;
-      font-size: 26px;
-      transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    }
-    
-    .like-button:hover i, .share-button:hover i {
-      transform: scale(1.2);
-    }
-    
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.2); }
-      100% { transform: scale(1); }
-    }
-    
-    .like-button.liked i {
-      animation: pulse 0.5s ease;
-      color: #ff0000;
+      font-size: 24px;
     }
     
     .like-count, .share-text {
       font-size: 14px;
-      font-weight: 600;
-      margin-top: 8px;
-      color: #555;
-      transition: all 0.3s ease;
+      margin-top: 5px;
     }
     
     .like-message {
-      font-size: 13px;
+      font-size: 12px;
       color: #666;
-      margin-top: 10px;
+      margin-top: 5px;
       opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 0.4s ease, transform 0.4s ease;
-      text-align: center;
+      transition: opacity 0.3s ease;
     }
     
     .like-message.show {
       opacity: 1;
-      transform: translateY(0);
     }
     
     .share-menu {
       display: none;
       position: absolute;
       background: white;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-      border-radius: 12px;
-      padding: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      border-radius: 8px;
+      padding: 10px;
       z-index: 100;
       width: 200px;
-      transform: translateY(10px);
-      opacity: 0;
-      transition: transform 0.3s ease, opacity 0.3s ease;
     }
     
     .share-menu.show {
       display: block;
-      transform: translateY(0);
-      opacity: 1;
     }
     
     .share-option {
       display: flex;
       align-items: center;
-      padding: 10px 12px;
+      padding: 8px 10px;
       cursor: pointer;
-      border-radius: 8px;
-      transition: background-color 0.2s ease, transform 0.2s ease;
-      margin-bottom: 4px;
+      border-radius: 4px;
+      transition: background-color 0.2s ease;
     }
     
     .share-option:hover {
       background-color: #f0f2f5;
-      transform: translateX(5px);
     }
     
     .share-option i {
-      margin-right: 12px;
+      margin-right: 10px;
       font-size: 18px;
     }
   </style>
@@ -228,25 +145,23 @@
 
     <!-- Interaction Container (Like and Share) -->
     <div class="interaction-container">
-      <div class="interaction-box">
-        <div class="buttons-row">
-          <div class="like-button-wrapper" id="like-button-wrapper">
-            <button class="like-button" id="like-button">
-              <i class="fas fa-heart"></i>
-            </button>
-            <div class="like-count" id="like-count">Counting</div>
-          </div>
-          
-          <div class="share-button-wrapper" id="share-button-wrapper">
-            <button class="share-button" id="share-button">
-              <i class="fas fa-share-alt"></i>
-            </button>
-            <div class="share-text">Share</div>
-          </div>
+      <div class="buttons-row">
+        <div class="like-button-wrapper" id="like-button-wrapper">
+          <button class="like-button" id="like-button">
+            <i class="fas fa-heart"></i>
+          </button>
+          <div class="like-count" id="like-count">Counting</div>
         </div>
         
-        <div class="like-message" id="like-message">Thanks for the love!</div>
+        <div class="share-button-wrapper" id="share-button-wrapper">
+          <button class="share-button" id="share-button">
+            <i class="fas fa-share-alt"></i>
+          </button>
+          <div class="share-text">Share</div>
+        </div>
       </div>
+      
+      <div class="like-message" id="like-message">Thanks for the love!</div>
       
       <!-- Share Menu -->
       <div class="share-menu" id="share-menu">
@@ -315,102 +230,27 @@
   <script>
     // Your existing JavaScript code goes here
     
-    // Like and Share button functionality
+    // Share button functionality
     document.addEventListener('DOMContentLoaded', function() {
-      const likeButton = document.getElementById('like-button');
-      const likeCount = document.getElementById('like-count');
-      const likeMessage = document.getElementById('like-message');
       const shareButton = document.getElementById('share-button');
       const shareMenu = document.getElementById('share-menu');
-      const interactionBox = document.querySelector('.interaction-box');
       
-      // Set initial like count (can be retrieved from storage or API)
-      let count = localStorage.getItem('likeCount') || 0;
-      likeCount.textContent = count > 0 ? count : '0';
-      
-      // Like button animation and functionality
-      likeButton.addEventListener('click', function() {
-        // Add liked class for animation
-        likeButton.classList.add('liked');
-        
-        // Update like count
-        count = parseInt(count) + 1;
-        localStorage.setItem('likeCount', count);
-        
-        // Animate the count changing
-        likeCount.style.transform = 'scale(1.3)';
-        likeCount.style.color = '#ff4d4d';
-        likeCount.textContent = count;
-        
-        // Show thank you message with animation
-        likeMessage.classList.add('show');
-        
-        // Add subtle pulse to the interaction box
-        interactionBox.style.transform = 'translateY(-8px)';
-        
-        // Reset animations after delay
-        setTimeout(() => {
-          likeButton.classList.remove('liked');
-          likeCount.style.transform = 'scale(1)';
-          likeCount.style.color = '#555';
-          
-          setTimeout(() => {
-            likeMessage.classList.remove('show');
-            interactionBox.style.transform = 'translateY(-5px)';
-          }, 2000);
-        }, 1000);
-      });
-      
-      // Toggle share menu with animation
+      // Toggle share menu
       shareButton.addEventListener('click', function(e) {
         e.stopPropagation();
+        shareMenu.classList.toggle('show');
         
-        // Animate the share button
-        shareButton.querySelector('i').style.transform = 'rotate(360deg)';
-        setTimeout(() => {
-          shareButton.querySelector('i').style.transform = 'rotate(0deg)';
-        }, 400);
-        
-        // Show/hide the menu with animation
-        if (!shareMenu.classList.contains('show')) {
-          // Position the menu
-          const buttonRect = shareButton.getBoundingClientRect();
-          shareMenu.style.top = (buttonRect.bottom + 15) + 'px';
-          shareMenu.style.left = (buttonRect.left - 75) + 'px'; // Center it under the button
-          
-          // Show with animation
-          shareMenu.style.display = 'block';
-          setTimeout(() => {
-            shareMenu.classList.add('show');
-          }, 10);
-        } else {
-          shareMenu.classList.remove('show');
-          setTimeout(() => {
-            shareMenu.style.display = 'none';
-          }, 300);
-        }
+        // Position the menu
+        const buttonRect = shareButton.getBoundingClientRect();
+        shareMenu.style.top = (buttonRect.bottom + 10) + 'px';
+        shareMenu.style.left = (buttonRect.left - 75) + 'px'; // Center it under the button
       });
       
       // Close share menu when clicking elsewhere
       document.addEventListener('click', function(e) {
         if (!shareMenu.contains(e.target) && e.target !== shareButton) {
           shareMenu.classList.remove('show');
-          setTimeout(() => {
-            shareMenu.style.display = 'none';
-          }, 300);
         }
-      });
-      
-      // Add hover animations to share options
-      const shareOptions = document.querySelectorAll('.share-option');
-      shareOptions.forEach(option => {
-        option.addEventListener('mouseenter', function() {
-          this.querySelector('i').style.transform = 'scale(1.2)';
-        });
-        
-        option.addEventListener('mouseleave', function() {
-          this.querySelector('i').style.transform = 'scale(1)';
-        });
       });
       
       // Share options functionality
@@ -418,62 +258,42 @@
         const url = encodeURIComponent(window.location.href);
         const text = encodeURIComponent('Check out my profile!');
         window.open(`https://wa.me/?text=${text}%20${url}`, '_blank');
-        animateShareSuccess(this);
+        shareMenu.classList.remove('show');
       });
       
       document.getElementById('share-facebook').addEventListener('click', function() {
         const url = encodeURIComponent(window.location.href);
         window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
-        animateShareSuccess(this);
+        shareMenu.classList.remove('show');
       });
       
       document.getElementById('share-twitter').addEventListener('click', function() {
         const url = encodeURIComponent(window.location.href);
         const text = encodeURIComponent('Check out my profile!');
         window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
-        animateShareSuccess(this);
+        shareMenu.classList.remove('show');
       });
       
       document.getElementById('share-linkedin').addEventListener('click', function() {
         const url = encodeURIComponent(window.location.href);
         window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, '_blank');
-        animateShareSuccess(this);
+        shareMenu.classList.remove('show');
       });
       
       document.getElementById('copy-link').addEventListener('click', function() {
         navigator.clipboard.writeText(window.location.href)
           .then(() => {
-            animateShareSuccess(this, 'Link copied!');
+            alert('Link copied to clipboard!');
+            shareMenu.classList.remove('show');
           })
           .catch(err => {
             console.error('Failed to copy link: ', err);
             alert('Failed to copy link');
           });
       });
-      
-      // Helper function for share success animation
-      function animateShareSuccess(element, message = null) {
-        // Save original content
-        const originalContent = element.innerHTML;
-        
-        // Show success message
-        element.innerHTML = `<i class="fas fa-check" style="color: #4BB543;"></i> ${message || 'Shared!'}`;
-        
-        // Animate the interaction box
-        interactionBox.style.boxShadow = '0 12px 36px rgba(75, 181, 67, 0.25)';
-        
-        // Reset after delay
-        setTimeout(() => {
-          element.innerHTML = originalContent;
-          shareMenu.classList.remove('show');
-          setTimeout(() => {
-            shareMenu.style.display = 'none';
-            interactionBox.style.boxShadow = '0 8px 32px rgba(31, 38, 135, 0.2)';
-          }, 300);
-        }, 1500);
-      }
     });
   </script>
+
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
