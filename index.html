@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Dynamic meta tags -->
-  <title id="dynamic-title">Samarth</title>
+  <title id="dynamic-title">MyWebSam - Profile Links</title>
   <meta property="og:type" content="website">
   <meta property="og:title" id="og-title" content="Profile Links">
   <meta property="og:image" id="og-image" content="https://i.ibb.co/sKbrkyn/Yellow-and-Grey-Pastel-Grunge-Designer-Brand-Logo-20241009-185202-0000.png">
@@ -22,7 +22,7 @@
 </head>
 <body>
 
-  <!-- Main Container -->
+  <!-- Main Container (hidden until user creates profile) -->
   <div class="profile-container" id="profile-container" style="display:none">
     <!-- Profile Header -->
     <div class="profile-header">
@@ -47,42 +47,64 @@
     <div class="no-activity">
       Thanks to Samarth 
     </div>
-   </div>
-
-
- <!-- Introduction Page -->
-  <div class="intro-container" id="intro-container">
-    <div class="intro-content">
-      <h1>Mywebsam</h1>
-      <p>Create and share your personalized profile page with all your social links in one place</p>
-      <div class="intro-features">
-        <div class="feature">
-          <i class="fas fa-user-circle"></i>
-          <h3>Personal Profile</h3>
-          <p>Showcase your information and bio</p>
-        </div>
-        <div class="feature">
-          <i class="fas fa-share-alt"></i>
-          <h3>Social Links</h3>
-          <p>All your social media in one place</p>
-        </div>
-        <div class="feature">
-          <i class="fas fa-music"></i>
-          <h3>Spotify Integration</h3>
-          <p>Share your favorite music</p>
-        </div>
-      </div>
-      <a href="/create.html" class="cta-button">Create Your Profile</a>
-    </div>
-
-    <footer class="main-footer">
-      Made with 🖤 By 
-      <b><a href="https://samarthags.in" target="_blank">Samartha GS</a></b>
-      <p class="footer-note">Click on <b>Samartha GS</b></p>
-    </footer>
   </div>
 
-  <!-- Removed share notification div -->
+  <!-- Demo Preview Container (always visible) -->
+  <div class="demo-preview-container" id="demo-preview">
+    <div class="demo-content">
+      <h1>MyWebSam</h1>
+      <p>See how your profile will appear:</p>
+      
+      <!-- Demo Profile Preview -->
+      <div class="demo-profile">
+        <div class="profile-header">
+          <img class="profile-image" src="https://i.ibb.co/sKbrkyn/Yellow-and-Grey-Pastel-Grunge-Designer-Brand-Logo-20241009-185202-0000.png" alt="Demo Profile">
+          <h1>Your Name</h1>
+          <div class="profile-bio">This is where your bio will appear. Tell people about yourself!</div>
+          <div class="profile-stats">
+            <span><i class="fas fa-map-marker-alt"></i> Your Location</span>
+            <span class="dot">•</span>
+            <span><i class="fas fa-birthday-cake"></i> Birthday</span>
+          </div>
+        </div>
+        
+        <div class="social-container">
+          <div class="social-icons">
+            <a href="#" class="social-icon"><i class="fab fa-instagram"></i> Instagram</a>
+            <a href="#" class="social-icon"><i class="fab fa-twitter"></i> Twitter</a>
+            <a href="#" class="social-icon"><i class="fab fa-youtube"></i> YouTube</a>
+            <a href="#" class="social-icon"><i class="fab fa-spotify"></i> Spotify</a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="demo-cta">
+        <a href="/create.html" class="cta-button">Create Your Profile Now</a>
+        <p class="demo-note">Your profile will be publicly visible and shareable</p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="main-footer">
+    Made with 🖤 By 
+    <b><a href="https://samarthags.in" target="_blank">Samartha GS</a></b>
+  </footer>
+
+  
+  <script>
+    // Additional script to handle the demo/preview logic
+    document.addEventListener('DOMContentLoaded', function() {
+      // Check if this is a user profile page or the demo page
+      const isProfilePage = window.location.pathname !== '/';
+      
+      if (isProfilePage) {
+        document.getElementById('demo-preview').style.display = 'none';
+        document.getElementById('profile-container').style.display = 'block';
+      } else {
+        document.getElementById('demo-preview').style.display = 'block';
+      }
+    });
+  </script>
 
  
   <script type="module">
