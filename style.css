@@ -257,26 +257,35 @@ body::before {
     font-size: 20px; /* Increased from 46px (fixed typo) */
   }
 }
-/* Interaction Container Styles - Moved Higher */
+/* Interaction Container Styles */
 .interaction-container {
   position: fixed;
-  bottom: 40px; /* Changed from 0 to move it up */
+  bottom: 0;
   left: 0;
   right: 0;
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(10px);
   padding: 15px 20px;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 20px 20px 0 0;
   z-index: 10;
-  max-width: 500px;
-  margin: 0 auto;
-  left: 50%;
-  transform: translateX(-50%);
 }
 
-/* Keep all existing like button animations exactly the same */
+.buttons-row {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+/* Like Button Wrapper */
+.like-button-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 20px;
+}
+
 .like-button {
   background: rgba(255, 255, 255, 0.1);
   border: none;
@@ -300,52 +309,126 @@ body::before {
   color: white;
 }
 
-/* Heart animation - kept exactly the same */
-@keyframes heartbeat {
-  0% { transform: scale(1); }
-  25% { transform: scale(1.2); }
-  50% { transform: scale(1); }
-  75% { transform: scale(1.2); }
-  100% { transform: scale(1); }
+.like-count {
+  margin-top: 5px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.8);
 }
 
-.heartbeat {
-  animation: heartbeat 0.5s ease-in-out;
+/* Share Button Wrapper */
+.share-button-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-/* Confetti animation for heart - kept exactly the same */
-.heart-confetti {
-  position: absolute;
-  width: 6px;
-  height: 6px;
+.share-button {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
   border-radius: 50%;
-  pointer-events: none;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-@keyframes confetti-fall {
-  0% { 
-    transform: translateY(0) rotate(0deg); 
-    opacity: 1;
-  }
-  100% { 
-    transform: translateY(40px) rotate(360deg); 
-    opacity: 0;
-  }
+.share-button:hover {
+  background: rgba(255, 255, 255, 0.2);
 }
 
-/* Adjust share menu position to account for higher container */
+.share-button i {
+  font-size: 20px;
+  color: white;
+}
+
+.share-text {
+  margin-top: 5px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Share Menu Styles */
 .share-menu {
   position: fixed;
-  bottom: 120px; /* Increased from 80px to account for higher container */
+  bottom: 80px;
   left: 50%;
   transform: translateX(-50%);
-  /* ... rest of your existing share menu styles ... */
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 15px;
+  display: none;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 90%;
+  max-width: 300px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  z-index: 20;
+}
+
+.share-menu.active {
+  display: flex;
+  animation: fadeInUp 0.3s ease;
+}
+
+.share-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  width: 60px;
+}
+
+.share-option:hover {
+  transform: scale(1.1);
+}
+
+.share-option i {
+  font-size: 24px;
+  margin-bottom: 5px;
+}
+
+.share-option span {
+  font-size: 12px;
+  color: white;
+}
+
+/* Like Message */
+.like-message {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.like-message.show {
+  opacity: 1;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 10px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
 }
 
 /* Adjust no-activity position */
 .no-activity {
   position: absolute;
-  bottom: 120px; /* Adjusted to account for higher interaction container */
+  bottom: 80px; /* Adjusted to account for interaction container */
   left: 0;
   right: 0;
   display: flex;
