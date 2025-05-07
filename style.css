@@ -261,12 +261,12 @@ body::before {
 
 
 
-/* Enhanced Like Button Styles */
+/* Enhanced Like Button Styles - Compact Version */
 .interaction-container {
   width: 100%;
   display: flex;
   justify-content: center;
-  padding: 20px 0;
+  padding: 15px 0 25px 0; /* Added more bottom padding to position lower */
 }
 
 .buttons-row {
@@ -280,20 +280,21 @@ body::before {
   flex-direction: column;
   align-items: center;
   position: relative;
+  margin-top: 10px; /* Pushes the button down slightly */
 }
 
 .like-button {
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 50%;
-  width: 70px;
-  height: 70px;
+  width: 50px; /* Smaller size */
+  height: 50px; /* Smaller size */
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   position: relative;
   overflow: visible;
   backdrop-filter: blur(5px);
@@ -305,63 +306,64 @@ body::before {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255,51,102,0.2) 0%, rgba(255,255,255,0) 70%);
+  background: radial-gradient(circle, rgba(255,51,102,0.3) 0%, rgba(255,255,255,0) 70%);
   opacity: 0;
   transform: scale(0.8);
-  transition: all 0.4s ease;
+  transition: all 0.3s ease;
 }
 
 .like-button:hover {
-  transform: scale(1.1);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+  transform: scale(1.08) translateY(-2px); /* More subtle hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
   background: rgba(255, 255, 255, 0.15);
 }
 
 .like-button:hover::before {
-  opacity: 1;
-  transform: scale(1.5);
+  opacity: 0.8;
+  transform: scale(1.3);
 }
 
 .like-button:active {
-  transform: scale(0.9);
+  transform: scale(0.95);
 }
 
 .like-button i {
-  font-size: 32px;
+  font-size: 24px; /* Smaller icon */
   color: #ffffff;
-  transition: all 0.3s ease;
+  transition: all 0.25s ease;
   z-index: 2;
 }
 
 .liked .like-button {
-  background: rgba(255, 51, 102, 0.2);
+  background: rgba(255, 51, 102, 0.25);
 }
 
 .liked .like-button i {
   color: #ff3366;
-  filter: drop-shadow(0 0 5px rgba(255, 51, 102, 0.5));
+  filter: drop-shadow(0 0 4px rgba(255, 51, 102, 0.6));
 }
 
 .like-count {
-  margin-top: 15px;
-  font-size: 18px;
+  margin-top: 12px;
+  font-size: 16px;
   font-weight: 600;
   color: white;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  transition: all 0.3s ease;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  transition: all 0.25s ease;
 }
 
 .liked .like-count {
-  transform: scale(1.1);
+  transform: scale(1.05);
+  color: #ffccd5;
 }
 
 .like-message {
-  margin-top: 8px;
-  font-size: 15px;
+  margin-top: 6px;
+  font-size: 13px;
   color: rgba(255, 255, 255, 0.8);
-  transition: all 0.5s ease;
+  transition: all 0.4s ease;
   opacity: 0;
-  transform: translateY(10px);
+  transform: translateY(8px);
 }
 
 .show-message {
@@ -372,63 +374,73 @@ body::before {
 /* Enhanced Heart Animation */
 @keyframes heartbeat {
   0% { transform: scale(1); }
-  15% { transform: scale(1.3); }
-  30% { transform: scale(1); }
-  45% { transform: scale(1.3); }
+  15% { transform: scale(1.2); }
+  30% { transform: scale(0.95); }
+  45% { transform: scale(1.15); }
   60% { transform: scale(1); }
-  75% { transform: scale(1.1); }
   100% { transform: scale(1); }
 }
 
 .heartbeat {
-  animation: heartbeat 0.8s cubic-bezier(0.215, 0.61, 0.355, 1);
+  animation: heartbeat 0.7s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
 /* Enhanced Confetti Animation */
 .confetti-particle {
   position: absolute;
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
+  background: #ff3366;
+  border-radius: 50%;
   pointer-events: none;
-  animation: confetti-fall 1.2s cubic-bezier(0.36, 0.07, 0.19, 0.97) forwards;
+  opacity: 0;
+  animation: confetti-fall 1.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) forwards;
 }
 
 @keyframes confetti-fall {
   0% { 
-    transform: translateY(0) rotate(0deg); 
+    transform: translateY(0) rotate(0deg) scale(0.5);
     opacity: 1;
   }
+  80% {
+    opacity: 0.8;
+  }
   100% { 
-    transform: translateY(60px) rotate(360deg); 
+    transform: translateY(80px) rotate(360deg) scale(1);
     opacity: 0;
   }
 }
 
-/* Ring animation when liked */
+/* Refined Ring animation */
 @keyframes like-ring {
   0% {
-    box-shadow: 0 0 0 0 rgba(255, 51, 102, 0.4);
+    box-shadow: 0 0 0 0 rgba(255, 51, 102, 0.5);
   }
-  70% {
-    box-shadow: 0 0 0 20px rgba(255, 51, 102, 0);
+  50% {
+    box-shadow: 0 0 0 12px rgba(255, 51, 102, 0.2);
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(255, 51, 102, 0);
+    box-shadow: 0 0 0 20px rgba(255, 51, 102, 0);
   }
 }
 
 .liked .like-button {
-  animation: like-ring 1s ease-out;
+  animation: like-ring 0.8s ease-out;
 }
 
 /* Floating hearts animation */
 @keyframes float-up {
   0% {
-    transform: translateY(0) scale(0.5);
-    opacity: 0.8;
+    transform: translateY(0) scale(0.6);
+    opacity: 0.9;
+    text-shadow: 0 0 8px rgba(255, 51, 102, 0.8);
+  }
+  50% {
+    opacity: 1;
+    text-shadow: 0 0 12px rgba(255, 51, 102, 1);
   }
   100% {
-    transform: translateY(-80px) scale(0);
+    transform: translateY(-100px) scale(1.2);
     opacity: 0;
   }
 }
@@ -436,66 +448,20 @@ body::before {
 .floating-heart {
   position: absolute;
   color: #ff3366;
-  font-size: 16px;
+  font-size: 14px;
   pointer-events: none;
   z-index: 10;
-  animation: float-up 2s ease-out forwards;
+  animation: float-up 1.8s ease-out forwards;
+  will-change: transform, opacity;
 }
 
-/* Add the JavaScript to create floating hearts effect */
-/* 
-// Add this to your JavaScript file
-document.getElementById('like-button').addEventListener('click', function() {
-  const likeWrapper = document.getElementById('like-button-wrapper');
-  likeWrapper.classList.toggle('liked');
-  
-  // Add heartbeat animation
-  const heartIcon = this.querySelector('i');
-  heartIcon.classList.add('heartbeat');
-  setTimeout(() => heartIcon.classList.remove('heartbeat'), 1000);
-  
-  // Show thank you message
-  const likeMessage = document.getElementById('like-message');
-  likeMessage.classList.add('show-message');
-  setTimeout(() => likeMessage.classList.remove('show-message'), 3000);
-  
-  // Create floating hearts
-  createFloatingHearts();
-  
-  // Create confetti effect
-  createConfetti();
-});
-
-function createFloatingHearts() {
-  const likeButton = document.getElementById('like-button');
-  const buttonRect = likeButton.getBoundingClientRect();
-  
-  for (let i = 0; i < 5; i++) {
-    const heart = document.createElement('i');
-    heart.classList.add('fas', 'fa-heart', 'floating-heart');
-    heart.style.left = `${Math.random() * 60 + 20}%`;
-    heart.style.animationDelay = `${Math.random() * 0.5}s`;
-    document.getElementById('like-button-wrapper').appendChild(heart);
-    
-    setTimeout(() => heart.remove(), 2000);
-  }
+/* Added subtle pulse effect for the wrapper */
+@keyframes subtle-pulse {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+  100% { transform: translateY(0); }
 }
 
-function createConfetti() {
-  const colors = ['#ff3366', '#ff6b81', '#ff9eb1', '#ffffff', '#ffd3d3'];
-  const likeButton = document.getElementById('like-button');
-  const buttonRect = likeButton.getBoundingClientRect();
-  
-  for (let i = 0; i < 15; i++) {
-    const confetti = document.createElement('div');
-    confetti.classList.add('confetti-particle');
-    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-    confetti.style.left = `${Math.random() * 80 + 10}%`;
-    confetti.style.top = '15px';
-    confetti.style.animationDuration = `${Math.random() * 1 + 1}s`;
-    document.getElementById('like-button-wrapper').appendChild(confetti);
-    
-    setTimeout(() => confetti.remove(), 2000);
-  }
+.liked .like-button-wrapper {
+  animation: subtle-pulse 1s ease;
 }
-*/
