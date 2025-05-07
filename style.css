@@ -1,4 +1,3 @@
-
 /* Global Styles */
 * {
   margin: 0;
@@ -34,7 +33,6 @@ body::before {
   backdrop-filter: blur(2px);
 }
 
-
 /* Main Container */
 .profile-container {
   width: 100%;
@@ -61,7 +59,6 @@ body::before {
   height: 140px;
   border-radius: 10%;
   object-fit: cover;
-
 }
 
 .profile-name {
@@ -71,9 +68,6 @@ body::before {
   margin-left: 8px;
   color: white;
 }
-
-
-
 
 .profile-stats {
   display: flex;
@@ -95,14 +89,6 @@ body::before {
   vertical-align: middle;
   opacity: 0.7;
 }
-
-
-
-
-
-
-
-/* Social Media Container */
 
 /* Spotify Widget */
 .spotify-container {
@@ -140,18 +126,6 @@ body::before {
   to { opacity: 0; transform: translate(-50%, -20px); }
 }
 
-/* Media Queries */
-@media (max-width: 480px) {
-  .profile-name {
-    font-size: 28px;
-  }
-
-  .profile-image {
-    width: 120px;
-    height: 120px;
-  }
-
-}
 /* Bio Section Styles */
 .profile-bio {
   color: rgba(255, 255, 255, 0.85);
@@ -174,6 +148,7 @@ body::before {
   background: rgba(255, 255, 255, 0.3);
   margin-top: 10px;
 }
+
 .no-activity {
   position: absolute;
   bottom: 0;
@@ -187,19 +162,6 @@ body::before {
   color: rgba(255, 255, 255, 1);
   text-align: center;
   padding-bottom: 20px; /* Optional: Add some space from the bottom */
-}
-
-/* Adjust the stats container to account for the bio */
-.profile-stats {
-  margin-top: 5px; /* Reduced from 8px to account for bio spacing */
-}
-
-/* Responsive adjustments */
-@media (max-width: 480px) {
-  .profile-bio {
-    font-size: 14px;
-    max-width: 90%;
-  }
 }
 
 /* Single Social Icon Animation - Bigger Version */
@@ -242,8 +204,202 @@ body::before {
   box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
 }
 
-/* Mobile adjustments */
+/* Enhanced Like Button Styles */
+.like-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 0;
+  position: relative;
+}
+
+.like-button {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: visible;
+  backdrop-filter: blur(5px);
+}
+
+.like-button::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,51,102,0.2) 0%, rgba(255,255,255,0) 70%);
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.4s ease;
+}
+
+.like-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.like-button:hover::before {
+  opacity: 1;
+  transform: scale(1.5);
+}
+
+.like-button:active {
+  transform: scale(0.9);
+}
+
+.like-button i {
+  font-size: 32px;
+  color: #ffffff;
+  transition: all 0.3s ease;
+  z-index: 2;
+}
+
+.liked .like-button {
+  background: rgba(255, 51, 102, 0.2);
+}
+
+.liked .like-button i {
+  color: #ff3366;
+  filter: drop-shadow(0 0 5px rgba(255, 51, 102, 0.5));
+}
+
+.like-count {
+  margin-top: 15px;
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.liked .like-count {
+  transform: scale(1.1);
+}
+
+.like-message {
+  margin-top: 8px;
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.8);
+  transition: all 0.5s ease;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.show-message {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Enhanced Heart Animation */
+@keyframes heartbeat {
+  0% { transform: scale(1); }
+  15% { transform: scale(1.3); }
+  30% { transform: scale(1); }
+  45% { transform: scale(1.3); }
+  60% { transform: scale(1); }
+  75% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.heartbeat {
+  animation: heartbeat 0.8s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+/* Enhanced Confetti Animation */
+.heart-confetti {
+  position: absolute;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes confetti-fall {
+  0% { 
+    transform: translateY(0) rotate(0deg); 
+    opacity: 1;
+  }
+  100% { 
+    transform: translateY(60px) rotate(360deg); 
+    opacity: 0;
+  }
+}
+
+/* Create different colored confetti particles */
+.confetti-particle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  pointer-events: none;
+  animation: confetti-fall 1.2s cubic-bezier(0.36, 0.07, 0.19, 0.97) forwards;
+}
+
+/* Ring animation when liked */
+@keyframes like-ring {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 51, 102, 0.4);
+    transform: scale(1);
+  }
+  70% {
+    box-shadow: 0 0 0 20px rgba(255, 51, 102, 0);
+    transform: scale(1);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 51, 102, 0);
+    transform: scale(1);
+  }
+}
+
+.liked .like-button {
+  animation: like-ring 1s ease-out;
+}
+
+/* Floating hearts animation */
+@keyframes float-up {
+  0% {
+    transform: translateY(0) scale(0.5);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-80px) scale(1);
+    opacity: 0;
+  }
+}
+
+.heart-float {
+  position: absolute;
+  color: #ff3366;
+  font-size: 16px;
+  pointer-events: none;
+  animation: float-up 1.5s ease-out forwards;
+}
+
+/* Media Queries */
 @media (max-width: 480px) {
+  .profile-name {
+    font-size: 28px;
+  }
+
+  .profile-image {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .profile-bio {
+    font-size: 14px;
+    max-width: 90%;
+  }
+  
   .social-container {
     right: 30px;
     width: 70px; 
@@ -257,107 +413,13 @@ body::before {
     height: 50px; /* Increased from 35px */
     font-size: 20px; /* Increased from 46px (fixed typo) */
   }
+  
+  .like-button {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .like-button i {
+    font-size: 28px;
+  }
 }
-
-
-
-
-/* Like button styles */
-    .like-container {
-      margin-top: 20px;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 10px;
-    }
-
-    .like-button {
-      background: rgba(255, 255, 255, 0.1);
-      border: none;
-      border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .like-button:hover {
-      transform: scale(1.05);
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    }
-
-    .like-button:active {
-      transform: scale(0.95);
-    }
-
-    .like-button i {
-      font-size: 28px;
-      color: #ffffff;
-      transition: all 0.3s ease;
-    }
-
-    .liked .like-button i {
-      color: #ff3366;
-    }
-
-    .like-count {
-      margin-top: 10px;
-      font-size: 16px;
-      font-weight: 600;
-      color: white;
-      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-    }
-
-    .like-message {
-      margin-top: 5px;
-      font-size: 14px;
-      color: rgba(255, 255, 255, 0.8);
-      transition: opacity 0.5s ease;
-      opacity: 0;
-    }
-
-    .show-message {
-      opacity: 1;
-    }
-
-    /* Heart animation */
-    @keyframes heartbeat {
-      0% { transform: scale(1); }
-      25% { transform: scale(1.2); }
-      50% { transform: scale(1); }
-      75% { transform: scale(1.2); }
-      100% { transform: scale(1); }
-    }
-
-    .heartbeat {
-      animation: heartbeat 0.5s ease-in-out;
-    }
-
-    /* Confetti animation for heart */
-    .heart-confetti {
-      position: absolute;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      pointer-events: none;
-    }
-
-    @keyframes confetti-fall {
-      0% { 
-        transform: translateY(0) rotate(0deg); 
-        opacity: 1;
-      }
-      100% { 
-        transform: translateY(40px) rotate(360deg); 
-        opacity: 0;
-      }
-    }
-
-
