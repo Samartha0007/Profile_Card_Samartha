@@ -261,24 +261,24 @@ body::before {
 
 
 
-/* Bottom-aligned Like Button Styles */
+/* Simplified Cool Like Button Styles */
 .interaction-container {
   width: 100%;
   display: flex;
   justify-content: center;
-  position: fixed; /* Makes it stay at bottom */
-  bottom: 0; /* Anchors to bottom */
+  position: fixed;
+  bottom: 0;
   left: 0;
   padding: 15px 0;
-  z-index: 1000; /* Ensures it stays above other content */
-  background: linear-gradient(to top, rgba(0,0,0,0.3) 0%, transparent 100%); /* Optional subtle gradient */
+  z-index: 1000;
+  background: linear-gradient(to top, rgba(0,0,0,0.3) 0%, transparent 100%);
 }
 
 .buttons-row {
   display: flex;
   justify-content: center;
   width: 100%;
-  padding-bottom: env(safe-area-inset-bottom); /* For mobile devices */
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 .like-button-wrapper {
@@ -286,11 +286,11 @@ body::before {
   flex-direction: column;
   align-items: center;
   position: relative;
-  margin-bottom: 10px; /* Extra space from bottom */
+  margin-bottom: 10px;
 }
 
 .like-button {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.15);
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
   width: 56px;
@@ -300,12 +300,12 @@ body::before {
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.1);
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2); /* Shadow at top */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   position: relative;
-  overflow: visible;
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(5px);
 }
 
+/* Glow effect */
 .like-button::before {
   content: '';
   position: absolute;
@@ -319,18 +319,18 @@ body::before {
 }
 
 .like-button:hover {
-  transform: scale(1.1) translateY(-4px);
-  box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.3);
+  transform: scale(1.1) translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   background: rgba(255, 255, 255, 0.2);
 }
 
 .like-button:hover::before {
-  opacity: 0.9;
-  transform: scale(1.4);
+  opacity: 0.8;
+  transform: scale(1.5);
 }
 
 .like-button:active {
-  transform: scale(0.95) translateY(0);
+  transform: scale(0.95);
 }
 
 .like-button i {
@@ -342,6 +342,7 @@ body::before {
 
 .liked .like-button {
   background: rgba(255, 51, 102, 0.3);
+  border-color: rgba(255, 51, 102, 0.6);
 }
 
 .liked .like-button i {
@@ -377,47 +378,23 @@ body::before {
   transform: translateY(0);
 }
 
-/* Enhanced Heart Animation */
+/* Simple Heartbeat Animation */
 @keyframes heartbeat {
   0% { transform: scale(1); }
-  20% { transform: scale(1.15); }
-  40% { transform: scale(0.95); }
-  60% { transform: scale(1.1); }
-  80% { transform: scale(0.98); }
+  25% { transform: scale(1.2); }
+  50% { transform: scale(0.95); }
+  75% { transform: scale(1.1); }
   100% { transform: scale(1); }
 }
 
-.heartbeat {
-  animation: heartbeat 0.8s cubic-bezier(0.215, 0.61, 0.355, 1);
+.liked .like-button i {
+  animation: heartbeat 0.8s ease-in-out;
 }
 
-/* Confetti Animation (now floats upward) */
-.confetti-particle {
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  background: #ff3366;
-  border-radius: 50%;
-  pointer-events: none;
-  opacity: 0;
-  animation: confetti-float 1.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) forwards;
-}
-
-@keyframes confetti-float {
-  0% { 
-    transform: translateY(0) rotate(0deg) scale(0.6);
-    opacity: 1;
-  }
-  100% { 
-    transform: translateY(-100px) rotate(360deg) scale(1);
-    opacity: 0;
-  }
-}
-
-/* Ring animation when liked */
-@keyframes like-ring {
+/* Pulse ring animation when liked */
+@keyframes pulse-ring {
   0% {
-    box-shadow: 0 0 0 0 rgba(255, 51, 102, 0.6);
+    box-shadow: 0 0 0 0 rgba(255, 51, 102, 0.7);
   }
   70% {
     box-shadow: 0 0 0 15px rgba(255, 51, 102, 0);
@@ -428,22 +405,17 @@ body::before {
 }
 
 .liked .like-button {
-  animation: like-ring 0.9s ease-out;
+  animation: pulse-ring 1.2s ease-out;
 }
 
-/* Floating hearts animation (now floats up more) */
+/* Simple floating hearts */
 @keyframes float-up {
   0% {
     transform: translateY(0) scale(0.7);
     opacity: 0.8;
-    text-shadow: 0 0 5px rgba(255, 51, 102, 0.8);
-  }
-  50% {
-    opacity: 1;
-    text-shadow: 0 0 15px rgba(255, 51, 102, 1);
   }
   100% {
-    transform: translateY(-120px) scale(1.3);
+    transform: translateY(-80px) scale(1.2);
     opacity: 0;
   }
 }
@@ -454,17 +426,7 @@ body::before {
   font-size: 16px;
   pointer-events: none;
   z-index: 10;
-  animation: float-up 2s ease-out forwards;
-}
-
-/* Subtle bounce effect for the wrapper */
-@keyframes subtle-bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
-.liked .like-button-wrapper {
-  animation: subtle-bounce 0.8s ease;
+  animation: float-up 1.5s ease-out forwards;
 }
 
 /* Mobile optimization */
@@ -477,3 +439,58 @@ body::before {
     font-size: 24px;
   }
 }
+
+/* Simple JS for the animation (add to your JS file) */
+/*
+document.addEventListener('DOMContentLoaded', function() {
+  const likeButton = document.querySelector('.like-button');
+  const likeWrapper = document.querySelector('.like-button-wrapper');
+  const likeCount = document.querySelector('.like-count');
+  const likeMessage = document.querySelector('.like-message');
+  let isLiked = false;
+  let count = parseInt(likeCount.textContent) || 0;
+  
+  likeButton.addEventListener('click', function() {
+    if (!isLiked) {
+      // Like state
+      likeWrapper.classList.add('liked');
+      count++;
+      likeCount.textContent = count;
+      likeMessage.textContent = "Thanks for your like!";
+      likeMessage.classList.add('show-message');
+      isLiked = true;
+      
+      // Create floating hearts
+      createFloatingHearts();
+      
+      // Hide message after a while
+      setTimeout(() => {
+        likeMessage.classList.remove('show-message');
+      }, 2000);
+    } else {
+      // Unlike state
+      likeWrapper.classList.remove('liked');
+      count--;
+      likeCount.textContent = count;
+      isLiked = false;
+    }
+  });
+  
+  function createFloatingHearts() {
+    for (let i = 0; i < 5; i++) {
+      const heart = document.createElement('div');
+      heart.className = 'floating-heart';
+      heart.innerHTML = '♥';
+      heart.style.left = (Math.random() * 60 + 20) + '%';
+      heart.style.animationDelay = (Math.random() * 0.2) + 's';
+      
+      likeWrapper.appendChild(heart);
+      
+      // Remove hearts after animation
+      setTimeout(() => {
+        heart.remove();
+      }, 1600);
+    }
+  }
+});
+*/
