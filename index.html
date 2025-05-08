@@ -3,18 +3,61 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Dynamic meta tags -->
-  <title id="dynamic-title">Samarth</title>
+  
+  <!-- Fixed Meta Tags for Rich Results -->
+  <title>Mywebsam - Create and Share Your Personalized Profile Page</title>
+  
+  <!-- Primary Meta Tags -->
+  <meta name="title" content="Mywebsam - Create and Share Your Personalized Profile Page">
+  <meta name="description" content="Create and share your personalized profile page with all your social links in one place. Connect Instagram, Twitter, LinkedIn, and more social profiles in a single shareable page.">
+  <meta name="keywords" content="profile links, bio links, social media hub, link in bio, personal page, mywebsam">
+  <meta name="author" content="Samartha GS">
+  
+  <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
-  <meta property="og:title" id="og-title" content="Profile Links">
-  <meta property="og:image" id="og-image" content="https://i.ibb.co/sKbrkyn/Yellow-and-Grey-Pastel-Grunge-Designer-Brand-Logo-20241009-185202-0000.png">
-  <meta property="og:url" id="og-url" content="">
-  <meta property="og:description" id="og-description" content="Create and share your profile links">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" id="twitter-title" content="Profile Links">
-  <meta name="twitter:image" id="twitter-image" content="https://i.ibb.co/sKbrkyn/Yellow-and-Grey-Pastel-Grunge-Designer-Brand-Logo-20241009-185202-0000.png">
-  <meta name="twitter:description" id="twitter-description" content="Create and share your profile links">
-  <link rel="icon" id="favicon" type="image/png" href="https://i.ibb.co/sKbrkyn/Yellow-and-Grey-Pastel-Grunge-Designer-Brand-Logo-20241009-185202-0000.png">
+  <meta property="og:url" content="https://mywebsam.site/">
+  <meta property="og:title" content="Mywebsam - All Your Social Profiles in One Place">
+  <meta property="og:description" content="Create your personalized profile page with all your social media links, bio, and more. Share one link to connect people with all your online presence.">
+  <meta property="og:image" content="https://mywebsam.site/about.jpg">
+  <meta property="og:site_name" content="Mywebsam">
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://mywebsam.site/">
+  <meta property="twitter:title" content="Mywebsam - Your Digital Identity in One Link">
+  <meta property="twitter:description" content="Share all your social media profiles with just one link. Create your personalized profile page today with Mywebsam.">
+  <meta property="twitter:image" content="https://mywebsam.site/abot.jpg">
+  
+  <!-- Structured Data for Rich Results -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Mywebsam",
+    "url": "https://mywebsam.site",
+    "description": "Create and share your personalized profile page with all your social links in one place",
+    "applicationCategory": "SocialNetworking",
+    "offers": {
+      "@type": "Offer",
+      "price": "0"
+    },
+    "screenshot": "https://mywebsam.site/about.jpg",
+    "featureList": "Personal Profile, Social Links, Spotify Integration",
+    "operatingSystem": "All",
+    "author": {
+      "@type": "Person",
+      "name": "Samartha GS",
+      "url": "https://samarthags.in"
+    }
+  }
+  </script>
+  
+  <!-- Individual Profile Structured Data (Will be updated by JavaScript) -->
+  <script type="application/ld+json" id="profile-schema"></script>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="https://mywebsam.site/about.jpg">
+  
   <!-- Fonts & Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
@@ -44,18 +87,15 @@
     </div>
 
     <div class="interaction-container">
-  <div class="buttons-row">
-    <div class="like-button-wrapper" id="like-button-wrapper">
-      <div class="like-button" id="like-button">
-        <i class="fas fa-heart"></i>
+      <div class="buttons-row">
+        <div class="like-button-wrapper" id="like-button-wrapper">
+          <div class="like-button" id="like-button">
+            <i class="fas fa-heart"></i>
+          </div>
+          <div class="like-count" id="like-count">Counting</div>
+          <div class="like-message" id="like-message">Thanks for the love!</div>
+        </div>
       </div>
-      <div class="like-count" id="like-count">Counting</div>
-      <div class="like-message" id="like-message">Thanks for the love!</div>
-    </div>
-  </div>
-</div>
-
-      
     </div>
   </div>
 
@@ -95,7 +135,6 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
     import { getFirestore, collection, getDocs, query, where, doc, updateDoc, getDoc, setDoc, increment } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
 
-    // Removed fromShare parameter check
     const urlParams = new URLSearchParams(window.location.search);
 
     const firebaseConfig = {
@@ -137,7 +176,7 @@
           const profileImage = profile.imageUrl || "https://i.ibb.co/sKbrkyn/Yellow-and-Grey-Pastel-Grunge-Designer-Brand-Logo-20241009-185202-0000.png";
           const currentUrl = window.location.href;
 
-          updateMetaTags(profileName, profileBio, profileImage, currentUrl);
+          updateProfileSEO(profileName, profileBio, profileImage, currentUrl);
 
           document.getElementById("profile-name").innerText = profileName;
           document.getElementById("profile-bio").innerText = profileBio;
@@ -196,16 +235,61 @@
       }
     }
 
-    function updateMetaTags(name, bio, image, url) {
-      document.title = `${name}'s Profile`;
-      document.getElementById("og-title").content = `${name}`;
-      document.getElementById("twitter-title").content = `${name}`;
-      document.getElementById("og-description").content = bio;
-      document.getElementById("twitter-description").content = bio;
-      document.getElementById("og-image").content = image;
-      document.getElementById("twitter-image").content = image;
-      document.getElementById("og-url").content = url;
-      document.getElementById("favicon").href = image;
+    function updateProfileSEO(name, bio, image, url) {
+      // Update page title
+      document.title = `${name} | Mywebsam`;
+      
+      // Update meta tags
+      const metaTags = {
+        "title": `${name}'s Profile | Mywebsam`,
+        "description": bio,
+        "og:title": `${name}'s Profile | Mywebsam`,
+        "og:description": bio,
+        "og:image": image,
+        "og:url": url,
+        "twitter:title": `${name}'s Profile | Mywebsam`,
+        "twitter:description": bio,
+        "twitter:image": image
+      };
+      
+      // Update each meta tag
+      Object.entries(metaTags).forEach(([key, value]) => {
+        // Try to find the meta tag
+        let metaTag = document.querySelector(`meta[name="${key}"]`);
+        if (!metaTag) {
+          metaTag = document.querySelector(`meta[property="${key}"]`);
+        }
+        
+        // Update if found, otherwise create new
+        if (metaTag) {
+          if (metaTag.hasAttribute('name')) {
+            metaTag.setAttribute('content', value);
+          } else {
+            metaTag.setAttribute('content', value);
+          }
+        }
+      });
+      
+      // Update structured data for the individual profile
+      const profileSchema = {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": name,
+        "description": bio,
+        "image": image,
+        "url": url
+      };
+      
+      // Create list of social profiles for schema
+      const socialProfiles = document.querySelectorAll('.social-icons a');
+      if (socialProfiles.length > 0) {
+        profileSchema.sameAs = [];
+        socialProfiles.forEach(profile => {
+          profileSchema.sameAs.push(profile.href);
+        });
+      }
+      
+      document.getElementById("profile-schema").textContent = JSON.stringify(profileSchema);
     }
 
     function updateSocialLinks(profile) {
@@ -224,7 +308,7 @@
       let socialHTML = "";
       Object.entries(socialPlatforms).forEach(([platform, url]) => {
         if (profile[platform]) {
-          socialHTML += `<a href="${url}" target="_blank"><i class="fab fa-${platform}"></i></a>`;
+          socialHTML += `<a href="${url}" target="_blank" rel="noopener" aria-label="${platform}"><i class="fab fa-${platform}"></i></a>`;
         }
       });
       document.getElementById("social-icons").innerHTML = socialHTML;
