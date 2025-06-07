@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Google Login + Chatbot + Firebase</title>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    textarea {
+      width: 80%;
+      height: 100px;
+      margin-top: 10px;
+    }
+    img {
+      border-radius: 50%;
+      margin-top: 10px;
+    }
+    .chat {
+      text-align: left;
+      max-width: 500px;
+      margin: 20px auto;
+      background-color: #f4f4f4;
+      padding: 10px;
+      border-radius: 8px;
+    }
+    .chat p {
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Google Login + Chatbot + Firebase</h1>
+
+  <div id="login-section">
+    <button onclick="login()">Login with Google</button>
+  </div>
+
+  <div id="user-section" style="display:none;">
+    <img id="user-pic" src="" width="80" alt="Profile Picture" />
+    <h2 id="user-name"></h2>
+    <button onclick="logout()">Logout</button>
+
+    <h3>Your Chats:</h3>
+    <div id="chat-box" class="chat"></div>
+
+    <textarea id="chat-input" placeholder="Type your message here..."></textarea><br/>
+    <button onclick="sendMessage()">Send</button>
+  </div>
+
+  <script>
+    // Your Firebase config here 👇
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        document.getElementById('login-section').style.display = 'none';
+        document.getElementById('user-section').style.display = 'block';
+        document.getElementById('user-name').innerText = user.displayName;
+        document.getElementById('user-pic').src = user.photoURL;
+        loadChats(user.uid);
+      } else {
+        document.getElementById('login-section').style.display = 'block';
+        document.getElementById('user-section').style.display = 'none';
+      }
+    });
+
+    function login() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      auth.signInWithPopup(provider).catch(error => {
+        alert(error.message);
+      });
+    }
+
+    function logout() {
+      auth.signOut();
+    }
+
+    async function sendMessage() {
+      const user = auth.currentUser;
+      const message = document.getElementById('chat-input').value.trim();
+      if (!message) return;
+
+      await db.collection('chats').add({
+        userId: user.uid,
+        message: message,
+        timestamp: firebase.firestore.Timestamp.fromDate(new Date()),
+        name: user.displayName,
+        photoURL: user.photoURL
+      });
+
+      document.getElementById('chat-input').value = '';
+      loadChats(user.uid);
+    }
+
+    async function loadChats(uid) {
+      const chatBox = document.getElementById('chat-box');
+      chatBox.innerHTML = '';
+
+      const snapshot = await db.collection('chats')
+        .where('userId', '==', uid)
+        .orderBy('timestamp', 'asc')
+        .get();
+
+      snapshot.forEach(doc => {
+        const chat = doc.data();
+        const date = chat.timestamp.toDate().toLocaleString();
+        const chatEntry = `
+          <p><strong>${chat.name}</strong> (${date}):</p>
+          <p>${chat.message}</p>
+          <hr/>
+        `;
+        chatBox.innerHTML += chatEntry;
+      });
+    }
+  </script>
+
+</body>
+</html>
