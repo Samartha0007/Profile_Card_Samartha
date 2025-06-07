@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Google Login + Chatbot + Firebase</title>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Chatbot - Google Login + Firebase</title>
   <style>
     body {
       font-family: Arial, sans-serif;
+      background: #f9f9f9;
       text-align: center;
       padding: 20px;
     }
@@ -19,11 +18,17 @@
       color: white;
       border: none;
       cursor: pointer;
+      border-radius: 5px;
+    }
+    button:hover {
+      background-color: #45a049;
     }
     textarea {
-      width: 80%;
+      width: 90%;
       height: 100px;
       margin-top: 10px;
+      padding: 10px;
+      font-size: 1em;
     }
     img {
       border-radius: 50%;
@@ -33,109 +38,144 @@
       text-align: left;
       max-width: 500px;
       margin: 20px auto;
-      background-color: #f4f4f4;
-      padding: 10px;
+      background-color: #fff;
+      padding: 15px;
       border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     }
     .chat p {
       margin: 5px 0;
+    }
+    hr {
+      border: 0;
+      border-top: 1px solid #ddd;
+      margin: 10px 0;
     }
   </style>
 </head>
 <body>
 
-  <h1>Google Login + Chatbot + Firebase</h1>
+  <h1>AI Chatbot (Google Login + Firebase)</h1>
 
   <div id="login-section">
-    <button onclick="login()">Login with Google</button>
+    <button id="login-btn">Login with Google</button>
   </div>
 
   <div id="user-section" style="display:none;">
     <img id="user-pic" src="" width="80" alt="Profile Picture" />
     <h2 id="user-name"></h2>
-    <button onclick="logout()">Logout</button>
+    <button id="logout-btn">Logout</button>
 
     <h3>Your Chats:</h3>
-    <div id="chat-box" class="chat"></div>
+    <div id="chat-box" class="chat">Loading chats...</div>
 
     <textarea id="chat-input" placeholder="Type your message here..."></textarea><br/>
-    <button onclick="sendMessage()">Send</button>
+    <button id="send-btn">Send</button>
   </div>
 
-  <script>
-    // Your Firebase config here 👇
+  <script type="module">
+    // Import Firebase SDK
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-app.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-auth.js";
+    import { getFirestore, collection, addDoc, query, where, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-firestore.js";
+
+    // Your Firebase config
     const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_PROJECT_ID.appspot.com",
-      messagingSenderId: "YOUR_SENDER_ID",
-      appId: "YOUR_APP_ID"
+      apiKey: "AIzaSyD8L1mBcxy4foNTX4taY3S_QRk-lffI2fQ",
+      authDomain: "aisman-47ac0.firebaseapp.com",
+      projectId: "aisman-47ac0",
+      storageBucket: "aisman-47ac0.appspot.com",
+      messagingSenderId: "765235400848",
+      appId: "1:765235400848:web:527cb8ce8cfd1847f78815",
+      measurementId: "G-TKKW3LLKXS"
     };
 
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.firestore();
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
-    auth.onAuthStateChanged(user => {
-      if (user) {
-        document.getElementById('login-section').style.display = 'none';
-        document.getElementById('user-section').style.display = 'block';
-        document.getElementById('user-name').innerText = user.displayName;
-        document.getElementById('user-pic').src = user.photoURL;
-        loadChats(user.uid);
-      } else {
-        document.getElementById('login-section').style.display = 'block';
-        document.getElementById('user-section').style.display = 'none';
+    // DOM elements
+    const loginSection = document.getElementById('login-section');
+    const userSection = document.getElementById('user-section');
+    const userName = document.getElementById('user-name');
+    const userPic = document.getElementById('user-pic');
+    const chatBox = document.getElementById('chat-box');
+    const chatInput = document.getElementById('chat-input');
+
+    // Login button
+    document.getElementById('login-btn').addEventListener('click', async () => {
+      const provider = new GoogleAuthProvider();
+      try {
+        await signInWithPopup(auth, provider);
+      } catch (error) {
+        alert(error.message);
       }
     });
 
-    function login() {
-      const provider = new firebase.auth.GoogleAuthProvider();
-      auth.signInWithPopup(provider).catch(error => {
-        alert(error.message);
-      });
-    }
+    // Logout button
+    document.getElementById('logout-btn').addEventListener('click', async () => {
+      await signOut(auth);
+    });
 
-    function logout() {
-      auth.signOut();
-    }
-
-    async function sendMessage() {
+    // Send message button
+    document.getElementById('send-btn').addEventListener('click', async () => {
       const user = auth.currentUser;
-      const message = document.getElementById('chat-input').value.trim();
+      const message = chatInput.value.trim();
       if (!message) return;
 
-      await db.collection('chats').add({
+      await addDoc(collection(db, 'chats'), {
         userId: user.uid,
-        message: message,
-        timestamp: firebase.firestore.Timestamp.fromDate(new Date()),
         name: user.displayName,
-        photoURL: user.photoURL
+        photoURL: user.photoURL,
+        message: message,
+        timestamp: serverTimestamp()
       });
 
-      document.getElementById('chat-input').value = '';
-      loadChats(user.uid);
-    }
+      chatInput.value = '';
+    });
 
-    async function loadChats(uid) {
-      const chatBox = document.getElementById('chat-box');
-      chatBox.innerHTML = '';
+    // Auth state listener
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        loginSection.style.display = 'none';
+        userSection.style.display = 'block';
+        userName.innerText = user.displayName;
+        userPic.src = user.photoURL;
 
-      const snapshot = await db.collection('chats')
-        .where('userId', '==', uid)
-        .orderBy('timestamp', 'asc')
-        .get();
+        listenForChats(user.uid);
+      } else {
+        loginSection.style.display = 'block';
+        userSection.style.display = 'none';
+        chatBox.innerHTML = '';
+      }
+    });
 
-      snapshot.forEach(doc => {
-        const chat = doc.data();
-        const date = chat.timestamp.toDate().toLocaleString();
-        const chatEntry = `
-          <p><strong>${chat.name}</strong> (${date}):</p>
-          <p>${chat.message}</p>
-          <hr/>
-        `;
-        chatBox.innerHTML += chatEntry;
+    // Listen for chat changes (real-time updates)
+    function listenForChats(uid) {
+      chatBox.innerHTML = 'Loading chats...';
+      const q = query(
+        collection(db, 'chats'),
+        where('userId', '==', uid),
+        orderBy('timestamp', 'asc')
+      );
+
+      onSnapshot(q, snapshot => {
+        chatBox.innerHTML = '';
+        snapshot.forEach(doc => {
+          const chat = doc.data();
+          const date = chat.timestamp?.toDate()?.toLocaleString() || '(sending...)';
+          const chatEntry = `
+            <p><strong>${chat.name}</strong> (${date}):</p>
+            <p>${chat.message}</p>
+            <hr/>
+          `;
+          chatBox.innerHTML += chatEntry;
+        });
+
+        if (chatBox.innerHTML === '') {
+          chatBox.innerHTML = 'No chats yet.';
+        }
       });
     }
   </script>
