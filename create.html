@@ -3,518 +3,185 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Mywebsam - Create and Share Your Personalized Profile Page</title>
-  <link rel="icon" type="image/png" href="https://mywebsam.site/about.jpg">
-
-  <meta property="og:image" content="https://mywebsam.site/about.jpg">
-
+    <title>Mywebsam - Profile Manager</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-body {
-            font-family: 'Poppins', sans-serif;
-            background:white
-
-            color: #333;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 20px;
-            position: relative;
-            overflow-x: hidden;
-        }
-        .create-container {
-            background: white;
-            border-radius: 20px;
-            padding: 35px;
-            width: 100%;
-            max-width: 450px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-            animation: slideUp 0.6s ease-out;
-            position: relative;
-            z-index: 1;
-        }
-        .container-header {
-            margin-bottom: 30px;
-            text-align: center;
-        }
-        h2 {
-            color: #2c3e50;
-            font-weight: 600;
-            margin-bottom: 10px;
-            font-size: 28px;
-        }
-        .subtitle {
-            color: #7f8c8d;
-            font-size: 14px;
-            font-weight: 400;
-        }
-        .input-group {
-            position: relative;
-            margin-bottom: 25px;
-        }
-        .input-group label {
-            position: absolute;
-            left: 15px;
-            top: 17px;
-            color: #95a5a6;
-            pointer-events: none;
-            transition: 0.3s ease all;
-            font-size: 16px;
-        }
-        .input-group input:focus ~ label,
-        .input-group input:not(:placeholder-shown) ~ label,
-        .input-group textarea:focus ~ label,
-        .input-group textarea:not(:placeholder-shown) ~ label {
-            top: -12px;
-            left: 12px;
-            font-size: 12px;
-            background: white;
-            padding: 0 5px;
-            color: #4a90e2;
-        }
-        input, textarea {
-            width: 100%;
-            padding: 16px 20px;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            font-size: 16px;
-            background: white;
-            transition: all 0.3s ease;
-            color: #2c3e50;
-            font-family: 'Poppins', sans-serif;
-        }
-        input::placeholder, textarea::placeholder {
-            color: transparent;
-        }
-        input:focus, textarea:focus {
-            outline: none;
-            border-color: #4a90e2;
-            box-shadow: 0 0 0 4px rgba(74, 144, 226, 0.1);
-        }
-        textarea {
-            min-height: 100px;
-            resize: vertical;
-        }
-        .file-input-container {
-            position: relative;
-            width: 100%;
-            height: 120px;
-            border: 2px dashed #e0e0e0;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            cursor: pointer;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            margin-bottom: 25px;
-            background: #f9f9f9;
-        }
-        .file-input-container:hover {
-            border-color: #4a90e2;
-            background: #f0f8ff;
-        }
-        .file-input-container i {
-            font-size: 30px;
-            color: #95a5a6;
-            margin-bottom: 10px;
-            transition: all 0.3s ease;
-        }
-        .file-input-container:hover i {
-            color: #4a90e2;
-        }
-        .file-input-container span {
-            color: #7f8c8d;
-            font-size: 14px;
-        }
-        .file-input-container input {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            opacity: 0;
-            cursor: pointer;
-        }
-        .preview-container {
-            display: none;
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            overflow: hidden;
-            margin: 0 auto 10px;
-            border: 3px solid #4a90e2;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .preview-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        #createProfileBtn {
-            width: 100%;
-            padding: 16px;
-            background: #007bff;
-            color:white;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 10px;
-            box-shadow: 0 4px 15px rgba(230, 74, 25, 0.4);
-        }
-        #createProfileBtn:hover {
-            background:;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 18px rgba(230, 74, 25, 0.5);
-        }
-        #createProfileBtn:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 8px rgba(230, 74, 25, 0.4);
-        }
-        /* Background elements */
-        .bg-circle {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            z-index: 0;
-        }
-        .bg-circle-1 {
-            width: 300px;
-            height: 300px;
-            top: -150px;
-            left: -50px;
-        }
-        .bg-circle-2 {
-            width: 200px;
-            height: 200px;
-            bottom: -100px;
-            right: 50px;
-        }
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(5px);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            animation: fadeIn 0.3s ease;
-        }
-        .modal-content {
-            background: white;
-            padding: 35px 30px;
-            border-radius: 20px;
-            text-align: center;
-            width: 90%;
-            max-width: 400px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-            transform: scale(0.9);
-            animation: scaleIn 0.4s forwards;
-            position: relative;
-        }
-        .modal-title {
-            margin-bottom: 20px;
-            color: #2c3e50;
-            font-weight: 600;
-        }
-        .modal button {
-            width: 100%;
-            padding: 14px;
-            margin-top: 15px;
-            border: none;
-            border-radius: 10px;
-            font-weight: 500;
-            font-size: 15px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .btn-primary {
-            background: #4a90e2;
-            color: white;
-            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
-        }
-        .btn-primary:hover {
-            background: #357abd;
-            transform: translateY(-2px);
-        }
-        .btn-secondary {
-            background: #f5f7fa;
-            color: #7f8c8d;
-            border: 1px solid #e0e0e0;
-        }
-        .btn-secondary:hover {
-            background: #ecf0f1;
-        }
-        #loadingModal .loader {
-            width: 50px;
-            height: 50px;
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid #4a90e2;
-            border-radius: 50%;
-            margin: 20px auto;
-            animation: spin 1s linear infinite;
-        }
-        .success-icon {
-            font-size: 60px;
-            color: #2ecc71;
-            margin: 10px 0 20px;
-        }
-        .profile-url-container {
-            background: #f5f7fa;
-            padding: 12px 15px;
-            border-radius: 10px;
-            margin: 15px 0;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border: 1px solid #e0e0e0;
-        }
-        .profile-url-container p {
-            margin: 0;
-            font-weight: 500;
-            color: #2c3e50;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            max-width: 80%;
-        }
-        /* Footer */
-        .modal-footer {
-            margin-top: 25px;
-            font-size: 13px;
-            color: #95a5a6;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .modal-footer i {
-            color: #e74c3c;
-            margin: 0 3px;
-        }
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        @keyframes scaleIn {
-            from { transform: scale(0.9); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
-        @keyframes slideUp {
-            from { transform: translateY(30px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        /* Toast notification */
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #2c3e50;
-            color: white;
-            padding: 12px 25px;
-            border-radius: 50px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            font-size: 14px;
-            z-index: 1001;
-            display: none;
-            animation: fadeInUp 0.3s, fadeOut 0.3s 2.7s forwards;
-        }
-        @keyframes fadeInUp {
-            from { transform: translate(-50%, 20px); opacity: 0; }
-            to { transform: translate(-50%, 0); opacity: 1; }
-        }
-        @keyframes fadeOut {
-            from { opacity: 1; }
-            to { opacity: 0; }
-        }
-.input-group input,
-.input-group textarea {
-    font-family: inherit;
-    font-size: 16px;
-    color: #333;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    width: 100%;
-    background: transparent;
-    transition: 0.3s;
-    margin-bottom: 12px; /* Added gap */
-}
-
-/* Placeholder visibility */
-.input-group input::placeholder,
-.input-group textarea::placeholder {
-    color: #888;
-    opacity: 1;
-    font-size: 14px;
-}
-
-/* Spacing and visibility for Spotify */
-#spotify {
-    margin-top: 10px;
-}
-
-#spotify::placeholder {
-    color: #555;
-    font-size: 14px;
-}
-.main-footer {
-    text-align: center;
-    font-size: 12px;
-    color: #666;
-    margin-top: 30px;
-    padding: 15px 0;
-    background: #f9f9f9;
-    position: relative;
-    width: 100%;
-}
-.main-footer i {
-    color: red;
-}
-.main-footer a {
-    text-decoration: none;
-    color: #007bff;
-    transition: color 0.3s ease;
-}
-.main-footer a:hover {
-    color: black; /* Changes color on hover */
-}
-.footer-note {
-    font-size: 8px;
-    color: #888;
-    margin-top: 5px;
-}
-    </style>
 </head>
 <body>
-    <!-- Background circles -->
-    <div class="bg-circle bg-circle-1"></div>
-    <div class="bg-circle bg-circle-2"></div>
-
-    <div class="create-container">
-        <div class="container-header">
-            <h2>Your Profile</h2>
-            <p class="subtitle">Share your profile card with the world</p>
-        </div>
-
-        <div class="input-group">
-            <input type="text" id="name" placeholder=" " required>
-            <label for="name">Name</label>
-        </div>
-
-        <div class="input-group">
-            <input type="text" id="location" placeholder=" " required>
-            <label for="location">Your Location (City, Country)</label>
-        </div>
-
-        <div class="input-group">
-            <input type="date" id="birthday" placeholder=" " required>
-            <label for="birthday">Your Birthday</label>
-        </div>
-
-        <div class="preview-container" id="imagePreview">
-            <img id="previewImg" src="" alt="Preview">
-        </div>
-
-        <div class="file-input-container" id="fileInputContainer">
-            <i class="fas fa-cloud-upload-alt"></i>
-            <span>Upload profile picture</span>
-            <p id="fileName" style="margin-top:5px; font-size:12px;"></p>
-            <input type="file" id="profileImage" accept="image/*" required>
-        </div>
-
-        <div class="input-group">
-            <textarea id="bio" placeholder=" " required></textarea>
-            <label for="bio">Tell me about yourself Or your hobbies</label>
-        </div>
-
-        <div class="input-group">
-            <h3>Social Profiles (Optional)</h3>
-            <input type="text" id="instagram" placeholder="Instagram ID - If have">
-            <input type="text" id="snapchat" placeholder="Snapchat ID - If have">
-            <input type="text" id="whatsapp" placeholder="WhatsApp Number - If have">
-            <input type="text" id="facebook" placeholder="Facebook Username - If have">
-            <input type="text" id="twitter" placeholder="Twitter Username - If have">
-            <input type="text" id="linkedin" placeholder="LinkedIn Username - If have">
-            <input type="text" id="youtube" placeholder="YouTube ID - If have">
-            <input type="email" id="email" placeholder="Email Address">
-            <input type="text" id="telegram" placeholder="Telegram Username - If have">
-            <input type="text" id="github" placeholder="GitHub Username - If have">
-            <input type="text" id="josh" placeholder="">
-
-            <h3>Spotify (Optional)</h3>
-            <input type="url" id="spotify" placeholder="Favourite Spotify Song/Playlist Link ?">
-
-            <button id="createProfileBtn">Create Now</button>
-            
-            <footer class="main-footer">
-                Made with 🖤 By 
-                <b><a href="https://samarthags.in" target="_blank">Samartha GS</a></b>
-                <p class="footer-note">Click on <b>Samartha GS</b></p>
-            </footer>
-        </div>
+    <!-- Login Section -->
+    <div id="loginContainer">
+        <h2>Welcome to MyWebSam</h2>
+        <p>Sign in with Google to manage your profile</p>
+        <button id="googleLoginBtn">
+            <i class="fab fa-google"></i>
+            Continue with Google
+        </button>
     </div>
 
-    <!-- Toast notification -->
-    <div class="toast" id="toastNotification"></div>
+    <!-- Profile Management Section -->
+    <div id="profileContainer" style="display: none;">
+        <!-- User Info Header -->
+        <div id="userInfo">
+            <img id="userAvatar" src="" alt="User" width="50" height="50">
+            <div>
+                <h3 id="userName"></h3>
+                <p id="userEmail"></p>
+            </div>
+            <button id="logoutBtn">Logout</button>
+        </div>
+
+        <!-- Profile Status -->
+        <div id="profileStatus">
+            <p id="statusMessage"></p>
+        </div>
+
+        <!-- Form Header -->
+        <div>
+            <h2 id="formTitle">Create Your Profile</h2>
+            <p id="formSubtitle">Share your profile card with the world</p>
+        </div>
+
+        <!-- Profile Form -->
+        <form id="profileForm">
+            <div>
+                <label for="name">Name</label>
+                <input type="text" id="name" required>
+            </div>
+
+            <div>
+                <label for="location">Location (City, Country)</label>
+                <input type="text" id="location" required>
+            </div>
+
+            <div>
+                <label for="birthday">Birthday</label>
+                <input type="date" id="birthday" required>
+            </div>
+
+            <div>
+                <label for="profileImage">Profile Picture</label>
+                <input type="file" id="profileImage" accept="image/*">
+                <div id="imagePreview" style="display: none;">
+                    <img id="previewImg" src="" alt="Preview" width="100" height="100">
+                </div>
+                <p id="fileName"></p>
+            </div>
+
+            <div>
+                <label for="bio">Bio</label>
+                <textarea id="bio" rows="4" required></textarea>
+            </div>
+
+            <!-- Social Media Inputs -->
+            <fieldset>
+                <legend>Social Profiles (Optional)</legend>
+                
+                <div>
+                    <label for="instagram">Instagram</label>
+                    <input type="text" id="instagram" placeholder="Instagram username">
+                </div>
+
+                <div>
+                    <label for="snapchat">Snapchat</label>
+                    <input type="text" id="snapchat" placeholder="Snapchat username">
+                </div>
+
+                <div>
+                    <label for="whatsapp">WhatsApp</label>
+                    <input type="text" id="whatsapp" placeholder="WhatsApp number">
+                </div>
+
+                <div>
+                    <label for="facebook">Facebook</label>
+                    <input type="text" id="facebook" placeholder="Facebook username">
+                </div>
+
+                <div>
+                    <label for="twitter">Twitter</label>
+                    <input type="text" id="twitter" placeholder="Twitter username">
+                </div>
+
+                <div>
+                    <label for="linkedin">LinkedIn</label>
+                    <input type="text" id="linkedin" placeholder="LinkedIn username">
+                </div>
+
+                <div>
+                    <label for="youtube">YouTube</label>
+                    <input type="text" id="youtube" placeholder="YouTube channel">
+                </div>
+
+                <div>
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="Email address">
+                </div>
+
+                <div>
+                    <label for="telegram">Telegram</label>
+                    <input type="text" id="telegram" placeholder="Telegram username">
+                </div>
+
+                <div>
+                    <label for="github">GitHub</label>
+                    <input type="text" id="github" placeholder="GitHub username">
+                </div>
+
+                <div>
+                    <label for="spotify">Spotify</label>
+                    <input type="url" id="spotify" placeholder="Spotify song/playlist link">
+                </div>
+            </fieldset>
+
+            <!-- Action Buttons -->
+            <div>
+                <button type="submit" id="saveProfileBtn">Create Profile</button>
+                <button type="button" id="viewProfileBtn" style="display: none;">View Profile</button>
+                <button type="button" id="deleteProfileBtn" style="display: none;">Delete Profile</button>
+            </div>
+        </form>
+    </div>
 
     <!-- Loading Modal -->
-    <div class="modal" id="loadingModal">
-        <div class="modal-content">
-            <h3 class="modal-title">Samarth Is Creating Your Website</h3>
-            <div class="loader"></div>
-            <p>Please wait! while creating your web...</p>
-            <div class="modal-footer">
-                <span>Made with <i class="fas fa-heart"></i> By Samartha Gs</span>
-            </div>
+    <div id="loadingModal" style="display: none;">
+        <div>
+            <h3 id="loadingTitle">Creating Your Profile...</h3>
+            <div id="loader">Loading...</div>
+            <p id="loadingMessage">Please wait while we process your request...</p>
         </div>
     </div>
 
     <!-- Success Modal -->
-    <div class="modal" id="successModal">
-        <div class="modal-content">
-            <i class="fas fa-check-circle success-icon"></i>
-            <h3 class="modal-title">Website Created 🥳</h3>
-            <p>Your Web is now live and ready to share 🎉</p>
-
-            <div class="profile-url-container">
+    <div id="successModal" style="display: none;">
+        <div>
+            <h3 id="successTitle">Profile Created Successfully!</h3>
+            <p id="successMessage">Your profile is now live and ready to share 🎉</p>
+            <div>
                 <p id="profileUrl"></p>
-                <i class="fas fa-copy" id="copyIcon" style="cursor:pointer; color:#4a90e2;"></i>
+                <button id="copyIcon">Copy Link</button>
             </div>
-
-            <button class="btn-primary" id="openProfileBtn">View Your Website</button>
-            
-            <div class="modal-footer">
-                <span>Made with <i class="fas fa-heart"></i> By Samartha GS</span>
-            </div>
+            <button id="openProfileBtn">View Your Profile</button>
+            <button id="closeSuccessBtn">Close</button>
         </div>
     </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" style="display: none;">
+        <div>
+            <h3>Delete Profile?</h3>
+            <p>Are you sure you want to delete your profile? This action cannot be undone.</p>
+            <button id="confirmDeleteBtn">Yes, Delete</button>
+            <button id="cancelDeleteBtn">Cancel</button>
+        </div>
+    </div>
 
+    <!-- Toast Notification -->
+    <div id="toastNotification" style="display: none;"></div>
+
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+    <script>
         // Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyBb3x_zD9JaFwL9PhmngCNZlS2fOh6MBa4",
@@ -526,44 +193,229 @@ body {
         };
 
         // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
 
-        // DOM elements
+        // DOM Elements
+        const loginContainer = document.getElementById("loginContainer");
+        const profileContainer = document.getElementById("profileContainer");
+        const googleLoginBtn = document.getElementById("googleLoginBtn");
+        const logoutBtn = document.getElementById("logoutBtn");
+        const userAvatar = document.getElementById("userAvatar");
+        const userName = document.getElementById("userName");
+        const userEmail = document.getElementById("userEmail");
+        const profileStatus = document.getElementById("profileStatus");
+        const statusMessage = document.getElementById("statusMessage");
+        const formTitle = document.getElementById("formTitle");
+        const formSubtitle = document.getElementById("formSubtitle");
+        const profileForm = document.getElementById("profileForm");
+        const saveProfileBtn = document.getElementById("saveProfileBtn");
+        const viewProfileBtn = document.getElementById("viewProfileBtn");
+        const deleteProfileBtn = document.getElementById("deleteProfileBtn");
+
+        // Modal Elements
+        const loadingModal = document.getElementById("loadingModal");
+        const loadingTitle = document.getElementById("loadingTitle");
+        const loadingMessage = document.getElementById("loadingMessage");
+        const successModal = document.getElementById("successModal");
+        const successTitle = document.getElementById("successTitle");
+        const successMessage = document.getElementById("successMessage");
+        const deleteModal = document.getElementById("deleteModal");
+        const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
+        const cancelDeleteBtn = document.getElementById("cancelDeleteBtn");
+        const profileUrl = document.getElementById("profileUrl");
+        const copyIcon = document.getElementById("copyIcon");
+        const openProfileBtn = document.getElementById("openProfileBtn");
+        const closeSuccessBtn = document.getElementById("closeSuccessBtn");
+        const toastNotification = document.getElementById("toastNotification");
+
+        // Form Input Elements
         const nameInput = document.getElementById("name");
         const locationInput = document.getElementById("location");
         const birthdayInput = document.getElementById("birthday");
         const bioInput = document.getElementById("bio");
         const profileImageInput = document.getElementById("profileImage");
-        const createProfileBtn = document.getElementById("createProfileBtn");
-        const loadingModal = document.getElementById("loadingModal");
-        const successModal = document.getElementById("successModal");
-        const profileUrlElement = document.getElementById("profileUrl");
-        const copyIcon = document.getElementById("copyIcon");
-        const openProfileBtn = document.getElementById("openProfileBtn");
-        const createNewBtn = document.getElementById("createNewBtn");
-        const toastNotification = document.getElementById("toastNotification");
         const imagePreview = document.getElementById("imagePreview");
         const previewImg = document.getElementById("previewImg");
-        const fileInputContainer = document.getElementById("fileInputContainer");
         const fileName = document.getElementById("fileName");
 
-        // Handle image preview
-        profileImageInput.addEventListener("change", (e) => {
+        // Social Media Inputs
+        const socialInputs = {
+            instagram: document.getElementById("instagram"),
+            snapchat: document.getElementById("snapchat"),
+            whatsapp: document.getElementById("whatsapp"),
+            facebook: document.getElementById("facebook"),
+            twitter: document.getElementById("twitter"),
+            linkedin: document.getElementById("linkedin"),
+            youtube: document.getElementById("youtube"),
+            email: document.getElementById("email"),
+            telegram: document.getElementById("telegram"),
+            github: document.getElementById("github"),
+            spotify: document.getElementById("spotify")
+        };
+
+        // Global Variables
+        let currentUser = null;
+        let userProfile = null;
+
+        // Event Listeners
+        googleLoginBtn.addEventListener("click", signInWithGoogle);
+        logoutBtn.addEventListener("click", signOut);
+        profileForm.addEventListener("submit", handleFormSubmit);
+        viewProfileBtn.addEventListener("click", viewProfile);
+        deleteProfileBtn.addEventListener("click", showDeleteModal);
+        confirmDeleteBtn.addEventListener("click", deleteProfile);
+        cancelDeleteBtn.addEventListener("click", hideDeleteModal);
+        closeSuccessBtn.addEventListener("click", hideSuccessModal);
+        copyIcon.addEventListener("click", copyProfileLink);
+        openProfileBtn.addEventListener("click", openProfile);
+        profileImageInput.addEventListener("change", handleImagePreview);
+
+        // Google Sign-In
+        async function signInWithGoogle() {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            try {
+                await auth.signInWithPopup(provider);
+            } catch (error) {
+                console.error("Login error:", error);
+                showToast("Login failed. Please try again.");
+            }
+        }
+
+        // Sign Out
+        async function signOut() {
+            try {
+                await auth.signOut();
+            } catch (error) {
+                console.error("Logout error:", error);
+                showToast("Logout failed. Please try again.");
+            }
+        }
+
+        // Auth State Observer
+        auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                currentUser = user;
+                showProfileContainer();
+                updateUserInfo(user);
+                await checkExistingProfile();
+            } else {
+                currentUser = null;
+                userProfile = null;
+                showLoginContainer();
+                resetForm();
+            }
+        });
+
+        // Show/Hide Containers
+        function showLoginContainer() {
+            loginContainer.style.display = "block";
+            profileContainer.style.display = "none";
+        }
+
+        function showProfileContainer() {
+            loginContainer.style.display = "none";
+            profileContainer.style.display = "block";
+        }
+
+        // Update User Info Display
+        function updateUserInfo(user) {
+            userAvatar.src = user.photoURL || '';
+            userName.textContent = user.displayName || 'User';
+            userEmail.textContent = user.email;
+        }
+
+        // Check for Existing Profile
+        async function checkExistingProfile() {
+            try {
+                const profileDoc = await db.collection("profiles").doc(currentUser.uid).get();
+                
+                if (profileDoc.exists) {
+                    userProfile = profileDoc.data();
+                    showExistingProfileMode();
+                    populateForm(userProfile);
+                } else {
+                    showNewProfileMode();
+                }
+            } catch (error) {
+                console.error("Error checking profile:", error);
+                showToast("Error loading profile data");
+            }
+        }
+
+        // Show Existing Profile Mode
+        function showExistingProfileMode() {
+            statusMessage.textContent = "✅ You have an existing profile. You can edit it below or view it live.";
+            profileStatus.style.backgroundColor = "#d4edda";
+            profileStatus.style.color = "#155724";
+            
+            formTitle.textContent = "Edit Your Profile";
+            formSubtitle.textContent = "Update your information anytime";
+            saveProfileBtn.textContent = "Update Profile";
+            
+            viewProfileBtn.style.display = "inline-block";
+            deleteProfileBtn.style.display = "inline-block";
+        }
+
+        // Show New Profile Mode
+        function showNewProfileMode() {
+            statusMessage.textContent = "👋 Welcome! Create your first profile to get started.";
+            profileStatus.style.backgroundColor = "#fff3cd";
+            profileStatus.style.color = "#856404";
+            
+            formTitle.textContent = "Create Your Profile";
+            formSubtitle.textContent = "Share your profile card with the world";
+            saveProfileBtn.textContent = "Create Profile";
+            
+            viewProfileBtn.style.display = "none";
+            deleteProfileBtn.style.display = "none";
+        }
+
+        // Populate Form with Existing Data
+        function populateForm(profile) {
+            nameInput.value = profile.name || '';
+            locationInput.value = profile.location || '';
+            birthdayInput.value = profile.birthday || '';
+            bioInput.value = profile.bio || '';
+
+            // Populate social inputs
+            Object.keys(socialInputs).forEach(key => {
+                if (socialInputs[key] && profile[key]) {
+                    socialInputs[key].value = profile[key];
+                }
+            });
+
+            // Handle image preview
+            if (profile.imageUrl) {
+                previewImg.src = profile.imageUrl;
+                imagePreview.style.display = "block";
+                fileName.textContent = "Current profile picture";
+            }
+        }
+
+        // Reset Form
+        function resetForm() {
+            profileForm.reset();
+            imagePreview.style.display = "none";
+            fileName.textContent = "";
+        }
+
+        // Handle Image Preview
+        function handleImagePreview(e) {
             const file = e.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(event) {
                     previewImg.src = event.target.result;
                     imagePreview.style.display = "block";
-                    fileInputContainer.style.borderStyle = "solid";
                     fileName.textContent = file.name;
                 }
                 reader.readAsDataURL(file);
             }
-        });
+        }
 
-        // Upload image to Cloudinary
+        // Upload Image to Cloudinary
         async function uploadImage(file) {
             const cloudName = "dw1qrki2c";
             const uploadPreset = "profile_uploads";
@@ -591,7 +443,7 @@ body {
             }
         }
 
-        // Generate unique username
+        // Generate Unique Username
         async function generateUniqueUsername(name) {
             let username = name.toLowerCase().replace(/\s+/g, '').replace(/[^a-z0-9]/g, '');
             if (username.length < 3) username += Math.floor(Math.random() * 1000);
@@ -600,13 +452,13 @@ body {
             let finalUsername = username;
 
             try {
-                const q = query(collection(db, "profiles"), where("username", "==", finalUsername));
-                let querySnapshot = await getDocs(q);
+                const q = db.collection("profiles").where("username", "==", finalUsername);
+                let querySnapshot = await q.get();
 
                 while (!querySnapshot.empty) {
                     finalUsername = username + count;
                     count++;
-                    querySnapshot = await getDocs(query(collection(db, "profiles"), where("username", "==", finalUsername)));
+                    querySnapshot = await db.collection("profiles").where("username", "==", finalUsername).get();
                 }
 
                 return finalUsername;
@@ -616,162 +468,207 @@ body {
             }
         }
 
-        // Create profile
-        async function createProfile() {
+        // Handle Form Submit
+        async function handleFormSubmit(e) {
+            e.preventDefault();
+
             const name = nameInput.value.trim();
             const location = locationInput.value.trim();
             const birthday = birthdayInput.value;
-            const imageFile = profileImageInput.files[0];
             const bio = bioInput.value.trim();
-
-            // Get Social Profiles individually
-            const instagram = document.getElementById("instagram").value;
-            const snapchat = document.getElementById("snapchat").value;
-            const whatsapp = document.getElementById("whatsapp").value;
-            const facebook = document.getElementById("facebook").value;
-            const twitter = document.getElementById("twitter").value;
-            const linkedin = document.getElementById("linkedin").value;
-            const youtube = document.getElementById("youtube").value;
-            const email = document.getElementById("email").value;
-            const telegram = document.getElementById("telegram").value;
-            const github = document.getElementById("github").value;
-            const josh = document.getElementById("josh").value;
-
-            // Spotify
-            const spotify = document.getElementById("spotify").value;
+            const imageFile = profileImageInput.files[0];
 
             // Validation
-            if (!name) {
-                showToast("Please enter your name");
-                nameInput.focus();
+            if (!name || !location || !birthday || !bio) {
+                showToast("Please fill in all required fields");
                 return;
             }
 
-            if (!location) {
-                showToast("Please enter your location");
-                locationInput.focus();
-                return;
-            }
-
-            if (!birthday) {
-                showToast("Please select your birthday");
-                birthdayInput.focus();
-                return;
-            }
-
-            // Validate age (at least 13 years old)
+            // Age validation
             const birthDate = new Date(birthday);
             const today = new Date();
             let age = today.getFullYear() - birthDate.getFullYear();
             const monthDiff = today.getMonth() - birthDate.getMonth();
-            
+
             if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
                 age--;
             }
-            
+
             if (age < 13) {
                 showToast("You must be at least 13 years old to create a profile");
                 return;
             }
 
-            if (!imageFile) {
+            // Check if image is required for new profiles
+            if (!userProfile && !imageFile) {
                 showToast("Please upload a profile picture");
                 return;
             }
 
-            if (!bio) {
-                showToast("Please write a short bio");
-                bioInput.focus();
-                return;
-            }
-
-            loadingModal.style.display = "flex";
+            // Show loading
+            showLoadingModal(userProfile ? "Updating Your Profile..." : "Creating Your Profile...");
 
             try {
-                let username = await generateUniqueUsername(name);
-                let imageUrl = await uploadImage(imageFile);
+                let imageUrl = userProfile ? userProfile.imageUrl : null;
+                let username = userProfile ? userProfile.username : null;
 
-                // Add to Firestore
-                await addDoc(collection(db, "profiles"), {
+                // Upload new image if provided
+                if (imageFile) {
+                    imageUrl = await uploadImage(imageFile);
+                }
+
+                // Generate username for new profiles
+                if (!username) {
+                    username = await generateUniqueUsername(name);
+                }
+
+                // Collect social media data
+                const socialData = {};
+                Object.keys(socialInputs).forEach(key => {
+                    if (socialInputs[key] && socialInputs[key].value.trim()) {
+                        socialData[key] = socialInputs[key].value.trim();
+                    }
+                });
+
+                // Prepare profile data
+                const profileData = {
                     name,
                     username,
                     location,
                     birthday,
                     imageUrl,
                     bio,
-                    instagram,
-                    snapchat,
-                    whatsapp,
-                    facebook,
-                    twitter,
-                    linkedin,
-                    youtube,
-                    email,
-                    telegram,
-                    github,
-                    josh,
-                    spotify,
-                    createdAt: new Date().toISOString(),
-                    age: age // Store age for easy filtering
+                    age,
+                    ...socialData,
+                    updatedAt: new Date().toISOString()
+                };
+
+                if (!userProfile) {
+                    profileData.createdAt = new Date().toISOString();
+                }
+
+                // Save to Firestore
+                await db.collection("profiles").doc(currentUser.uid).set(profileData, { merge: true });
+
+                // Update local profile
+                userProfile = profileData;
+
+                // Hide loading and show success
+                hideLoadingModal();
+                showSuccessModal(username, userProfile ? "updated" : "created");
+
+                // Update UI mode
+                showExistingProfileMode();
+
+            } catch (error) {
+                hideLoadingModal();
+                console.error("Error saving profile:", error);
+                showToast("Something went wrong. Please try again.");
+            }
+        }
+
+        // View Profile
+        function viewProfile() {
+            if (userProfile && userProfile.username) {
+                window.open(`https://mywebsam.site/${userProfile.username}`, "_blank");
+            }
+        }
+
+        // Show Delete Modal
+        function showDeleteModal() {
+            deleteModal.style.display = "block";
+        }
+
+        // Hide Delete Modal
+        function hideDeleteModal() {
+            deleteModal.style.display = "none";
+        }
+
+        // Delete Profile
+        async function deleteProfile() {
+            showLoadingModal("Deleting Your Profile...");
+            
+            try {
+                await db.collection("profiles").doc(currentUser.uid).delete();
+                
+                userProfile = null;
+                resetForm();
+                showNewProfileMode();
+                
+                hideLoadingModal();
+                hideDeleteModal();
+                showToast("Profile deleted successfully");
+                
+            } catch (error) {
+                hideLoadingModal();
+                console.error("Error deleting profile:", error);
+                showToast("Failed to delete profile. Please try again.");
+            }
+        }
+
+        // Show Loading Modal
+        function showLoadingModal(title = "Loading...") {
+            loadingTitle.textContent = title;
+            loadingModal.style.display = "block";
+        }
+
+        // Hide Loading Modal
+        function hideLoadingModal() {
+            loadingModal.style.display = "none";
+        }
+
+        // Show Success Modal
+        function showSuccessModal(username, action = "created") {
+            successTitle.textContent = `Profile ${action.charAt(0).toUpperCase() + action.slice(1)} Successfully!`;
+            successMessage.textContent = `Your profile is now live and ready to share 🎉`;
+            profileUrl.textContent = `mywebsam.site/${username}`;
+            successModal.style.display = "block";
+        }
+
+        // Hide Success Modal
+        function hideSuccessModal() {
+            successModal.style.display = "none";
+        }
+
+        // Copy Profile Link
+        function copyProfileLink() {
+            const profileUrlText = profileUrl.textContent;
+            navigator.clipboard.writeText(profileUrlText)
+                .then(() => {
+                    showToast("Profile link copied to clipboard!");
+                })
+                .catch(err => {
+                    console.error('Could not copy text: ', err);
+                    showToast("Failed to copy link");
                 });
+        }
 
-          // Show success
-          loadingModal.style.display = "none";
-          profileUrlElement.innerText = `mywebsam.site/${username}`;
-          successModal.style.display = "flex";
-      } catch (error) {
-          loadingModal.style.display = "none";
-          console.error("Error creating web:", error);
-          showToast("Something went wrong. Please try again.");
-      }
-  }
+        // Open Profile
+        function openProfile() {
+            const profileUrlText = profileUrl.textContent;
+            window.open(`https://${profileUrlText}`, "_blank");
+        }
 
-  // Copy profile link
-  function copyProfileLink() {
-      const profileUrl = profileUrlElement.innerText;
-      navigator.clipboard.writeText(profileUrl)
-          .then(() => {
-              showToast("Website link copied to clipboard!");
-          })
-          .catch(err => {
-              console.error('Could not copy text: ', err);
-              showToast("Failed to copy link");
-          });
-  }
+        // Show Toast Notification
+        function showToast(message) {
+            toastNotification.textContent = message;
+            toastNotification.style.display = "block";
+            toastNotification.style.position = "fixed";
+            toastNotification.style.bottom = "20px";
+            toastNotification.style.right = "20px";
+            toastNotification.style.backgroundColor = "#333";
+            toastNotification.style.color = "white";
+            toastNotification.style.padding = "10px 20px";
+            toastNotification.style.borderRadius = "5px";
+            toastNotification.style.zIndex = "1000";
 
-  // Open profile
-  function openProfile() {
-      const profileUrl = profileUrlElement.innerText;
-      window.open(`https://${profileUrl}`, "_blank");
-  }
+            setTimeout(() => {
+                toastNotification.style.display = "none";
+            }, 3000);
+        }
 
-  // Reset form for new profile
-  function resetForm() {
-      successModal.style.display = "none";
-      nameInput.value = "";
-      bioInput.value = "";
-      profileImageInput.value = "";
-      imagePreview.style.display = "none";
-      fileName.textContent = "";
-      fileInputContainer.style.borderStyle = "dashed";
-  }
-
-  // Show toast notification
-  function showToast(message) {
-      toastNotification.textContent = message;
-      toastNotification.style.display = "block";
-
-      setTimeout(() => {
-          toastNotification.style.display = "none";
-      }, 3000);
-  }
-
-  // Event listeners
-  createProfileBtn.addEventListener("click", createProfile);
-  copyIcon.addEventListener("click", copyProfileLink);
-  openProfileBtn.addEventListener("click", openProfile);
-  createNewBtn.addEventListener("click", resetForm);
-</script>
+        // Initialize App
+        console.log("Profile Manager initialized");
     </script>
 </body>
 </html>
