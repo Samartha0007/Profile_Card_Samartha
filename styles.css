@@ -1,0 +1,527 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background-color: #1a1a1a;
+  color: white;
+  min-height: 100vh;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+/* Hide intro container when profile is shown */
+.intro-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  text-align: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.intro-content {
+  max-width: 600px;
+  color: white;
+}
+
+.intro-content h1 {
+  font-size: 48px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.intro-content > p {
+  font-size: 20px;
+  margin-bottom: 50px;
+  opacity: 0.9;
+  font-weight: 300;
+}
+
+.intro-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  margin-bottom: 50px;
+}
+
+.feature {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 30px 25px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.feature:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.feature i {
+  font-size: 32px;
+  margin-bottom: 15px;
+  color: white;
+}
+
+.feature h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.feature p {
+  font-size: 14px;
+  opacity: 0.8;
+  line-height: 1.5;
+}
+
+.cta-button {
+  display: inline-block;
+  background: white;
+  color: #667eea;
+  padding: 15px 40px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.cta-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+  background: #f8f9ff;
+}
+
+.main-footer {
+  margin-top: 60px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+}
+
+.main-footer a {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.main-footer a:hover {
+  text-decoration: underline;
+}
+
+.footer-note {
+  font-size: 12px;
+  margin-top: 5px;
+  opacity: 0.6;
+}
+
+/* Profile Container Styles */
+.profile-container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 40px 20px 60px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #1a1a1a;
+}
+
+/* Profile Header */
+.profile-header {
+  text-align: center;
+  margin-bottom: 40px;
+  width: 100%;
+}
+
+.profile-image {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #333;
+  margin-bottom: 24px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.profile-name {
+  font-size: 32px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 8px;
+  text-align: center;
+  letter-spacing: -0.5px;
+}
+
+/* About Me Section */
+.about-me-section {
+  width: 100%;
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.about-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #888;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: none; /* Hide the "About Me" title to match the design */
+}
+
+.bio-text {
+  color: #ccc;
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 400;
+}
+
+.info-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #888;
+  font-size: 14px;
+  justify-content: center;
+}
+
+.info-item i {
+  font-size: 14px;
+  color: #888;
+  width: 16px;
+}
+
+/* Resume Button (if needed) */
+.resume-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #333;
+  color: white;
+  padding: 14px 28px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 16px;
+  transition: all 0.2s ease;
+  border: 1px solid #444;
+  margin: 20px 0;
+}
+
+.resume-button:hover {
+  background-color: #444;
+  transform: translateY(-2px);
+}
+
+.resume-button i {
+  font-size: 16px;
+}
+
+/* Social Links Section */
+.social-section {
+  width: 100%;
+  margin-bottom: 40px;
+}
+
+.social-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #888;
+  text-align: center;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.social-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 16px;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.social-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 12px;
+  background-color: #2a2a2a;
+  border-radius: 16px;
+  text-decoration: none;
+  color: white;
+  transition: all 0.2s ease;
+  border: 1px solid #333;
+  min-height: 80px;
+}
+
+.social-link:hover {
+  background-color: #333;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.social-link i {
+  font-size: 24px;
+  margin-bottom: 6px;
+  transition: transform 0.2s ease;
+}
+
+.social-link:hover i {
+  transform: scale(1.1);
+}
+
+.social-link span {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: capitalize;
+  opacity: 0.9;
+}
+
+/* Social Platform Colors */
+.social-instagram:hover {
+  background: linear-gradient(135deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D);
+}
+
+.social-twitter:hover {
+  background-color: #1DA1F2;
+}
+
+.social-linkedin:hover {
+  background-color: #0077B5;
+}
+
+.social-github:hover {
+  background-color: #333;
+}
+
+.social-youtube:hover {
+  background-color: #FF0000;
+}
+
+.social-facebook:hover {
+  background-color: #1877F2;
+}
+
+.social-snapchat:hover {
+  background-color: #FFFC00;
+  color: #000;
+}
+
+.social-whatsapp:hover {
+  background-color: #25D366;
+}
+
+.social-telegram:hover {
+  background-color: #0088CC;
+}
+
+/* Like Button */
+.interaction-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.like-button-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+}
+
+.like-button {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: #2a2a2a;
+  border: 1px solid #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.like-button:hover {
+  background-color: #333;
+  transform: scale(1.05);
+}
+
+.like-button i {
+  font-size: 20px;
+  color: #666;
+  transition: all 0.2s ease;
+}
+
+.like-button-wrapper.liked .like-button {
+  background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+  border-color: #ff6b6b;
+}
+
+.like-button-wrapper.liked .like-button i {
+  color: white;
+  animation: heartPulse 0.6s ease;
+}
+
+.like-count {
+  color: #888;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.like-message {
+  position: absolute;
+  top: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  border: 1px solid #444;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  color: white;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.like-message.show-message {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-5px);
+}
+
+@keyframes heartPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .profile-container {
+    padding: 30px 16px 50px;
+  }
+  
+  .profile-image {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .profile-name {
+    font-size: 28px;
+  }
+  
+  .bio-text {
+    font-size: 15px;
+  }
+  
+  .social-grid {
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: 12px;
+  }
+  
+  .social-link {
+    padding: 16px 10px;
+    min-height: 70px;
+  }
+  
+  .social-link i {
+    font-size: 20px;
+  }
+  
+  .social-link span {
+    font-size: 10px;
+  }
+  
+  .intro-content h1 {
+    font-size: 36px;
+  }
+  
+  .intro-content > p {
+    font-size: 18px;
+  }
+  
+  .intro-features {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 360px) {
+  .profile-container {
+    padding: 20px 12px 40px;
+  }
+  
+  .profile-name {
+    font-size: 24px;
+  }
+  
+  .social-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  
+  .social-link {
+    padding: 14px 8px;
+    min-height: 65px;
+  }
+}
+
+/* Large screens */
+@media (min-width: 768px) {
+  .profile-container {
+    padding: 60px 40px 80px;
+  }
+  
+  .social-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 20px;
+    max-width: 500px;
+  }
+  
+  .social-link {
+    padding: 24px 16px;
+    min-height: 90px;
+  }
+  
+  .social-link i {
+    font-size: 28px;
+    margin-bottom: 8px;
+  }
+  
+  .social-link span {
+    font-size: 12px;
+  }
+}
