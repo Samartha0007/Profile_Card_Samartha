@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+
   <!-- Fixed Meta Tags for Rich Results -->
   <title>Mywebsam - Create and Share Your Personalized Profile Page</title>
-  
+
   <!-- Primary Meta Tags -->
   <meta name="title" content="Mywebsam - Create and Share Your Personalized Profile Page">
   <meta name="description" content="Create and share your personalized profile page with all your social links in one place. Connect Instagram, Twitter, LinkedIn, and more social profiles in a single shareable page.">
   <meta name="keywords" content="profile links, bio links, social media hub, link in bio, personal page, mywebsam">
   <meta name="author" content="Samartha GS">
-  
+
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://mywebsam.site/">
@@ -21,15 +21,15 @@
   <meta property="og:image" content="https://mywebsam.site/about.jpg">
   <meta property="og:site_name" content="Mywebsam">
 
-<meta name="google-site-verification" content="F4b7UTVHLhhIQh3GfQX0gvdpJMOWMl6kLeB6yx_LFY8" />
-  
+  <meta name="google-site-verification" content="F4b7UTVHLhhIQh3GfQX0gvdpJMOWMl6kLeB6yx_LFY8" />
+
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image">
   <meta property="twitter:url" content="https://mywebsam.site/">
   <meta property="twitter:title" content="Mywebsam - Your Digital Identity in One Link">
   <meta property="twitter:description" content="Share all your social media profiles with just one link. Create your personalized profile page today with Mywebsam.">
   <meta property="twitter:image" content="https://mywebsam.site/abot.jpg">
-  
+
   <!-- Structured Data for Rich Results -->
   <script type="application/ld+json">
   {
@@ -53,16 +53,16 @@
     }
   }
   </script>
-  
+
   <!-- Individual Profile Structured Data (Will be updated by JavaScript) -->
   <script type="application/ld+json" id="profile-schema"></script>
-  
+
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="https://mywebsam.site/about.jpg">
-  
+
   <!-- Fonts & Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
@@ -73,75 +73,76 @@
     <div class="profile-header">
       <img class="profile-image" id="profile-image" src="" alt="">
       <h1 class="profile-name" id="profile-name"></h1>
-      <div class="profile-bio" id="profile-bio"></div>
+    </div>
 
-      <!-- Month and Date format (no year) -->
-      <div class="profile-stats">
-        <span id="profile-location"><i class="fas fa-map-marker-alt"></i> <span id="location-text"></span></span>
-        <span class="dot">•</span>
-        <span id="profile-birthday"><i class="fas fa-birthday-cake"></i> <span id="birthday-text"></span></span>
+    <!-- About Me Section -->
+    <div class="about-me-section" id="about-me-section">
+      <div class="about-title">
+        <i class="fas fa-user"></i>
+        About Me
+      </div>
+      <div class="bio-text" id="profile-bio"></div>
+      <div class="info-grid" id="info-grid">
+        <!-- Location and birthday will be inserted here -->
       </div>
     </div>
 
-    <!-- Social Links Container -->
-    <div class="social-container">
-      <div class="social-icons" id="social-icons"></div>
+    <!-- Social Links Section -->
+    <div class="social-section">
+      <div class="social-title">Connect with me</div>
+      <div class="social-grid" id="social-grid"></div>
     </div>
 
+    <!-- Like Button -->
     <div class="interaction-container">
-      <div class="buttons-row">
-        <div class="like-button-wrapper" id="like-button-wrapper">
-          <div class="like-button" id="like-button">
-            <i class="fas fa-heart"></i>
-          </div>
-          <div class="like-count" id="like-count">Counting</div>
+      <div class="like-button-wrapper" id="like-button-wrapper">
+        <div class="like-button" id="like-button">
+          <i class="fas fa-heart"></i>
           <div class="like-message" id="like-message">Thanks for the love!</div>
         </div>
+        <div class="like-count" id="like-count">0 likes</div>
       </div>
     </div>
   </div>
 
   <!-- Introduction Page -->
-<div class="intro-container" id="intro-container">
-  <div class="intro-content">
-    <h1>Mywebsam</h1>
-    <p>Create and share your personalized profile page with all your social links in one place</p>
-    
-    <div class="intro-features">
-      <div class="feature">
-        <i class="fas fa-user-circle"></i>
-        <h3>Personal Profile</h3>
-        <p>Showcase your information and bio</p>
-</div>
-<!-- New Like Feature -->
-      <div class="feature">
-        <i class="fas fa-heart"></i>
-        <h3>Show Some Love</h3>
-        <p>Anyone visiting your profile can  'like' to show they appreciate you.</p>
-      
-      </div>
-      <div class="feature">
-        <i class="fas fa-share-alt"></i>
-        <h3>Social Links</h3>
-        <p>All your social media in one place</p>
-      </div>
-      <div class="feature">
-        <i class="fas fa-music"></i>
-        <h3>Spotify Integration</h3>
-        <p>Share your favorite music</p>
-      </div>
-      
-    </div>
-    
-    <a href="/create.html" class="cta-button">Create Your Profile</a>
-  </div>
+  <div class="intro-container" id="intro-container">
+    <div class="intro-content">
+      <h1>Mywebsam</h1>
+      <p>Create and share your personalized profile page with all your social links in one place</p>
 
-  <footer class="main-footer">
-    Made with 🖤 By 
-    <b><a href="https://samarthags.in" target="_blank">Samartha GS</a></b>
-    <p class="footer-note">Click on <b>Samartha GS</b></p>
-  </footer>
-</div>
+      <div class="intro-features">
+        <div class="feature">
+          <i class="fas fa-user-circle"></i>
+          <h3>Personal Profile</h3>
+          <p>Showcase your information and bio</p>
+        </div>
+        <div class="feature">
+          <i class="fas fa-heart"></i>
+          <h3>Show Some Love</h3>
+          <p>Anyone visiting your profile can 'like' to show they appreciate you.</p>
+        </div>
+        <div class="feature">
+          <i class="fas fa-share-alt"></i>
+          <h3>Social Links</h3>
+          <p>All your social media in one place</p>
+        </div>
+        <div class="feature">
+          <i class="fas fa-music"></i>
+          <h3>Spotify Integration</h3>
+          <p>Share your favorite music</p>
+        </div>
+      </div>
+
+      <a href="/create.html" class="cta-button">Create Your Profile</a>
+    </div>
+
+    <footer class="main-footer">
+      Made with 🖤 By 
+      <b><a href="https://samarthags.in" target="_blank">Samartha GS</a></b>
+      <p class="footer-note">Click on <b>Samartha GS</b></p>
+    </footer>
+  </div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
@@ -184,7 +185,7 @@
           currentProfileId = profileDoc.id;
 
           const profileName = profile.name || username;
-          const profileBio = profile.bio || "Check out my profile!";
+          const profileBio = profile.bio || "Welcome to my profile!";
           const profileImage = profile.imageUrl || "https://i.ibb.co/sKbrkyn/Yellow-and-Grey-Pastel-Grunge-Designer-Brand-Logo-20241009-185202-0000.png";
           const currentUrl = window.location.href;
 
@@ -194,46 +195,12 @@
           document.getElementById("profile-bio").innerText = profileBio;
           document.getElementById("profile-image").src = profileImage;
 
-          // Update location
-          if (profile.location) {
-            document.getElementById("location-text").innerText = profile.location;
-            document.getElementById("profile-location").style.display = "inline";
-          } else {
-            document.getElementById("profile-location").style.display = "none";
-            document.querySelector('.dot').style.display = "none";
-          }
-
-          // Update birthday (month and date only)
-          if (profile.birthday) {
-            const birthday = new Date(profile.birthday);
-            const formattedBirthday = birthday.toLocaleDateString('en-US', { 
-              month: 'long', 
-              day: 'numeric' 
-            });
-            document.getElementById("birthday-text").innerText = formattedBirthday;
-            document.getElementById("profile-birthday").style.display = "inline";
-
-            // Only show dot if both location and birthday exist
-            if (profile.location) {
-              document.querySelector('.dot').style.display = "inline";
-            } else {
-              document.querySelector('.dot').style.display = "none";
-            }
-          } else {
-            document.getElementById("profile-birthday").style.display = "none";
-            document.querySelector('.dot').style.display = "none";
-          }
-
+          // Update info grid with location and birthday
+          updateInfoGrid(profile);
           updateSocialLinks(profile);
 
           // Initialize like button functionality
           initializeLikeSystem(currentProfileId);
-
-          // Start the background animation
-          initializeVintageBackground();
-
-          // Start social icon animation
-          initializeSocialIconsAnimation();
         } else {
           alert("Profile not found!");
           window.location.href = "/";
@@ -241,16 +208,43 @@
       } else {
         document.getElementById("intro-container").style.display = "block";
         document.getElementById("profile-container").style.display = "none";
-
-        // Start the background animation for intro page too
-        initializeVintageBackground();
       }
+    }
+
+    function updateInfoGrid(profile) {
+      const infoGrid = document.getElementById("info-grid");
+      let infoHTML = "";
+
+      if (profile.location) {
+        infoHTML += `
+          <div class="info-item">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>${profile.location}</span>
+          </div>
+        `;
+      }
+
+      if (profile.birthday) {
+        const birthday = new Date(profile.birthday);
+        const formattedBirthday = birthday.toLocaleDateString('en-US', { 
+          month: 'long', 
+          day: 'numeric' 
+        });
+        infoHTML += `
+          <div class="info-item">
+            <i class="fas fa-birthday-cake"></i>
+            <span>Born ${formattedBirthday}</span>
+          </div>
+        `;
+      }
+
+      infoGrid.innerHTML = infoHTML;
     }
 
     function updateProfileSEO(name, bio, image, url) {
       // Update page title
       document.title = `${name} | Mywebsam`;
-      
+
       // Update meta tags
       const metaTags = {
         "title": `${name}'s Profile | Mywebsam`,
@@ -263,25 +257,19 @@
         "twitter:description": bio,
         "twitter:image": image
       };
-      
+
       // Update each meta tag
       Object.entries(metaTags).forEach(([key, value]) => {
-        // Try to find the meta tag
         let metaTag = document.querySelector(`meta[name="${key}"]`);
         if (!metaTag) {
           metaTag = document.querySelector(`meta[property="${key}"]`);
         }
-        
-        // Update if found, otherwise create new
+
         if (metaTag) {
-          if (metaTag.hasAttribute('name')) {
-            metaTag.setAttribute('content', value);
-          } else {
-            metaTag.setAttribute('content', value);
-          }
+          metaTag.setAttribute('content', value);
         }
       });
-      
+
       // Update structured data for the individual profile
       const profileSchema = {
         "@context": "https://schema.org",
@@ -291,39 +279,35 @@
         "image": image,
         "url": url
       };
-      
-      // Create list of social profiles for schema
-      const socialProfiles = document.querySelectorAll('.social-icons a');
-      if (socialProfiles.length > 0) {
-        profileSchema.sameAs = [];
-        socialProfiles.forEach(profile => {
-          profileSchema.sameAs.push(profile.href);
-        });
-      }
-      
+
       document.getElementById("profile-schema").textContent = JSON.stringify(profileSchema);
     }
 
     function updateSocialLinks(profile) {
       const socialPlatforms = {
-        instagram: `https://instagram.com/${profile.instagram}`,
-        snapchat: `https://snapchat.com/add/${profile.snapchat}`,
-        whatsapp: `https://wa.me/${profile.whatsapp}`,
-        facebook: `https://facebook.com/${profile.facebook}`,
-        twitter: `https://twitter.com/${profile.twitter}`,
-        linkedin: `https://linkedin.com/in/${profile.linkedin}`,
-        youtube: `https://m.youtube.com/${profile.youtube}`,
-        telegram: `https://t.me/${profile.telegram}`,
-        github: `https://github.com/${profile.github}`
+        instagram: { url: `https://instagram.com/${profile.instagram}`, name: 'Instagram', icon: 'fab fa-instagram' },
+        snapchat: { url: `https://snapchat.com/add/${profile.snapchat}`, name: 'Snapchat', icon: 'fab fa-snapchat' },
+        whatsapp: { url: `https://wa.me/${profile.whatsapp}`, name: 'WhatsApp', icon: 'fab fa-whatsapp' },
+        facebook: { url: `https://facebook.com/${profile.facebook}`, name: 'Facebook', icon: 'fab fa-facebook' },
+        twitter: { url: `https://twitter.com/${profile.twitter}`, name: 'Twitter', icon: 'fab fa-twitter' },
+        linkedin: { url: `https://linkedin.com/in/${profile.linkedin}`, name: 'LinkedIn', icon: 'fab fa-linkedin' },
+        youtube: { url: `https://m.youtube.com/${profile.youtube}`, name: 'YouTube', icon: 'fab fa-youtube' },
+        telegram: { url: `https://t.me/${profile.telegram}`, name: 'Telegram', icon: 'fab fa-telegram' },
+        github: { url: `https://github.com/${profile.github}`, name: 'GitHub', icon: 'fab fa-github' }
       };
 
       let socialHTML = "";
-      Object.entries(socialPlatforms).forEach(([platform, url]) => {
+      Object.entries(socialPlatforms).forEach(([platform, data]) => {
         if (profile[platform]) {
-          socialHTML += `<a href="${url}" target="_blank" rel="noopener" aria-label="${platform}"><i class="fab fa-${platform}"></i></a>`;
+          socialHTML += `
+            <a href="${data.url}" target="_blank" rel="noopener" class="social-link social-${platform}">
+              <i class="${data.icon}"></i>
+              <span>${data.name}</span>
+            </a>
+          `;
         }
       });
-      document.getElementById("social-icons").innerHTML = socialHTML;
+      document.getElementById("social-grid").innerHTML = socialHTML;
     }
 
     // Like System Functions
@@ -355,7 +339,6 @@
       // Add click event listener
       likeButton.addEventListener("click", async () => {
         const likeButtonWrapper = document.getElementById("like-button-wrapper");
-        const heartIcon = likeButton.querySelector("i");
 
         // Toggle like state
         hasLiked = !hasLiked;
@@ -363,13 +346,7 @@
         if (hasLiked) {
           // Save that user has liked
           localStorage.setItem(getUserLikeKey(), 'true');
-
-          // Animate heart
-          heartIcon.classList.add("heartbeat");
           likeButtonWrapper.classList.add("liked");
-
-          // Create confetti effect
-          createHeartConfetti(likeButton);
 
           // Show thank you message
           likeMessage.classList.add("show-message");
@@ -391,7 +368,6 @@
           // Remove like
           localStorage.removeItem(getUserLikeKey());
           likeButtonWrapper.classList.remove("liked");
-          heartIcon.classList.remove("heartbeat");
 
           // Decrement like in database
           await updateDoc(likesRef, {
@@ -404,11 +380,6 @@
             updateLikeCountDisplay(updatedDoc.data().count || 0);
           }
         }
-
-        // Remove heartbeat class after animation
-        setTimeout(() => {
-          heartIcon.classList.remove("heartbeat");
-        }, 500);
       });
     }
 
@@ -434,128 +405,6 @@
     function updateLikeCountDisplay(count) {
       const likeCount = document.getElementById("like-count");
       likeCount.textContent = count === 1 ? "1 like" : `${count} likes`;
-    }
-
-    function createHeartConfetti(button) {
-      const colors = ['#ff3366', '#ff6b6b', '#ffaa77', '#ff77aa'];
-      const confettiCount = 20;
-
-      for (let i = 0; i < confettiCount; i++) {
-        const confetti = document.createElement('div');
-        confetti.className = 'heart-confetti';
-        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-
-        // Random position within the button
-        const left = Math.random() * 60;
-        const top = Math.random() * 60;
-
-        confetti.style.left = `${left}px`;
-        confetti.style.top = `${top}px`;
-
-        // Random animation duration and delay
-        const duration = 500 + Math.random() * 500;
-        const delay = Math.random() * 200;
-
-        confetti.style.animation = `confetti-fall ${duration}ms ease-out ${delay}ms forwards`;
-
-        button.appendChild(confetti);
-
-        // Clean up after animation
-        setTimeout(() => {
-          confetti.remove();
-        }, duration + delay + 100);
-      }
-    }
-
-    function createParticles(icon) {
-      const particles = [...Array(8)].map(() => {
-        const p = document.createElement('span');
-        p.className = 'particle';
-        icon.appendChild(p);
-        return p;
-      });
-
-      particles.forEach((p,i) => {
-        const angle = (i * 45) * Math.PI/180;
-        p.animate([
-          { transform: 'translate(0,0)', opacity: 1 },
-          { transform: `translate(${Math.cos(angle)*20}px,${Math.sin(angle)*20}px)`, opacity: 0 }
-        ], { duration: 800, easing: 'ease-out' });
-
-        setTimeout(() => p.remove(), 800);
-      });
-    }
-
-    function initializeSocialIconsAnimation() {
-      const socialIcons = document.querySelectorAll('.social-icons a');
-      let currentActive = 0;
-
-      // Start with first icon active
-      if (socialIcons.length > 0) {
-        socialIcons[0].classList.add('active');
-        createParticles(socialIcons[0]);
-      }
-
-      // Cycle through icons every 3 seconds if there are multiple icons
-      if (socialIcons.length > 1) {
-        setInterval(() => {
-          // Fade out current icon
-          socialIcons[currentActive].classList.remove('active');
-
-          // Move to next icon (loop back to first if at end)
-          currentActive = (currentActive + 1) % socialIcons.length;
-
-          // Fade in new icon
-          setTimeout(() => {
-            socialIcons[currentActive].classList.add('active');
-            createParticles(socialIcons[currentActive]);
-          }, 500); // Start fade in after fade out completes
-        }, 5000);
-      }
-    }
-
-    function initializeVintageBackground() {
-      // Extended vintage color palette (16 muted, old-style colors)
-      const vintagePalette = [
-              'linear-gradient(to bottom, #000000, #001f3f)',
-      'linear-gradient(to bottom, #000000, #330000)',
-      'linear-gradient(to bottom, #000000, #2a0033)'
-      ];
-
-      // Previous color index tracker
-      let prevColorIndex = 0;
-
-      function getRandomVintageColor() {
-        let newIndex;
-        // Ensure we don't repeat the same color twice
-        do {
-          newIndex = Math.floor(Math.random() * vintagePalette.length);
-        } while (newIndex === prevColorIndex && vintagePalette.length > 1);
-
-        prevColorIndex = newIndex;
-        return vintagePalette[newIndex];
-      }
-
-      function animateVintageBackground() {
-        const newColor = getRandomVintageColor();
-
-        // Apply with smooth transition
-        document.body.style.background = newColor;
-
-        // Random interval between 20-40 seconds for organic feel
-        const nextChange = 3000 + Math.random() * 3000;
-        setTimeout(animateVintageBackground, nextChange);
-      }
-
-      // Initialize with first random color
-      document.body.style.background = getRandomVintageColor();
-
-      // Add subtle texture (optional)
-      document.body.style.backgroundImage += 
-        ', url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%\' height=\'100%\' filter=\'url(%23noiseFilter)\' opacity=\'0.04\'/%3E%3C/svg%3E")';
-
-      // Start animation after initial load
-      setTimeout(animateVintageBackground, 3000);
     }
 
     document.addEventListener('DOMContentLoaded', loadProfile);
