@@ -70,21 +70,22 @@
   <link rel="icon" type="image/png" href="https://mywebsam.site/about.jpg" />
 
   <!-- Font Preload for Better Performance -->
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"></noscript>
-  
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"></noscript>
+
   <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" media="print" onload="this.media='all'">
 
   <style>
     :root {
-      --accent-dark: #2b2b2b;
-      --accent-mid: #555555;
-      --pill-bg: rgba(244, 244, 244, 0.9);
+      --accent-dark: #1a1a1a;
+      --accent-mid: #666666;
+      --accent-light: #f5f5f5;
+      --pill-bg: #ffffff;
       --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       --white-overlay: linear-gradient(180deg, transparent 50%, rgba(255,255,255,0.95) 100%);
-      --shadow-subtle: 0 4px 20px rgba(0,0,0,0.08);
-      --shadow-hover: 0 8px 30px rgba(0,0,0,0.15);
+      --shadow-subtle: 0 2px 10px rgba(0,0,0,0.1);
+      --shadow-hover: 0 4px 15px rgba(0,0,0,0.15);
       --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     }
@@ -101,7 +102,7 @@
     }
 
     body {
-      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
       background: #000;
       color: #333;
       line-height: 1.6;
@@ -151,25 +152,26 @@
     }
 
     .profile-name {
+      font-family: 'Space Grotesk', sans-serif;
       font-size: clamp(2rem, 5vw, 3.5rem);
-      font-weight: 700;
+      font-weight: 600;
       color: var(--accent-dark);
-      margin-bottom: 0.5rem;
-      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+      letter-spacing: -0.01em;
       transition: var(--transition-smooth);
-      text-shadow: 0 2px 10px rgba(255,255,255,0.8);
       line-height: 1.1;
     }
 
     .bio-text {
+      font-family: 'Inter', sans-serif;
       color: var(--accent-mid);
-      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
       font-weight: 400;
       margin-bottom: 2rem;
       max-width: 600px;
       transition: var(--transition-smooth);
+      line-height: 1.5;
       opacity: 0.9;
-      line-height: 1.4;
     }
 
     .social-grid {
@@ -186,108 +188,45 @@
       align-items: center;
       justify-content: center;
       background: var(--pill-bg);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
       padding: clamp(0.8rem, 2vw, 1rem) clamp(1.2rem, 3vw, 1.5rem);
-      border-radius: 2rem;
+      border-radius: 50px;
       text-decoration: none;
       color: var(--accent-dark);
-      font-weight: 600;
+      font-weight: 500;
       font-size: clamp(0.9rem, 2vw, 1rem);
       min-width: 3.5rem;
       min-height: 3.5rem;
-      border: 1px solid rgba(255,255,255,0.3);
+      border: 1px solid #e0e0e0;
       box-shadow: var(--shadow-subtle);
-      transition: var(--transition-bounce);
+      transition: var(--transition-smooth);
       position: relative;
       overflow: hidden;
     }
 
-    .social-link::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-      transition: left 0.6s ease;
-    }
-
-    .social-link:hover::before {
-      left: 100%;
-    }
-
     .social-link:hover {
-      transform: translateY(-4px) scale(1.05);
+      transform: translateY(-2px);
       box-shadow: var(--shadow-hover);
       border-color: var(--accent-dark);
+      background: var(--accent-light);
     }
 
     .social-link:active {
-      transform: translateY(-2px) scale(1.02);
-      transition: var(--transition-smooth);
+      transform: translateY(0px);
+      transition: transform 0.1s ease;
     }
 
     .social-link i {
       font-size: clamp(1.2rem, 2.5vw, 1.4rem);
-      transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-      z-index: 2;
-      position: relative;
+      transition: var(--transition-smooth);
+      color: var(--accent-dark);
     }
 
     .social-link:hover i {
-      transform: rotate(8deg) scale(1.1);
+      transform: scale(1.1);
     }
 
     .social-link span {
       display: none;
-    }
-
-    /* Platform-specific hover effects */
-    .social-link[href*="instagram"]:hover {
-      background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-      color: white;
-    }
-
-    .social-link[href*="youtube"]:hover {
-      background: #ff0000;
-      color: white;
-    }
-
-    .social-link[href*="twitter"]:hover {
-      background: #1da1f2;
-      color: white;
-    }
-
-    .social-link[href*="linkedin"]:hover {
-      background: #0077b5;
-      color: white;
-    }
-
-    .social-link[href*="github"]:hover {
-      background: #333;
-      color: white;
-    }
-
-    .social-link[href*="facebook"]:hover {
-      background: #1877f2;
-      color: white;
-    }
-
-    .social-link[href*="snapchat"]:hover {
-      background: #fffc00;
-      color: #333;
-    }
-
-    .social-link[href*="whatsapp"]:hover {
-      background: #25d366;
-      color: white;
-    }
-
-    .social-link[href*="telegram"]:hover {
-      background: #0088cc;
-      color: white;
     }
 
     /* Hide original sections */
@@ -331,15 +270,16 @@
     }
 
     .intro-content h1 {
+      font-family: 'Space Grotesk', sans-serif;
       font-size: clamp(2.5rem, 8vw, 5rem);
       font-weight: 700;
       margin-bottom: 1.5rem;
       color: #fff;
       letter-spacing: -0.02em;
-      text-shadow: 0 4px 20px rgba(0,0,0,0.2);
     }
 
     .intro-content > p {
+      font-family: 'Inter', sans-serif;
       font-size: clamp(1.1rem, 3vw, 1.6rem);
       margin-bottom: 4rem;
       opacity: 0.95;
@@ -382,6 +322,7 @@
     }
 
     .feature h3 {
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 1.4rem;
       font-weight: 600;
       margin-bottom: 1rem;
@@ -389,6 +330,7 @@
     }
 
     .feature p {
+      font-family: 'Inter', sans-serif;
       font-size: 1rem;
       opacity: 0.85;
       margin: 0;
@@ -403,6 +345,7 @@
       padding: 1.2rem 2.5rem;
       border-radius: 3rem;
       text-decoration: none;
+      font-family: 'Inter', sans-serif;
       font-weight: 600;
       font-size: 1.1rem;
       backdrop-filter: blur(15px);
@@ -440,6 +383,7 @@
       text-align: center;
       opacity: 0.8;
       color: #fff;
+      font-family: 'Inter', sans-serif;
     }
 
     .main-footer a {
@@ -546,7 +490,7 @@
       }
 
       .bio-text {
-        font-size: 1.4rem;
+        font-size: 1.3rem;
       }
 
       .social-link {
@@ -570,10 +514,6 @@
       .social-link {
         border: 2px solid var(--accent-dark);
       }
-
-      .profile-name {
-        text-shadow: none;
-      }
     }
 
     /* Dark mode support */
@@ -589,7 +529,7 @@
   <!-- Main Container -->
   <div class="profile-container" id="profile-container" style="display:none">
     <img class="profile-image" id="profile-image" src="" alt="Profile Image" loading="eager" />
-    
+
     <div class="overlay">
       <h1 class="profile-name" id="profile-name"></h1>
       <p class="bio-text" id="profile-bio"></p>
@@ -658,7 +598,7 @@
   <script>
     // Performance optimizations
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    
+
     // Preload ColorThief
     const colorThiefScript = document.createElement('script');
     colorThiefScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.2/color-thief.umd.js';
@@ -698,7 +638,7 @@
       if (username) {
         document.getElementById("profile-container").style.display = "block";
         document.getElementById("intro-container").style.display = "none";
-        
+
         // Add loading state
         document.getElementById("profile-container").classList.add('loading');
 
@@ -715,32 +655,19 @@
             const currentUrl = window.location.href;
 
             // Update SEO
-            updateProfileSEO(profileName, "", profileImage, currentUrl);
+            updateProfileSEO(profileName, profile.bio || "", profileImage, currentUrl);
 
             // Set content
             document.getElementById("profile-name").innerText = profileName;
-            updateBioWithSentence(profile);
-            
+            updateBioText(profile);
+
             const imgElement = document.getElementById("profile-image");
             imgElement.src = profileImage;
 
-            // Handle image loading and color extraction
+            // Handle image loading
             imgElement.onload = function() {
               // Remove loading state
               document.getElementById("profile-container").classList.remove('loading');
-              
-              // Extract colors if ColorThief is available
-              if (window.ColorThief) {
-                try {
-                  const colorThief = new ColorThief();
-                  if (this.complete && this.naturalWidth > 0) {
-                    const color = colorThief.getColor(this);
-                    applyColor(color);
-                  }
-                } catch (e) {
-                  console.log('Color extraction skipped:', e.message);
-                }
-              }
             };
 
             imgElement.onerror = function() {
@@ -764,51 +691,9 @@
       }
     }
 
-    function applyColor(rgb) {
-      if (!rgb || rgb.length !== 3) return;
-      
-      const [r, g, b] = rgb;
-      const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-      
-      // Adjust colors based on brightness for better contrast
-      if (brightness > 128) {
-        document.documentElement.style.setProperty('--accent-dark', `rgb(${Math.max(0, r-50)},${Math.max(0, g-50)},${Math.max(0, b-50)})`);
-      } else {
-        document.documentElement.style.setProperty('--accent-dark', `rgb(${Math.min(255, r+50)},${Math.min(255, g+50)},${Math.min(255, b+50)})`);
-      }
-      
-      document.documentElement.style.setProperty('--accent-mid', `rgba(${r},${g},${b},0.7)`);
-      document.documentElement.style.setProperty('--pill-bg', `rgba(${r},${g},${b},0.15)`);
-    }
-
-    function updateBioWithSentence(profile) {
-      let parts = [];
-
-      if (profile.name) {
-        parts.push(`Hi, I am ${profile.name}`);
-      } else if (currentUsername) {
-        parts.push(`Hi, I am ${currentUsername}`);
-      }
-
-      if (profile.location) {
-        parts.push(`from ${profile.location}`);
-      }
-
-      if (profile.birthday) {
-        const birthday = new Date(profile.birthday);
-        const formattedBirthday = birthday.toLocaleDateString("en-US", {
-          month: "long",
-          day: "numeric",
-        });
-        parts.push(`born on ${formattedBirthday}`);
-      }
-
-      if (profile.bio) {
-        parts.push(profile.bio);
-      }
-
-      const sentence = parts.length > 0 ? parts.join(". ") + "." : "Welcome to my profile!";
-      document.getElementById("profile-bio").innerText = sentence;
+    function updateBioText(profile) {
+      const bioText = profile.bio || "Welcome to my profile!";
+      document.getElementById("profile-bio").innerText = bioText;
     }
 
     function updateProfileSEO(name, bio, image, url) {
@@ -908,7 +793,7 @@
           `;
         }
       });
-      
+
       const socialGrid = document.getElementById("social-grid");
       if (socialGrid) {
         socialGrid.innerHTML = socialHTML;
@@ -933,7 +818,7 @@
     // Initialize on DOM load
     document.addEventListener("DOMContentLoaded", () => {
       loadProfile();
-      
+
       // Observe elements for scroll animations
       document.querySelectorAll('.feature').forEach(el => {
         observer.observe(el);
