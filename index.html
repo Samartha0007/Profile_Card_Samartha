@@ -79,16 +79,235 @@
     rel="stylesheet"
   />
 
- <link rel="stylesheet" href="styles.css">
+  <style>
+    :root {
+      --accent-dark: #2b2b2b;
+      --accent-mid: #555;
+      --pill-bg: #f4f4f4;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; width: 100%; }
+    body {
+      font-family: "Poppins", system-ui, sans-serif;
+      background: #000;
+      overflow: hidden;
+    }
+
+    .profile-container {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+    }
+
+    .profile-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transition: transform 1.2s ease;
+    }
+
+    .profile-container:hover .profile-image {
+      transform: scale(1.05);
+    }
+
+    .overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: clamp(20px, 5vw, 60px);
+      background: linear-gradient(180deg, rgba(0,0,0,0) 60%, rgba(255,255,255,0.95) 100%);
+      text-align: center;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    .profile-name {
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 700;
+      color: var(--accent-dark);
+      margin-bottom: 8px;
+      transition: color .3s ease;
+    }
+
+    .bio-text {
+      color: var(--accent-mid);
+      font-size: clamp(0.9rem, 2vw, 1.2rem);
+      margin-bottom: 24px;
+      transition: color .3s ease;
+    }
+
+    .social-grid {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .social-link {
+      background: var(--pill-bg);
+      padding: 12px 20px;
+      border-radius: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--accent-dark);
+      font-weight: 600;
+      font-size: 15px;
+      transition: transform .18s, box-shadow .18s, background .3s ease, color .3s ease;
+      min-width: 56px;
+    }
+
+    .social-link i { 
+      width: 20px; 
+      height: 20px; 
+      font-size: 20px;
+      transition: transform .3s ease; 
+    }
+
+    .social-link:hover {
+      transform: translateY(-4px) scale(1.03);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+    }
+
+    .social-link:hover i {
+      transform: rotate(10deg);
+    }
+
+    .social-link span {
+      display: none;
+    }
+
+    /* Hide original sections */
+    .profile-header,
+    .about-me-section,
+    .social-section {
+      display: none;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 480px) {
+      .social-grid { gap: 10px; }
+      .social-link { padding: 10px 16px; font-size: 14px; }
+    }
+
+    /* Intro Container Styles (for homepage) */
+    .intro-container {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .intro-content h1 {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: #fff;
+    }
+
+    .intro-content p {
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      margin-bottom: 3rem;
+      opacity: 0.9;
+      max-width: 600px;
+    }
+
+    .intro-features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+      max-width: 1000px;
+    }
+
+    .feature {
+      background: rgba(255,255,255,0.1);
+      padding: 2rem;
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .feature i {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #fff;
+    }
+
+    .feature h3 {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      color: #fff;
+    }
+
+    .feature p {
+      font-size: 1rem;
+      opacity: 0.8;
+      margin: 0;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      color: #fff;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.3);
+      transition: all 0.3s ease;
+    }
+
+    .cta-button:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    }
+
+    .main-footer {
+      margin-top: auto;
+      padding: 2rem;
+      text-align: center;
+      opacity: 0.8;
+    }
+
+    .main-footer a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .main-footer a:hover {
+      text-decoration: underline;
+    }
+
+    .footer-note {
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+      opacity: 0.7;
+    }
+  </style>
 </head>
 <body>
   <!-- Main Container -->
   <div class="profile-container" id="profile-container" style="display:none">
     <img class="profile-image" id="profile-image" src="" alt="Profile Image" />
     
-    <div class="fade-bottom"></div>
-
-    <div class="content">
+    <div class="overlay">
       <h1 class="profile-name" id="profile-name"></h1>
       <p class="bio-text" id="profile-bio"></p>
       <div class="social-grid" id="social-grid"></div>
@@ -156,6 +375,7 @@
     </footer>
   </div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.2/color-thief.umd.js"></script>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
     import {
@@ -209,7 +429,22 @@
 
           document.getElementById("profile-name").innerText = profileName;
           updateBioWithSentence(profile);
-          document.getElementById("profile-image").src = profileImage;
+          
+          const imgElement = document.getElementById("profile-image");
+          imgElement.src = profileImage;
+
+          // Extract colors from image after it loads
+          imgElement.addEventListener('load', () => {
+            if (window.ColorThief && imgElement.complete) {
+              try {
+                const colorThief = new ColorThief();
+                const color = colorThief.getColor(imgElement);
+                applyColor(color);
+              } catch (e) {
+                console.log('Color extraction failed, using default colors');
+              }
+            }
+          });
 
           updateSocialLinks(profile);
         } else {
@@ -220,6 +455,13 @@
         document.getElementById("intro-container").style.display = "block";
         document.getElementById("profile-container").style.display = "none";
       }
+    }
+
+    function applyColor(rgb) {
+      const [r, g, b] = rgb;
+      document.documentElement.style.setProperty('--accent-dark', `rgb(${r},${g},${b})`);
+      document.documentElement.style.setProperty('--accent-mid', `rgba(${r},${g},${b},0.7)`);
+      document.documentElement.style.setProperty('--pill-bg', `rgba(${r},${g},${b},0.15)`);
     }
 
     function updateBioWithSentence(profile) {
