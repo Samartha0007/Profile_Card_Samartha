@@ -1,210 +1,422 @@
-/* 🎨 Dark Advanced Theme */
-:root {
-  --primary-color: #ffffff;
-  --secondary-color: #94a3b8;
-  --accent-color: #3b82f6;
-  --accent-gradient: linear-gradient(90deg, #3b82f6, #06b6d4);
-  --bg-color: #0f172a;
-  --light-color: #1e293b;
-  --border-radius: 10px;
-  --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-  --glow-color: rgba(59, 130, 246, 0.6);
-}
-
+/* Reset & Base */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-body {
-  font-family: 'Poppins', sans-serif;
-  background: radial-gradient(circle at top, #0f172a, #020617);
-  color: var(--primary-color);
-  line-height: 1.6;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  animation: fadeIn 1s ease-in-out;
+html, body {
+  height: 100%;
+  font-family: 'Inter', 'Poppins', sans-serif;
+  background: #000;
+  color: #fff;
   overflow-x: hidden;
 }
 
-/* 🌟 Animations */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+/* Hide intro container when profile is shown */
+.intro-container {
+  display: none;
 }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-}
-
-@keyframes glowPulse {
-  0%, 100% { box-shadow: 0 0 10px var(--glow-color); }
-  50% { box-shadow: 0 0 20px var(--glow-color); }
-}
-
-/* 📌 Profile Layout */
+/* Main Profile Container - Hero Style */
 .profile-container {
-  max-width: 700px;
-  width: 90%;
-  padding: 2rem;
-  text-align: center;
-  animation: fadeIn 1s ease forwards;
-}
-
-/* 🖼 Profile Image */
-.profile-image {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-bottom: 1.5rem;
-  border: 4px solid var(--accent-color);
-  box-shadow: var(--box-shadow);
-  animation: float 4s ease-in-out infinite;
-  transition: transform 0.4s ease;
-}
-.profile-image:hover {
-  transform: scale(1.07) rotate(3deg);
-  animation: glowPulse 2s infinite;
-}
-
-/* ✍ Name Styling */
-.profile-name {
-  font-size: 2.8rem;
-  font-weight: 800;
-  margin-bottom: 0.5rem;
-  background: var(--accent-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  letter-spacing: 1px;
-}
-
-/* 📝 Bio */
-.bio-text {
-  color: var(--secondary-color);
-  font-size: 1.2rem;
-  margin-bottom: 2rem;
-  animation: fadeIn 1.3s ease-in-out;
-}
-
-/* 📄 Resume Button with Ripple Effect */
-.resume-button {
-  background: var(--accent-gradient);
-  color: white;
-  border: none;
-  border-radius: var(--border-radius);
-  padding: 0.9rem 2rem;
-  font-size: 1.05rem;
-  font-weight: 600;
-  cursor: pointer;
-  box-shadow: var(--box-shadow);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
-  overflow: hidden;
-}
-.resume-button i {
-  margin-right: 0.5rem;
-}
-.resume-button:hover {
-  transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 0 15px var(--glow-color);
-}
-.resume-button:after {
-  content: "";
-  position: absolute;
-  background: rgba(255,255,255,0.4);
-  border-radius: 50%;
-  transform: scale(0);
+  height: 100vh;
   width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  opacity: 0;
-  transition: transform 0.5s, opacity 0.5s;
-}
-.resume-button:active:after {
-  transform: scale(2);
-  opacity: 0;
-  transition: 0s;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
-/* 🔗 Social Section */
+/* Profile Image as Background Hero */
+.profile-image {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+  transform: scale(1.05);
+  animation: zoomIn 8s ease-in-out forwards;
+  z-index: 1;
+  border-radius: 0 !important;
+}
+
+/* Fade overlay at bottom */
+.profile-container::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.85) 100%);
+  z-index: 2;
+}
+
+/* Profile Header */
+.profile-header {
+  position: relative;
+  z-index: 3;
+  padding: 0;
+  text-align: left;
+  margin-bottom: 0;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.profile-name {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+  color: #fff;
+  animation: fadeUp 1s ease-out;
+}
+
+/* About Me Section */
+.about-me-section {
+  position: relative;
+  z-index: 3;
+  padding: 0 2rem;
+  margin-bottom: 2rem;
+  animation: fadeUp 1s ease-out 0.2s both;
+}
+
+.about-title {
+  display: none; /* Hide the "About Me" title */
+}
+
+.bio-text {
+  font-size: clamp(1rem, 2.2vw, 1.4rem);
+  opacity: 0.9;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+  line-height: 1.4;
+  margin-bottom: 1.5rem;
+  color: #fff;
+}
+
+/* Social Links Section */
 .social-section {
-  margin-top: 2rem;
-  animation: fadeIn 1.6s ease-in-out;
+  position: relative;
+  z-index: 3;
+  padding: 0 2rem 2rem 2rem;
+  animation: fadeUp 1s ease-out 0.4s both;
 }
 
 .social-title {
-  font-size: 1rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--secondary-color);
-  margin-bottom: 1.2rem;
+  display: none; /* Hide the social title */
 }
 
 .social-grid {
   display: flex;
+  gap: 1rem;
   flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.85rem;
+  justify-content: flex-start;
 }
 
 .social-link {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 52px;
-  height: 52px;
+  background: rgba(255,255,255,0.15);
+  padding: 0.8rem;
   border-radius: 50%;
-  background-color: var(--light-color);
-  color: var(--primary-color);
-  font-size: 1.25rem;
+  backdrop-filter: blur(8px);
   transition: all 0.3s ease;
   text-decoration: none;
-  position: relative;
+  color: #fff;
+  width: 56px;
+  height: 56px;
+  border: 1px solid rgba(255,255,255,0.1);
 }
+
 .social-link:hover {
-  transform: translateY(-4px) scale(1.05);
-  box-shadow: 0 0 15px var(--glow-color);
+  transform: scale(1.15);
+  background: rgba(255,255,255,0.25);
+  box-shadow: 0 4px 20px rgba(255,255,255,0.3);
+  border-color: rgba(255,255,255,0.3);
+}
+
+.social-link i {
+  font-size: clamp(20px, 2.5vw, 24px);
 }
 
 .social-link span {
-  position: absolute;
-  bottom: -25px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 0.75rem;
-  color: var(--secondary-color);
-  opacity: 0;
+  display: none; /* Hide text labels in hero style */
+}
+
+/* Like Button Container */
+.interaction-container {
+  position: relative;
+  z-index: 3;
+  padding: 0 2rem 2rem 2rem;
+  animation: fadeUp 1s ease-out 0.6s both;
+}
+
+.like-button-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.8rem;
+}
+
+.like-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.15);
+  padding: 1rem 1.5rem;
+  border-radius: 50px;
+  backdrop-filter: blur(8px);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  color: #fff;
+  font-size: 1rem;
+  border: 1px solid rgba(255,255,255,0.1);
+  gap: 0.5rem;
+  min-width: 120px;
+}
+
+.like-button:hover {
+  transform: scale(1.05);
+  background: rgba(255,255,255,0.25);
+  box-shadow: 0 4px 15px rgba(255,255,255,0.2);
+}
+
+.like-button-wrapper.liked .like-button {
+  background: rgba(255,255,255,0.9);
+  color: #000;
+  transform: scale(1.05);
+}
+
+.like-button i {
+  font-size: 1.2rem;
   transition: all 0.3s ease;
 }
-.social-link:hover span {
-  opacity: 1;
+
+.like-button-wrapper.liked .like-button i {
+  color: #e91e63;
+  animation: heartBeat 0.6s ease-out;
 }
 
-/* 🎯 Brand Colors */
-.social-instagram { color: #E1306C; }
-.social-twitter { color: #1DA1F2; }
-.social-linkedin { color: #0077B5; }
-.social-github { color: #ffffff; }
-.social-facebook { color: #1877F2; }
-.social-youtube { color: #FF0000; }
-.social-whatsapp { color: #25D366; }
-.social-telegram { color: #0088CC; }
-.social-snapchat { color: #FFFC00; }
+.like-count {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  color: #fff;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+}
 
-/* 📱 Responsive */
-@media (max-width: 640px) {
-  .profile-name { font-size: 2.3rem; }
-  .bio-text { font-size: 1rem; }
+.like-message {
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  background: rgba(255,255,255,0.95);
+  color: #000;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(8px);
+}
+
+.like-message.show-message {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Platform-specific colors for social icons */
+.social-instagram:hover { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+.social-snapchat:hover { background: #FFFC00; }
+.social-whatsapp:hover { background: #25D366; }
+.social-facebook:hover { background: #1877F2; }
+.social-twitter:hover { background: #1DA1F2; }
+.social-linkedin:hover { background: #0077B5; }
+.social-youtube:hover { background: #FF0000; }
+.social-telegram:hover { background: #0088CC; }
+.social-github:hover { background: #333; }
+
+/* Intro Container Styles (for homepage) */
+.intro-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  text-align: center;
+}
+
+.intro-content h1 {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #fff;
+}
+
+.intro-content p {
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  margin-bottom: 3rem;
+  opacity: 0.9;
+  max-width: 600px;
+}
+
+.intro-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+  max-width: 1000px;
+}
+
+.feature {
+  background: rgba(255,255,255,0.1);
+  padding: 2rem;
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.feature i {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #fff;
+}
+
+.feature h3 {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  color: #fff;
+}
+
+.feature p {
+  font-size: 1rem;
+  opacity: 0.8;
+  margin: 0;
+}
+
+.cta-button {
+  display: inline-block;
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.1rem;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.3);
+  transition: all 0.3s ease;
+}
+
+.cta-button:hover {
+  background: rgba(255,255,255,0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+
+.main-footer {
+  margin-top: auto;
+  padding: 2rem;
+  text-align: center;
+  opacity: 0.8;
+}
+
+.main-footer a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.main-footer a:hover {
+  text-decoration: underline;
+}
+
+.footer-note {
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  opacity: 0.7;
+}
+
+/* Animations */
+@keyframes fadeUp {
+  from { 
+    transform: translateY(30px); 
+    opacity: 0; 
+  }
+  to { 
+    transform: translateY(0); 
+    opacity: 1; 
+  }
+}
+
+@keyframes zoomIn {
+  from { 
+    transform: scale(1.1); 
+  }
+  to { 
+    transform: scale(1.05); 
+  }
+}
+
+@keyframes heartBeat {
+  0%, 50%, 100% { 
+    transform: scale(1); 
+  }
+  25%, 75% { 
+    transform: scale(1.2); 
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .profile-header,
+  .about-me-section,
+  .social-section,
+  .interaction-container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+  
+  .social-grid {
+    gap: 0.8rem;
+  }
+  
   .social-link {
-    width: 46px;
-    height: 46px;
-    font-size: 1.1rem;
+    width: 48px;
+    height: 48px;
+  }
+  
+  .intro-features {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .feature {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-header,
+  .about-me-section,
+  .social-section,
+  .interaction-container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .social-link {
+    width: 44px;
+    height: 44px;
+  }
+  
+  .intro-container {
+    padding: 1rem;
   }
 }
