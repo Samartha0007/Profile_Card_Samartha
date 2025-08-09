@@ -75,7 +75,7 @@
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
   />
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
     rel="stylesheet"
   />
 
@@ -86,21 +86,15 @@
       padding: 0;
       box-sizing: border-box;
     }
-
     html, body {
       height: 100%;
-      font-family: 'Inter', 'Poppins', sans-serif;
+      font-family: 'Poppins', sans-serif;
       background: #000;
       color: #fff;
       overflow-x: hidden;
     }
 
-    /* Hide intro container when profile is shown */
-    .intro-container {
-      display: none;
-    }
-
-    /* Main Profile Container - Hero Style */
+    /* Hero section */
     .profile-container {
       position: relative;
       height: 100vh;
@@ -110,134 +104,113 @@
       flex-direction: column;
       justify-content: flex-end;
     }
-
-    /* Profile Image as Background Hero */
     .profile-image {
       position: absolute;
       inset: 0;
-      width: 100% !important;
-      height: 100% !important;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
       transform: scale(1.05);
       animation: zoomIn 8s ease-in-out forwards;
       z-index: 1;
-      border-radius: 0 !important;
     }
 
-    /* Fade overlay at bottom */
-    .profile-container::before {
-      content: '';
+    /* Fade overlay */
+    .fade-bottom {
       position: absolute;
       bottom: 0;
       left: 0;
       width: 100%;
-      height: 50%;
+      height: 40%;
       background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.85) 100%);
       z-index: 2;
     }
 
-    /* Profile Header */
-    .profile-header {
+    /* Content area */
+    .content {
       position: relative;
       z-index: 3;
-      padding: 0;
-      text-align: left;
-      margin-bottom: 0;
-      padding-left: 2rem;
-      padding-right: 2rem;
-    }
-
-    .profile-name {
-      font-size: clamp(2.5rem, 5vw, 4rem);
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.8);
-      color: #fff;
+      padding: 2rem;
       animation: fadeUp 1s ease-out;
-    }
-
-    /* About Me Section */
-    .about-me-section {
-      position: relative;
-      z-index: 3;
-      padding: 0 2rem;
-      margin-bottom: 2rem;
-      animation: fadeUp 1s ease-out 0.2s both;
-    }
-
-    .about-title {
-      display: none; /* Hide the "About Me" title */
-    }
-
-    .bio-text {
-      font-size: clamp(1rem, 2.2vw, 1.4rem);
-      opacity: 0.9;
       text-shadow: 0 2px 8px rgba(0,0,0,0.6);
-      line-height: 1.4;
+    }
+    .profile-name {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+    .bio-text {
+      font-size: clamp(1rem, 2vw, 1.4rem);
       margin-bottom: 1.5rem;
-      color: #fff;
+      opacity: 0.9;
     }
 
-    /* Social Links Section */
-    .social-section {
-      position: relative;
-      z-index: 3;
-      padding: 0 2rem 2rem 2rem;
-      animation: fadeUp 1s ease-out 0.4s both;
-    }
-
-    .social-title {
-      display: none; /* Hide the social title */
-    }
-
+    /* Social icons row */
     .social-grid {
       display: flex;
       gap: 1rem;
       flex-wrap: wrap;
-      justify-content: flex-start;
     }
-
     .social-link {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       background: rgba(255,255,255,0.15);
-      padding: 0.8rem;
+      padding: 0.6rem;
       border-radius: 50%;
-      backdrop-filter: blur(8px);
-      transition: all 0.3s ease;
+      backdrop-filter: blur(6px);
+      transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
       text-decoration: none;
       color: #fff;
-      width: 56px;
-      height: 56px;
-      border: 1px solid rgba(255,255,255,0.1);
     }
-
     .social-link:hover {
       transform: scale(1.15);
       background: rgba(255,255,255,0.25);
-      box-shadow: 0 4px 20px rgba(255,255,255,0.3);
-      border-color: rgba(255,255,255,0.3);
+      box-shadow: 0 4px 15px rgba(255,255,255,0.3);
     }
-
     .social-link i {
-      font-size: clamp(20px, 2.5vw, 24px);
+      height: clamp(20px, 2.5vw, 26px);
+      width: clamp(20px, 2.5vw, 26px);
+      font-size: clamp(20px, 2.5vw, 26px);
     }
 
+    /* Hide elements not needed in this layout */
+    .profile-header {
+      display: none;
+    }
+    .about-me-section {
+      display: none;
+    }
+    .social-section {
+      display: none;
+    }
+    .about-title,
+    .social-title {
+      display: none;
+    }
     .social-link span {
-      display: none; /* Hide text labels in hero style */
+      display: none;
     }
 
-    /* Platform-specific colors for social icons */
-    .social-instagram:hover { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
-    .social-snapchat:hover { background: #FFFC00; }
-    .social-whatsapp:hover { background: #25D366; }
-    .social-facebook:hover { background: #1877F2; }
-    .social-twitter:hover { background: #1DA1F2; }
-    .social-linkedin:hover { background: #0077B5; }
-    .social-youtube:hover { background: #FF0000; }
-    .social-telegram:hover { background: #0088CC; }
-    .social-github:hover { background: #333; }
+    /* Animations */
+    @keyframes fadeUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes zoomIn {
+      from { transform: scale(1.1); }
+      to { transform: scale(1.05); }
+    }
+
+    /* Mobile adjustments */
+    @media (max-width: 480px) {
+      .content {
+        padding: 1.5rem;
+      }
+      .social-grid {
+        gap: 0.8rem;
+      }
+    }
 
     /* Intro Container Styles (for homepage) */
     .intro-container {
@@ -340,102 +313,38 @@
       margin-top: 0.5rem;
       opacity: 0.7;
     }
-
-    /* Animations */
-    @keyframes fadeUp {
-      from { 
-        transform: translateY(30px); 
-        opacity: 0; 
-      }
-      to { 
-        transform: translateY(0); 
-        opacity: 1; 
-      }
-    }
-
-    @keyframes zoomIn {
-      from { 
-        transform: scale(1.1); 
-      }
-      to { 
-        transform: scale(1.05); 
-      }
-    }
-
-    /* Mobile adjustments */
-    @media (max-width: 768px) {
-      .profile-header,
-      .about-me-section,
-      .social-section {
-        padding-left: 1.5rem;
-        padding-right: 1.5rem;
-      }
-      
-      .social-grid {
-        gap: 0.8rem;
-      }
-      
-      .social-link {
-        width: 48px;
-        height: 48px;
-      }
-      
-      .intro-features {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-      }
-      
-      .feature {
-        padding: 1.5rem;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .profile-header,
-      .about-me-section,
-      .social-section {
-        padding-left: 1rem;
-        padding-right: 1rem;
-      }
-      
-      .social-link {
-        width: 44px;
-        height: 44px;
-      }
-      
-      .intro-container {
-        padding: 1rem;
-      }
-    }
   </style>
 </head>
 <body>
   <!-- Main Container -->
   <div class="profile-container" id="profile-container" style="display:none">
-    <!-- Profile Header -->
-    <div class="profile-header">
-      <img
-        class="profile-image"
-        id="profile-image"
-        src=""
-        alt="Profile Image"
-      />
+    <img class="profile-image" id="profile-image" src="" alt="Profile Image" />
+    
+    <div class="fade-bottom"></div>
+
+    <div class="content">
       <h1 class="profile-name" id="profile-name"></h1>
+      <p class="bio-text" id="profile-bio"></p>
+      <div class="social-grid" id="social-grid"></div>
     </div>
 
-    <!-- About Me Section -->
+    <!-- Original structure (hidden) -->
+    <div class="profile-header">
+      <img class="profile-image-hidden" id="profile-image-hidden" src="" alt="Profile Image" />
+      <h1 class="profile-name-hidden" id="profile-name-hidden"></h1>
+    </div>
+
     <div class="about-me-section" id="about-me-section">
       <div class="about-title">
         <i class="fas fa-user"></i>
         About Me
       </div>
-      <div class="bio-text" id="profile-bio"></div>
+      <div class="bio-text-hidden" id="profile-bio-hidden"></div>
     </div>
 
-    <!-- Social Links Section -->
     <div class="social-section">
       <div class="social-title">Connect with me</div>
-      <div class="social-grid" id="social-grid"></div>
+      <div class="social-grid-hidden" id="social-grid-hidden"></div>
     </div>
   </div>
 
@@ -676,9 +585,8 @@
       Object.entries(socialPlatforms).forEach(([platform, data]) => {
         if (profile[platform]) {
           socialHTML += `
-            <a href="${data.url}" target="_blank" rel="noopener" class="social-link social-${platform}">
+            <a href="${data.url}" target="_blank" rel="noopener" class="social-link">
               <i class="${data.icon}"></i>
-              <span>${data.name}</span>
             </a>
           `;
         }
