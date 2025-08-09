@@ -1,12 +1,17 @@
-/* Base Styles */
+/* Dark Theme Base Styles */
 :root {
-  --primary-color: #333333;
-  --secondary-color: #666666;
-  --accent-color: #2563eb;
-  --light-color: #f8fafc;
-  --border-radius: 8px;
-  --box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --primary-text: #f8fafc;
+  --secondary-text: #94a3b8;
+  --dark-bg: #0f172a;
+  --card-bg: #1e293b;
+  --accent-color: #3b82f6;
+  --accent-hover: #2563eb;
+  --border-radius: 12px;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+/* Font and Base Styles */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 * {
   margin: 0;
@@ -15,174 +20,213 @@
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  background-color: white;
-  color: var(--primary-color);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--dark-bg);
+  color: var(--primary-text);
   line-height: 1.6;
-  padding: 0;
-  margin: 0;
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 /* Profile Container */
 .profile-container {
-  max-width: 600px;
-  width: 90%;
-  margin: 2rem auto;
-  padding: 2rem;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius);
+  padding: 2.5rem;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transform: translateY(0);
+  transition: var(--transition);
+  animation: slideUp 0.6s ease-out;
+}
+
+@keyframes slideUp {
+  from { 
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to { 
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.profile-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
 }
 
 /* Profile Header */
 .profile-header {
+  text-align: center;
   margin-bottom: 2rem;
-  width: 100%;
+  animation: fadeIn 0.8s 0.2s both;
 }
 
 .profile-image {
-  width: 120px;
-  height: 120px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   object-fit: cover;
-  margin-bottom: 1.5rem;
-  border: 4px solid white;
-  box-shadow: var(--box-shadow);
+  margin: 0 auto 1.5rem;
+  border: 3px solid var(--accent-color);
+  box-shadow: 0 5px 15px rgba(59, 130, 246, 0.3);
+  transition: var(--transition);
+}
+
+.profile-image:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
 }
 
 .profile-name {
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: 700;
-  margin-bottom: 0.5rem;
-  color: var(--primary-color);
-  line-height: 1.2;
+  margin-bottom: 0.25rem;
+  color: var(--primary-text);
+  letter-spacing: -0.5px;
 }
 
 /* About Section */
 .about-me-section {
   margin-bottom: 2rem;
-  width: 100%;
-  text-align: center;
+  animation: fadeIn 0.8s 0.4s both;
 }
 
 .about-title {
-  display: none; /* Hide the "About Me" title */
+  display: none;
 }
 
 .bio-text {
-  color: var(--secondary-color);
-  font-size: 1.1rem;
-  margin-bottom: 2rem;
-  line-height: 1.6;
+  color: var(--secondary-text);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  text-align: center;
   font-weight: 400;
 }
 
-/* Resume Button (styled like Like button) */
+/* Like Button Styled as Resume Button */
 .interaction-container {
-  width: 100%;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
+  animation: fadeIn 0.8s 0.6s both;
 }
 
-.resume-button-wrapper {
+.like-button-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  margin-bottom: 1rem;
 }
 
-.resume-button {
+.like-button {
   background-color: var(--accent-color);
   color: white;
   border: none;
   border-radius: var(--border-radius);
-  padding: 0.75rem 1.5rem;
+  padding: 0.8rem 2rem;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
-  display: flex;
+  transition: var(--transition);
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  box-shadow: var(--box-shadow);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin-bottom: 0.5rem;
+  min-width: 200px;
 }
 
-.resume-button:hover {
-  background-color: #1d4ed8;
+.like-button:hover {
+  background-color: var(--accent-hover);
   transform: translateY(-2px);
+  box-shadow: 0 7px 14px rgba(0, 0, 0, 0.15);
 }
 
-.resume-button i {
+.like-button:active {
+  transform: translateY(0);
+}
+
+.like-button i {
   margin-right: 0.5rem;
 }
 
-.resume-message {
-  opacity: 0;
+.like-message {
   height: 0;
+  opacity: 0;
   overflow: hidden;
-  transition: all 0.3s ease;
+  transition: var(--transition);
   color: var(--accent-color);
   font-weight: 500;
+  font-size: 0.9rem;
 }
 
-.resume-message.show-message {
-  opacity: 1;
+.like-message.show-message {
   height: auto;
+  opacity: 1;
   margin-top: 0.5rem;
 }
 
-/* Social Links Section */
+.like-count {
+  color: var(--secondary-text);
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+/* Social Icons Section */
 .social-section {
-  width: 100%;
+  animation: fadeIn 0.8s 0.8s both;
 }
 
 .social-title {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--secondary-color);
+  letter-spacing: 1px;
+  color: var(--secondary-text);
   margin-bottom: 1.5rem;
-  font-weight: 600;
+  text-align: center;
+  font-weight: 500;
 }
 
 .social-grid {
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
-  gap: 0.75rem;
+  flex-wrap: wrap;
+  gap: 1rem;
   margin: 0 auto;
-  max-width: 400px;
+  max-width: 300px;
 }
 
 .social-link {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 50px;
-  height: 50px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  background-color: #f1f5f9;
-  color: var(--primary-color);
-  font-size: 1.25rem;
-  transition: all 0.3s ease;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--primary-text);
+  font-size: 1.1rem;
+  transition: var(--transition);
   text-decoration: none;
   position: relative;
 }
 
 .social-link:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--box-shadow);
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-3px) scale(1.1);
 }
 
 .social-link i {
-  transition: all 0.3s ease;
+  transition: var(--transition);
 }
 
 .social-link span {
@@ -191,9 +235,9 @@ body {
   left: 50%;
   transform: translateX(-50%);
   font-size: 0.7rem;
-  color: var(--secondary-color);
+  color: var(--secondary-text);
   opacity: 0;
-  transition: all 0.3s ease;
+  transition: var(--transition);
   white-space: nowrap;
 }
 
@@ -201,48 +245,59 @@ body {
   opacity: 1;
 }
 
-/* Specific social brand colors */
-.social-instagram { color: #E1306C; }
-.social-twitter { color: #1DA1F2; }
-.social-linkedin { color: #0077B5; }
-.social-github { color: #333; }
-.social-facebook { color: #1877F2; }
-.social-youtube { color: #FF0000; }
-.social-whatsapp { color: #25D366; }
-.social-telegram { color: #0088CC; }
-.social-snapchat { color: #FFFC00; }
+/* Hide intro container */
+#intro-container {
+  display: none;
+}
 
-/* Responsive Adjustments */
-@media (max-width: 640px) {
+/* Responsive Design */
+@media (max-width: 600px) {
   .profile-container {
-    padding: 1.5rem;
+    padding: 1.75rem;
   }
   
   .profile-name {
-    font-size: 1.75rem;
+    font-size: 1.6rem;
+  letter-spacing: -0.25px;
+  line-height: 1.3;
+  margin-bottom: 0.5rem;
   }
   
   .bio-text {
     font-size: 1rem;
   }
   
+  .like-button {
+    padding: 0.7rem 1.5rem;
+    font-size: 0.95rem;
+    min-width: 180px;
+  }
+  
   .social-grid {
-    gap: 0.5rem;
+    gap: 0.75rem;
   }
   
   .social-link {
-    width: 45px;
-    height: 45px;
-    font-size: 1.1rem;
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
   }
 }
 
-/* Hide intro container when showing profile */
-#intro-container {
-  display: none;
-}
-
-/* Show profile container by default */
-#profile-container {
-  display: block !important;
+@media (max-width: 400px) {
+  .profile-container {
+    padding: 1.5rem;
+  }
+  
+  .profile-name {
+    font-size: 1.5rem;
+  }
+  
+  .bio-text {
+    font-size: 0.95rem;
+  }
+  
+  .social-grid {
+    gap: 0.5rem;
+  }
 }
