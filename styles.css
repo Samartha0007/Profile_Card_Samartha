@@ -1,422 +1,233 @@
-/* Reset & Base */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+  /* Reset & Base */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html, body {
+      height: 100%;
+      font-family: 'Poppins', sans-serif;
+      background: #000;
+      color: #fff;
+      overflow-x: hidden;
+    }
 
-html, body {
-  height: 100%;
-  font-family: 'Inter', 'Poppins', sans-serif;
-  background: #000;
-  color: #fff;
-  overflow-x: hidden;
-}
+    /* Hero section */
+    .profile-container {
+      position: relative;
+      height: 100vh;
+      width: 100%;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+    .profile-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scale(1.05);
+      animation: zoomIn 8s ease-in-out forwards;
+      z-index: 1;
+    }
 
-/* Hide intro container when profile is shown */
-.intro-container {
-  display: none;
-}
+    /* Fade overlay */
+    .fade-bottom {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 40%;
+      background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.85) 100%);
+      z-index: 2;
+    }
 
-/* Main Profile Container - Hero Style */
-.profile-container {
-  position: relative;
-  height: 100vh;
-  width: 100%;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-}
+    /* Content area */
+    .content {
+      position: relative;
+      z-index: 3;
+      padding: 2rem;
+      animation: fadeUp 1s ease-out;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+    }
+    .profile-name {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+    .bio-text {
+      font-size: clamp(1rem, 2vw, 1.4rem);
+      margin-bottom: 1.5rem;
+      opacity: 0.9;
+    }
 
-/* Profile Image as Background Hero */
-.profile-image {
-  position: absolute;
-  inset: 0;
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover;
-  transform: scale(1.05);
-  animation: zoomIn 8s ease-in-out forwards;
-  z-index: 1;
-  border-radius: 0 !important;
-}
+    /* Social icons row */
+    .social-grid {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.15);
+      padding: 0.6rem;
+      border-radius: 50%;
+      backdrop-filter: blur(6px);
+      transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+      text-decoration: none;
+      color: #fff;
+    }
+    .social-link:hover {
+      transform: scale(1.15);
+      background: rgba(255,255,255,0.25);
+      box-shadow: 0 4px 15px rgba(255,255,255,0.3);
+    }
+    .social-link i {
+      height: clamp(20px, 2.5vw, 26px);
+      width: clamp(20px, 2.5vw, 26px);
+      font-size: clamp(20px, 2.5vw, 26px);
+    }
 
-/* Fade overlay at bottom */
-.profile-container::before {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 50%;
-  background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.85) 100%);
-  z-index: 2;
-}
+    /* Hide elements not needed in this layout */
+    .profile-header {
+      display: none;
+    }
+    .about-me-section {
+      display: none;
+    }
+    .social-section {
+      display: none;
+    }
+    .about-title,
+    .social-title {
+      display: none;
+    }
+    .social-link span {
+      display: none;
+    }
 
-/* Profile Header */
-.profile-header {
-  position: relative;
-  z-index: 3;
-  padding: 0;
-  text-align: left;
-  margin-bottom: 0;
-  padding-left: 2rem;
-  padding-right: 2rem;
-}
+    /* Animations */
+    @keyframes fadeUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes zoomIn {
+      from { transform: scale(1.1); }
+      to { transform: scale(1.05); }
+    }
 
-.profile-name {
-  font-size: clamp(2.5rem, 5vw, 4rem);
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.8);
-  color: #fff;
-  animation: fadeUp 1s ease-out;
-}
+    /* Mobile adjustments */
+    @media (max-width: 480px) {
+      .content {
+        padding: 1.5rem;
+      }
+      .social-grid {
+        gap: 0.8rem;
+      }
+    }
 
-/* About Me Section */
-.about-me-section {
-  position: relative;
-  z-index: 3;
-  padding: 0 2rem;
-  margin-bottom: 2rem;
-  animation: fadeUp 1s ease-out 0.2s both;
-}
+    /* Intro Container Styles (for homepage) */
+    .intro-container {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      text-align: center;
+    }
 
-.about-title {
-  display: none; /* Hide the "About Me" title */
-}
+    .intro-content h1 {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: #fff;
+    }
 
-.bio-text {
-  font-size: clamp(1rem, 2.2vw, 1.4rem);
-  opacity: 0.9;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.6);
-  line-height: 1.4;
-  margin-bottom: 1.5rem;
-  color: #fff;
-}
+    .intro-content p {
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      margin-bottom: 3rem;
+      opacity: 0.9;
+      max-width: 600px;
+    }
 
-/* Social Links Section */
-.social-section {
-  position: relative;
-  z-index: 3;
-  padding: 0 2rem 2rem 2rem;
-  animation: fadeUp 1s ease-out 0.4s both;
-}
+    .intro-features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+      max-width: 1000px;
+    }
 
-.social-title {
-  display: none; /* Hide the social title */
-}
+    .feature {
+      background: rgba(255,255,255,0.1);
+      padding: 2rem;
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
 
-.social-grid {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-}
+    .feature i {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #fff;
+    }
 
-.social-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255,255,255,0.15);
-  padding: 0.8rem;
-  border-radius: 50%;
-  backdrop-filter: blur(8px);
-  transition: all 0.3s ease;
-  text-decoration: none;
-  color: #fff;
-  width: 56px;
-  height: 56px;
-  border: 1px solid rgba(255,255,255,0.1);
-}
+    .feature h3 {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      color: #fff;
+    }
 
-.social-link:hover {
-  transform: scale(1.15);
-  background: rgba(255,255,255,0.25);
-  box-shadow: 0 4px 20px rgba(255,255,255,0.3);
-  border-color: rgba(255,255,255,0.3);
-}
+    .feature p {
+      font-size: 1rem;
+      opacity: 0.8;
+      margin: 0;
+    }
 
-.social-link i {
-  font-size: clamp(20px, 2.5vw, 24px);
-}
+    .cta-button {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      color: #fff;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.3);
+      transition: all 0.3s ease;
+    }
 
-.social-link span {
-  display: none; /* Hide text labels in hero style */
-}
+    .cta-button:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    }
 
-/* Like Button Container */
-.interaction-container {
-  position: relative;
-  z-index: 3;
-  padding: 0 2rem 2rem 2rem;
-  animation: fadeUp 1s ease-out 0.6s both;
-}
+    .main-footer {
+      margin-top: auto;
+      padding: 2rem;
+      text-align: center;
+      opacity: 0.8;
+    }
 
-.like-button-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.8rem;
-}
+    .main-footer a {
+      color: #fff;
+      text-decoration: none;
+    }
 
-.like-button {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255,255,255,0.15);
-  padding: 1rem 1.5rem;
-  border-radius: 50px;
-  backdrop-filter: blur(8px);
-  transition: all 0.3s ease;
-  cursor: pointer;
-  color: #fff;
-  font-size: 1rem;
-  border: 1px solid rgba(255,255,255,0.1);
-  gap: 0.5rem;
-  min-width: 120px;
-}
+    .main-footer a:hover {
+      text-decoration: underline;
+    }
 
-.like-button:hover {
-  transform: scale(1.05);
-  background: rgba(255,255,255,0.25);
-  box-shadow: 0 4px 15px rgba(255,255,255,0.2);
-}
-
-.like-button-wrapper.liked .like-button {
-  background: rgba(255,255,255,0.9);
-  color: #000;
-  transform: scale(1.05);
-}
-
-.like-button i {
-  font-size: 1.2rem;
-  transition: all 0.3s ease;
-}
-
-.like-button-wrapper.liked .like-button i {
-  color: #e91e63;
-  animation: heartBeat 0.6s ease-out;
-}
-
-.like-count {
-  font-size: 0.9rem;
-  opacity: 0.8;
-  color: #fff;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.5);
-}
-
-.like-message {
-  position: absolute;
-  top: -40px;
-  left: 50%;
-  transform: translateX(-50%) translateY(10px);
-  background: rgba(255,255,255,0.95);
-  color: #000;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(8px);
-}
-
-.like-message.show-message {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
-
-/* Platform-specific colors for social icons */
-.social-instagram:hover { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
-.social-snapchat:hover { background: #FFFC00; }
-.social-whatsapp:hover { background: #25D366; }
-.social-facebook:hover { background: #1877F2; }
-.social-twitter:hover { background: #1DA1F2; }
-.social-linkedin:hover { background: #0077B5; }
-.social-youtube:hover { background: #FF0000; }
-.social-telegram:hover { background: #0088CC; }
-.social-github:hover { background: #333; }
-
-/* Intro Container Styles (for homepage) */
-.intro-container {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 2rem;
-  text-align: center;
-}
-
-.intro-content h1 {
-  font-size: clamp(2.5rem, 6vw, 4rem);
-  font-weight: 700;
-  margin-bottom: 1rem;
-  color: #fff;
-}
-
-.intro-content p {
-  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
-  margin-bottom: 3rem;
-  opacity: 0.9;
-  max-width: 600px;
-}
-
-.intro-features {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
-  margin-bottom: 3rem;
-  max-width: 1000px;
-}
-
-.feature {
-  background: rgba(255,255,255,0.1);
-  padding: 2rem;
-  border-radius: 15px;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255,255,255,0.2);
-}
-
-.feature i {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-  color: #fff;
-}
-
-.feature h3 {
-  font-size: 1.3rem;
-  margin-bottom: 1rem;
-  color: #fff;
-}
-
-.feature p {
-  font-size: 1rem;
-  opacity: 0.8;
-  margin: 0;
-}
-
-.cta-button {
-  display: inline-block;
-  background: rgba(255,255,255,0.2);
-  color: #fff;
-  padding: 1rem 2rem;
-  border-radius: 50px;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 1.1rem;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255,255,255,0.3);
-  transition: all 0.3s ease;
-}
-
-.cta-button:hover {
-  background: rgba(255,255,255,0.3);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-}
-
-.main-footer {
-  margin-top: auto;
-  padding: 2rem;
-  text-align: center;
-  opacity: 0.8;
-}
-
-.main-footer a {
-  color: #fff;
-  text-decoration: none;
-}
-
-.main-footer a:hover {
-  text-decoration: underline;
-}
-
-.footer-note {
-  font-size: 0.9rem;
-  margin-top: 0.5rem;
-  opacity: 0.7;
-}
-
-/* Animations */
-@keyframes fadeUp {
-  from { 
-    transform: translateY(30px); 
-    opacity: 0; 
-  }
-  to { 
-    transform: translateY(0); 
-    opacity: 1; 
-  }
-}
-
-@keyframes zoomIn {
-  from { 
-    transform: scale(1.1); 
-  }
-  to { 
-    transform: scale(1.05); 
-  }
-}
-
-@keyframes heartBeat {
-  0%, 50%, 100% { 
-    transform: scale(1); 
-  }
-  25%, 75% { 
-    transform: scale(1.2); 
-  }
-}
-
-/* Mobile adjustments */
-@media (max-width: 768px) {
-  .profile-header,
-  .about-me-section,
-  .social-section,
-  .interaction-container {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-  }
-  
-  .social-grid {
-    gap: 0.8rem;
-  }
-  
-  .social-link {
-    width: 48px;
-    height: 48px;
-  }
-  
-  .intro-features {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-  
-  .feature {
-    padding: 1.5rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .profile-header,
-  .about-me-section,
-  .social-section,
-  .interaction-container {
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
-  
-  .social-link {
-    width: 44px;
-    height: 44px;
-  }
-  
-  .intro-container {
-    padding: 1rem;
-  }
-}
+    .footer-note {
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+      opacity: 0.7;
+    }
