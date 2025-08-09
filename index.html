@@ -69,47 +69,71 @@
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="https://mywebsam.site/about.jpg" />
 
-  <!-- Fonts & Icons -->
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-  />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-    rel="stylesheet"
-  />
+  <!-- Font Preload for Better Performance -->
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"></noscript>
+  
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" media="print" onload="this.media='all'">
 
   <style>
     :root {
       --accent-dark: #2b2b2b;
-      --accent-mid: #555;
-      --pill-bg: #f4f4f4;
+      --accent-mid: #555555;
+      --pill-bg: rgba(244, 244, 244, 0.9);
+      --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --white-overlay: linear-gradient(180deg, transparent 50%, rgba(255,255,255,0.95) 100%);
+      --shadow-subtle: 0 4px 20px rgba(0,0,0,0.08);
+      --shadow-hover: 0 8px 30px rgba(0,0,0,0.15);
+      --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; width: 100%; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      font-size: 16px;
+      scroll-behavior: smooth;
+    }
+
     body {
-      font-family: "Poppins", system-ui, sans-serif;
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
       background: #000;
-      overflow: hidden;
+      color: #333;
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
+    /* Profile Container - Main Hero */
     .profile-container {
       position: relative;
-      width: 100%;
+      width: 100vw;
       height: 100vh;
+      overflow: hidden;
+      background: #000;
     }
 
     .profile-image {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
       object-position: center;
-      transition: transform 1.2s ease;
+      transform: scale(1.02);
+      transition: transform 2s ease-out;
+      will-change: transform;
     }
 
     .profile-container:hover .profile-image {
-      transform: scale(1.05);
+      transform: scale(1.08);
     }
 
     .overlay {
@@ -118,180 +142,314 @@
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
-      padding: clamp(20px, 5vw, 60px);
-      background: linear-gradient(180deg, rgba(0,0,0,0) 60%, rgba(255,255,255,0.95) 100%);
+      align-items: center;
+      padding: clamp(1.5rem, 5vw, 4rem);
+      background: var(--white-overlay);
       text-align: center;
-      animation: fadeIn 1s ease forwards;
+      opacity: 0;
+      animation: slideUpFade 1.2s ease-out 0.3s forwards;
     }
 
     .profile-name {
-      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-size: clamp(2rem, 5vw, 3.5rem);
       font-weight: 700;
       color: var(--accent-dark);
-      margin-bottom: 8px;
-      transition: color .3s ease;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+      transition: var(--transition-smooth);
+      text-shadow: 0 2px 10px rgba(255,255,255,0.8);
+      line-height: 1.1;
     }
 
     .bio-text {
       color: var(--accent-mid);
-      font-size: clamp(0.9rem, 2vw, 1.2rem);
-      margin-bottom: 24px;
-      transition: color .3s ease;
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      font-weight: 400;
+      margin-bottom: 2rem;
+      max-width: 600px;
+      transition: var(--transition-smooth);
+      opacity: 0.9;
+      line-height: 1.4;
     }
 
     .social-grid {
       display: flex;
       justify-content: center;
-      gap: 14px;
+      align-items: center;
+      gap: clamp(0.8rem, 2vw, 1.2rem);
       flex-wrap: wrap;
+      max-width: 100%;
     }
 
     .social-link {
-      background: var(--pill-bg);
-      padding: 12px 20px;
-      border-radius: 28px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
+      background: var(--pill-bg);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: clamp(0.8rem, 2vw, 1rem) clamp(1.2rem, 3vw, 1.5rem);
+      border-radius: 2rem;
       text-decoration: none;
       color: var(--accent-dark);
       font-weight: 600;
-      font-size: 15px;
-      transition: transform .18s, box-shadow .18s, background .3s ease, color .3s ease;
-      min-width: 56px;
+      font-size: clamp(0.9rem, 2vw, 1rem);
+      min-width: 3.5rem;
+      min-height: 3.5rem;
+      border: 1px solid rgba(255,255,255,0.3);
+      box-shadow: var(--shadow-subtle);
+      transition: var(--transition-bounce);
+      position: relative;
+      overflow: hidden;
     }
 
-    .social-link i { 
-      width: 20px; 
-      height: 20px; 
-      font-size: 20px;
-      transition: transform .3s ease; 
+    .social-link::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      transition: left 0.6s ease;
+    }
+
+    .social-link:hover::before {
+      left: 100%;
     }
 
     .social-link:hover {
-      transform: translateY(-4px) scale(1.03);
-      box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--accent-dark);
+    }
+
+    .social-link:active {
+      transform: translateY(-2px) scale(1.02);
+      transition: var(--transition-smooth);
+    }
+
+    .social-link i {
+      font-size: clamp(1.2rem, 2.5vw, 1.4rem);
+      transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      z-index: 2;
+      position: relative;
     }
 
     .social-link:hover i {
-      transform: rotate(10deg);
+      transform: rotate(8deg) scale(1.1);
     }
 
     .social-link span {
       display: none;
     }
 
+    /* Platform-specific hover effects */
+    .social-link[href*="instagram"]:hover {
+      background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+      color: white;
+    }
+
+    .social-link[href*="youtube"]:hover {
+      background: #ff0000;
+      color: white;
+    }
+
+    .social-link[href*="twitter"]:hover {
+      background: #1da1f2;
+      color: white;
+    }
+
+    .social-link[href*="linkedin"]:hover {
+      background: #0077b5;
+      color: white;
+    }
+
+    .social-link[href*="github"]:hover {
+      background: #333;
+      color: white;
+    }
+
+    .social-link[href*="facebook"]:hover {
+      background: #1877f2;
+      color: white;
+    }
+
+    .social-link[href*="snapchat"]:hover {
+      background: #fffc00;
+      color: #333;
+    }
+
+    .social-link[href*="whatsapp"]:hover {
+      background: #25d366;
+      color: white;
+    }
+
+    .social-link[href*="telegram"]:hover {
+      background: #0088cc;
+      color: white;
+    }
+
     /* Hide original sections */
     .profile-header,
-    .about-me-section,
+    .about-me-section, 
     .social-section {
-      display: none;
+      display: none !important;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @media (max-width: 480px) {
-      .social-grid { gap: 10px; }
-      .social-link { padding: 10px 16px; font-size: 14px; }
-    }
-
-    /* Intro Container Styles (for homepage) */
+    /* Intro Container */
     .intro-container {
       min-height: 100vh;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: var(--primary-gradient);
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 2rem;
+      padding: clamp(1rem, 5vw, 3rem);
       text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .intro-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 30% 70%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .intro-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1200px;
+      margin: 0 auto;
     }
 
     .intro-content h1 {
-      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-size: clamp(2.5rem, 8vw, 5rem);
       font-weight: 700;
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
       color: #fff;
+      letter-spacing: -0.02em;
+      text-shadow: 0 4px 20px rgba(0,0,0,0.2);
     }
 
-    .intro-content p {
-      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
-      margin-bottom: 3rem;
-      opacity: 0.9;
-      max-width: 600px;
+    .intro-content > p {
+      font-size: clamp(1.1rem, 3vw, 1.6rem);
+      margin-bottom: 4rem;
+      opacity: 0.95;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      color: #fff;
     }
 
     .intro-features {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 2rem;
       margin-bottom: 3rem;
-      max-width: 1000px;
+      max-width: 1200px;
     }
 
     .feature {
-      background: rgba(255,255,255,0.1);
-      padding: 2rem;
-      border-radius: 15px;
-      backdrop-filter: blur(10px);
+      background: rgba(255,255,255,0.12);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      padding: 2.5rem 2rem;
+      border-radius: 1.5rem;
       border: 1px solid rgba(255,255,255,0.2);
+      transition: var(--transition-smooth);
+      text-align: center;
+    }
+
+    .feature:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      background: rgba(255,255,255,0.18);
     }
 
     .feature i {
-      font-size: 2rem;
-      margin-bottom: 1rem;
+      font-size: 3rem;
+      margin-bottom: 1.5rem;
       color: #fff;
+      opacity: 0.9;
     }
 
     .feature h3 {
-      font-size: 1.3rem;
+      font-size: 1.4rem;
+      font-weight: 600;
       margin-bottom: 1rem;
       color: #fff;
     }
 
     .feature p {
       font-size: 1rem;
-      opacity: 0.8;
+      opacity: 0.85;
       margin: 0;
+      color: #fff;
+      line-height: 1.5;
     }
 
     .cta-button {
       display: inline-block;
       background: rgba(255,255,255,0.2);
       color: #fff;
-      padding: 1rem 2rem;
-      border-radius: 50px;
+      padding: 1.2rem 2.5rem;
+      border-radius: 3rem;
       text-decoration: none;
       font-weight: 600;
       font-size: 1.1rem;
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
       border: 1px solid rgba(255,255,255,0.3);
-      transition: all 0.3s ease;
+      transition: var(--transition-bounce);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.6s ease;
+    }
+
+    .cta-button:hover::before {
+      left: 100%;
     }
 
     .cta-button:hover {
       background: rgba(255,255,255,0.3);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.25);
     }
 
     .main-footer {
-      margin-top: auto;
-      padding: 2rem;
+      margin-top: 3rem;
+      padding: 2rem 0;
       text-align: center;
       opacity: 0.8;
+      color: #fff;
     }
 
     .main-footer a {
       color: #fff;
       text-decoration: none;
+      transition: var(--transition-smooth);
     }
 
     .main-footer a:hover {
+      opacity: 0.8;
       text-decoration: underline;
     }
 
@@ -300,12 +458,136 @@
       margin-top: 0.5rem;
       opacity: 0.7;
     }
+
+    /* Animations */
+    @keyframes slideUpFade {
+      0% {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+    }
+
+    /* Loading state */
+    .profile-container.loading {
+      background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+      background-size: 400% 400%;
+      animation: gradientShift 2s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .social-grid {
+        gap: 0.8rem;
+        justify-content: center;
+      }
+      
+      .social-link {
+        min-width: 3rem;
+        min-height: 3rem;
+        padding: 0.8rem 1rem;
+      }
+      
+      .overlay {
+        padding: 2rem 1.5rem;
+      }
+      
+      .intro-features {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      
+      .feature {
+        padding: 2rem 1.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .social-grid {
+        gap: 0.6rem;
+      }
+      
+      .social-link {
+        min-width: 2.8rem;
+        min-height: 2.8rem;
+        padding: 0.7rem 0.9rem;
+      }
+      
+      .overlay {
+        padding: 1.5rem 1rem;
+      }
+      
+      .bio-text {
+        margin-bottom: 1.5rem;
+      }
+    }
+
+    @media (min-width: 1400px) {
+      .profile-name {
+        font-size: 4rem;
+      }
+      
+      .bio-text {
+        font-size: 1.4rem;
+      }
+      
+      .social-link {
+        padding: 1.2rem 1.8rem;
+        min-width: 4rem;
+        min-height: 4rem;
+      }
+    }
+
+    /* Accessibility */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* High contrast mode */
+    @media (prefers-contrast: high) {
+      .social-link {
+        border: 2px solid var(--accent-dark);
+      }
+      
+      .profile-name {
+        text-shadow: none;
+      }
+    }
+
+    /* Dark mode support */
+    @media (prefers-color-scheme: dark) {
+      .intro-container {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      }
+    }
   </style>
 </head>
 <body>
   <!-- Main Container -->
   <div class="profile-container" id="profile-container" style="display:none">
-    <img class="profile-image" id="profile-image" src="" alt="Profile Image" />
+    <img class="profile-image" id="profile-image" src="" alt="Profile Image" loading="eager" />
     
     <div class="overlay">
       <h1 class="profile-name" id="profile-name"></h1>
@@ -313,23 +595,20 @@
       <div class="social-grid" id="social-grid"></div>
     </div>
 
-    <!-- Original structure (hidden) -->
-    <div class="profile-header">
-      <img class="profile-image-hidden" id="profile-image-hidden" src="" alt="Profile Image" />
-      <h1 class="profile-name-hidden" id="profile-name-hidden"></h1>
-    </div>
-
-    <div class="about-me-section" id="about-me-section">
-      <div class="about-title">
-        <i class="fas fa-user"></i>
-        About Me
+    <!-- Hidden original structure for compatibility -->
+    <div style="display:none">
+      <div class="profile-header">
+        <img id="profile-image-hidden" src="" alt="" />
+        <h1 id="profile-name-hidden"></h1>
       </div>
-      <div class="bio-text-hidden" id="profile-bio-hidden"></div>
-    </div>
-
-    <div class="social-section">
-      <div class="social-title">Connect with me</div>
-      <div class="social-grid-hidden" id="social-grid-hidden"></div>
+      <div class="about-me-section" id="about-me-section">
+        <div class="about-title"><i class="fas fa-user"></i> About Me</div>
+        <div id="profile-bio-hidden"></div>
+      </div>
+      <div class="social-section">
+        <div class="social-title">Connect with me</div>
+        <div id="social-grid-hidden"></div>
+      </div>
     </div>
   </div>
 
@@ -346,22 +625,22 @@
         <div class="feature">
           <i class="fas fa-user-circle"></i>
           <h3>Personal Profile</h3>
-          <p>Showcase your information and bio</p>
+          <p>Showcase your information and bio with stunning visual design</p>
         </div>
         <div class="feature">
           <i class="fas fa-share-alt"></i>
           <h3>Social Links</h3>
-          <p>All your social media in one place</p>
+          <p>All your social media platforms unified in one beautiful page</p>
         </div>
         <div class="feature">
           <i class="fas fa-music"></i>
           <h3>Spotify Integration</h3>
-          <p>Share your favorite music</p>
+          <p>Share your favorite music and playlists with your audience</p>
         </div>
         <div class="feature">
           <i class="fas fa-mobile-alt"></i>
           <h3>Mobile Optimized</h3>
-          <p>Perfect on all devices</p>
+          <p>Perfect responsive design that works flawlessly on all devices</p>
         </div>
       </div>
 
@@ -371,11 +650,21 @@
     <footer class="main-footer">
       Made with 🖤 By
       <b><a href="https://samarthags.in" target="_blank">Samartha GS</a></b>
-      <p class="footer-note">Click on <b>Samartha GS</b></p>
+      <p class="footer-note">Click on <b>Samartha GS</b> to visit portfolio</p>
     </footer>
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.2/color-thief.umd.js"></script>
+  <script>
+    // Performance optimizations
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    
+    // Preload ColorThief
+    const colorThiefScript = document.createElement('script');
+    colorThiefScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.2/color-thief.umd.js';
+    colorThiefScript.async = true;
+    document.head.appendChild(colorThiefScript);
+  </script>
+
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
     import {
@@ -385,8 +674,6 @@
       query,
       where,
     } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
-
-    const urlParams = new URLSearchParams(window.location.search);
 
     const firebaseConfig = {
       apiKey: "AIzaSyBb3x_zD9JaFwL9PhmngCNZlS2fOh6MBa4",
@@ -400,7 +687,6 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // Variables to track profile
     let currentUsername = null;
 
     async function loadProfile() {
@@ -411,45 +697,65 @@
       if (username) {
         document.getElementById("profile-container").style.display = "block";
         document.getElementById("intro-container").style.display = "none";
+        
+        // Add loading state
+        document.getElementById("profile-container").classList.add('loading');
 
-        const q = query(collection(db, "profiles"), where("username", "==", username));
-        const querySnapshot = await getDocs(q);
+        try {
+          const q = query(collection(db, "profiles"), where("username", "==", username));
+          const querySnapshot = await getDocs(q);
 
-        if (!querySnapshot.empty) {
-          const profileDoc = querySnapshot.docs[0];
-          const profile = profileDoc.data();
+          if (!querySnapshot.empty) {
+            const profileDoc = querySnapshot.docs[0];
+            const profile = profileDoc.data();
 
-          const profileName = profile.name || username;
-          const profileImage =
-            profile.imageUrl ||
-            "https://i.ibb.co/sKbrkyn/Yellow-and-Grey-Pastel-Grunge-Designer-Brand-Logo-20241009-185202-0000.png";
-          const currentUrl = window.location.href;
+            const profileName = profile.name || username;
+            const profileImage = profile.imageUrl || "https://i.ibb.co/sKbrkyn/Yellow-and-Grey-Pastel-Grunge-Designer-Brand-Logo-20241009-185202-0000.png";
+            const currentUrl = window.location.href;
 
-          updateProfileSEO(profileName, "", profileImage, currentUrl);
+            // Update SEO
+            updateProfileSEO(profileName, "", profileImage, currentUrl);
 
-          document.getElementById("profile-name").innerText = profileName;
-          updateBioWithSentence(profile);
-          
-          const imgElement = document.getElementById("profile-image");
-          imgElement.src = profileImage;
+            // Set content
+            document.getElementById("profile-name").innerText = profileName;
+            updateBioWithSentence(profile);
+            
+            const imgElement = document.getElementById("profile-image");
+            imgElement.src = profileImage;
 
-          // Extract colors from image after it loads
-          imgElement.addEventListener('load', () => {
-            if (window.ColorThief && imgElement.complete) {
-              try {
-                const colorThief = new ColorThief();
-                const color = colorThief.getColor(imgElement);
-                applyColor(color);
-              } catch (e) {
-                console.log('Color extraction failed, using default colors');
+            // Handle image loading and color extraction
+            imgElement.onload = function() {
+              // Remove loading state
+              document.getElementById("profile-container").classList.remove('loading');
+              
+              // Extract colors if ColorThief is available
+              if (window.ColorThief) {
+                try {
+                  const colorThief = new ColorThief();
+                  if (this.complete && this.naturalWidth > 0) {
+                    const color = colorThief.getColor(this);
+                    applyColor(color);
+                  }
+                } catch (e) {
+                  console.log('Color extraction skipped:', e.message);
+                }
               }
-            }
-          });
+            };
 
-          updateSocialLinks(profile);
-        } else {
-          alert("Profile not found!");
-          window.location.href = "/";
+            imgElement.onerror = function() {
+              document.getElementById("profile-container").classList.remove('loading');
+              console.log('Image failed to load, using fallback');
+            };
+
+            updateSocialLinks(profile);
+
+          } else {
+            alert("Profile not found!");
+            window.location.href = "/";
+          }
+        } catch (error) {
+          console.error("Error loading profile:", error);
+          document.getElementById("profile-container").classList.remove('loading');
         }
       } else {
         document.getElementById("intro-container").style.display = "block";
@@ -458,8 +764,18 @@
     }
 
     function applyColor(rgb) {
+      if (!rgb || rgb.length !== 3) return;
+      
       const [r, g, b] = rgb;
-      document.documentElement.style.setProperty('--accent-dark', `rgb(${r},${g},${b})`);
+      const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+      
+      // Adjust colors based on brightness for better contrast
+      if (brightness > 128) {
+        document.documentElement.style.setProperty('--accent-dark', `rgb(${Math.max(0, r-50)},${Math.max(0, g-50)},${Math.max(0, b-50)})`);
+      } else {
+        document.documentElement.style.setProperty('--accent-dark', `rgb(${Math.min(255, r+50)},${Math.min(255, g+50)},${Math.min(255, b+50)})`);
+      }
+      
       document.documentElement.style.setProperty('--accent-mid', `rgba(${r},${g},${b},0.7)`);
       document.documentElement.style.setProperty('--pill-bg', `rgba(${r},${g},${b},0.15)`);
     }
@@ -471,8 +787,6 @@
         parts.push(`Hi, I am ${profile.name}`);
       } else if (currentUsername) {
         parts.push(`Hi, I am ${currentUsername}`);
-      } else {
-        parts.push("Hi");
       }
 
       if (profile.location) {
@@ -485,49 +799,40 @@
           month: "long",
           day: "numeric",
         });
-        parts.push(`I was born on ${formattedBirthday}`);
+        parts.push(`born on ${formattedBirthday}`);
       }
 
       if (profile.bio) {
         parts.push(profile.bio);
       }
 
-      // Join parts with proper punctuation and spacing
-      const sentence = parts.join(". ") + ".";
-
+      const sentence = parts.length > 0 ? parts.join(". ") + "." : "Welcome to my profile!";
       document.getElementById("profile-bio").innerText = sentence;
     }
 
     function updateProfileSEO(name, bio, image, url) {
-      // Update page title
       document.title = `${name} | Mywebsam`;
 
-      // Update meta tags
       const metaTags = {
         title: `${name}'s Profile | Mywebsam`,
-        description: bio,
+        description: bio || `Check out ${name}'s profile on Mywebsam`,
         "og:title": `${name}'s Profile | Mywebsam`,
-        "og:description": bio,
+        "og:description": bio || `Check out ${name}'s profile on Mywebsam`,
         "og:image": image,
         "og:url": url,
         "twitter:title": `${name}'s Profile | Mywebsam`,
-        "twitter:description": bio,
+        "twitter:description": bio || `Check out ${name}'s profile on Mywebsam`,
         "twitter:image": image,
       };
 
-      // Update each meta tag
       Object.entries(metaTags).forEach(([key, value]) => {
-        let metaTag = document.querySelector(`meta[name="${key}"]`);
-        if (!metaTag) {
-          metaTag = document.querySelector(`meta[property="${key}"]`);
-        }
-
-        if (metaTag) {
+        let metaTag = document.querySelector(`meta[name="${key}"]`) || 
+                     document.querySelector(`meta[property="${key}"]`);
+        if (metaTag && value) {
           metaTag.setAttribute("content", value);
         }
       });
 
-      // Update structured data for the individual profile
       const profileSchema = {
         "@context": "https://schema.org",
         "@type": "Person",
@@ -537,7 +842,10 @@
         url: url,
       };
 
-      document.getElementById("profile-schema").textContent = JSON.stringify(profileSchema);
+      const schemaElement = document.getElementById("profile-schema");
+      if (schemaElement) {
+        schemaElement.textContent = JSON.stringify(profileSchema);
+      }
     }
 
     function updateSocialLinks(profile) {
@@ -573,7 +881,7 @@
           icon: "fab fa-linkedin",
         },
         youtube: {
-          url: `https://m.youtube.com/${profile.youtube}`,
+          url: `https://youtube.com/${profile.youtube}`,
           name: "YouTube",
           icon: "fab fa-youtube",
         },
@@ -593,16 +901,73 @@
       Object.entries(socialPlatforms).forEach(([platform, data]) => {
         if (profile[platform]) {
           socialHTML += `
-            <a href="${data.url}" target="_blank" rel="noopener" class="social-link">
-              <i class="${data.icon}"></i>
+            <a href="${data.url}" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="${data.name}">
+              <i class="${data.icon}" aria-hidden="true"></i>
             </a>
           `;
         }
       });
-      document.getElementById("social-grid").innerHTML = socialHTML;
+      
+      const socialGrid = document.getElementById("social-grid");
+      if (socialGrid) {
+        socialGrid.innerHTML = socialHTML;
+      }
     }
 
-    document.addEventListener("DOMContentLoaded", loadProfile);
+    // Intersection Observer for better performance
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+
+    // Initialize on DOM load
+    document.addEventListener("DOMContentLoaded", () => {
+      loadProfile();
+      
+      // Observe elements for scroll animations
+      document.querySelectorAll('.feature').forEach(el => {
+        observer.observe(el);
+      });
+    });
+
+    // Handle window resize for better responsiveness
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        // Recalculate layouts if needed
+        const socialGrid = document.getElementById("social-grid");
+        if (socialGrid && socialGrid.children.length > 0) {
+          // Force reflow for better responsive behavior
+          socialGrid.style.display = 'none';
+          socialGrid.offsetHeight; // Trigger reflow
+          socialGrid.style.display = 'flex';
+        }
+      }, 250);
+    });
+
+    // Service Worker for better caching (optional)
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(registration => {
+            console.log('SW registered: ', registration);
+          })
+          .catch(registrationError => {
+            console.log('SW registration failed: ', registrationError);
+          });
+      });
+    }
+
   </script>
 </body>
 </html>
