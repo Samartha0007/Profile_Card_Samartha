@@ -75,10 +75,339 @@
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
   />
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap"
     rel="stylesheet"
   />
-  <link rel="stylesheet" href="./styles.css" />
+
+  <style>
+    /* Reset & Base */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Inter', 'Poppins', sans-serif;
+      background: #000;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    /* Hide intro container when profile is shown */
+    .intro-container {
+      display: none;
+    }
+
+    /* Main Profile Container - Hero Style */
+    .profile-container {
+      position: relative;
+      height: 100vh;
+      width: 100%;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    /* Profile Image as Background Hero */
+    .profile-image {
+      position: absolute;
+      inset: 0;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover;
+      transform: scale(1.05);
+      animation: zoomIn 8s ease-in-out forwards;
+      z-index: 1;
+      border-radius: 0 !important;
+    }
+
+    /* Fade overlay at bottom */
+    .profile-container::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 50%;
+      background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.85) 100%);
+      z-index: 2;
+    }
+
+    /* Profile Header */
+    .profile-header {
+      position: relative;
+      z-index: 3;
+      padding: 0;
+      text-align: left;
+      margin-bottom: 0;
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+
+    .profile-name {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+      color: #fff;
+      animation: fadeUp 1s ease-out;
+    }
+
+    /* About Me Section */
+    .about-me-section {
+      position: relative;
+      z-index: 3;
+      padding: 0 2rem;
+      margin-bottom: 2rem;
+      animation: fadeUp 1s ease-out 0.2s both;
+    }
+
+    .about-title {
+      display: none; /* Hide the "About Me" title */
+    }
+
+    .bio-text {
+      font-size: clamp(1rem, 2.2vw, 1.4rem);
+      opacity: 0.9;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+      line-height: 1.4;
+      margin-bottom: 1.5rem;
+      color: #fff;
+    }
+
+    /* Social Links Section */
+    .social-section {
+      position: relative;
+      z-index: 3;
+      padding: 0 2rem 2rem 2rem;
+      animation: fadeUp 1s ease-out 0.4s both;
+    }
+
+    .social-title {
+      display: none; /* Hide the social title */
+    }
+
+    .social-grid {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+    }
+
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.15);
+      padding: 0.8rem;
+      border-radius: 50%;
+      backdrop-filter: blur(8px);
+      transition: all 0.3s ease;
+      text-decoration: none;
+      color: #fff;
+      width: 56px;
+      height: 56px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .social-link:hover {
+      transform: scale(1.15);
+      background: rgba(255,255,255,0.25);
+      box-shadow: 0 4px 20px rgba(255,255,255,0.3);
+      border-color: rgba(255,255,255,0.3);
+    }
+
+    .social-link i {
+      font-size: clamp(20px, 2.5vw, 24px);
+    }
+
+    .social-link span {
+      display: none; /* Hide text labels in hero style */
+    }
+
+    /* Platform-specific colors for social icons */
+    .social-instagram:hover { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+    .social-snapchat:hover { background: #FFFC00; }
+    .social-whatsapp:hover { background: #25D366; }
+    .social-facebook:hover { background: #1877F2; }
+    .social-twitter:hover { background: #1DA1F2; }
+    .social-linkedin:hover { background: #0077B5; }
+    .social-youtube:hover { background: #FF0000; }
+    .social-telegram:hover { background: #0088CC; }
+    .social-github:hover { background: #333; }
+
+    /* Intro Container Styles (for homepage) */
+    .intro-container {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .intro-content h1 {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: #fff;
+    }
+
+    .intro-content p {
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      margin-bottom: 3rem;
+      opacity: 0.9;
+      max-width: 600px;
+    }
+
+    .intro-features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+      max-width: 1000px;
+    }
+
+    .feature {
+      background: rgba(255,255,255,0.1);
+      padding: 2rem;
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .feature i {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #fff;
+    }
+
+    .feature h3 {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      color: #fff;
+    }
+
+    .feature p {
+      font-size: 1rem;
+      opacity: 0.8;
+      margin: 0;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      color: #fff;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.3);
+      transition: all 0.3s ease;
+    }
+
+    .cta-button:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    }
+
+    .main-footer {
+      margin-top: auto;
+      padding: 2rem;
+      text-align: center;
+      opacity: 0.8;
+    }
+
+    .main-footer a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .main-footer a:hover {
+      text-decoration: underline;
+    }
+
+    .footer-note {
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+      opacity: 0.7;
+    }
+
+    /* Animations */
+    @keyframes fadeUp {
+      from { 
+        transform: translateY(30px); 
+        opacity: 0; 
+      }
+      to { 
+        transform: translateY(0); 
+        opacity: 1; 
+      }
+    }
+
+    @keyframes zoomIn {
+      from { 
+        transform: scale(1.1); 
+      }
+      to { 
+        transform: scale(1.05); 
+      }
+    }
+
+    /* Mobile adjustments */
+    @media (max-width: 768px) {
+      .profile-header,
+      .about-me-section,
+      .social-section {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+      }
+      
+      .social-grid {
+        gap: 0.8rem;
+      }
+      
+      .social-link {
+        width: 48px;
+        height: 48px;
+      }
+      
+      .intro-features {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      
+      .feature {
+        padding: 1.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .profile-header,
+      .about-me-section,
+      .social-section {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      
+      .social-link {
+        width: 44px;
+        height: 44px;
+      }
+      
+      .intro-container {
+        padding: 1rem;
+      }
+    }
+  </style>
 </head>
 <body>
   <!-- Main Container -->
@@ -101,24 +430,12 @@
         About Me
       </div>
       <div class="bio-text" id="profile-bio"></div>
-      <!-- Removed info-grid -->
     </div>
 
     <!-- Social Links Section -->
     <div class="social-section">
       <div class="social-title">Connect with me</div>
       <div class="social-grid" id="social-grid"></div>
-    </div>
-
-    <!-- Like Button -->
-    <div class="interaction-container">
-      <div class="like-button-wrapper" id="like-button-wrapper">
-        <div class="like-button" id="like-button">
-          <i class="fas fa-heart"></i>
-          <div class="like-message" id="like-message">Thanks for the love!</div>
-        </div>
-        <div class="like-count" id="like-count">0 likes</div>
-      </div>
     </div>
   </div>
 
@@ -138,11 +455,6 @@
           <p>Showcase your information and bio</p>
         </div>
         <div class="feature">
-          <i class="fas fa-heart"></i>
-          <h3>Show Some Love</h3>
-          <p>Anyone visiting your profile can 'like' to show they appreciate you.</p>
-        </div>
-        <div class="feature">
           <i class="fas fa-share-alt"></i>
           <h3>Social Links</h3>
           <p>All your social media in one place</p>
@@ -151,6 +463,11 @@
           <i class="fas fa-music"></i>
           <h3>Spotify Integration</h3>
           <p>Share your favorite music</p>
+        </div>
+        <div class="feature">
+          <i class="fas fa-mobile-alt"></i>
+          <h3>Mobile Optimized</h3>
+          <p>Perfect on all devices</p>
         </div>
       </div>
 
@@ -172,11 +489,6 @@
       getDocs,
       query,
       where,
-      doc,
-      updateDoc,
-      getDoc,
-      setDoc,
-      increment,
     } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
 
     const urlParams = new URLSearchParams(window.location.search);
@@ -193,10 +505,8 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // Variables to track profile and likes
-    let currentProfileId = null;
+    // Variables to track profile
     let currentUsername = null;
-    let hasLiked = false;
 
     async function loadProfile() {
       const path = window.location.pathname.substring(1);
@@ -213,7 +523,6 @@
         if (!querySnapshot.empty) {
           const profileDoc = querySnapshot.docs[0];
           const profile = profileDoc.data();
-          currentProfileId = profileDoc.id;
 
           const profileName = profile.name || username;
           const profileImage =
@@ -224,16 +533,10 @@
           updateProfileSEO(profileName, "", profileImage, currentUrl);
 
           document.getElementById("profile-name").innerText = profileName;
-          // Here, update bio with combined sentence
           updateBioWithSentence(profile);
           document.getElementById("profile-image").src = profileImage;
 
-          // Removed updateInfoGrid call
-
           updateSocialLinks(profile);
-
-          // Initialize like button functionality
-          initializeLikeSystem(currentProfileId);
         } else {
           alert("Profile not found!");
           window.location.href = "/";
@@ -381,103 +684,6 @@
         }
       });
       document.getElementById("social-grid").innerHTML = socialHTML;
-    }
-
-    // Like System Functions
-    async function initializeLikeSystem(profileId) {
-      const likeButton = document.getElementById("like-button");
-      const likeCount = document.getElementById("like-count");
-      const likeMessage = document.getElementById("like-message");
-
-      // Check if profile has likes collection
-      await checkAndInitializeLikes(profileId);
-
-      // Load current like count
-      const likesRef = doc(db, "profileLikes", profileId);
-      const likesDoc = await getDoc(likesRef);
-
-      if (likesDoc.exists()) {
-        const likesData = likesDoc.data();
-        updateLikeCountDisplay(likesData.count || 0);
-
-        // Check if user has already liked
-        const userLikeKey = getUserLikeKey();
-        hasLiked = localStorage.getItem(userLikeKey) === "true";
-
-        if (hasLiked) {
-          likeButton.parentElement.classList.add("liked");
-        }
-      }
-
-      // Add click event listener
-      likeButton.addEventListener("click", async () => {
-        const likeButtonWrapper = document.getElementById("like-button-wrapper");
-
-        // Toggle like state
-        hasLiked = !hasLiked;
-
-        if (hasLiked) {
-          // Save that user has liked
-          localStorage.setItem(getUserLikeKey(), "true");
-          likeButtonWrapper.classList.add("liked");
-
-          // Show thank you message
-          likeMessage.classList.add("show-message");
-          setTimeout(() => {
-            likeMessage.classList.remove("show-message");
-          }, 2000);
-
-          // Increment like in database
-          await updateDoc(likesRef, {
-            count: increment(1),
-          });
-
-          // Get updated count
-          const updatedDoc = await getDoc(likesRef);
-          if (updatedDoc.exists()) {
-            updateLikeCountDisplay(updatedDoc.data().count || 0);
-          }
-        } else {
-          // Remove like
-          localStorage.removeItem(getUserLikeKey());
-          likeButtonWrapper.classList.remove("liked");
-
-          // Decrement like in database
-          await updateDoc(likesRef, {
-            count: increment(-1),
-          });
-
-          // Get updated count
-          const updatedDoc = await getDoc(likesRef);
-          if (updatedDoc.exists()) {
-            updateLikeCountDisplay(updatedDoc.data().count || 0);
-          }
-        }
-      });
-    }
-
-    async function checkAndInitializeLikes(profileId) {
-      const likesRef = doc(db, "profileLikes", profileId);
-      const likesDoc = await getDoc(likesRef);
-
-      if (!likesDoc.exists()) {
-        // Initialize likes document if it doesn't exist
-        await setDoc(likesRef, {
-          count: 0,
-          profileId: profileId,
-          username: currentUsername,
-        });
-      }
-    }
-
-    function getUserLikeKey() {
-      // Create a unique key for this user+profile combination
-      return `liked_${currentUsername}_${currentProfileId}`;
-    }
-
-    function updateLikeCountDisplay(count) {
-      const likeCount = document.getElementById("like-count");
-      likeCount.textContent = count === 1 ? "1 like" : `${count} likes`;
     }
 
     document.addEventListener("DOMContentLoaded", loadProfile);
