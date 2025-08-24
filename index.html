@@ -20,7 +20,7 @@
     <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
 
     <!--=============== CSS ===============-->
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/styles.css">
 
     <title id="page-title">MyPortfolio</title>
 </head>
@@ -123,15 +123,15 @@
                 <div class="about__data">
                     <div class="about__info">
                         <div class="about__box">
-                            <i class='bx bxs-user-plus about__icon'></i>
-                            <h3 class="about__title" id="subscribers-count">0</h3>
-                            <span class="about__subtitle">Subscribers</span>
+                            <i class='bx bxs-map about__icon'></i>
+                            <h3 class="about__title" id="location-display">Location</h3>
+                            <span class="about__subtitle">Location</span>
                         </div>
 
                         <div class="about__box">
-                            <i class='bx bxs-like about__icon'></i>
-                            <h3 class="about__title" id="total-likes">0</h3>
-                            <span class="about__subtitle">Likes</span>
+                            <i class='bx bxs-cake about__icon'></i>
+                            <h3 class="about__title" id="birthday-display">Birthday</h3>
+                            <span class="about__subtitle">Birthday</span>
                         </div>
 
                         <div class="about__box">
@@ -294,8 +294,21 @@
             profileImg.alt = profile.name || 'Profile Image';
 
             // Stats
-            document.getElementById('subscribers-count').textContent = formatNumber(profile.subscribers || 0);
-            document.getElementById('total-likes').textContent = formatNumber(profile.totalLikes || 0);
+            document.getElementById('location-display').textContent = profile.location || 'Not specified';
+            
+            // Format birthday
+            if (profile.birthday) {
+                const birthday = new Date(profile.birthday);
+                const formattedBirthday = birthday.toLocaleDateString('en-US', { 
+                    month: 'long', 
+                    day: 'numeric',
+                    year: 'numeric'
+                });
+                document.getElementById('birthday-display').textContent = formattedBirthday;
+            } else {
+                document.getElementById('birthday-display').textContent = 'Not specified';
+            }
+            
             document.getElementById('views-count').textContent = formatNumber(profile.views || 0);
 
             // Main CTA
