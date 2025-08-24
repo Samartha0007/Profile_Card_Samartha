@@ -309,12 +309,12 @@
                         username: currentUsername
                     });
                     
-                    document.getElementById('streak-display').textContent = 1;
+                    document.getElementById('streak-display').textContent = '1';
                 }
                 
             } catch (error) {
                 console.error("Error handling streak system:", error);
-                document.getElementById('streak-display').textContent = 0;
+                document.getElementById('streak-display').textContent = '0';
             }
         }
                     await initializeLikeSystem();
@@ -360,8 +360,8 @@
                 document.getElementById('birthday-display').textContent = 'Not specified';
             }
             
-            // Initialize streak system
-            await initializeStreakSystem();
+            // Set default streak while loading
+            document.getElementById('streak-display').textContent = '0';
 
             // Main CTA
             const mainCta = document.getElementById('main-cta');
