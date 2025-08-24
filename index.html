@@ -1,620 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Fixed Meta Tags for Rich Results -->
   <title>Mywebsam - Create and Share Your Personalized Profile Page</title>
 
   <!-- Primary Meta Tags -->
-  <meta name="title" content="Mywebsam - Create and Share Your Personalized Profile Page" />
-  <meta
-    name="description"
-    content="Create and share your personalized profile page with all your social links in one place. Connect Instagram, Twitter, LinkedIn, and more social profiles in a single shareable page."
-  />
-  <meta name="keywords" content="profile links, bio links, social media hub, link in bio, personal page, mywebsam" />
-  <meta name="author" content="Samartha GS" />
+  <meta name="title" content="Mywebsam - Create and Share Your Personalized Profile Page">
+  <meta name="description" content="Create and share your personalized profile page with all your social links in one place. Connect Instagram, Twitter, LinkedIn, and more social profiles in a single shareable page.">
+  <meta name="keywords" content="profile links, bio links, social media hub, link in bio, personal page, mywebsam">
+  <meta name="author" content="Samartha GS">
 
   <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://mywebsam.site/" />
-  <meta property="og:title" content="Mywebsam - All Your Social Profiles in One Place" />
-  <meta
-    property="og:description"
-    content="Create your personalized profile page with all your social media links, bio, and more. Share one link to connect people with all your online presence."
-  />
-  <meta property="og:image" content="https://mywebsam.site/about.jpg" />
-  <meta property="og:site_name" content="Mywebsam" />
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mywebsam.site/">
+  <meta property="og:title" content="Mywebsam - All Your Social Profiles in One Place">
+  <meta property="og:description" content="Create your personalized profile page with all your social media links, bio, and more. Share one link to connect people with all your online presence.">
+  <meta property="og:image" content="https://mywebsam.site/about.jpg">
+  <meta property="og:site_name" content="Mywebsam">
 
-  <meta name="google-site-verification" content="F4b7UTVHLhhIQh3GfQX0gvdpJMOWMl6kLeB6yx_LFY8" />
+<meta name="google-site-verification" content="F4b7UTVHLhhIQh3GfQX0gvdpJMOWMl6kLeB6yx_LFY8" />
 
   <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image" />
-  <meta property="twitter:url" content="https://mywebsam.site/" />
-  <meta property="twitter:title" content="Mywebsam - Your Digital Identity in One Link" />
-  <meta
-    property="twitter:description"
-    content="Share all your social media profiles with just one link. Create your personalized profile page today with Mywebsam."
-  />
-  <meta property="twitter:image" content="https://mywebsam.site/abot.jpg" />
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://mywebsam.site/">
+  <meta property="twitter:title" content="Mywebsam - Your Digital Identity in One Link">
+  <meta property="twitter:description" content="Share all your social media profiles with just one link. Create your personalized profile page today with Mywebsam.">
+  <meta property="twitter:image" content="https://mywebsam.site/abot.jpg">
 
   <!-- Structured Data for Rich Results -->
   <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "Mywebsam",
-      "url": "https://mywebsam.site",
-      "description": "Create and share your personalized profile page with all your social links in one place",
-      "applicationCategory": "SocialNetworking",
-      "offers": {
-        "@type": "Offer",
-        "price": "0"
-      },
-      "screenshot": "https://mywebsam.site/about.jpg",
-      "featureList": "Personal Profile, Social Links, Spotify Integration",
-      "operatingSystem": "All",
-      "author": {
-        "@type": "Person",
-        "name": "Samartha GS",
-        "url": "https://samarthags.in"
-      }
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Mywebsam",
+    "url": "https://mywebsam.site",
+    "description": "Create and share your personalized profile page with all your social links in one place",
+    "applicationCategory": "SocialNetworking",
+    "offers": {
+      "@type": "Offer",
+      "price": "0"
+    },
+    "screenshot": "https://mywebsam.site/about.jpg",
+    "featureList": "Personal Profile, Social Links, Spotify Integration",
+    "operatingSystem": "All",
+    "author": {
+      "@type": "Person",
+      "name": "Samartha GS",
+      "url": "https://samarthags.in"
     }
+  }
   </script>
 
   <!-- Individual Profile Structured Data (Will be updated by JavaScript) -->
   <script type="application/ld+json" id="profile-schema"></script>
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="https://mywebsam.site/about.jpg" />
+  <link rel="icon" type="image/png" href="https://mywebsam.site/about.jpg">
 
-  <!-- Font Preload for Better Performance -->
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"></noscript>
-
-  <!-- Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" media="print" onload="this.media='all'">
-
-  <style>
-    :root {
-      --accent-dark: #1a1a1a;
-      --accent-mid: #666666;
-      --accent-light: #f5f5f5;
-      --pill-bg: #ffffff;
-      --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      --white-overlay: linear-gradient(180deg, transparent 50%, rgba(255,255,255,0.95) 100%);
-      --shadow-subtle: 0 2px 10px rgba(0,0,0,0.1);
-      --shadow-hover: 0 4px 15px rgba(0,0,0,0.15);
-      --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      font-size: 16px;
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-      background: #000;
-      color: #333;
-      line-height: 1.6;
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-
-    /* Profile Container - Main Hero */
-    .profile-container {
-      position: relative;
-      width: 100vw;
-      height: 100vh;
-      overflow: hidden;
-      background: #000;
-    }
-
-    .profile-image {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-      transform: scale(1.02);
-      transition: transform 2s ease-out;
-      will-change: transform;
-    }
-
-    .profile-container:hover .profile-image {
-      transform: scale(1.08);
-    }
-
-    .overlay {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      align-items: center;
-      padding: clamp(1.5rem, 5vw, 4rem);
-      background: var(--white-overlay);
-      text-align: center;
-      opacity: 0;
-      animation: slideUpFade 1.2s ease-out 0.3s forwards;
-    }
-
-    .profile-name {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(2rem, 5vw, 3.5rem);
-      font-weight: 600;
-      color: var(--accent-dark);
-      margin-bottom: 1rem;
-      letter-spacing: -0.01em;
-      transition: var(--transition-smooth);
-      line-height: 1.1;
-    }
-
-    .bio-text {
-      font-family: 'Inter', sans-serif;
-      color: var(--accent-mid);
-      font-size: clamp(1rem, 2.5vw, 1.2rem);
-      font-weight: 400;
-      margin-bottom: 2rem;
-      max-width: 600px;
-      transition: var(--transition-smooth);
-      line-height: 1.5;
-      opacity: 0.9;
-    }
-
-    .social-grid {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: clamp(0.8rem, 2vw, 1.2rem);
-      flex-wrap: wrap;
-      max-width: 100%;
-    }
-
-    .social-link {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--pill-bg);
-      padding: clamp(0.8rem, 2vw, 1rem) clamp(1.2rem, 3vw, 1.5rem);
-      border-radius: 50px;
-      text-decoration: none;
-      color: var(--accent-dark);
-      font-weight: 500;
-      font-size: clamp(0.9rem, 2vw, 1rem);
-      min-width: 3.5rem;
-      min-height: 3.5rem;
-      border: 1px solid #e0e0e0;
-      box-shadow: var(--shadow-subtle);
-      transition: var(--transition-smooth);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .social-link:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-hover);
-      border-color: var(--accent-dark);
-      background: var(--accent-light);
-    }
-
-    .social-link:active {
-      transform: translateY(0px);
-      transition: transform 0.1s ease;
-    }
-
-    .social-link i {
-      font-size: clamp(1.2rem, 2.5vw, 1.4rem);
-      transition: var(--transition-smooth);
-      color: var(--accent-dark);
-    }
-
-    .social-link:hover i {
-      transform: scale(1.1);
-    }
-
-    .social-link span {
-      display: none;
-    }
-
-    /* Hide original sections */
-    .profile-header,
-    .about-me-section, 
-    .social-section {
-      display: none !important;
-    }
-
-    /* Intro Container */
-    .intro-container {
-      min-height: 100vh;
-      background: var(--primary-gradient);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: clamp(1rem, 5vw, 3rem);
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .intro-container::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: radial-gradient(circle at 30% 70%, rgba(255,255,255,0.1) 0%, transparent 50%),
-                  radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%);
-      pointer-events: none;
-    }
-
-    .intro-content {
-      position: relative;
-      z-index: 2;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .intro-content h1 {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(2.5rem, 8vw, 5rem);
-      font-weight: 700;
-      margin-bottom: 1.5rem;
-      color: #fff;
-      letter-spacing: -0.02em;
-    }
-
-    .intro-content > p {
-      font-family: 'Inter', sans-serif;
-      font-size: clamp(1.1rem, 3vw, 1.6rem);
-      margin-bottom: 4rem;
-      opacity: 0.95;
-      max-width: 700px;
-      margin-left: auto;
-      margin-right: auto;
-      color: #fff;
-    }
-
-    .intro-features {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
-      margin-bottom: 3rem;
-      max-width: 1200px;
-    }
-
-    .feature {
-      background: rgba(255,255,255,0.12);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      padding: 2.5rem 2rem;
-      border-radius: 1.5rem;
-      border: 1px solid rgba(255,255,255,0.2);
-      transition: var(--transition-smooth);
-      text-align: center;
-    }
-
-    .feature:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-      background: rgba(255,255,255,0.18);
-    }
-
-    .feature i {
-      font-size: 3rem;
-      margin-bottom: 1.5rem;
-      color: #fff;
-      opacity: 0.9;
-    }
-
-    .feature h3 {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.4rem;
-      font-weight: 600;
-      margin-bottom: 1rem;
-      color: #fff;
-    }
-
-    .feature p {
-      font-family: 'Inter', sans-serif;
-      font-size: 1rem;
-      opacity: 0.85;
-      margin: 0;
-      color: #fff;
-      line-height: 1.5;
-    }
-
-    .cta-button {
-      display: inline-block;
-      background: rgba(255,255,255,0.2);
-      color: #fff;
-      padding: 1.2rem 2.5rem;
-      border-radius: 3rem;
-      text-decoration: none;
-      font-family: 'Inter', sans-serif;
-      font-weight: 600;
-      font-size: 1.1rem;
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      border: 1px solid rgba(255,255,255,0.3);
-      transition: var(--transition-bounce);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .cta-button::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-      transition: left 0.6s ease;
-    }
-
-    .cta-button:hover::before {
-      left: 100%;
-    }
-
-    .cta-button:hover {
-      background: rgba(255,255,255,0.3);
-      transform: translateY(-3px) scale(1.02);
-      box-shadow: 0 12px 30px rgba(0,0,0,0.25);
-    }
-
-    .main-footer {
-      margin-top: 3rem;
-      padding: 2rem 0;
-      text-align: center;
-      opacity: 0.8;
-      color: #fff;
-      font-family: 'Inter', sans-serif;
-    }
-
-    .main-footer a {
-      color: #fff;
-      text-decoration: none;
-      transition: var(--transition-smooth);
-    }
-
-    .main-footer a:hover {
-      opacity: 0.8;
-      text-decoration: underline;
-    }
-
-    .footer-note {
-      font-size: 0.9rem;
-      margin-top: 0.5rem;
-      opacity: 0.7;
-    }
-
-    /* Animations */
-    @keyframes slideUpFade {
-      0% {
-        opacity: 0;
-        transform: translateY(40px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes pulse {
-      0%, 100% {
-        transform: scale(1);
-      }
-      50% {
-        transform: scale(1.05);
-      }
-    }
-
-    /* Loading state */
-    .profile-container.loading {
-      background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
-      background-size: 400% 400%;
-      animation: gradientShift 2s ease infinite;
-    }
-
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      .social-grid {
-        gap: 0.8rem;
-        justify-content: center;
-      }
-
-      .social-link {
-        min-width: 3rem;
-        min-height: 3rem;
-        padding: 0.8rem 1rem;
-      }
-
-      .overlay {
-        padding: 2rem 1.5rem;
-      }
-
-      .intro-features {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-      }
-
-      .feature {
-        padding: 2rem 1.5rem;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .social-grid {
-        gap: 0.6rem;
-      }
-
-      .social-link {
-        min-width: 2.8rem;
-        min-height: 2.8rem;
-        padding: 0.7rem 0.9rem;
-      }
-
-      .overlay {
-        padding: 1.5rem 1rem;
-      }
-
-      .bio-text {
-        margin-bottom: 1.5rem;
-      }
-    }
-
-    @media (min-width: 1400px) {
-      .profile-name {
-        font-size: 4rem;
-      }
-
-      .bio-text {
-        font-size: 1.3rem;
-      }
-
-      .social-link {
-        padding: 1.2rem 1.8rem;
-        min-width: 4rem;
-        min-height: 4rem;
-      }
-    }
-
-    /* Accessibility */
-    @media (prefers-reduced-motion: reduce) {
-      * {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-      }
-    }
-
-    /* High contrast mode */
-    @media (prefers-contrast: high) {
-      .social-link {
-        border: 2px solid var(--accent-dark);
-      }
-    }
-
-    /* Dark mode support */
-    @media (prefers-color-scheme: dark) {
-      .intro-container {
-        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-      }
-    }
-  </style>
-
+  <!-- Fonts & Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
 </head>
 <body>
+
   <!-- Main Container -->
   <div class="profile-container" id="profile-container" style="display:none">
-    <img class="profile-image" id="profile-image" src="" alt="Profile Image" loading="eager" />
-
-    <div class="overlay">
+    <!-- Profile Header -->
+    <div class="profile-header">
+      <img class="profile-image" id="profile-image" src="" alt="">
       <h1 class="profile-name" id="profile-name"></h1>
-      <p class="bio-text" id="profile-bio"></p>
-      <div class="social-grid" id="social-grid"></div>
+      <div class="profile-bio" id="profile-bio"></div>
+
+      <!-- Month and Date format (no year) -->
+      <div class="profile-stats">
+        <span id="profile-location"><i class="fas fa-map-marker-alt"></i> <span id="location-text"></span></span>
+        <span class="dot">•</span>
+        <span id="profile-birthday"><i class="fas fa-birthday-cake"></i> <span id="birthday-text"></span></span>
+      </div>
     </div>
 
-    <!-- Hidden original structure for compatibility -->
-    <div style="display:none">
-      <div class="profile-header">
-        <img id="profile-image-hidden" src="" alt="" />
-        <h1 id="profile-name-hidden"></h1>
-      </div>
-      <div class="about-me-section" id="about-me-section">
-        <div class="about-title"><i class="fas fa-user"></i> About Me</div>
-        <div id="profile-bio-hidden"></div>
-      </div>
-      <div class="social-section">
-        <div class="social-title">Connect with me</div>
-        <div id="social-grid-hidden"></div>
+    <!-- Social Links Container -->
+    <div class="social-container">
+      <div class="social-icons" id="social-icons"></div>
+    </div>
+
+    <div class="interaction-container">
+      <div class="buttons-row">
+        <div class="like-button-wrapper" id="like-button-wrapper">
+          <div class="like-button" id="like-button">
+            <i class="fas fa-heart"></i>
+          </div>
+          <div class="like-count" id="like-count">Counting</div>
+          <div class="like-message" id="like-message">Thanks for the love!</div>
+        </div>
       </div>
     </div>
   </div>
 
   <!-- Introduction Page -->
-  <div class="intro-container" id="intro-container">
-    <div class="intro-content">
-      <h1>Mywebsam</h1>
-      <p>
-        Create and share your personalized profile page with all your social
-        links in one place
-      </p>
+<div class="intro-container" id="intro-container">
+  <div class="intro-content">
+    <h1>Mywebsam</h1>
+    <p>Create and share your personalized profile page with all your social links in one place</p>
 
-      <div class="intro-features">
-        <div class="feature">
-          <i class="fas fa-user-circle"></i>
-          <h3>Personal Profile</h3>
-          <p>Showcase your information and bio with stunning visual design</p>
-        </div>
-        <div class="feature">
-          <i class="fas fa-share-alt"></i>
-          <h3>Social Links</h3>
-          <p>All your social media platforms unified in one beautiful page</p>
-        </div>
-        <div class="feature">
-          <i class="fas fa-music"></i>
-          <h3>Spotify Integration</h3>
-          <p>Share your favorite music and playlists with your audience</p>
-        </div>
-        <div class="feature">
-          <i class="fas fa-mobile-alt"></i>
-          <h3>Mobile Optimized</h3>
-          <p>Perfect responsive design that works flawlessly on all devices</p>
-        </div>
+    <div class="intro-features">
+      <div class="feature">
+        <i class="fas fa-user-circle"></i>
+        <h3>Personal Profile</h3>
+        <p>Showcase your information and bio</p>
+</div>
+<!-- New Like Feature -->
+      <div class="feature">
+        <i class="fas fa-heart"></i>
+        <h3>Show Some Love</h3>
+        <p>Anyone visiting your profile can  'like' to show they appreciate you.</p>
+
+      </div>
+      <div class="feature">
+        <i class="fas fa-share-alt"></i>
+        <h3>Social Links</h3>
+        <p>All your social media in one place</p>
+      </div>
+      <div class="feature">
+        <i class="fas fa-music"></i>
+        <h3>Spotify Integration</h3>
+        <p>Share your favorite music</p>
       </div>
 
-      <a href="/create.html" class="cta-button">Create Your Profile</a>
     </div>
 
-    <footer class="main-footer">
-      Made with 🖤 By
-      <b><a href="https://samarthags.in" target="_blank">Samartha GS</a></b>
-      <p class="footer-note">Click on <b>Samartha GS</b> to visit portfolio</p>
-    </footer>
+    <a href="/create.html" class="cta-button">Create Your Profile</a>
   </div>
 
-  <script>
-    // Performance optimizations
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    // Preload ColorThief
-    const colorThiefScript = document.createElement('script');
-    colorThiefScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.2/color-thief.umd.js';
-    colorThiefScript.async = true;
-    document.head.appendChild(colorThiefScript);
-  </script>
+  <footer class="main-footer">
+    Made with 🖤 By 
+    <b><a href="https://samarthags.in" target="_blank">Samartha GS</a></b>
+    <p class="footer-note">Click on <b>Samartha GS</b></p>
+  </footer>
+</div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
-    import {
-      getFirestore,
-      collection,
-      getDocs,
-      query,
-      where,
-    } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
+    import { getFirestore, collection, getDocs, query, where, doc, updateDoc, getDoc, setDoc, increment } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
+
+    const urlParams = new URLSearchParams(window.location.search);
 
     const firebaseConfig = {
       apiKey: "AIzaSyBb3x_zD9JaFwL9PhmngCNZlS2fOh6MBa4",
@@ -622,13 +155,16 @@
       projectId: "newai-52371",
       storageBucket: "newai-52371.appspot.com",
       messagingSenderId: "480586908639",
-      appId: "1:480586908639:web:f4645a852c4df724c6fa6a",
+      appId: "1:480586908639:web:f4645a852c4df724c6fa6a"
     };
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
+    // Variables to track profile and likes
+    let currentProfileId = null;
     let currentUsername = null;
+    let hasLiked = false;
 
     async function loadProfile() {
       const path = window.location.pathname.substring(1);
@@ -639,221 +175,393 @@
         document.getElementById("profile-container").style.display = "block";
         document.getElementById("intro-container").style.display = "none";
 
-        // Add loading state
-        document.getElementById("profile-container").classList.add('loading');
+        const q = query(collection(db, "profiles"), where("username", "==", username));
+        const querySnapshot = await getDocs(q);
 
-        try {
-          const q = query(collection(db, "profiles"), where("username", "==", username));
-          const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+          const profileDoc = querySnapshot.docs[0];
+          const profile = profileDoc.data();
+          currentProfileId = profileDoc.id;
 
-          if (!querySnapshot.empty) {
-            const profileDoc = querySnapshot.docs[0];
-            const profile = profileDoc.data();
+          const profileName = profile.name || username;
+          const profileBio = profile.bio || "Check out my profile!";
+          const profileImage = profile.imageUrl || "https://i.ibb.co/sKbrkyn/Yellow-and-Grey-Pastel-Grunge-Designer-Brand-Logo-20241009-185202-0000.png";
+          const currentUrl = window.location.href;
 
-            const profileName = profile.name || username;
-            const profileImage = profile.imageUrl || "https://i.ibb.co/sKbrkyn/Yellow-and-Grey-Pastel-Grunge-Designer-Brand-Logo-20241009-185202-0000.png";
-            const currentUrl = window.location.href;
+          updateProfileSEO(profileName, profileBio, profileImage, currentUrl);
 
-            // Update SEO
-            updateProfileSEO(profileName, profile.bio || "", profileImage, currentUrl);
+          document.getElementById("profile-name").innerText = profileName;
+          document.getElementById("profile-bio").innerText = profileBio;
+          document.getElementById("profile-image").src = profileImage;
 
-            // Set content
-            document.getElementById("profile-name").innerText = profileName;
-            updateBioText(profile);
-
-            const imgElement = document.getElementById("profile-image");
-            imgElement.src = profileImage;
-
-            // Handle image loading
-            imgElement.onload = function() {
-              // Remove loading state
-              document.getElementById("profile-container").classList.remove('loading');
-            };
-
-            imgElement.onerror = function() {
-              document.getElementById("profile-container").classList.remove('loading');
-              console.log('Image failed to load, using fallback');
-            };
-
-            updateSocialLinks(profile);
-
+          // Update location
+          if (profile.location) {
+            document.getElementById("location-text").innerText = profile.location;
+            document.getElementById("profile-location").style.display = "inline";
           } else {
-            alert("Profile not found!");
-            window.location.href = "/";
+            document.getElementById("profile-location").style.display = "none";
+            document.querySelector('.dot').style.display = "none";
           }
-        } catch (error) {
-          console.error("Error loading profile:", error);
-          document.getElementById("profile-container").classList.remove('loading');
+
+          // Update birthday (month and date only)
+          if (profile.birthday) {
+            const birthday = new Date(profile.birthday);
+            const formattedBirthday = birthday.toLocaleDateString('en-US', { 
+              month: 'long', 
+              day: 'numeric' 
+            });
+            document.getElementById("birthday-text").innerText = formattedBirthday;
+            document.getElementById("profile-birthday").style.display = "inline";
+
+            // Only show dot if both location and birthday exist
+            if (profile.location) {
+              document.querySelector('.dot').style.display = "inline";
+            } else {
+              document.querySelector('.dot').style.display = "none";
+            }
+          } else {
+            document.getElementById("profile-birthday").style.display = "none";
+            document.querySelector('.dot').style.display = "none";
+          }
+
+          updateSocialLinks(profile);
+
+          // Initialize like button functionality
+          initializeLikeSystem(currentProfileId);
+
+          // Start the background animation
+          initializeVintageBackground();
+
+          // Start social icon animation
+          initializeSocialIconsAnimation();
+        } else {
+          alert("Profile not found!");
+          window.location.href = "/";
         }
       } else {
         document.getElementById("intro-container").style.display = "block";
         document.getElementById("profile-container").style.display = "none";
-      }
-    }
 
-    function updateBioText(profile) {
-      const bioText = profile.bio || "Welcome to my profile!";
-      document.getElementById("profile-bio").innerText = bioText;
+        // Start the background animation for intro page too
+        initializeVintageBackground();
+      }
     }
 
     function updateProfileSEO(name, bio, image, url) {
+      // Update page title
       document.title = `${name} | Mywebsam`;
 
+      // Update meta tags
       const metaTags = {
-        title: `${name}'s Profile | Mywebsam`,
-        description: bio || `Check out ${name}'s profile on Mywebsam`,
+        "title": `${name}'s Profile | Mywebsam`,
+        "description": bio,
         "og:title": `${name}'s Profile | Mywebsam`,
-        "og:description": bio || `Check out ${name}'s profile on Mywebsam`,
+        "og:description": bio,
         "og:image": image,
         "og:url": url,
         "twitter:title": `${name}'s Profile | Mywebsam`,
-        "twitter:description": bio || `Check out ${name}'s profile on Mywebsam`,
-        "twitter:image": image,
+        "twitter:description": bio,
+        "twitter:image": image
       };
 
+      // Update each meta tag
       Object.entries(metaTags).forEach(([key, value]) => {
-        let metaTag = document.querySelector(`meta[name="${key}"]`) || 
-                     document.querySelector(`meta[property="${key}"]`);
-        if (metaTag && value) {
-          metaTag.setAttribute("content", value);
+        // Try to find the meta tag
+        let metaTag = document.querySelector(`meta[name="${key}"]`);
+        if (!metaTag) {
+          metaTag = document.querySelector(`meta[property="${key}"]`);
+        }
+
+        // Update if found, otherwise create new
+        if (metaTag) {
+          if (metaTag.hasAttribute('name')) {
+            metaTag.setAttribute('content', value);
+          } else {
+            metaTag.setAttribute('content', value);
+          }
         }
       });
 
+      // Update structured data for the individual profile
       const profileSchema = {
         "@context": "https://schema.org",
         "@type": "Person",
-        name: name,
-        description: bio,
-        image: image,
-        url: url,
+        "name": name,
+        "description": bio,
+        "image": image,
+        "url": url
       };
 
-      const schemaElement = document.getElementById("profile-schema");
-      if (schemaElement) {
-        schemaElement.textContent = JSON.stringify(profileSchema);
+      // Create list of social profiles for schema
+      const socialProfiles = document.querySelectorAll('.social-icons a');
+      if (socialProfiles.length > 0) {
+        profileSchema.sameAs = [];
+        socialProfiles.forEach(profile => {
+          profileSchema.sameAs.push(profile.href);
+        });
       }
+
+      document.getElementById("profile-schema").textContent = JSON.stringify(profileSchema);
     }
 
     function updateSocialLinks(profile) {
       const socialPlatforms = {
-        instagram: {
-          url: `https://instagram.com/${profile.instagram}`,
-          name: "Instagram",
-          icon: "fab fa-instagram",
-        },
-        snapchat: {
-          url: `https://snapchat.com/add/${profile.snapchat}`,
-          name: "Snapchat",
-          icon: "fab fa-snapchat",
-        },
-        whatsapp: {
-          url: `https://wa.me/${profile.whatsapp}`,
-          name: "WhatsApp",
-          icon: "fab fa-whatsapp",
-        },
-        facebook: {
-          url: `https://facebook.com/${profile.facebook}`,
-          name: "Facebook",
-          icon: "fab fa-facebook",
-        },
-        twitter: {
-          url: `https://twitter.com/${profile.twitter}`,
-          name: "Twitter",
-          icon: "fab fa-twitter",
-        },
-        linkedin: {
-          url: `https://linkedin.com/in/${profile.linkedin}`,
-          name: "LinkedIn",
-          icon: "fab fa-linkedin",
-        },
-        youtube: {
-          url: `https://youtube.com/${profile.youtube}`,
-          name: "YouTube",
-          icon: "fab fa-youtube",
-        },
-        telegram: {
-          url: `https://t.me/${profile.telegram}`,
-          name: "Telegram",
-          icon: "fab fa-telegram",
-        },
-        github: {
-          url: `https://github.com/${profile.github}`,
-          name: "GitHub",
-          icon: "fab fa-github",
-        },
+        instagram: `https://instagram.com/${profile.instagram}`,
+        snapchat: `https://snapchat.com/add/${profile.snapchat}`,
+        whatsapp: `https://wa.me/${profile.whatsapp}`,
+        facebook: `https://facebook.com/${profile.facebook}`,
+        twitter: `https://twitter.com/${profile.twitter}`,
+        linkedin: `https://linkedin.com/in/${profile.linkedin}`,
+        youtube: `https://m.youtube.com/${profile.youtube}`,
+        telegram: `https://t.me/${profile.telegram}`,
+        github: `https://github.com/${profile.github}`
       };
 
       let socialHTML = "";
-      Object.entries(socialPlatforms).forEach(([platform, data]) => {
+      Object.entries(socialPlatforms).forEach(([platform, url]) => {
         if (profile[platform]) {
-          socialHTML += `
-            <a href="${data.url}" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="${data.name}">
-              <i class="${data.icon}" aria-hidden="true"></i>
-            </a>
-          `;
+          socialHTML += `<a href="${url}" target="_blank" rel="noopener" aria-label="${platform}"><i class="fab fa-${platform}"></i></a>`;
         }
       });
+      document.getElementById("social-icons").innerHTML = socialHTML;
+    }
 
-      const socialGrid = document.getElementById("social-grid");
-      if (socialGrid) {
-        socialGrid.innerHTML = socialHTML;
+    // Like System Functions
+    async function initializeLikeSystem(profileId) {
+      const likeButton = document.getElementById("like-button");
+      const likeCount = document.getElementById("like-count");
+      const likeMessage = document.getElementById("like-message");
+
+      // Check if profile has likes collection
+      await checkAndInitializeLikes(profileId);
+
+      // Load current like count
+      const likesRef = doc(db, "profileLikes", profileId);
+      const likesDoc = await getDoc(likesRef);
+
+      if (likesDoc.exists()) {
+        const likesData = likesDoc.data();
+        updateLikeCountDisplay(likesData.count || 0);
+
+        // Check if user has already liked
+        const userLikeKey = getUserLikeKey();
+        hasLiked = localStorage.getItem(userLikeKey) === 'true';
+
+        if (hasLiked) {
+          likeButton.parentElement.classList.add("liked");
+        }
+      }
+
+      // Add click event listener
+      likeButton.addEventListener("click", async () => {
+        const likeButtonWrapper = document.getElementById("like-button-wrapper");
+        const heartIcon = likeButton.querySelector("i");
+
+        // Toggle like state
+        hasLiked = !hasLiked;
+
+        if (hasLiked) {
+          // Save that user has liked
+          localStorage.setItem(getUserLikeKey(), 'true');
+
+          // Animate heart
+          heartIcon.classList.add("heartbeat");
+          likeButtonWrapper.classList.add("liked");
+
+          // Create confetti effect
+          createHeartConfetti(likeButton);
+
+          // Show thank you message
+          likeMessage.classList.add("show-message");
+          setTimeout(() => {
+            likeMessage.classList.remove("show-message");
+          }, 2000);
+
+          // Increment like in database
+          await updateDoc(likesRef, {
+            count: increment(1)
+          });
+
+          // Get updated count
+          const updatedDoc = await getDoc(likesRef);
+          if (updatedDoc.exists()) {
+            updateLikeCountDisplay(updatedDoc.data().count || 0);
+          }
+        } else {
+          // Remove like
+          localStorage.removeItem(getUserLikeKey());
+          likeButtonWrapper.classList.remove("liked");
+          heartIcon.classList.remove("heartbeat");
+
+          // Decrement like in database
+          await updateDoc(likesRef, {
+            count: increment(-1)
+          });
+
+          // Get updated count
+          const updatedDoc = await getDoc(likesRef);
+          if (updatedDoc.exists()) {
+            updateLikeCountDisplay(updatedDoc.data().count || 0);
+          }
+        }
+
+        // Remove heartbeat class after animation
+        setTimeout(() => {
+          heartIcon.classList.remove("heartbeat");
+        }, 500);
+      });
+    }
+
+    async function checkAndInitializeLikes(profileId) {
+      const likesRef = doc(db, "profileLikes", profileId);
+      const likesDoc = await getDoc(likesRef);
+
+      if (!likesDoc.exists()) {
+        // Initialize likes document if it doesn't exist
+        await setDoc(likesRef, {
+          count: 0,
+          profileId: profileId,
+          username: currentUsername
+        });
       }
     }
 
-    // Intersection Observer for better performance
-    const observerOptions = {
-      root: null,
-      rootMargin: '0px',
-      threshold: 0.1
-    };
+    function getUserLikeKey() {
+      // Create a unique key for this user+profile combination
+      return `liked_${currentUsername}_${currentProfileId}`;
+    }
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
+    function updateLikeCountDisplay(count) {
+      const likeCount = document.getElementById("like-count");
+      likeCount.textContent = count === 1 ? "1 like" : `${count} likes`;
+    }
+
+    function createHeartConfetti(button) {
+      const colors = ['#ff3366', '#ff6b6b', '#ffaa77', '#ff77aa'];
+      const confettiCount = 20;
+
+      for (let i = 0; i < confettiCount; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'heart-confetti';
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+
+        // Random position within the button
+        const left = Math.random() * 60;
+        const top = Math.random() * 60;
+
+        confetti.style.left = `${left}px`;
+        confetti.style.top = `${top}px`;
+
+        // Random animation duration and delay
+        const duration = 500 + Math.random() * 500;
+        const delay = Math.random() * 200;
+
+        confetti.style.animation = `confetti-fall ${duration}ms ease-out ${delay}ms forwards`;
+
+        button.appendChild(confetti);
+
+        // Clean up after animation
+        setTimeout(() => {
+          confetti.remove();
+        }, duration + delay + 100);
+      }
+    }
+
+    function createParticles(icon) {
+      const particles = [...Array(8)].map(() => {
+        const p = document.createElement('span');
+        p.className = 'particle';
+        icon.appendChild(p);
+        return p;
       });
-    }, observerOptions);
 
-    // Initialize on DOM load
-    document.addEventListener("DOMContentLoaded", () => {
-      loadProfile();
+      particles.forEach((p,i) => {
+        const angle = (i * 45) * Math.PI/180;
+        p.animate([
+          { transform: 'translate(0,0)', opacity: 1 },
+          { transform: `translate(${Math.cos(angle)*20}px,${Math.sin(angle)*20}px)`, opacity: 0 }
+        ], { duration: 800, easing: 'ease-out' });
 
-      // Observe elements for scroll animations
-      document.querySelectorAll('.feature').forEach(el => {
-        observer.observe(el);
-      });
-    });
-
-    // Handle window resize for better responsiveness
-    let resizeTimer;
-    window.addEventListener('resize', () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => {
-        // Recalculate layouts if needed
-        const socialGrid = document.getElementById("social-grid");
-        if (socialGrid && socialGrid.children.length > 0) {
-          // Force reflow for better responsive behavior
-          socialGrid.style.display = 'none';
-          socialGrid.offsetHeight; // Trigger reflow
-          socialGrid.style.display = 'flex';
-        }
-      }, 250);
-    });
-
-    // Service Worker for better caching (optional)
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-          .then(registration => {
-            console.log('SW registered: ', registration);
-          })
-          .catch(registrationError => {
-            console.log('SW registration failed: ', registrationError);
-          });
+        setTimeout(() => p.remove(), 800);
       });
     }
 
+    function initializeSocialIconsAnimation() {
+      const socialIcons = document.querySelectorAll('.social-icons a');
+      let currentActive = 0;
+
+      // Start with first icon active
+      if (socialIcons.length > 0) {
+        socialIcons[0].classList.add('active');
+        createParticles(socialIcons[0]);
+      }
+
+      // Cycle through icons every 3 seconds if there are multiple icons
+      if (socialIcons.length > 1) {
+        setInterval(() => {
+          // Fade out current icon
+          socialIcons[currentActive].classList.remove('active');
+
+          // Move to next icon (loop back to first if at end)
+          currentActive = (currentActive + 1) % socialIcons.length;
+
+          // Fade in new icon
+          setTimeout(() => {
+            socialIcons[currentActive].classList.add('active');
+            createParticles(socialIcons[currentActive]);
+          }, 500); // Start fade in after fade out completes
+        }, 5000);
+      }
+    }
+
+    function initializeVintageBackground() {
+      // Extended vintage color palette (16 muted, old-style colors)
+      const vintagePalette = [
+              'linear-gradient(to bottom, #000000, #001f3f)',
+      'linear-gradient(to bottom, #000000, #330000)',
+      'linear-gradient(to bottom, #000000, #2a0033)'
+      ];
+
+      // Previous color index tracker
+      let prevColorIndex = 0;
+
+      function getRandomVintageColor() {
+        let newIndex;
+        // Ensure we don't repeat the same color twice
+        do {
+          newIndex = Math.floor(Math.random() * vintagePalette.length);
+        } while (newIndex === prevColorIndex && vintagePalette.length > 1);
+
+        prevColorIndex = newIndex;
+        return vintagePalette[newIndex];
+      }
+
+      function animateVintageBackground() {
+        const newColor = getRandomVintageColor();
+
+        // Apply with smooth transition
+        document.body.style.background = newColor;
+
+        // Random interval between 20-40 seconds for organic feel
+        const nextChange = 3000 + Math.random() * 3000;
+        setTimeout(animateVintageBackground, nextChange);
+      }
+
+      // Initialize with first random color
+      document.body.style.background = getRandomVintageColor();
+
+      // Add subtle texture (optional)
+      document.body.style.backgroundImage += 
+        ', url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%\' height=\'100%\' filter=\'url(%23noiseFilter)\' opacity=\'0.04\'/%3E%3C/svg%3E")';
+
+      // Start animation after initial load
+      setTimeout(animateVintageBackground, 3000);
+    }
+
+    document.addEventListener('DOMContentLoaded', loadProfile);
   </script>
 </body>
 </html>
+
+
+
