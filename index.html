@@ -20,7 +20,7 @@
     <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
 
     <!--=============== CSS ===============-->
-    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="styles/style.css">
 
     <title id="page-title">MyPortfolio</title>
 </head>
@@ -135,9 +135,9 @@
                         </div>
 
                         <div class="about__box">
-                            <i class='bx bxs-crown about__icon'></i>
-                            <h3 class="about__title" id="experience-display">Experience</h3>
-                            <span class="about__subtitle">Years</span>
+                            <i class='bx bxs-flame about__icon'></i>
+                            <h3 class="about__title" id="streak-display">0</h3>
+                            <span class="about__subtitle">Day Streak</span>
                         </div>
                     </div>
 
@@ -258,7 +258,65 @@
                     // Populate profile data
                     populateProfile(profile);
 
-                    // Initialize like system
+                    // Initialize streak system (global daily visits)
+        async function initializeStreakSystem() {
+            if (!currentProfileId) return;
+
+            const today = new Date().toDateString(); // e.g., "Mon Dec 25 2023"
+            
+            try {
+                const streakRef = doc(db, "profileStreaks", currentProfileId);
+                const streakDoc = await getDoc(streakRef);
+                
+                if (streakDoc.exists()) {
+                    const streakData = streakDoc.data();
+                    const lastUpdateDate = streakData.lastUpdate;
+                    let currentStreak = streakData.currentStreak || 0;
+                    
+                    // Check if this is a new day
+                    if (lastUpdateDate !== today) {
+                        const lastDate = new Date(lastUpdateDate);
+                        const todayDate = new Date(today);
+                        const timeDiff = todayDate.getTime() - lastDate.getTime();
+                        const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                        
+                        if (daysDiff === 1) {
+                            // Consecutive day - increment streak
+                            currentStreak += 1;
+                        } else if (daysDiff > 1) {
+                            // Streak broken - reset to 1
+                            currentStreak = 1;
+                        }
+                        
+                        // Update Firebase with new streak and today's date
+                        await updateDoc(streakRef, {
+                            currentStreak: currentStreak,
+                            lastUpdate: today,
+                            maxStreak: currentStreak > (streakData.maxStreak || 0) ? currentStreak : streakData.maxStreak || currentStreak
+                        });
+                    }
+                    
+                    // Display current streak
+                    document.getElementById('streak-display').textContent = currentStreak;
+                    
+                } else {
+                    // First time - create streak record
+                    await setDoc(streakRef, {
+                        currentStreak: 1,
+                        maxStreak: 1,
+                        lastUpdate: today,
+                        profileId: currentProfileId,
+                        username: currentUsername
+                    });
+                    
+                    document.getElementById('streak-display').textContent = 1;
+                }
+                
+            } catch (error) {
+                console.error("Error handling streak system:", error);
+                document.getElementById('streak-display').textContent = 0;
+            }
+        }
                     await initializeLikeSystem();
 
                     // Initialize scroll reveal
@@ -302,7 +360,8 @@
                 document.getElementById('birthday-display').textContent = 'Not specified';
             }
             
-            document.getElementById('experience-display').textContent = profile.experience || '0+';
+            // Initialize streak system
+            await initializeStreakSystem();
 
             // Main CTA
             const mainCta = document.getElementById('main-cta');
