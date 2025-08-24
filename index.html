@@ -1,567 +1,551 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Fixed Meta Tags for Rich Results -->
-  <title>Mywebsam - Create and Share Your Personalized Profile Page</title>
+    <!--=============== FAVICON ===============-->
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicons/favicon-16x16.png">
+    <link rel="manifest" href="assets/favicons/site.webmanifest">
+    <link rel="mask-icon" href="assets/favicons/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="assets/favicons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-config" content="assets/favicons/browserconfig.xml">
+    <meta name="theme-color" content="#a789d4">
 
-  <!-- Primary Meta Tags -->
-  <meta name="title" content="Mywebsam - Create and Share Your Personalized Profile Page">
-  <meta name="description" content="Create and share your personalized profile page with all your social links in one place. Connect Instagram, Twitter, LinkedIn, and more social profiles in a single shareable page.">
-  <meta name="keywords" content="profile links, bio links, social media hub, link in bio, personal page, mywebsam">
-  <meta name="author" content="Samartha GS">
+    <!--=============== BOXICONS ===============-->
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
 
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://mywebsam.site/">
-  <meta property="og:title" content="Mywebsam - All Your Social Profiles in One Place">
-  <meta property="og:description" content="Create your personalized profile page with all your social media links, bio, and more. Share one link to connect people with all your online presence.">
-  <meta property="og:image" content="https://mywebsam.site/about.jpg">
-  <meta property="og:site_name" content="Mywebsam">
+    <!--=============== CSS ===============-->
+    <link rel="stylesheet" href="styles/style.css">
 
-<meta name="google-site-verification" content="F4b7UTVHLhhIQh3GfQX0gvdpJMOWMl6kLeB6yx_LFY8" />
-
-  <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image">
-  <meta property="twitter:url" content="https://mywebsam.site/">
-  <meta property="twitter:title" content="Mywebsam - Your Digital Identity in One Link">
-  <meta property="twitter:description" content="Share all your social media profiles with just one link. Create your personalized profile page today with Mywebsam.">
-  <meta property="twitter:image" content="https://mywebsam.site/abot.jpg">
-
-  <!-- Structured Data for Rich Results -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "Mywebsam",
-    "url": "https://mywebsam.site",
-    "description": "Create and share your personalized profile page with all your social links in one place",
-    "applicationCategory": "SocialNetworking",
-    "offers": {
-      "@type": "Offer",
-      "price": "0"
-    },
-    "screenshot": "https://mywebsam.site/about.jpg",
-    "featureList": "Personal Profile, Social Links, Spotify Integration",
-    "operatingSystem": "All",
-    "author": {
-      "@type": "Person",
-      "name": "Samartha GS",
-      "url": "https://samarthags.in"
-    }
-  }
-  </script>
-
-  <!-- Individual Profile Structured Data (Will be updated by JavaScript) -->
-  <script type="application/ld+json" id="profile-schema"></script>
-
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="https://mywebsam.site/about.jpg">
-
-  <!-- Fonts & Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./style.css">
+    <title id="page-title">MyPortfolio</title>
 </head>
-<body>
 
-  <!-- Main Container -->
-  <div class="profile-container" id="profile-container" style="display:none">
-    <!-- Profile Header -->
-    <div class="profile-header">
-      <img class="profile-image" id="profile-image" src="" alt="">
-      <h1 class="profile-name" id="profile-name"></h1>
-      <div class="profile-bio" id="profile-bio"></div>
-
-      <!-- Month and Date format (no year) -->
-      <div class="profile-stats">
-        <span id="profile-location"><i class="fas fa-map-marker-alt"></i> <span id="location-text"></span></span>
-        <span class="dot">•</span>
-        <span id="profile-birthday"><i class="fas fa-birthday-cake"></i> <span id="birthday-text"></span></span>
-      </div>
+<body class="dark-theme">
+    <!--=============== LOADING ===============-->
+    <div class="loading" id="loading">
+        <i class='bx bx-loader-alt bx-spin'></i> Loading...
     </div>
 
-    <!-- Social Links Container -->
-    <div class="social-container">
-      <div class="social-icons" id="social-icons"></div>
+    <!--=============== PROFILE NOT FOUND ===============-->
+    <div class="not-found" id="not-found" style="display:none;">
+        <h2>Profile Not Found</h2>
+        <p>The profile you're looking for doesn't exist.</p>
+        <a href="/" class="back-home">Go to Home</a>
     </div>
 
-    <div class="interaction-container">
-      <div class="buttons-row">
-        <div class="like-button-wrapper" id="like-button-wrapper">
-          <div class="like-button" id="like-button">
-            <i class="fas fa-heart"></i>
-          </div>
-          <div class="like-count" id="like-count">Counting</div>
-          <div class="like-message" id="like-message">Thanks for the love!</div>
+    <!--=============== INTRO PAGE ===============-->
+    <div class="intro-container" id="intro-container" style="display:none;">
+        <div class="intro-content">
+            <h1>MyPortfolio</h1>
+            <p>Create and share your personalized profile page with all your social links in one place</p>
+
+            <div class="intro-features">
+                <div class="feature">
+                    <i class='bx bxs-user-circle'></i>
+                    <h3>Personal Profile</h3>
+                    <p>Showcase your information and bio</p>
+                </div>
+                <div class="feature">
+                    <i class='bx bxs-heart'></i>
+                    <h3>Show Some Love</h3>
+                    <p>Anyone visiting your profile can 'like' to show they appreciate you.</p>
+                </div>
+                <div class="feature">
+                    <i class='bx bxs-share-alt'></i>
+                    <h3>Social Links</h3>
+                    <p>All your social media in one place</p>
+                </div>
+                <div class="feature">
+                    <i class='bx bxs-video'></i>
+                    <h3>Content Creator</h3>
+                    <p>Perfect for YouTubers, gamers and creators</p>
+                </div>
+            </div>
+
+            <a href="/create" class="cta-button">Create Your Profile</a>
         </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- Introduction Page -->
-<div class="intro-container" id="intro-container">
-  <div class="intro-content">
-    <h1>Mywebsam</h1>
-    <p>Create and share your personalized profile page with all your social links in one place</p>
-
-    <div class="intro-features">
-      <div class="feature">
-        <i class="fas fa-user-circle"></i>
-        <h3>Personal Profile</h3>
-        <p>Showcase your information and bio</p>
-</div>
-<!-- New Like Feature -->
-      <div class="feature">
-        <i class="fas fa-heart"></i>
-        <h3>Show Some Love</h3>
-        <p>Anyone visiting your profile can  'like' to show they appreciate you.</p>
-
-      </div>
-      <div class="feature">
-        <i class="fas fa-share-alt"></i>
-        <h3>Social Links</h3>
-        <p>All your social media in one place</p>
-      </div>
-      <div class="feature">
-        <i class="fas fa-music"></i>
-        <h3>Spotify Integration</h3>
-        <p>Share your favorite music</p>
-      </div>
-
+        <footer class="main-footer">
+            Made with 🖤 By 
+            <b><a href="https://samarthags.in" target="_blank">Samartha GS</a></b>
+        </footer>
     </div>
 
-    <a href="/create.html" class="cta-button">Create Your Profile</a>
-  </div>
+    <!--=============== HEADER ===============-->
+    <header class="header" id="header" style="display:none;">
+        <nav class="nav container">
+            <a href="#" class="nav__logo" id="nav-logo">Profile</a>
+            <i class='bx bx-sun change-theme' id="theme-button"></i>
+        </nav>
+    </header>
 
-  <footer class="main-footer">
-    Made with 🖤 By 
-    <b><a href="https://samarthags.in" target="_blank">Samartha GS</a></b>
-    <p class="footer-note">Click on <b>Samartha GS</b></p>
-  </footer>
-</div>
+    <!--=============== MAIN ===============-->
+    <main class="main" id="main" style="display:none;">
+        <!--=============== HOME ===============-->
+        <section class="home section" id="home">
+            <div class="home__container container grid">
+                <div class="home__data">
+                    <span class="home__greeting">Hello, I'm</span>
+                    <h1 class="home__name" id="profile-name">Loading...</h1>
+                    <h3 class="home__education" id="profile-bio">Loading...</h3>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
-    import { getFirestore, collection, getDocs, query, where, doc, updateDoc, getDoc, setDoc, increment } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
+                    <div class="home__buttons">
+                        <button id="likeButton" class="button button--ghost">
+                            <i class='bx bxs-like'></i> <span id="likeCount">0</span>
+                        </button>
+                    </div>
+                </div>
 
-    const urlParams = new URLSearchParams(window.location.search);
+                <div class="home__social" id="social-links">
+                    <!-- Social links will be dynamically populated -->
+                </div>
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyBb3x_zD9JaFwL9PhmngCNZlS2fOh6MBa4",
-      authDomain: "newai-52371.firebaseapp.com",
-      projectId: "newai-52371",
-      storageBucket: "newai-52371.appspot.com",
-      messagingSenderId: "480586908639",
-      appId: "1:480586908639:web:f4645a852c4df724c6fa6a"
-    };
+                <a href="#about" class="home__scroll">
+                    <i class='bx bx-mouse home__scroll-icon'></i>
+                    <span class="home__scroll-name">Scroll Down</span>
+                </a>
+            </div>
+        </section>
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+        <!--=============== ABOUT ===============-->
+        <section class="about section" id="about">
+            <span class="section__subtitle">My Intro</span>
+            <h2 class="section__title">About Me</h2>
 
-    // Variables to track profile and likes
-    let currentProfileId = null;
-    let currentUsername = null;
-    let hasLiked = false;
+            <div class="about__container container grid">
+                <img src="" alt="" class="about__img" id="profile-image">
 
-    async function loadProfile() {
-      const path = window.location.pathname.substring(1);
-      const username = path ? decodeURIComponent(path) : null;
-      currentUsername = username;
+                <div class="about__data">
+                    <div class="about__info">
+                        <div class="about__box">
+                            <i class='bx bxs-user-plus about__icon'></i>
+                            <h3 class="about__title" id="subscribers-count">0</h3>
+                            <span class="about__subtitle">Subscribers</span>
+                        </div>
 
-      if (username) {
-        document.getElementById("profile-container").style.display = "block";
-        document.getElementById("intro-container").style.display = "none";
+                        <div class="about__box">
+                            <i class='bx bxs-like about__icon'></i>
+                            <h3 class="about__title" id="total-likes">0</h3>
+                            <span class="about__subtitle">Likes</span>
+                        </div>
 
-        const q = query(collection(db, "profiles"), where("username", "==", username));
-        const querySnapshot = await getDocs(q);
+                        <div class="about__box">
+                            <i class='bx bxs-show about__icon'></i>
+                            <h3 class="about__title" id="views-count">0</h3>
+                            <span class="about__subtitle">Views</span>
+                        </div>
+                    </div>
 
-        if (!querySnapshot.empty) {
-          const profileDoc = querySnapshot.docs[0];
-          const profile = profileDoc.data();
-          currentProfileId = profileDoc.id;
+                    <p class="about__description" id="full-bio">
+                        Loading profile information...
+                    </p>
 
-          const profileName = profile.name || username;
-          const profileBio = profile.bio || "Check out my profile!";
-          const profileImage = profile.imageUrl || "https://i.ibb.co/sKbrkyn/Yellow-and-Grey-Pastel-Grunge-Designer-Brand-Logo-20241009-185202-0000.png";
-          const currentUrl = window.location.href;
+                    <a href="#" target="_blank" class="button about__button-contact" id="main-cta">
+                        Subscribe <i class='bx bxl-youtube'></i>
+                    </a>
+                </div>
+            </div>
+        </section>
 
-          updateProfileSEO(profileName, profileBio, profileImage, currentUrl);
+        <!--=============== CONTACT ===============-->
+        <section class="contact section" id="contact">
+            <span class="section__subtitle">Get in touch</span>
+            <h2 class="section__title">Connect with me</h2>
 
-          document.getElementById("profile-name").innerText = profileName;
-          document.getElementById("profile-bio").innerText = profileBio;
-          document.getElementById("profile-image").src = profileImage;
+            <div class="contact__container container grid">
+                <div class="contact__content">
+                    <div class="contact__info" id="contact-cards">
+                        <!-- Contact cards will be dynamically populated -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 
-          // Update location
-          if (profile.location) {
-            document.getElementById("location-text").innerText = profile.location;
-            document.getElementById("profile-location").style.display = "inline";
-          } else {
-            document.getElementById("profile-location").style.display = "none";
-            document.querySelector('.dot').style.display = "none";
-          }
+    <!--=============== FOOTER ===============-->
+    <footer class="footer" id="footer" style="display:none;">
+        <div class="footer__container container">
+            <ul class="footer__social" id="footer-social">
+                <!-- Footer social links will be dynamically populated -->
+            </ul>
+            <div class="developer-credit">
+                Designed and developed by <a href="https://samarthags.in" target="_blank">Samartha GS</a>
+            </div>
+        </div>
+    </footer>
 
-          // Update birthday (month and date only)
-          if (profile.birthday) {
-            const birthday = new Date(profile.birthday);
-            const formattedBirthday = birthday.toLocaleDateString('en-US', { 
-              month: 'long', 
-              day: 'numeric' 
-            });
-            document.getElementById("birthday-text").innerText = formattedBirthday;
-            document.getElementById("profile-birthday").style.display = "inline";
+    <!--=============== SCROLLREVEAL ===============-->
+    <script src="https://unpkg.com/scrollreveal"></script>
 
-            // Only show dot if both location and birthday exist
-            if (profile.location) {
-              document.querySelector('.dot').style.display = "inline";
-            } else {
-              document.querySelector('.dot').style.display = "none";
+    <!--=============== FIREBASE & MAIN JS ===============-->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+        import { getFirestore, collection, getDocs, query, where, doc, updateDoc, getDoc, setDoc, increment } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBb3x_zD9JaFwL9PhmngCNZlS2fOh6MBa4",
+            authDomain: "newai-52371.firebaseapp.com",
+            projectId: "newai-52371",
+            storageBucket: "newai-52371.appspot.com",
+            messagingSenderId: "480586908639",
+            appId: "1:480586908639:web:f4645a852c4df724c6fa6a"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Global variables
+        let currentProfileId = null;
+        let currentUsername = null;
+        let hasLiked = false;
+
+        // Format numbers with commas
+        function formatNumber(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        // Get username from URL path
+        function getUsernameFromPath() {
+            const path = window.location.pathname.substring(1);
+            return path ? decodeURIComponent(path).toLowerCase() : null;
+        }
+
+        // Update page SEO and meta tags
+        function updatePageMeta(profile) {
+            document.title = `${profile.name} | MyPortfolio`;
+            document.getElementById('page-title').textContent = `${profile.name} | MyPortfolio`;
+            
+            // Update meta description
+            const metaDesc = document.querySelector('meta[name="description"]');
+            if (metaDesc) {
+                metaDesc.setAttribute('content', profile.bio || `Check out ${profile.name}'s profile`);
             }
-          } else {
-            document.getElementById("profile-birthday").style.display = "none";
-            document.querySelector('.dot').style.display = "none";
-          }
-
-          updateSocialLinks(profile);
-
-          // Initialize like button functionality
-          initializeLikeSystem(currentProfileId);
-
-          // Start the background animation
-          initializeVintageBackground();
-
-          // Start social icon animation
-          initializeSocialIconsAnimation();
-        } else {
-          alert("Profile not found!");
-          window.location.href = "/";
-        }
-      } else {
-        document.getElementById("intro-container").style.display = "block";
-        document.getElementById("profile-container").style.display = "none";
-
-        // Start the background animation for intro page too
-        initializeVintageBackground();
-      }
-    }
-
-    function updateProfileSEO(name, bio, image, url) {
-      // Update page title
-      document.title = `${name} | Mywebsam`;
-
-      // Update meta tags
-      const metaTags = {
-        "title": `${name}'s Profile | Mywebsam`,
-        "description": bio,
-        "og:title": `${name}'s Profile | Mywebsam`,
-        "og:description": bio,
-        "og:image": image,
-        "og:url": url,
-        "twitter:title": `${name}'s Profile | Mywebsam`,
-        "twitter:description": bio,
-        "twitter:image": image
-      };
-
-      // Update each meta tag
-      Object.entries(metaTags).forEach(([key, value]) => {
-        // Try to find the meta tag
-        let metaTag = document.querySelector(`meta[name="${key}"]`);
-        if (!metaTag) {
-          metaTag = document.querySelector(`meta[property="${key}"]`);
         }
 
-        // Update if found, otherwise create new
-        if (metaTag) {
-          if (metaTag.hasAttribute('name')) {
-            metaTag.setAttribute('content', value);
-          } else {
-            metaTag.setAttribute('content', value);
-          }
+        // Load profile data
+        async function loadProfile() {
+            const username = getUsernameFromPath();
+            currentUsername = username;
+
+            if (!username) {
+                // Show intro page
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('intro-container').style.display = 'block';
+                return;
+            }
+
+            try {
+                // Query for profile by username
+                const q = query(collection(db, "profiles"), where("username", "==", username));
+                const querySnapshot = await getDocs(q);
+
+                if (!querySnapshot.empty) {
+                    const profileDoc = querySnapshot.docs[0];
+                    const profile = profileDoc.data();
+                    currentProfileId = profileDoc.id;
+
+                    // Update page meta
+                    updatePageMeta(profile);
+
+                    // Show main content
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('header').style.display = 'block';
+                    document.getElementById('main').style.display = 'block';
+                    document.getElementById('footer').style.display = 'block';
+
+                    // Populate profile data
+                    populateProfile(profile);
+
+                    // Initialize like system
+                    await initializeLikeSystem();
+
+                    // Initialize scroll reveal
+                    initializeScrollReveal();
+
+                } else {
+                    // Profile not found
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('not-found').style.display = 'block';
+                }
+            } catch (error) {
+                console.error("Error loading profile:", error);
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('not-found').style.display = 'block';
+            }
         }
-      });
 
-      // Update structured data for the individual profile
-      const profileSchema = {
-        "@context": "https://schema.org",
-        "@type": "Person",
-        "name": name,
-        "description": bio,
-        "image": image,
-        "url": url
-      };
+        // Populate profile data
+        function populateProfile(profile) {
+            // Basic info
+            document.getElementById('profile-name').textContent = profile.name || 'Name';
+            document.getElementById('profile-bio').textContent = profile.bio || 'Content Creator';
+            document.getElementById('full-bio').textContent = profile.fullBio || profile.bio || 'No bio available.';
+            document.getElementById('nav-logo').textContent = profile.name || 'Profile';
 
-      // Create list of social profiles for schema
-      const socialProfiles = document.querySelectorAll('.social-icons a');
-      if (socialProfiles.length > 0) {
-        profileSchema.sameAs = [];
-        socialProfiles.forEach(profile => {
-          profileSchema.sameAs.push(profile.href);
+            // Profile image
+            const profileImg = document.getElementById('profile-image');
+            profileImg.src = profile.imageUrl || 'https://via.placeholder.com/300x300?text=No+Image';
+            profileImg.alt = profile.name || 'Profile Image';
+
+            // Stats
+            document.getElementById('subscribers-count').textContent = formatNumber(profile.subscribers || 0);
+            document.getElementById('total-likes').textContent = formatNumber(profile.totalLikes || 0);
+            document.getElementById('views-count').textContent = formatNumber(profile.views || 0);
+
+            // Main CTA
+            const mainCta = document.getElementById('main-cta');
+            if (profile.youtubeChannel) {
+                mainCta.href = `https://www.youtube.com/${profile.youtubeChannel}?sub_confirmation=1`;
+                mainCta.innerHTML = 'Subscribe on YouTube <i class="bx bxl-youtube"></i>';
+            } else {
+                mainCta.style.display = 'none';
+            }
+
+            // Social links
+            populateSocialLinks(profile);
+            populateContactCards(profile);
+        }
+
+        // Populate social links
+        function populateSocialLinks(profile) {
+            const socialContainer = document.getElementById('social-links');
+            const footerSocial = document.getElementById('footer-social');
+            
+            let socialHTML = '';
+            let footerSocialHTML = '';
+
+            const socialPlatforms = {
+                instagram: { url: `https://www.instagram.com/${profile.instagram}`, icon: 'bxl-instagram' },
+                snapchat: { url: `https://www.snapchat.com/add/${profile.snapchat}`, icon: 'bxl-snapchat' },
+                youtube: { url: `https://www.youtube.com/${profile.youtubeChannel}`, icon: 'bxl-youtube' },
+                twitter: { url: `https://twitter.com/${profile.twitter}`, icon: 'bxl-twitter' },
+                facebook: { url: `https://facebook.com/${profile.facebook}`, icon: 'bxl-facebook' },
+                linkedin: { url: `https://linkedin.com/in/${profile.linkedin}`, icon: 'bxl-linkedin' },
+                github: { url: `https://github.com/${profile.github}`, icon: 'bxl-github' },
+                telegram: { url: `https://t.me/${profile.telegram}`, icon: 'bxl-telegram' },
+                whatsapp: { url: `https://wa.me/${profile.whatsapp}`, icon: 'bxl-whatsapp' }
+            };
+
+            Object.entries(socialPlatforms).forEach(([platform, config]) => {
+                if (profile[platform]) {
+                    socialHTML += `<a href="${config.url}" target="_blank" class="home__social-link"><i class='bx ${config.icon}'></i></a>`;
+                    footerSocialHTML += `<a href="${config.url}" class="footer__social-link"><i class='bx ${config.icon}'></i></a>`;
+                }
+            });
+
+            socialContainer.innerHTML = socialHTML;
+            footerSocial.innerHTML = footerSocialHTML;
+        }
+
+        // Populate contact cards
+        function populateContactCards(profile) {
+            const contactContainer = document.getElementById('contact-cards');
+            let contactHTML = '';
+
+            // Instagram
+            if (profile.instagram) {
+                contactHTML += `
+                    <div class="contact__card">
+                        <i class='bx bxl-instagram contact__card-icon'></i>
+                        <h3 class="contact__card-title">Instagram</h3>
+                        <span class="contact__card-data">@${profile.instagram}</span>
+                        <a href="https://www.instagram.com/${profile.instagram}" target="_blank" class="contact__button">
+                            Follow <i class='bx bx-right-arrow-alt'></i>
+                        </a>
+                    </div>
+                `;
+            }
+
+            // Snapchat
+            if (profile.snapchat) {
+                contactHTML += `
+                    <div class="contact__card">
+                        <i class='bx bxl-snapchat contact__card-icon'></i>
+                        <h3 class="contact__card-title">Snapchat</h3>
+                        <span class="contact__card-data">@${profile.snapchat}</span>
+                        <a href="https://www.snapchat.com/add/${profile.snapchat}" target="_blank" class="contact__button">
+                            Add Me <i class='bx bx-right-arrow-alt'></i>
+                        </a>
+                    </div>
+                `;
+            }
+
+            // Email
+            if (profile.email) {
+                contactHTML += `
+                    <div class="contact__card contact__card-email">
+                        <i class='bx bxs-envelope contact__card-icon'></i>
+                        <h3 class="contact__card-title">Email</h3>
+                        <span class="contact__card-data">${profile.email}</span>
+                        <a href="mailto:${profile.email}" class="contact__button">
+                            Email Me <i class='bx bx-right-arrow-alt'></i>
+                        </a>
+                    </div>
+                `;
+            }
+
+            contactContainer.innerHTML = contactHTML;
+        }
+
+        // Initialize like system
+        async function initializeLikeSystem() {
+            if (!currentProfileId) return;
+
+            const likeButton = document.getElementById('likeButton');
+            const likeCount = document.getElementById('likeCount');
+
+            // Check if likes document exists, create if not
+            const likesRef = doc(db, "profileLikes", currentProfileId);
+            let likesDoc = await getDoc(likesRef);
+
+            if (!likesDoc.exists()) {
+                await setDoc(likesRef, {
+                    count: 0,
+                    profileId: currentProfileId,
+                    username: currentUsername
+                });
+                likesDoc = await getDoc(likesRef);
+            }
+
+            // Update like count display
+            const likesData = likesDoc.data();
+            likeCount.textContent = formatNumber(likesData.count || 0);
+
+            // Check if user has already liked
+            const userLikeKey = `liked_${currentUsername}_${currentProfileId}`;
+            hasLiked = localStorage.getItem(userLikeKey) === 'true';
+
+            if (hasLiked) {
+                likeButton.classList.add('button--liked');
+            }
+
+            // Add click event listener
+            likeButton.addEventListener('click', async () => {
+                if (hasLiked) {
+                    // Already liked, show message
+                    likeButton.classList.add('shake');
+                    setTimeout(() => likeButton.classList.remove('shake'), 500);
+                    
+                    // Create floating message
+                    const message = document.createElement('div');
+                    message.classList.add('floating-heart');
+                    message.innerHTML = 'Already liked! ❤️';
+                    message.style.position = 'absolute';
+                    message.style.left = likeButton.offsetLeft + 'px';
+                    message.style.top = likeButton.offsetTop - 20 + 'px';
+                    document.body.appendChild(message);
+                    
+                    setTimeout(() => message.remove(), 1500);
+                    return;
+                }
+
+                // Mark as liked
+                hasLiked = true;
+                localStorage.setItem(userLikeKey, 'true');
+                likeButton.classList.add('button--liked');
+
+                // Create floating heart animation
+                const heart = document.createElement('div');
+                heart.classList.add('floating-heart');
+                heart.innerHTML = '+1 ❤️‍🔥';
+                heart.style.position = 'absolute';
+                heart.style.left = likeButton.offsetLeft + likeButton.offsetWidth/2 + 'px';
+                heart.style.top = likeButton.offsetTop + 'px';
+                document.body.appendChild(heart);
+
+                setTimeout(() => heart.remove(), 1500);
+
+                // Create ripple effect
+                const ripple = document.createElement('span');
+                ripple.classList.add('ripple');
+                ripple.style.left = likeButton.offsetWidth/2 + 'px';
+                ripple.style.top = likeButton.offsetHeight/2 + 'px';
+                likeButton.appendChild(ripple);
+
+                setTimeout(() => ripple.remove(), 600);
+
+                // Update Firebase
+                try {
+                    await updateDoc(likesRef, {
+                        count: increment(1)
+                    });
+
+                    // Get updated count
+                    const updatedDoc = await getDoc(likesRef);
+                    if (updatedDoc.exists()) {
+                        likeCount.textContent = formatNumber(updatedDoc.data().count || 0);
+                    }
+                } catch (error) {
+                    console.error("Error updating likes:", error);
+                }
+            });
+        }
+
+        // Initialize scroll reveal animations
+        function initializeScrollReveal() {
+            const sr = ScrollReveal({
+                origin: 'top',
+                distance: '60px',
+                duration: 2500,
+                delay: 400,
+            });
+
+            sr.reveal('.home__data');
+            sr.reveal('.home__social, .home__scroll', {delay: 600, origin: 'bottom'});
+            sr.reveal('.section__subtitle, .section__title', {origin: 'left'});
+            sr.reveal('.about__img', {origin: 'right'});
+            sr.reveal('.about__info', {delay: 500});
+            sr.reveal('.about__description, .about__button-contact', {delay: 600});
+            sr.reveal('.contact__content', {interval: 100});
+        }
+
+        // Theme toggle functionality
+        function initializeTheme() {
+            const themeButton = document.getElementById('theme-button');
+
+            // Set dark theme as default
+            document.body.classList.add('dark-theme');
+            themeButton.classList.add('bx-sun');
+
+            // Check for saved theme preference
+            const savedTheme = localStorage.getItem('selected-theme');
+            if (savedTheme === 'light') {
+                document.body.classList.remove('dark-theme');
+                document.body.classList.add('light-theme');
+                themeButton.classList.remove('bx-sun');
+                themeButton.classList.add('bx-moon');
+            }
+
+            // Theme toggle functionality
+            themeButton.addEventListener('click', () => {
+                if (document.body.classList.contains('dark-theme')) {
+                    document.body.classList.remove('dark-theme');
+                    document.body.classList.add('light-theme');
+                    themeButton.classList.remove('bx-sun');
+                    themeButton.classList.add('bx-moon');
+                    localStorage.setItem('selected-theme', 'light');
+                } else {
+                    document.body.classList.remove('light-theme');
+                    document.body.classList.add('dark-theme');
+                    themeButton.classList.remove('bx-moon');
+                    themeButton.classList.add('bx-sun');
+                    localStorage.setItem('selected-theme', 'dark');
+                }
+            });
+        }
+
+        // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeTheme();
+            loadProfile();
         });
-      }
 
-      document.getElementById("profile-schema").textContent = JSON.stringify(profileSchema);
-    }
-
-    function updateSocialLinks(profile) {
-      const socialPlatforms = {
-        instagram: `https://instagram.com/${profile.instagram}`,
-        snapchat: `https://snapchat.com/add/${profile.snapchat}`,
-        whatsapp: `https://wa.me/${profile.whatsapp}`,
-        facebook: `https://facebook.com/${profile.facebook}`,
-        twitter: `https://twitter.com/${profile.twitter}`,
-        linkedin: `https://linkedin.com/in/${profile.linkedin}`,
-        youtube: `https://m.youtube.com/${profile.youtube}`,
-        telegram: `https://t.me/${profile.telegram}`,
-        github: `https://github.com/${profile.github}`
-      };
-
-      let socialHTML = "";
-      Object.entries(socialPlatforms).forEach(([platform, url]) => {
-        if (profile[platform]) {
-          socialHTML += `<a href="${url}" target="_blank" rel="noopener" aria-label="${platform}"><i class="fab fa-${platform}"></i></a>`;
-        }
-      });
-      document.getElementById("social-icons").innerHTML = socialHTML;
-    }
-
-    // Like System Functions
-    async function initializeLikeSystem(profileId) {
-      const likeButton = document.getElementById("like-button");
-      const likeCount = document.getElementById("like-count");
-      const likeMessage = document.getElementById("like-message");
-
-      // Check if profile has likes collection
-      await checkAndInitializeLikes(profileId);
-
-      // Load current like count
-      const likesRef = doc(db, "profileLikes", profileId);
-      const likesDoc = await getDoc(likesRef);
-
-      if (likesDoc.exists()) {
-        const likesData = likesDoc.data();
-        updateLikeCountDisplay(likesData.count || 0);
-
-        // Check if user has already liked
-        const userLikeKey = getUserLikeKey();
-        hasLiked = localStorage.getItem(userLikeKey) === 'true';
-
-        if (hasLiked) {
-          likeButton.parentElement.classList.add("liked");
-        }
-      }
-
-      // Add click event listener
-      likeButton.addEventListener("click", async () => {
-        const likeButtonWrapper = document.getElementById("like-button-wrapper");
-        const heartIcon = likeButton.querySelector("i");
-
-        // Toggle like state
-        hasLiked = !hasLiked;
-
-        if (hasLiked) {
-          // Save that user has liked
-          localStorage.setItem(getUserLikeKey(), 'true');
-
-          // Animate heart
-          heartIcon.classList.add("heartbeat");
-          likeButtonWrapper.classList.add("liked");
-
-          // Create confetti effect
-          createHeartConfetti(likeButton);
-
-          // Show thank you message
-          likeMessage.classList.add("show-message");
-          setTimeout(() => {
-            likeMessage.classList.remove("show-message");
-          }, 2000);
-
-          // Increment like in database
-          await updateDoc(likesRef, {
-            count: increment(1)
-          });
-
-          // Get updated count
-          const updatedDoc = await getDoc(likesRef);
-          if (updatedDoc.exists()) {
-            updateLikeCountDisplay(updatedDoc.data().count || 0);
-          }
-        } else {
-          // Remove like
-          localStorage.removeItem(getUserLikeKey());
-          likeButtonWrapper.classList.remove("liked");
-          heartIcon.classList.remove("heartbeat");
-
-          // Decrement like in database
-          await updateDoc(likesRef, {
-            count: increment(-1)
-          });
-
-          // Get updated count
-          const updatedDoc = await getDoc(likesRef);
-          if (updatedDoc.exists()) {
-            updateLikeCountDisplay(updatedDoc.data().count || 0);
-          }
-        }
-
-        // Remove heartbeat class after animation
-        setTimeout(() => {
-          heartIcon.classList.remove("heartbeat");
-        }, 500);
-      });
-    }
-
-    async function checkAndInitializeLikes(profileId) {
-      const likesRef = doc(db, "profileLikes", profileId);
-      const likesDoc = await getDoc(likesRef);
-
-      if (!likesDoc.exists()) {
-        // Initialize likes document if it doesn't exist
-        await setDoc(likesRef, {
-          count: 0,
-          profileId: profileId,
-          username: currentUsername
-        });
-      }
-    }
-
-    function getUserLikeKey() {
-      // Create a unique key for this user+profile combination
-      return `liked_${currentUsername}_${currentProfileId}`;
-    }
-
-    function updateLikeCountDisplay(count) {
-      const likeCount = document.getElementById("like-count");
-      likeCount.textContent = count === 1 ? "1 like" : `${count} likes`;
-    }
-
-    function createHeartConfetti(button) {
-      const colors = ['#ff3366', '#ff6b6b', '#ffaa77', '#ff77aa'];
-      const confettiCount = 20;
-
-      for (let i = 0; i < confettiCount; i++) {
-        const confetti = document.createElement('div');
-        confetti.className = 'heart-confetti';
-        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-
-        // Random position within the button
-        const left = Math.random() * 60;
-        const top = Math.random() * 60;
-
-        confetti.style.left = `${left}px`;
-        confetti.style.top = `${top}px`;
-
-        // Random animation duration and delay
-        const duration = 500 + Math.random() * 500;
-        const delay = Math.random() * 200;
-
-        confetti.style.animation = `confetti-fall ${duration}ms ease-out ${delay}ms forwards`;
-
-        button.appendChild(confetti);
-
-        // Clean up after animation
-        setTimeout(() => {
-          confetti.remove();
-        }, duration + delay + 100);
-      }
-    }
-
-    function createParticles(icon) {
-      const particles = [...Array(8)].map(() => {
-        const p = document.createElement('span');
-        p.className = 'particle';
-        icon.appendChild(p);
-        return p;
-      });
-
-      particles.forEach((p,i) => {
-        const angle = (i * 45) * Math.PI/180;
-        p.animate([
-          { transform: 'translate(0,0)', opacity: 1 },
-          { transform: `translate(${Math.cos(angle)*20}px,${Math.sin(angle)*20}px)`, opacity: 0 }
-        ], { duration: 800, easing: 'ease-out' });
-
-        setTimeout(() => p.remove(), 800);
-      });
-    }
-
-    function initializeSocialIconsAnimation() {
-      const socialIcons = document.querySelectorAll('.social-icons a');
-      let currentActive = 0;
-
-      // Start with first icon active
-      if (socialIcons.length > 0) {
-        socialIcons[0].classList.add('active');
-        createParticles(socialIcons[0]);
-      }
-
-      // Cycle through icons every 3 seconds if there are multiple icons
-      if (socialIcons.length > 1) {
-        setInterval(() => {
-          // Fade out current icon
-          socialIcons[currentActive].classList.remove('active');
-
-          // Move to next icon (loop back to first if at end)
-          currentActive = (currentActive + 1) % socialIcons.length;
-
-          // Fade in new icon
-          setTimeout(() => {
-            socialIcons[currentActive].classList.add('active');
-            createParticles(socialIcons[currentActive]);
-          }, 500); // Start fade in after fade out completes
-        }, 5000);
-      }
-    }
-
-    function initializeVintageBackground() {
-      // Extended vintage color palette (16 muted, old-style colors)
-      const vintagePalette = [
-              'linear-gradient(to bottom, #000000, #001f3f)',
-      'linear-gradient(to bottom, #000000, #330000)',
-      'linear-gradient(to bottom, #000000, #2a0033)'
-      ];
-
-      // Previous color index tracker
-      let prevColorIndex = 0;
-
-      function getRandomVintageColor() {
-        let newIndex;
-        // Ensure we don't repeat the same color twice
-        do {
-          newIndex = Math.floor(Math.random() * vintagePalette.length);
-        } while (newIndex === prevColorIndex && vintagePalette.length > 1);
-
-        prevColorIndex = newIndex;
-        return vintagePalette[newIndex];
-      }
-
-      function animateVintageBackground() {
-        const newColor = getRandomVintageColor();
-
-        // Apply with smooth transition
-        document.body.style.background = newColor;
-
-        // Random interval between 20-40 seconds for organic feel
-        const nextChange = 3000 + Math.random() * 3000;
-        setTimeout(animateVintageBackground, nextChange);
-      }
-
-      // Initialize with first random color
-      document.body.style.background = getRandomVintageColor();
-
-      // Add subtle texture (optional)
-      document.body.style.backgroundImage += 
-        ', url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%\' height=\'100%\' filter=\'url(%23noiseFilter)\' opacity=\'0.04\'/%3E%3C/svg%3E")';
-
-      // Start animation after initial load
-      setTimeout(animateVintageBackground, 3000);
-    }
-
-    document.addEventListener('DOMContentLoaded', loadProfile);
-  </script>
+    </script>
 </body>
 </html>
-
-
-
