@@ -135,15 +135,11 @@
                         </div>
 
                         <div class="about__box">
-                            <i class='bx bxs-show about__icon'></i>
-                            <h3 class="about__title" id="views-count">0</h3>
-                            <span class="about__subtitle">Views</span>
+                            <i class='bx bxs-crown about__icon'></i>
+                            <h3 class="about__title" id="experience-display">Experience</h3>
+                            <span class="about__subtitle">Years</span>
                         </div>
                     </div>
-
-                    <p class="about__description" id="full-bio">
-                        Loading profile information...
-                    </p>
 
                     <a href="#" target="_blank" class="button about__button-contact" id="main-cta">
                         Subscribe <i class='bx bxl-youtube'></i>
@@ -282,10 +278,8 @@
 
         // Populate profile data
         function populateProfile(profile) {
-            // Basic info
             document.getElementById('profile-name').textContent = profile.name || 'Name';
             document.getElementById('profile-bio').textContent = profile.bio || 'Content Creator';
-            document.getElementById('full-bio').textContent = profile.fullBio || profile.bio || 'No bio available.';
             document.getElementById('nav-logo').textContent = profile.name || 'Profile';
 
             // Profile image
@@ -296,20 +290,19 @@
             // Stats
             document.getElementById('location-display').textContent = profile.location || 'Not specified';
             
-            // Format birthday
+            // Format birthday (month and day only)
             if (profile.birthday) {
                 const birthday = new Date(profile.birthday);
                 const formattedBirthday = birthday.toLocaleDateString('en-US', { 
                     month: 'long', 
-                    day: 'numeric',
-                    year: 'numeric'
+                    day: 'numeric'
                 });
                 document.getElementById('birthday-display').textContent = formattedBirthday;
             } else {
                 document.getElementById('birthday-display').textContent = 'Not specified';
             }
             
-            document.getElementById('views-count').textContent = formatNumber(profile.views || 0);
+            document.getElementById('experience-display').textContent = profile.experience || '0+';
 
             // Main CTA
             const mainCta = document.getElementById('main-cta');
@@ -325,7 +318,7 @@
             populateContactCards(profile);
         }
 
-        // Populate social links
+        // Populate social links (only first 3 for home section)
         function populateSocialLinks(profile) {
             const socialContainer = document.getElementById('social-links');
             const footerSocial = document.getElementById('footer-social');
@@ -345,10 +338,18 @@
                 whatsapp: { url: `https://wa.me/${profile.whatsapp}`, icon: 'bxl-whatsapp' }
             };
 
+            // For home section - only show first 3 social links
+            let homeCount = 0;
             Object.entries(socialPlatforms).forEach(([platform, config]) => {
                 if (profile[platform]) {
-                    socialHTML += `<a href="${config.url}" target="_blank" class="home__social-link"><i class='bx ${config.icon}'></i></a>`;
+                    // Add to footer (all links)
                     footerSocialHTML += `<a href="${config.url}" class="footer__social-link"><i class='bx ${config.icon}'></i></a>`;
+                    
+                    // Add to home section (only first 3)
+                    if (homeCount < 3) {
+                        socialHTML += `<a href="${config.url}" target="_blank" class="home__social-link"><i class='bx ${config.icon}'></i></a>`;
+                        homeCount++;
+                    }
                 }
             });
 
@@ -356,7 +357,7 @@
             footerSocial.innerHTML = footerSocialHTML;
         }
 
-        // Populate contact cards
+        // Populate contact cards (show all available social platforms)
         function populateContactCards(profile) {
             const contactContainer = document.getElementById('contact-cards');
             let contactHTML = '';
@@ -384,6 +385,104 @@
                         <span class="contact__card-data">@${profile.snapchat}</span>
                         <a href="https://www.snapchat.com/add/${profile.snapchat}" target="_blank" class="contact__button">
                             Add Me <i class='bx bx-right-arrow-alt'></i>
+                        </a>
+                    </div>
+                `;
+            }
+
+            // YouTube
+            if (profile.youtubeChannel) {
+                contactHTML += `
+                    <div class="contact__card">
+                        <i class='bx bxl-youtube contact__card-icon'></i>
+                        <h3 class="contact__card-title">YouTube</h3>
+                        <span class="contact__card-data">${profile.youtubeChannel}</span>
+                        <a href="https://www.youtube.com/${profile.youtubeChannel}" target="_blank" class="contact__button">
+                            Subscribe <i class='bx bx-right-arrow-alt'></i>
+                        </a>
+                    </div>
+                `;
+            }
+
+            // WhatsApp
+            if (profile.whatsapp) {
+                contactHTML += `
+                    <div class="contact__card">
+                        <i class='bx bxl-whatsapp contact__card-icon'></i>
+                        <h3 class="contact__card-title">WhatsApp</h3>
+                        <span class="contact__card-data">${profile.whatsapp}</span>
+                        <a href="https://wa.me/${profile.whatsapp}" target="_blank" class="contact__button">
+                            Message <i class='bx bx-right-arrow-alt'></i>
+                        </a>
+                    </div>
+                `;
+            }
+
+            // Telegram
+            if (profile.telegram) {
+                contactHTML += `
+                    <div class="contact__card">
+                        <i class='bx bxl-telegram contact__card-icon'></i>
+                        <h3 class="contact__card-title">Telegram</h3>
+                        <span class="contact__card-data">@${profile.telegram}</span>
+                        <a href="https://t.me/${profile.telegram}" target="_blank" class="contact__button">
+                            Message <i class='bx bx-right-arrow-alt'></i>
+                        </a>
+                    </div>
+                `;
+            }
+
+            // Twitter
+            if (profile.twitter) {
+                contactHTML += `
+                    <div class="contact__card">
+                        <i class='bx bxl-twitter contact__card-icon'></i>
+                        <h3 class="contact__card-title">Twitter</h3>
+                        <span class="contact__card-data">@${profile.twitter}</span>
+                        <a href="https://twitter.com/${profile.twitter}" target="_blank" class="contact__button">
+                            Follow <i class='bx bx-right-arrow-alt'></i>
+                        </a>
+                    </div>
+                `;
+            }
+
+            // Facebook
+            if (profile.facebook) {
+                contactHTML += `
+                    <div class="contact__card">
+                        <i class='bx bxl-facebook contact__card-icon'></i>
+                        <h3 class="contact__card-title">Facebook</h3>
+                        <span class="contact__card-data">${profile.facebook}</span>
+                        <a href="https://facebook.com/${profile.facebook}" target="_blank" class="contact__button">
+                            Follow <i class='bx bx-right-arrow-alt'></i>
+                        </a>
+                    </div>
+                `;
+            }
+
+            // LinkedIn
+            if (profile.linkedin) {
+                contactHTML += `
+                    <div class="contact__card">
+                        <i class='bx bxl-linkedin contact__card-icon'></i>
+                        <h3 class="contact__card-title">LinkedIn</h3>
+                        <span class="contact__card-data">${profile.linkedin}</span>
+                        <a href="https://linkedin.com/in/${profile.linkedin}" target="_blank" class="contact__button">
+                            Connect <i class='bx bx-right-arrow-alt'></i>
+                        </a>
+                    </div>
+                `;
+            }
+
+            // GitHub
+            if (profile.github) {
+                contactHTML += `
+                    <div class="contact__card">
+                        <i class='bx bxl-github contact__card-icon'></i>
+                        <h3 class="contact__card-title">GitHub</h3>
+                        <span class="contact__card-data">@${profile.github}</span>
+                        <a href="https://github.com/${profile.github}" target="_blank" class="contact__button">
+                            Follow <i class='bx bx-right-arrow-alt'></i>
                         </a>
                     </div>
                 `;
