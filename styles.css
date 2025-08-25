@@ -1214,3 +1214,15 @@ body.light-theme {
     border-radius: 0.5rem;
   }
 }
+
+
+        /* Add these styles for the liked state */
+        .button--liked {
+            background-color: rgba(255, 59, 48, 0.2);
+            border-color: #ff3b30;
+            box-shadow: 0 0 10px rgba(255, 59, 48, 0.5);
+        }
+
+        .button--liked i {
+            color: #ff3b30;
+        }
