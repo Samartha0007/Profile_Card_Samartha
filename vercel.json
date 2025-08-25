@@ -1,15 +1,10 @@
-
 {
   "rewrites": [
-    { "source": "/:username", "destination": "/username?username=:username" },
-    { "source": "/(.*)", "destination": "/index.html" }
-  ],
-  "headers": [
+    { "source": "/sitemap.xml", "destination": "/api/sitemap" },
     {
-      "source": "/(.*)",
-      "headers": [
-        { "key": "Cache-Control", "value": "no-store, no-cache, must-revalidate" }
-      ]
+      "source": "/:username",
+      "destination": "/api/profile?username=:username",
+      "missing": [{ "type": "file" }]
     }
   ]
 }
