@@ -96,7 +96,7 @@
 
                     <div class="home__buttons">
                         <button id="likeButton" class="button button--ghost">
-                            <i class='bx bxs-like'></i> <span id="likeCount">0</span>
+                            <i class='bx bxs-heart'></i> <span id="likeCount">0</span>
                         </button>
                     </div>
                 </div>
@@ -148,23 +148,21 @@
             </div>
         </section>
 
+        <!--=============== SPOTIFY DEMO ===============-->
+        <section class="spotify section" id="spotify">
+            <span class="section__subtitle">Now Playing</span>
+            <h2 class="section__title">Spotify Demo Song</h2>
 
-
-<!--=============== SPOTIFY DEMO ===============-->
-<section class="spotify section" id="spotify">
-    <span class="section__subtitle">Now Playing</span>
-    <h2 class="section__title">Spotify Demo Song</h2>
-
-    <div class="spotify__container container">
-        <div style="left: 0; width: 100%; height: 352px; position: relative;">
-            <iframe src="https://open.spotify.com/embed/track/3gjTErwpHM5PkRbWMhmNrV?utm_source=oembed" 
-                style="top: 0; left: 0; width: 100%; height: 100%; position: absolute; border: 0;" 
-                allowfullscreen 
-                allow="clipboard-write *; encrypted-media *; fullscreen *; picture-in-picture *">
-            </iframe>
-        </div>
-    </div>
-</section>
+            <div class="spotify__container container">
+                <div style="left: 0; width: 100%; height: 352px; position: relative;">
+                    <iframe src="https://open.spotify.com/embed/track/3gjTErwpHM5PkRbWMhmNrV?utm_source=oembed" 
+                        style="top: 0; left: 0; width: 100%; height: 100%; position: absolute; border: 0;" 
+                        allowfullscreen 
+                        allow="clipboard-write *; encrypted-media *; fullscreen *; picture-in-picture *">
+                    </iframe>
+                </div>
+            </div>
+        </section>
 
         <!--=============== CONTACT ===============-->
         <section class="contact section" id="contact">
@@ -184,9 +182,6 @@
     <!--=============== FOOTER ===============-->
     <footer class="footer" id="footer" style="display:none;">
         <div class="footer__container container">
-            <ul class="footer__social" id="footer-social">
-                <!-- Footer social links will be dynamically populated -->
-            </ul>
             <div class="developer-credit">
                 Designed and developed by <a href="https://samarthags.in" target="_blank">Samartha GS</a>
             </div>
@@ -234,11 +229,71 @@
         function updatePageMeta(profile) {
             document.title = `${profile.name} | MyPortfolio`;
             document.getElementById('page-title').textContent = `${profile.name} | MyPortfolio`;
-            
+
             // Update meta description
             const metaDesc = document.querySelector('meta[name="description"]');
             if (metaDesc) {
                 metaDesc.setAttribute('content', profile.bio || `Check out ${profile.name}'s profile`);
+            }
+        }
+
+        // Initialize streak system (global daily visits)
+        async function initializeStreakSystem() {
+            if (!currentProfileId) return;
+
+            const today = new Date().toDateString(); // e.g., "Mon Dec 25 2023"
+
+            try {
+                const streakRef = doc(db, "profileStreaks", currentProfileId);
+                const streakDoc = await getDoc(streakRef);
+
+                if (streakDoc.exists()) {
+                    const streakData = streakDoc.data();
+                    const lastUpdateDate = streakData.lastUpdate;
+                    let currentStreak = streakData.currentStreak || 0;
+
+                    // Check if this is a new day
+                    if (lastUpdateDate !== today) {
+                        const lastDate = new Date(lastUpdateDate);
+                        const todayDate = new Date(today);
+                        const timeDiff = todayDate.getTime() - lastDate.getTime();
+                        const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+                        if (daysDiff === 1) {
+                            // Consecutive day - increment streak
+                            currentStreak += 1;
+                        } else if (daysDiff > 1) {
+                            // Streak broken - reset to 1
+                            currentStreak = 1;
+                        }
+
+                        // Update Firebase with new streak and today's date
+                        await updateDoc(streakRef, {
+                            currentStreak: currentStreak,
+                            lastUpdate: today,
+                            maxStreak: currentStreak > (streakData.maxStreak || 0) ? currentStreak : streakData.maxStreak || currentStreak
+                        });
+                    }
+
+                    // Display current streak
+                    document.getElementById('streak-display').textContent = currentStreak;
+
+                } else {
+                    // First time - create streak record
+                    await setDoc(streakRef, {
+                        currentStreak: 1,
+                        maxStreak: 1,
+                        lastUpdate: today,
+                        profileId: currentProfileId,
+                        username: currentUsername
+                    });
+
+                    document.getElementById('streak-display').textContent = '1';
+                }
+
+            } catch (error) {
+                console.error("Error handling streak system:", error);
+                document.getElementById('streak-display').textContent = '0';
             }
         }
 
@@ -276,65 +331,8 @@
                     // Populate profile data
                     populateProfile(profile);
 
-                    // Initialize streak system (global daily visits)
-        async function initializeStreakSystem() {
-            if (!currentProfileId) return;
-
-            const today = new Date().toDateString(); // e.g., "Mon Dec 25 2023"
-            
-            try {
-                const streakRef = doc(db, "profileStreaks", currentProfileId);
-                const streakDoc = await getDoc(streakRef);
-                
-                if (streakDoc.exists()) {
-                    const streakData = streakDoc.data();
-                    const lastUpdateDate = streakData.lastUpdate;
-                    let currentStreak = streakData.currentStreak || 0;
-                    
-                    // Check if this is a new day
-                    if (lastUpdateDate !== today) {
-                        const lastDate = new Date(lastUpdateDate);
-                        const todayDate = new Date(today);
-                        const timeDiff = todayDate.getTime() - lastDate.getTime();
-                        const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
-                        
-                        if (daysDiff === 1) {
-                            // Consecutive day - increment streak
-                            currentStreak += 1;
-                        } else if (daysDiff > 1) {
-                            // Streak broken - reset to 1
-                            currentStreak = 1;
-                        }
-                        
-                        // Update Firebase with new streak and today's date
-                        await updateDoc(streakRef, {
-                            currentStreak: currentStreak,
-                            lastUpdate: today,
-                            maxStreak: currentStreak > (streakData.maxStreak || 0) ? currentStreak : streakData.maxStreak || currentStreak
-                        });
-                    }
-                    
-                    // Display current streak
-                    document.getElementById('streak-display').textContent = currentStreak;
-                    
-                } else {
-                    // First time - create streak record
-                    await setDoc(streakRef, {
-                        currentStreak: 1,
-                        maxStreak: 1,
-                        lastUpdate: today,
-                        profileId: currentProfileId,
-                        username: currentUsername
-                    });
-                    
-                    document.getElementById('streak-display').textContent = '1';
-                }
-                
-            } catch (error) {
-                console.error("Error handling streak system:", error);
-                document.getElementById('streak-display').textContent = '0';
-            }
-        }
+                    // Initialize systems
+                    await initializeStreakSystem();
                     await initializeLikeSystem();
 
                     // Initialize scroll reveal
@@ -365,7 +363,7 @@
 
             // Stats
             document.getElementById('location-display').textContent = profile.location || 'Not specified';
-            
+
             // Format birthday (month and day only)
             if (profile.birthday) {
                 const birthday = new Date(profile.birthday);
@@ -377,7 +375,7 @@
             } else {
                 document.getElementById('birthday-display').textContent = 'Not specified';
             }
-            
+
             // Set default streak while loading
             document.getElementById('streak-display').textContent = '0';
 
@@ -398,10 +396,8 @@
         // Populate social links (only first 3 for home section)
         function populateSocialLinks(profile) {
             const socialContainer = document.getElementById('social-links');
-            const footerSocial = document.getElementById('footer-social');
-            
+
             let socialHTML = '';
-            let footerSocialHTML = '';
 
             const socialPlatforms = {
                 instagram: { url: `https://www.instagram.com/${profile.instagram}`, icon: 'bxl-instagram' },
@@ -419,9 +415,6 @@
             let homeCount = 0;
             Object.entries(socialPlatforms).forEach(([platform, config]) => {
                 if (profile[platform]) {
-                    // Add to footer (all links)
-                    footerSocialHTML += `<a href="${config.url}" class="footer__social-link"><i class='bx ${config.icon}'></i></a>`;
-                    
                     // Add to home section (only first 3)
                     if (homeCount < 3) {
                         socialHTML += `<a href="${config.url}" target="_blank" class="home__social-link"><i class='bx ${config.icon}'></i></a>`;
@@ -431,7 +424,6 @@
             });
 
             socialContainer.innerHTML = socialHTML;
-            footerSocial.innerHTML = footerSocialHTML;
         }
 
         // Populate contact cards (show all available social platforms)
@@ -620,7 +612,7 @@
                     // Already liked, show message
                     likeButton.classList.add('shake');
                     setTimeout(() => likeButton.classList.remove('shake'), 500);
-                    
+
                     // Create floating message
                     const message = document.createElement('div');
                     message.classList.add('floating-heart');
@@ -629,7 +621,7 @@
                     message.style.left = likeButton.offsetLeft + 'px';
                     message.style.top = likeButton.offsetTop - 20 + 'px';
                     document.body.appendChild(message);
-                    
+
                     setTimeout(() => message.remove(), 1500);
                     return;
                 }
