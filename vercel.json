@@ -1,10 +1,12 @@
 {
   "rewrites": [
-    { "source": "/sitemap.xml", "destination": "/api/sitemap" },
+    {
+      "source": "/sitemap.xml",
+      "destination": "/api/sitemap"
+    },
     {
       "source": "/:username",
-      "destination": "/api/profile?username=:username",
-      "missing": [{ "type": "file" }]
+      "destination": "/api/profile?username=:username"
     }
   ]
 }
