@@ -1226,3 +1226,91 @@ body.light-theme {
         .button--liked i {
             color: #ff3b30;
         }
+
+
+
+
+/* Floating heart animation for +1 and already liked messages */
+.floating-heart {
+    position: absolute;
+    color: #ff6b6b;
+    font-weight: bold;
+    font-size: 1.2rem;
+    pointer-events: none;
+    z-index: 1000;
+    animation: floatUp 1.5s ease-out forwards;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(-30px) scale(1.1);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(-60px) scale(0.8);
+        opacity: 0;
+    }
+}
+
+/* Shake animation for already liked button */
+.shake {
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+/* Ripple effect for like button */
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 107, 107, 0.6);
+    transform: scale(0);
+    animation: rippleEffect 0.6s linear;
+    pointer-events: none;
+}
+
+@keyframes rippleEffect {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+/* Liked button state styling */
+.button--liked {
+    background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+    color: white;
+    transform: scale(1.05);
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(255, 107, 107, 0.3);
+}
+
+.button--liked:hover {
+    transform: scale(1.08);
+    box-shadow: 0 10px 25px rgba(255, 107, 107, 0.4);
+}
+
+/* Enhanced like button styling */
+#likeButton {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+#likeButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+#likeButton:active {
+    transform: translateY(0);
+}
