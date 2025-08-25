@@ -1,5 +1,7 @@
 // api/profile.js
 import admin from "firebase-admin";
+import fs from "fs";
+import path from "path";
 
 function initFirebase() {
   if (admin.apps.length) return;
@@ -7,7 +9,6 @@ function initFirebase() {
   const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
   let privateKey = process.env.FIREBASE_PRIVATE_KEY || "";
 
-  // Support keys with literal "\n"
   if (privateKey.includes("\\n")) {
     privateKey = privateKey.replace(/\\n/g, "\n");
   }
@@ -51,12 +52,18 @@ export default async function handler(req, res) {
     const usernameRaw =
       (req.query.username || "").toString().trim().toLowerCase();
 
+    // load SPA HTML
+    const indexPath = path.join(process.cwd(), "public", "index.html");
+    let html = fs.readFileSync(indexPath, "utf8");
+
     if (!usernameRaw) {
-      res.status(400).send("Missing username");
+      // Just serve intro SPA (no meta override)
+      res.setHeader("Content-Type", "text/html; charset=utf-8");
+      res.status(200).send(html);
       return;
     }
 
-    // Query Firestore: collection "profiles" with field "username"
+    // Query Firestore
     const snap = await db
       .collection("profiles")
       .where("username", "==", usernameRaw)
@@ -64,22 +71,19 @@ export default async function handler(req, res) {
       .get();
 
     if (snap.empty) {
+      // override <title> + description for "not found"
+      html = html.replace(
+        /<title[^>]*>.*<\/title>/i,
+        `<title>Profile Not Found | MyPortfolio</title>`
+      );
+      html = html.replace(
+        /<meta name="description"[^>]*>/i,
+        `<meta name="description" content="The profile ${escapeHtml(
+          usernameRaw
+        )} does not exist on MyPortfolio">`
+      );
       res.setHeader("Content-Type", "text/html; charset=utf-8");
-      res.status(404).send(`<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Profile Not Found | MyPortfolio</title>
-  <meta name="robots" content="noindex">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu;max-width:680px;margin:6rem auto;padding:0 1rem;line-height:1.5}</style>
-</head>
-<body>
-  <h1>Profile Not Found</h1>
-  <p>The profile <code>${escapeHtml(usernameRaw)}</code> does not exist.</p>
-  <p><a href="/">Go to Home</a></p>
-</body>
-</html>`);
+      res.status(404).send(html);
       return;
     }
 
@@ -90,16 +94,20 @@ export default async function handler(req, res) {
     const image =
       profile.imageUrl ||
       "https://via.placeholder.com/1200x630.png?text=MyPortfolio";
+    const pageUrl = absoluteUrl(req, `/${usernameRaw}`);
     const loc = profile.location || "";
     const birthday = profile.birthday || "";
-    const pageUrl = absoluteUrl(req, `/${usernameRaw}`);
 
+    // sameAs for JSON-LD
     const sameAs = [];
     const add = (cond, url) => cond && sameAs.push(url);
 
     add(profile.instagram, `https://www.instagram.com/${profile.instagram}`);
     add(profile.snapchat, `https://www.snapchat.com/add/${profile.snapchat}`);
-    add(profile.youtubeChannel, `https://www.youtube.com/${profile.youtubeChannel}`);
+    add(
+      profile.youtubeChannel,
+      `https://www.youtube.com/${profile.youtubeChannel}`
+    );
     add(profile.twitter, `https://twitter.com/${profile.twitter}`);
     add(profile.facebook, `https://facebook.com/${profile.facebook}`);
     add(profile.linkedin, `https://linkedin.com/in/${profile.linkedin}`);
@@ -114,63 +122,46 @@ export default async function handler(req, res) {
       description: bio,
       url: pageUrl,
       image,
-      ...(loc ? { address: { "@type": "PostalAddress", addressLocality: loc } } : {}),
+      ...(loc
+        ? { address: { "@type": "PostalAddress", addressLocality: loc } }
+        : {}),
       ...(sameAs.length ? { sameAs } : {}),
-      ...(birthday ? { birthDate: new Date(birthday).toISOString().slice(0, 10) } : {}),
+      ...(birthday
+        ? { birthDate: new Date(birthday).toISOString().slice(0, 10) }
+        : {}),
     };
+
+    // Inject dynamic SEO meta tags into index.html
+    html = html
+      // Title
+      .replace(/<title[^>]*>.*<\/title>/i, `<title>${escapeHtml(name)} | MyPortfolio</title>`)
+      // Meta description
+      .replace(
+        /<meta name="description"[^>]*>/i,
+        `<meta name="description" content="${escapeHtml(bio)}">`
+      );
+
+    // Add OG/Twitter tags
+    const metaTags = `
+    <link rel="canonical" href="${pageUrl}">
+    <meta property="og:type" content="profile">
+    <meta property="og:title" content="${escapeHtml(name)} | MyPortfolio">
+    <meta property="og:description" content="${escapeHtml(bio)}">
+    <meta property="og:image" content="${escapeHtml(image)}">
+    <meta property="og:url" content="${pageUrl}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="${escapeHtml(name)} | MyPortfolio">
+    <meta name="twitter:description" content="${escapeHtml(bio)}">
+    <meta name="twitter:image" content="${escapeHtml(image)}">
+    <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>
+    `;
+
+    // Inject before </head>
+    html = html.replace("</head>", `${metaTags}\n</head>`);
 
     res.setHeader("Content-Type", "text/html; charset=utf-8");
     res.setHeader("Cache-Control", "public, max-age=300, s-maxage=600");
-
-    // You can link your style.css to make it look like your SPA if you want
-    res.status(200).send(`<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>${escapeHtml(name)} | MyPortfolio</title>
-  <meta name="description" content="${escapeHtml(bio)}">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <link rel="canonical" href="${pageUrl}">
-  <meta property="og:type" content="profile">
-  <meta property="og:title" content="${escapeHtml(name)} | MyPortfolio">
-  <meta property="og:description" content="${escapeHtml(bio)}">
-  <meta property="og:image" content="${escapeHtml(image)}">
-  <meta property="og:url" content="${pageUrl}">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="${escapeHtml(name)} | MyPortfolio">
-  <meta name="twitter:description" content="${escapeHtml(bio)}">
-  <meta name="twitter:image" content="${escapeHtml(image)}">
-
-  <script type="application/ld+json">
-${JSON.stringify(jsonLd)}
-  </script>
-
-  <link rel="stylesheet" href="/style.css">
-  <style>
-    /* Minimal safety styling if style.css fails to load */
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu;line-height:1.5;margin:0}
-    .wrap{max-width:960px;margin:2rem auto;padding:0 1rem}
-    .card{display:grid;grid-template-columns:140px 1fr;gap:1rem;align-items:center}
-    .avatar{width:140px;height:140px;object-fit:cover;border-radius:16px}
-    .meta{color:#555}
-  </style>
-</head>
-<body>
-  <div class="wrap">
-    <div class="card">
-      <img class="avatar" src="${escapeHtml(image)}" alt="${escapeHtml(name)}">
-      <div>
-        <h1>${escapeHtml(name)}</h1>
-        <p>${escapeHtml(bio)}</p>
-        ${loc ? `<p class="meta"><strong>Location:</strong> ${escapeHtml(loc)}</p>` : ""}
-        ${birthday ? `<p class="meta"><strong>Birthday:</strong> ${escapeHtml(new Date(birthday).toDateString())}</p>` : ""}
-        <p><a href="/">⬅ Back to Home</a></p>
-      </div>
-    </div>
-  </div>
-</body>
-</html>`);
+    res.status(200).send(html);
   } catch (err) {
     console.error(err);
     res.status(500).send("Server error");
