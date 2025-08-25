@@ -1285,32 +1285,3 @@ body.light-theme {
     }
 }
 
-/* Liked button state styling */
-.button--liked {
-    background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
-    color: white;
-    transform: scale(1.05);
-    transition: all 0.3s ease;
-    box-shadow: 0 8px 20px rgba(255, 107, 107, 0.3);
-}
-
-.button--liked:hover {
-    transform: scale(1.08);
-    box-shadow: 0 10px 25px rgba(255, 107, 107, 0.4);
-}
-
-/* Enhanced like button styling */
-#likeButton {
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-#likeButton:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-}
-
-#likeButton:active {
-    transform: translateY(0);
-}
