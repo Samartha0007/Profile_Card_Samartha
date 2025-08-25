@@ -155,13 +155,22 @@
     <span class="section__subtitle">Now Playing</span>
     <h2 class="section__title">Spotify Demo Song</h2>
 
-    <div class="spotify__container container">
-        <iframe style="border-radius:12px" 
-            src="https://open.spotify.com/embed/track/7ouMYWpwJ422jRcDASZB7P?utm_source=generator" 
-            width="100%" height="152" frameBorder="0" 
-            allowfullscreen="" 
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
-        </iframe>
+    <div class="spotify__container container grid">
+        <!-- Left side: song info -->
+        <div class="spotify__data">
+            <h3 class="spotify__song">Shape of You</h3>
+            <p class="spotify__artist">Ed Sheeran</p>
+            <p class="spotify__desc">Enjoy a quick demo of a popular track powered by Spotify Embed.</p>
+        </div>
+
+        <!-- Right side: Spotify player -->
+        <div class="spotify__player">
+            <iframe style="border-radius:12px" 
+                src="https://open.spotify.com/embed/track/7ouMYWpwJ422jRcDASZB7P?utm_source=generator" 
+                width="100%" height="152" frameBorder="0" 
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
+            </iframe>
+        </div>
     </div>
 </section>
 
