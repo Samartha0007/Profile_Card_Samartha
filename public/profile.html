@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--=============== FAVICON ===============-->
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicons/favicon-16x16.png">
+    <link rel="manifest" href="/assets/favicons/site.webmanifest">
+    <link rel="mask-icon" href="/assets/favicons/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="/assets/favicons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-config" content="/assets/favicons/browserconfig.xml">
+    <meta name="theme-color" content="#a789d4">
+
+    <!--=============== BOXICONS ===============-->
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+
+    <!--=============== CSS ===============-->
+    <link rel="stylesheet" href="/style.css">
+
+    <title id="page-title">{{NAME}} | MyPortfolio</title>
+    <meta name="description" content="{{BIO}}">
+</head>
+
+<body class="dark-theme">
+    <!--=============== LOADING ===============-->
+    <div class="loading" id="loading" style="display:none;">
+        <i class='bx bx-loader-alt bx-spin'></i> Loading...
+    </div>
+
+    <!--=============== PROFILE NOT FOUND ===============-->
+    <div class="not-found" id="not-found" style="display:none;">
+        <h2>Profile Not Found By Sam Web</h2>
+        <p>The profile you're looking for doesn't exist.</p>
+        <a href="/" class="back-home">Go to Home</a>
+    </div>
+
+    <!--=============== INTRO PAGE ===============-->
+    <div class="intro-container" id="intro-container" style="display:none;">
+        <div class="intro-content">
+            <h1>MyPortfolio</h1>
+            <p>Create and share your personalized profile page with all your social links in one place</p>
+            <div class="intro-features">
+                <div class="feature">
+                    <i class='bx bxs-user-circle'></i>
+                    <h3>Personal Profile</h3>
+                    <p>Showcase your information and bio</p>
+                </div>
+                <div class="feature">
+                    <i class='bx bxs-heart'></i>
+                    <h3>Show Some Love</h3>
+                    <p>Anyone visiting your profile can 'like' to show they appreciate you.</p>
+                </div>
+                <div class="feature">
+                    <i class='bx bxs-share-alt'></i>
+                    <h3>Social Links</h3>
+                    <p>All your social media in one place</p>
+                </div>
+                <div class="feature">
+                    <i class='bx bxs-video'></i>
+                    <h3>Content Creator</h3>
+                    <p>Perfect for YouTubers, gamers and creators</p>
+                </div>
+            </div>
+            <a href="/create" class="cta-button">Create Your Profile</a>
+        </div>
+        <footer class="main-footer">
+            Made with 🖤 By 
+            <b><a href="https://samarthags.in" target="_blank">Samartha GS</a></b>
+        </footer>
+    </div>
+
+    <!--=============== HEADER ===============-->
+    <header class="header" id="header">
+        <nav class="nav container">
+            <a href="#" class="nav__logo" id="nav-logo">{{NAME}}</a>
+            <i class='bx bx-sun change-theme' id="theme-button"></i>
+        </nav>
+    </header>
+
+    <!--=============== MAIN ===============-->
+    <main class="main" id="main">
+        <!--=============== HOME ===============-->
+        <section class="home section" id="home">
+            <div class="home__container container grid">
+                <div class="home__data">
+                    <span class="home__greeting">Hello, I'm</span>
+                    <h1 class="home__name" id="profile-name">{{NAME}}</h1>
+                    <h3 class="home__education" id="profile-bio">{{BIO}}</h3>
+
+                    <div class="home__buttons">
+                        <button id="likeButton" class="button button--ghost">
+                            <i class='bx bxs-heart'></i> <span id="likeCount">{{LIKES}}</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="home__social" id="social-links">
+                    <!-- Social links placeholders -->
+                    {{SOCIAL_LINKS_HOME}}
+                </div>
+
+                <a href="#about" class="home__scroll">
+                    <i class='bx bx-mouse home__scroll-icon'></i>
+                    <span class="home__scroll-name">Scroll Down</span>
+                </a>
+            </div>
+        </section>
+
+        <!--=============== ABOUT ===============-->
+        <section class="about section" id="about">
+            <span class="section__subtitle">My Intro</span>
+            <h2 class="section__title">About Me</h2>
+            <div class="about__container container grid">
+                <img src="{{IMAGE}}" alt="{{NAME}}" class="about__img" id="profile-image">
+
+                <div class="about__data">
+                    <div class="about__info">
+                        <div class="about__box">
+                            <i class='bx bxs-map about__icon'></i>
+                            <h3 class="about__title" id="location-display">{{LOCATION}}</h3>
+                            <span class="about__subtitle">Location</span>
+                        </div>
+                        <div class="about__box">
+                            <i class='bx bxs-cake about__icon'></i>
+                            <h3 class="about__title" id="birthday-display">{{BIRTHDAY}}</h3>
+                            <span class="about__subtitle">Birthday</span>
+                        </div>
+                        <div class="about__box">
+                            <i class='bx bxs-flame about__icon'></i>
+                            <h3 class="about__title" id="streak-display">{{STREAK}}</h3>
+                            <span class="about__subtitle">Day Streak</span>
+                        </div>
+                    </div>
+
+                    <a href="{{YOUTUBE_LINK}}" target="_blank" class="button about__button-contact" id="main-cta">
+                        Subscribe <i class='bx bxl-youtube'></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!--=============== SPOTIFY DEMO ===============-->
+        <section class="spotify section" id="spotify">
+            <span class="section__subtitle">Now Trending</span>
+            <h2 class="section__title">India</h2>
+            <div class="spotify__container container">
+                <div style="left: 0; width: 100%; height: 352px; position: relative;">
+                    <iframe src="{{SPOTIFY_LINK}}" 
+                        style="top: 0; left: 0; width: 100%; height: 100%; position: absolute; border: 0;" 
+                        allowfullscreen 
+                        allow="clipboard-write *; encrypted-media *; fullscreen *; picture-in-picture *">
+                    </iframe>
+                </div>
+            </div>
+        </section>
+
+        <!--=============== CONTACT ===============-->
+        <section class="contact section" id="contact">
+            <span class="section__subtitle">Get in touch</span>
+            <h2 class="section__title">Connect with me</h2>
+            <div class="contact__container container grid">
+                <div class="contact__content" id="contact-cards">
+                    {{CONTACT_CARDS}}
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!--=============== FOOTER ===============-->
+    <footer class="footer" id="footer">
+        <div class="footer__container container">
+            <div class="developer-credit">
+                Designed and developed by <a href="https://samarthags.in" target="_blank">Samartha GS</a>
+            </div>
+        </div>
+    </footer>
+
+    <!--=============== SCROLLREVEAL ===============-->
+    <script src="https://unpkg.com/scrollreveal"></script>
+
+    <!--=============== FIREBASE & MAIN JS ===============-->
+    <script type="module" src="/main.js"></script>
+</body>
+</html>
