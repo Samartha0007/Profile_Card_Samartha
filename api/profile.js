@@ -49,46 +49,54 @@ export default async function handler(req, res) {
     initFirebase();
     const db = admin.firestore();
 
-    const usernameRaw =
-      (req.query.username || "").toString().trim().toLowerCase();
+    const usernameRaw = (req.query.username || "").toString().trim();
+    const usernameLower = usernameRaw.toLowerCase();
 
-    // load SPA HTML
-    const indexPath = path.join(process.cwd(), "public", "index.html");
-    let html = fs.readFileSync(indexPath, "utf8");
+    // Load SPA HTML
+    const indexPath = path.resolve("./public/index.html");
+    let html = "";
+    try {
+      html = fs.readFileSync(indexPath, "utf8");
+    } catch (e) {
+      console.error("❌ Could not load index.html:", e);
+      res.status(500).send("index.html missing on server");
+      return;
+    }
 
+    // No username → serve intro SPA
     if (!usernameRaw) {
-      // Just serve intro SPA (no meta override)
       res.setHeader("Content-Type", "text/html; charset=utf-8");
       res.status(200).send(html);
       return;
     }
 
-    // Query Firestore
+    // Query Firestore using case-insensitive field
     const snap = await db
       .collection("profiles")
-      .where("username", "==", usernameRaw)
+      .where("usernameLower", "==", usernameLower)
       .limit(1)
       .get();
 
     if (snap.empty) {
-      // override <title> + description for "not found"
+      // Inject "Profile Not Found" meta tags
+      const notFoundTitle = "Profile Not Found | MyPortfolio";
+      const notFoundDesc = `The profile ${escapeHtml(
+        usernameRaw
+      )} does not exist on MyPortfolio`;
+
+      html = html.replace(/<title[^>]*>.*<\/title>/i, `<title>${notFoundTitle}</title>`);
       html = html.replace(
-        /<title[^>]*>.*<\/title>/i,
-        `<title>Profile Not Found | MyPortfolio</title>`
+        /<\/head>/i,
+        `<meta name="description" content="${notFoundDesc}">\n</head>`
       );
-      html = html.replace(
-        /<meta name="description"[^>]*>/i,
-        `<meta name="description" content="The profile ${escapeHtml(
-          usernameRaw
-        )} does not exist on MyPortfolio">`
-      );
+
       res.setHeader("Content-Type", "text/html; charset=utf-8");
       res.status(404).send(html);
       return;
     }
 
+    // Profile exists
     const profile = snap.docs[0].data();
-
     const name = profile.name || usernameRaw;
     const bio = textSummary(profile.bio || "Profile on MyPortfolio");
     const image =
@@ -131,39 +139,34 @@ export default async function handler(req, res) {
         : {}),
     };
 
-    // Inject dynamic SEO meta tags into index.html
-    html = html
-      // Title
-      .replace(/<title[^>]*>.*<\/title>/i, `<title>${escapeHtml(name)} | MyPortfolio</title>`)
-      // Meta description
-      .replace(
-        /<meta name="description"[^>]*>/i,
-        `<meta name="description" content="${escapeHtml(bio)}">`
-      );
-
-    // Add OG/Twitter tags
-    const metaTags = `
-    <link rel="canonical" href="${pageUrl}">
-    <meta property="og:type" content="profile">
-    <meta property="og:title" content="${escapeHtml(name)} | MyPortfolio">
-    <meta property="og:description" content="${escapeHtml(bio)}">
-    <meta property="og:image" content="${escapeHtml(image)}">
-    <meta property="og:url" content="${pageUrl}">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="${escapeHtml(name)} | MyPortfolio">
-    <meta name="twitter:description" content="${escapeHtml(bio)}">
-    <meta name="twitter:image" content="${escapeHtml(image)}">
-    <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>
-    `;
-
-    // Inject before </head>
-    html = html.replace("</head>", `${metaTags}\n</head>`);
+    // Inject dynamic meta tags
+    html = html.replace(
+      /<title[^>]*>.*<\/title>/i,
+      `<title>${escapeHtml(name)} | MyPortfolio</title>`
+    );
+    html = html.replace(
+      /<\/head>/i,
+      `
+<meta name="description" content="${escapeHtml(bio)}">
+<link rel="canonical" href="${pageUrl}">
+<meta property="og:type" content="profile">
+<meta property="og:title" content="${escapeHtml(name)} | MyPortfolio">
+<meta property="og:description" content="${escapeHtml(bio)}">
+<meta property="og:image" content="${escapeHtml(image)}">
+<meta property="og:url" content="${pageUrl}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="${escapeHtml(name)} | MyPortfolio">
+<meta name="twitter:description" content="${escapeHtml(bio)}">
+<meta name="twitter:image" content="${escapeHtml(image)}">
+<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>
+</head>`
+    );
 
     res.setHeader("Content-Type", "text/html; charset=utf-8");
     res.setHeader("Cache-Control", "public, max-age=300, s-maxage=600");
     res.status(200).send(html);
   } catch (err) {
-    console.error(err);
-    res.status(500).send("Server error");
+    console.error("❌ Profile handler error:", err);
+    res.status(500).send(err.message || "Server error");
   }
 }
